@@ -20,6 +20,17 @@
   // Initialize collapsible (uncomment the line below if you use the dropdown variation)
   //$('.collapsible').collapsible();
         </script>
+        <script>
+$(document).ready(function(){
+    $("#sfav1").hide();
+    $("#fav1").mouseover(function(){
+        $("#sfav1").show();
+    });
+     $("#fav1").mouseout(function(){
+        $("#sfav1").hide();
+    });
+});
+</script>
         <style>
             .gira {
              -webkit-transition: all 0.5s ease 0s;
@@ -36,28 +47,52 @@
              -o-transform: rotate(45deg);
              transform: rotate(45deg);
              }
+            .conteudo{
+            padding: 0 1.5rem;
+            margin: 0 auto;
+            max-width: 1280px;
+            width: 95%;
+            }
+            .titulo-favorito{
+            color: #fff;
+            font-size: 24px;
+            font-weight: 300;
+            }
+            .main{
+            padding-left: 240px; 
+            padding-top: 20px; 
+            height: 3000px;
+            }
+            .pdzero{
+            padding: 0!important;
+            }
+            @media (max-width: 992px){
+            .main{
+            padding-left: 20px; 
+            }
+                    
+                
         </style>
     </head>
     <body style="background-color: #fcfcfc">
         <!--Menu Lateral Fixo-->
         <ul id="slide-out" class="side-nav fixed">
             <li><a href="#!">Teste 1</a></li>
-            <li><a href="#!">Teste 2</a></li>
-            
+            <li><a href="#!">Teste 2</a></li> 
         </ul>
         <!--Fim do Menu Lateral Fixo-->
         <!--Barra de Navegação-->
         <div class="navbar-fixed">
             <nav>
-                <div class="nav-wrapper" style="padding-left: 5px;padding-right: 5px;">
+                <div class="nav-wrapper teal lighten-2" style="padding-left: 5px;padding-right: 5px;">
                     <a href="#!" class="brand-logo" style="padding-left: 270px;">Logo</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <ul class="right hide-on-med-and-down">
                         <!--Formulário para barra de Pesquisa --> 
                         <li>
                             <form>
-                                <div class="input-field" style="background-color: blue">
-                                    <input id="search" type="search" required>
+                                <div class="input-field teal lighten-3">
+                                    <input id="search" type="search" placeholder="Pesquisar" required>
                                     <label for="search"><i class="mdi-action-search"></i></label>
                                     <i class="mdi-navigation-close"></i>
                                 </div>
@@ -78,19 +113,22 @@
         <!--Fim da Barra de Navegação-->   
         
         <!--Corpo do conteúdo da página-->  
-        <main style="padding-left: 270px; padding-right: 20px; padding-top: 20px; height: 3000px;">   
+        <main class="main">   
+            <div class="conteudo">
             <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
             <div class="row z-depth-1" style="background-color: white;">
-                <div class="col s12">
-                    <ul class="tabs ">
-                        <li class="tab col s3"><a href="#test1">Mais Acessados</a></li>
-                        <li class="tab col s3"><a class="active" href="#test2">Recém Acessados</a></li>
-                        <li class="tab col s3"><a class="active" href="#test3">Recém Adicionados</a></li>
+                <div class="col s12 pdzero" >
+                    <ul class="tabs teal lighten-2" >
+                        <li class="tab col s3"><a class="active teal-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
+                        <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test2">Mais Acessados</a></li>
+                        <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test3">Recém Acessados</a></li>
+                        <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test4">Recém Adicionados</a></li>
                     </ul>
                 </div>
             <div id="test1" class="col s12">Teste 1</div>
             <div id="test2" class="col s12">Teste 2</div>
             <div id="test3" class="col s12">Teste 3</div>
+            <div id="test4" class="col s12">Teste 4</div>
             </div>
             <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
             
@@ -110,10 +148,126 @@
             
             
             
+    <div class="row">
+        <div class="col s12 m4" id="fav1">
+            <div class="card-panel blue-grey darken-1">
+                <div class="card-content white-text">
+                    <div class="col s3">
+                    <img class="responsive-img circle" style="max-width: 30px;" src="https://pbs.twimg.com/profile_images/524700660198309890/kuWn6lw9_400x400.jpeg"> 
+                    </div>
+                    <div class="col s9">
+                    <a class="btn-floating btn-flat dropdown-button waves-effect waves-light right" href='#' data-activates='dropdown1'><i class="mdi-navigation-more-horiz"></i></a>
+                        
+                   
+                   
+                    
+                    
+                    <span class="titulo-favorito ">Nome do Favorito</span>
+                    </div>
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li><a href="#!">Selecionar</a></li>
+                        <li><a href="#!">Editar</a></li>
+                        <li><a href="#!">Excluir</a></li>
+                    </ul>
+                    <div class="col s12">
+                    <p class="truncate">I am a very simple card. I am good at containing small bits of information.</p>
+                        
+                    </div>
+                    <div class="col s12">
+                     <i class="mdi-maps-local-offer"></i>   
+                        <a href='#'>Tag 1, </a>
+                        <a href='#'>Tag 2, </a>
+                        <a href='#'>Tag 3</a>
+                        
+                        <li class="divider"></li>
+                    </div>
+                </div>
+                
+                <div class="card-action center">
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                     <a class="btn-floating btn-flat dropdown-button waves-effect waves-light right" href='#' data-activates='dropdown' id="sfav1"><i class="mdi-navigation-check"></i></a>
+                </div>
+            </div>
+        </div>
+
+        
+        
+        
+        
+                <div class="col s12 m4">
+            <div class="card-panel blue-grey darken-1">
+                <div class="card-content white-text">
+                          <div class="valign-wrapper">
+              <div class="col s2">
+                <img src="https://pbs.twimg.com/profile_images/524700660198309890/kuWn6lw9_400x400.jpeg" alt="" class="circle responsive-img" style="max-width: 30px;">
+              </div>
+              <div class="col s10">
+              <span class="titulo-favorito ">Nome do Favorito</span>
+                  <a class="btn-floating btn-flat dropdown-button waves-effect waves-light right" href='#' data-activates='dropdown1'><i class="mdi-navigation-more-horiz
+"></i></a>
+                  
+              </div>
+            </div>
+                    
+                    <img class="responsive-img circle" style="max-width: 30px;" src="https://pbs.twimg.com/profile_images/524700660198309890/kuWn6lw9_400x400.jpeg">
+                    <span class="titulo-favorito ">Nome do Favorito</span>
+                    
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown1' class='dropdown-content'>
+                        <li><a href="#!">Selecionar</a></li>
+                        <li><a href="#!">Editar</a></li>
+                        <li><a href="#!">Excluir</a></li>
+                    </ul>
+                    <p class="truncate">I am a very simple card. I am good at containing small bits of information.</p>
+                </div>
+                
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href='#'>This is a link</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+  
+        
+        
+                <div class="col s12 m4">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Card Title</span>
+                
+              <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+              <a href='#'>This is a link</a>
+            </div>
+          </div>
             
-        
-        
-        
+        </div>
+                <div class="col s12 m4">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Card Title</span>
+              <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+              <a href='#'>This is a link</a>
+            </div>
+          </div>
+            
+        </div>
+      </div>
         
                                 <form>
                             <div class="row">
@@ -133,13 +287,48 @@
 <ul class="collapsible" data-collapsible="accordion">
 <li>
 <div class="collapsible-header"><input type="checkbox" id="test5" />
-<label for="test5">Red</label>First</div>
+<label for="test5">Red</label>First </div>
 <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
 </li>
 </ul> 
             
-         
+         <div class="list-group">
+    <div class="list-group-item">
+        <div class="row-action-primary">
+            <i class="mdi-file-folder"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">Tile with an icon</h4>
+            <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus.</p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary">
+            <i class="mdi-file-folder"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">Tile with an icon</h4>
+            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+    <div class="list-group-item">
+        <div class="row-action-primary">
+            <i class="mdi-file-folder"></i>
+        </div>
+        <div class="row-content">
+            <div class="action-secondary"><i class="mdi-material-info"></i></div>
+            <h4 class="list-group-item-heading">Tile with an icon</h4>
+            <p class="list-group-item-text">Maecenas sed diam eget risus varius blandit.</p>
+        </div>
+    </div>
+    <div class="list-group-separator"></div>
+</div>
 
-      </main>   
+        </div>
+        </main>   
     </body>
 </html>
