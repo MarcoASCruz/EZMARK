@@ -31,6 +31,23 @@ $(document).ready(function(){
     });
 });
 </script>
+                <script>
+$(document).ready(function(){
+       $("#fav1").click(function(){
+        $(this).animate({width: '100%'}, 1000);
+        $("#fav1-content").animate({height: '600px'}, 1000);
+    });
+});
+</script>
+        </script>
+                <script>
+$(document).ready(function(){
+        $("#botao-fixo").click(function(){
+        $("#atalho-fixo").slideToggle("slow");
+            
+    });
+});
+</script>
         <style>
             .gira {
              -webkit-transition: all 0.5s ease 0s;
@@ -50,12 +67,18 @@ $(document).ready(function(){
             .conteudo{
             padding: 0 0.5rem;
             margin: 0 auto;
-            max-width: 1280px;
+            max-width: 1366px;
             width: 100%;
             }
             .titulo-favorito{
             color: #fff;
             font-size: 24px;
+            font-weight: 300;
+            }
+            .titulo-favorito-destaque
+            {
+            color: #fff;
+            font-size: 18px;
             font-weight: 300;
             }
             .main{
@@ -65,6 +88,31 @@ $(document).ready(function(){
             }
             .pdzero{
             padding: 0!important;
+            }
+            .marginzero{
+            margin: 0!important;
+            }
+            .item-acesso-rapido{
+            min-width: 110px;
+            }
+            .overflow-y-auto{
+            overflow-y: auto;
+            }
+            .overflow-y-auto>li{
+/*            min-width: 200px;*/
+            }
+            .marRL5{
+            margin-right: 5px;
+            margin-left: 5px;
+            }
+            .marT15{
+            margin-top: 15px;
+            }
+            .usuario-logado-bar{
+            max-width: 300px; 
+            height: 100%;
+            padding-right: 5px;
+            padding-left: 5px;
             }
             @media (max-width: 992px){
             .main{
@@ -81,7 +129,7 @@ $(document).ready(function(){
             <li><a href="#!">Teste 2</a></li> 
         </ul>
         <!--Fim do Menu Lateral Fixo-->
-        <!--Barra de Navegação-->
+        <!--Barra de Navegação/Superior-->
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper teal lighten-2" style="padding-left: 5px;padding-right: 5px;">
@@ -92,19 +140,66 @@ $(document).ready(function(){
                         <li>
                             <form>
                                 <div class="input-field teal lighten-3">
-                                    <input id="search" type="search" placeholder="Pesquisar" required>
+                                    <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
                                     <label for="search"><i class="mdi-action-search"></i></label>
                                     <i class="mdi-navigation-close"></i>
                                 </div>
                             </form>               
                         </li>
-                        <!--Fim do Formulário para barra de Pesquisa --> 
-                        <li>Usuário Logado</li>
+                        <!--Fim do Formulário para barra de Pesquisa -->
+                        <!--Usuário Logado na Barra de Navegação --> 
+                        <li>
+                            <div class="usuario-logado-bar" >
+                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+                                <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
+                                    <div class="right">
+                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+                                            <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
+                                        </a>
+                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+                                            <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
+                                        </a>
+                                    </div>
+                            </div>        
+                        </li>
+                        <!--Fim do Usuário Logado na Barra de Navegação --> 
                     </ul>
+                     <!--Fim da Barra de Navegação Superior -->  
                     <!--Menu Lateral quando acionado o modo Mobile-->  
-                    <ul class="side-nav" id="mobile-demo">
-                        <li><a href="components.html">Components</a></li>
-                        <li><a href="javascript.html">Javascript</a></li>
+                    <ul class="side-nav" id="mobile-demo">  
+                        <!--Usuário Logado Menu Lateral--> 
+                        <div class="row">
+                            <div class="col s3">
+                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+                            </div>
+                            <div class="col s9 truncate">
+                                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+                            </div>
+                            <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+                                </a>
+                            </div>
+                            <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+                                </a>
+                            </div>
+                            <li class="divider"></li>
+                        </div>
+                        <!--Fim do Usuário Logado Menu Lateral--> 
+                        <!--Formulário de Pesquisa Menu Lateral--> 
+                        <form>
+                            <div class="row">
+                                <div class="col s2">
+                                    <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
+                                </div>
+                                <div class="col s10">
+                                    <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
+                                </div>
+                            </div>
+                        </form>
+                        <!--Fim do Formulário de Pesquisa Menu Lateral-->
                     </ul>
                     <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
                 </div>
@@ -118,14 +213,29 @@ $(document).ready(function(){
             <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
             <div class="row z-depth-1" style="background-color: white;">
                 <div class="col s12 pdzero" >
-                    <ul class="tabs teal lighten-2" >
+                    <ul class="tabs teal lighten-2 overflow-y-auto" >
                         <li class="tab col s3"><a class="active teal-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
                         <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test2">Mais Acessados</a></li>
                         <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test3">Recém Acessados</a></li>
                         <li class="tab col s3"><a class="teal-text text-lighten-5" href="#test4">Recém Adicionados</a></li>
                     </ul>
                 </div>
-            <div id="test1" class="col s12">Teste 1</div>
+            <!--Componente Favoritos Destaque-->     
+            <div id="test1" class="col s12">
+                <div class="row">
+                    <div class="col s3 m1 pdzero item-acesso-rapido">
+                        <div class="card-panel teal row center pdzero">
+                            <div class="col s12">
+                                <i class="mdi-action-stars medium"></i>
+                            </div>
+                            <div class="col s12 truncate">
+                                <span class="titulo-favorito-destaque ">Nome do Favorito</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <!--Fim do Componente Favoritos Destaque-->    
             <div id="test2" class="col s12">Teste 2</div>
             <div id="test3" class="col s12">Teste 3</div>
             <div id="test4" class="col s12">Teste 4</div>
@@ -134,11 +244,11 @@ $(document).ready(function(){
             
         <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
         <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large red gira">
+            <a class="btn-floating btn-large red gira" id="botao-fixo">
                 <i class="large mdi-content-add"></i>
             </a>
             <!--Botões que saltam do botão fixo-->      
-            <ul>
+            <ul id="atalho-fixo" style="display: none">
                 <li><a class="btn-floating yellow darken-1"><i class="large mdi-action-grade"></i></a></li>
                 <li><a class="btn-floating blue"><i class="large mdi-file-folder"></i></a></li>
             </ul>
@@ -147,10 +257,51 @@ $(document).ready(function(){
         <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
             
             
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
             
     <div class="row">
         <div class="col s12 m4" id="fav1" style="min-width: 300px;">
-            <div class="card-panel blue-grey darken-1">
+            <div class="card-panel blue-grey darken-1" id="fav1-content">
                 <div class="card-content white-text">
                     <div class="col s3">
                         <img class="responsive-img circle" style="max-width: 30px;" src="https://pbs.twimg.com/profile_images/524700660198309890/kuWn6lw9_400x400.jpeg"> 
@@ -186,6 +337,44 @@ $(document).ready(function(){
                 </div>
             </div>
         </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
