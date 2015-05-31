@@ -39,8 +39,11 @@ public class AcessoRapido {
 	public Response adicionarItem() {
 		AppResponse response = new AppResponse();
 		try{
+			Favorito favorito = new Favorito();
+			favorito.setTitulo("Título");
+			favorito.setUrl("www.teste.com.br");
 			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			//acessoRapidoDAO.add(new Favorito());
+			acessoRapidoDAO.add(favorito);
 			response.setSuccess(true);
 			response.setContent("OK");
 		}
