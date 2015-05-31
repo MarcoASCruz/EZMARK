@@ -1,20 +1,24 @@
 package servicos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import modelos.AppResponse;
 import modelos.Favorito;
 
 import org.json.JSONObject;
+
+import com.sun.jersey.json.impl.JSONUnmarshallerImpl;
+
+import flexjson.JSONDeserializer;
 
 @Path("/acessoRapido")
 public class AcessoRapido {
@@ -36,16 +40,12 @@ public class AcessoRapido {
 	
 	@POST
 	@Produces("application/json")
-	public Response adicionarItem() {
+	public Response adicionarItem(@FormParam("favorito") String  favoritoJson){
 		AppResponse response = new AppResponse();
 		try{
-			Favorito favorito = new Favorito();
-			favorito.setTitulo("Título");
-			favorito.setUrl("www.teste.com.br");
-			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			acessoRapidoDAO.add(favorito);
-			response.setSuccess(true);
-			response.setContent("OK");
+			Favorito favorito = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
+			throw new Exception(favorito.getTitulo());
+			
 		}
 		catch(Exception e){
 			response.setSuccess(false);
