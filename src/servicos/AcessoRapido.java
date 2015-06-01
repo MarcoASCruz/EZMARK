@@ -1,5 +1,7 @@
 package servicos;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -24,11 +26,32 @@ import flexjson.JSONDeserializer;
 public class AcessoRapido {
 	@GET
 	@Produces("application/json")
-	public Response getAll() {
+	public Response findAll() {
 		AppResponse response = new AppResponse();
 		try{
 			response.setSuccess(true);
-			response.setContent("OK");
+			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
+			List<Favorito> favoritos = acessoRapidoDAO.findAll();
+			response.setContent(favoritos);
+		}
+		catch(Exception e){
+			response.setSuccess(false);
+			response.setContent(e.getMessage());
+			response.setStackTrace(e.getStackTrace());
+		}
+		return response.buildResponse();
+	}
+	
+	@GET
+	@Path("{id}")
+	@Produces("application/json")
+	public Response find(@PathParam("id") int id) {
+		AppResponse response = new AppResponse();
+		try{
+			response.setSuccess(true);
+			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
+			List<Favorito> favorito = acessoRapidoDAO.find(id);
+			response.setContent(favorito.get(0));
 		}
 		catch(Exception e){
 			response.setSuccess(false);
