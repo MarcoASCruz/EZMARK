@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>INDEX</title>
+<link rel="stylesheet" href="view/lib/bootstrap-3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+	Teste.html
+	
+</body>
+<script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
+<script src="view/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+<script src="view/js/elements.js"></script>
+<script type="text/javascript">
+/*$.ajax({ //adicionando novo ícone no acesso rápido
+	method: "POST"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
+	,
+	data: {favorito: '{titulo: "TesteData", url: "www.TesteData.com"}'}
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+/*$.ajax({ //pegando todos do acesso rápido
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+var id = 7;
+$.ajax({
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/acessoRapido/" + id
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+</script>
+</html>
