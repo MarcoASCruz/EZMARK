@@ -44,8 +44,9 @@ public class AcessoRapido {
 		AppResponse response = new AppResponse();
 		try{
 			Favorito favorito = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
-			throw new Exception(favorito.getTitulo());
-			
+			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
+			acessoRapidoDAO.add(favorito);
+			response.setSuccess(true);
 		}
 		catch(Exception e){
 			response.setSuccess(false);

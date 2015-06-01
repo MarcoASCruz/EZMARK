@@ -7,14 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Favorito")
+@Table(name="favorito")
 public class Favorito {
 	private int id;
 	private String url;
 	private String titulo;
 	private String descricao;
 	private String[] tags;
-	private int idPasta;
+	private String idPasta;
 
 	@Id
 	@GeneratedValue
@@ -46,11 +46,11 @@ public class Favorito {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	@Column(name="idPasta")
-	public int getIdPasta() {
+	@Column(name="id_pasta")
+	public String getIdPasta() {
 		return idPasta;
 	}
-	public void setIdPasta(int idPasta) {
+	public void setIdPasta(String idPasta) {
 		this.idPasta = idPasta;
 	}
 	
