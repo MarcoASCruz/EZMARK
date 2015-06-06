@@ -104,7 +104,7 @@ $('#dropDrag').click(function(){
             }
             .titulo-favorito{
             color: #fff;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 300;
             }
             .titulo-favorito-destaque
@@ -149,6 +149,20 @@ $('#dropDrag').click(function(){
             height: 100%;
             padding-right: 5px;
             padding-left: 5px;
+            }
+            .pasta-fechada{
+            padding: 10px !important;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            border-radius: 2px;
+            min-width: 340px;
+            min-height: 135px;
+            }
+            .favorito{
+            padding: 10px !important;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            border-radius: 2px;
+            min-width: 102px;
+            max-height: 160px;
             }
             @media (max-width: 992px){
             .main{
@@ -352,7 +366,74 @@ $('#dropDrag').click(function(){
                 
                 
                 
-                
+    <div class="row">
+        <div class="pasta-fechada col s12 m3 teal lighten-2 z-depth-1">
+            <div class="col s5 pdzero">
+                <img class="responsive-img" src="https://www.facebook.com/images/fb_icon_325x325.png">
+            </div>
+            <div class="col s7 teal-text text-lighten-5">
+                <div class="col s12 titulo-favorito">
+                    <div class="col s10 truncate pdzero">
+                        Nome do Favorito Teste 1
+                    </div>
+                    <div class="col s2">
+                        <a class="dropdown-button teal-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown10' class='dropdown-content'>
+                        <li><a href="#!">Selecionar</a></li>
+                        <li><a href="#!">Editar</a></li>
+                        <li><a href="#!">Excluir</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                </div>
+                <div class="col s12 truncate">
+                    Descrição Descrição
+                </div>
+                <div class="col s12 truncate">
+                    Descrição Descrição Descrição Descrição Descrição Descrição Descrição
+                </div>
+                <div class="col s12 truncate">
+                    <i class="mdi-maps-local-offer"></i>   
+                    <a href='#'>Tag 1, </a>
+                    <a href='#'>Tag 2, </a>
+                    <a href='#'>Tag 3</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="favorito col s4 m1 teal lighten-2 z-depth-1">
+            <div class="col s12 pdzero">
+                <img class="responsive-img" src="https://www.facebook.com/images/fb_icon_325x325.png">
+            </div>
+            <div class="col s12 teal-text text-lighten-5 pdzero">
+                <div class="col s12 titulo-favorito-destaque pdzero">
+                    <div class="col s10 truncate pdzero">
+                        Nome do 
+                    </div>
+                   
+                    <div class="col s2 pdzero">
+                        <a class="dropdown-button teal-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown10' class='dropdown-content'>
+                        <li><a href="#!">Selecionar</a></li>
+                        <li><a href="#!">Editar</a></li>
+                        <li><a href="#!">Excluir</a></li>
+                        </ul>
+                    </div>
+                     <div class="col s10 truncate pdzero">
+                        Favorito
+                    </div>
+            </div>
+        </div>
+        
+        
+    </div>
                 
                 
                 
