@@ -247,9 +247,12 @@ $('#dropDrag').click(function(){
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <ul class="right hide-on-med-and-down cyan darken-1">
                         <!--Formulário para barra de Pesquisa --> 
-                        <li>
+                        
                               <!-- Dropdown Trigger -->
-  <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'>Ordernar</a>
+                        <li>
+                           
+  <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'> <span class="medium mdi-editor-format-list-bulleted"></span>
+                        Ordenar</a>
 
   <!-- Dropdown Structure -->
   <ul id='dropdown21' class='dropdown-content' style='width: 160px !important;'>
@@ -330,11 +333,32 @@ $('#dropDrag').click(function(){
                         <!--Formulário de Pesquisa Menu Lateral Mobile--> 
                         <form>
                             <div class="row">
+                                  <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
+                                </a>
+                            </div>
+                                
+                          
+                          
+                                
                                 <div class="col s2">
                                     <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
                                 </div>
                                 <div class="col s10">
                                     <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
+                                </div>
+                                <div class="col s10">
+                                <input type="checkbox" id="check-tagsm" />
+                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
+                                </div>
+                                 <div class="col s10">
+                                <input type="checkbox" id="check-tagsmm" />
+                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
+                                </div>
+                                 <div class="col s10">
+                                <input type="checkbox" id="check-tagsmmm" />
+                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
                                 </div>
                             </div>
                         </form>
@@ -459,7 +483,7 @@ $('#dropDrag').click(function(){
                 <div class="col s12 titulo-favorito">
                     <div class="col s10 truncate pdzero"><i class="mdi-file-folder-shared yellow-text text-darken-3"></i>
                         Pasta Compartilhada
-                          <a class='dropdown-button btn cyan-text text-lighten-5 right' id="orderFav" href='#' data-activates='dropdown13'>Ordernar</a>
+                          <a class='dropdown-button btn cyan-text text-lighten-5 right' id="orderFav" href='#' data-activates='dropdown13'><i class="mdi-editor-format-list-bulleted"></i>Ordenar</a>
 
   <!-- Dropdown Structure -->
   <ul id='dropdown13' class='dropdown-content' style='width: 160px !important;'>
