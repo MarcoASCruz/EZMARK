@@ -4,11 +4,12 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     version="2.0">
-	<persistence-unit name="gerenciadorDeFavoritos">
+	<persistence-unit name="gerenciadorDeFavoritos" transaction-type="RESOURCE_LOCAL">
 		<!-- provedor/implementacao do JPA -->
 	 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
    		<!-- entidade mapeada -->
    		<class>modelos.Favorito</class>
+   		<class>modelos.Pasta</class>
    		<properties>
   			<!-- dados da conexao -->
    			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

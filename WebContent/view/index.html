@@ -47,11 +47,94 @@
 	}
 })*/
 
-var id = 7;
+var modelo = {
+	pasta: function(){
+		var pasta = new Object();
+		pasta.id=0;
+		pasta.pai=0;
+		pasta.nome = '';
+		pasta.dataCriacao= null;
+		pasta.numEstrela = 0;
+		pasta.publica = false;
+		pasta.imagem = null;
+		pasta.favoritos = null;
+		pasta.pastas = null;
+		return pasta;
+	}
+}
+
+/*
+
+Adicionar Favoritos
+
+var getPasta = function(){
+	var pasta = modelo.pasta();
+	pasta.pai = 5;
+	pasta.nome = 'testeFront';
+	pasta.numEstrela = 3;
+	pasta.publica = false;
+	return pasta;
+}
+
+$.ajax({
+	method: "POST"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{pasta: JSON.stringify(getPasta())}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+
+/*
+//Alterar Favoritos
+
+var getPasta = function(){
+	var pasta = modelo.pasta();
+	pasta.id=8;
+	pasta.pai = 5;
+	pasta.nome = 'testeFrontAlteracao';
+	pasta.numEstrela = 3;
+	pasta.publica = false;
+	return pasta;
+}
+
+$.ajax({
+	method: "PUT"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{pasta: JSON.stringify(getPasta())}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+
+/*
+ Buscar todos os arquivos de uma pasta
+ 
+var id = 5;
 $.ajax({
 	method: "GET"
 	,
-	url: "/GerenciadorDeFavoritos/servicos/acessoRapido/" + id
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/" + id
 	,
 	success: function(data){
 		console.log(data);
@@ -62,6 +145,35 @@ $.ajax({
 		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
 		modal.show();
 	}
+})*/
+
+
+/*
+ * 
+ Deletar uma pasta
+ 
+var id = 9;
+$.ajax({
+	method: "DELETE"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{id: id}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
 })
+*/
+
+
+
+
 </script>
 </html>

@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,8 +16,22 @@ public class Favorito {
 	private String titulo;
 	private String descricao;
 	private String[] tags;
-	private String idPasta;
+	//private Pasta pai;
+	private int numEstrela;
+	private byte[] imagem;
 
+	public byte[] getImagem() {
+		return imagem;
+	}
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+	public int getNumEstrela() {
+		return numEstrela;
+	}
+	public void setNumEstrela(int numEstrela) {
+		this.numEstrela = numEstrela;
+	}
 	@Id
 	@GeneratedValue
 	@Column(name="id")
@@ -46,12 +62,13 @@ public class Favorito {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	@Column(name="id_pasta")
-	public String getIdPasta() {
-		return idPasta;
+	//@ManyToOne
+    //@JoinColumn(name="id_pasta")
+	/*public Pasta getPai() {
+		return pai;
 	}
-	public void setIdPasta(String idPasta) {
-		this.idPasta = idPasta;
-	}
+	public void setIdPasta(Pasta pai) {
+		this.pai = pai;
+	}*/
 	
 }
