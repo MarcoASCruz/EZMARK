@@ -53,7 +53,49 @@ var getFavorito = function(){
 	return favorito;
 }
 
+/*
+ * AcessoRapido
+ */ 
+ /*
+ $.ajax(
+	{ //pegando todos do acesso rápido
+		method: "GET"
+		,
+		url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
+		,
+		success: function(data){
+			console.log(data);
+		}
+		,
+		error: function(data){
+			console.log(data.responseJSON);
+			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+			modal.show();
+		}
+	}
+)
 
+
+ $.ajax(
+	{
+		method: "POST"
+		,
+		url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
+		,
+		success: function(data){
+			console.log(data);
+		}
+		,
+		data: { id: 1 }
+		,
+		error: function(data){
+			console.log(data.responseJSON);
+			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+			modal.show();
+		}
+	}
+)
+  */
 
 /*
 var id = 5;
@@ -74,7 +116,29 @@ $.ajax({
 		modal.show();
 	}
 })
+
+
+$.ajax(
+		{
+			method: "DELETE"
+			,
+			url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
+			,
+			success: function(data){
+				console.log(data);
+			}
+			,
+			data: { id: 3 }
+			,
+			error: function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		}
+	)
 */
+
 /*
 $.ajax({
 	method: "PUT"

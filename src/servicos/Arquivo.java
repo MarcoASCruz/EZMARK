@@ -35,9 +35,7 @@ public class Arquivo {
 			response.setContent(l);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -58,9 +56,7 @@ public class Arquivo {
 			response.setContent(l);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -80,9 +76,7 @@ public class Arquivo {
 			response.setContent(l);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -98,9 +92,7 @@ public class Arquivo {
 			response.setSuccess(true);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -120,9 +112,7 @@ public class Arquivo {
 			response.setContent(l);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -143,9 +133,7 @@ public class Arquivo {
 			response.setContent(l);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
@@ -161,9 +149,7 @@ public class Arquivo {
 			response.setSuccess(true);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}

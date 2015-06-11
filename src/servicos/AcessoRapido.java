@@ -3,6 +3,7 @@ package servicos;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -29,52 +30,45 @@ public class AcessoRapido {
 	public Response findAll() {
 		AppResponse response = new AppResponse();
 		try{
+			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
+			List<Favorito> favoritos = acessoRapidoDAO.buscarFavoritos();
 			response.setSuccess(true);
-			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			List<Favorito> favoritos = acessoRapidoDAO.findAll();
 			response.setContent(favoritos);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
-		}
-		return response.buildResponse();
-	}
-	
-	@GET
-	@Path("{id}")
-	@Produces("application/json")
-	public Response find(@PathParam("id") int id) {
-		AppResponse response = new AppResponse();
-		try{
-			response.setSuccess(true);
-			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			List<Favorito> favorito = acessoRapidoDAO.find(id);
-			response.setContent(favorito.get(0));
-		}
-		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}
 	
 	@POST
 	@Produces("application/json")
-	public Response adicionarItem(@FormParam("favorito") String  favoritoJson){
+	public Response adicionarItem(@FormParam("id") int  idFavorito){
 		AppResponse response = new AppResponse();
 		try{
-			Favorito favorito = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
-			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			acessoRapidoDAO.add(favorito);
+			Favorito favorito = new Favorito();
+			favorito.setId(idFavorito);
+			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
+			acessoRapidoDAO.adicionar(favorito);
 			response.setSuccess(true);
 		}
 		catch(Exception e){
-			response.setSuccess(false);
-			response.setContent(e.getMessage());
-			response.setStackTrace(e.getStackTrace());
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@DELETE
+	@Produces("application/json")
+	public Response remover(@FormParam("id") int  idFavorito){
+		AppResponse response = new AppResponse();
+		try{
+			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
+			acessoRapidoDAO.remover(idFavorito);
+			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.addException(e);
 		}
 		return response.buildResponse();
 	}

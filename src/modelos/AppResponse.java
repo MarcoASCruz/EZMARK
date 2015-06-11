@@ -32,6 +32,12 @@ public class AppResponse {
 		jsonResult.put("stackTrace", stackTrace);
 	}
 	
+	public void addException(Exception e){
+		setSuccess(false);
+		setContent(e.getMessage());
+		setStackTrace(e.getStackTrace());
+	}
+	
 	public Response buildResponse(){
 		if (sucess == true){
 			return buildOKResponse();
