@@ -1,5 +1,7 @@
 package modelos;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,16 +17,55 @@ public class Favorito {
 	private String url;
 	private String titulo;
 	private String descricao;
+	private Date dataCriacao;
 	private String[] tags;
-	//private Pasta pai;
+	private int pai;
 	private int numEstrela;
 	private byte[] imagem;
-
-	public byte[] getImagem() {
-		return imagem;
+	private boolean acessoRapido;
+	
+	
+	public int getId() {
+		return id;
 	}
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	public String[] getTags() {
+		return tags;
+	}
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+	public int getPai() {
+		return pai;
+	}
+	public void setPai(int pai) {
+		this.pai = pai;
 	}
 	public int getNumEstrela() {
 		return numEstrela;
@@ -32,43 +73,16 @@ public class Favorito {
 	public void setNumEstrela(int numEstrela) {
 		this.numEstrela = numEstrela;
 	}
-	@Id
-	@GeneratedValue
-	@Column(name="id")
-	public int getId() {
-		return id;
+	public byte[] getImagem() {
+		return imagem;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
 	}
-	@Column(name="url", nullable=false)
-	public String getUrl() {
-		return url;
+	public boolean isAcessoRapido() {
+		return acessoRapido;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setAcessoRapido(boolean acessoRapido) {
+		this.acessoRapido = acessoRapido;
 	}
-	@Column(name="titulo")
-	public String getTitulo() {
-		return titulo;
-	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	@Column(name="descricao")
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	//@ManyToOne
-    //@JoinColumn(name="id_pasta")
-	/*public Pasta getPai() {
-		return pai;
-	}
-	public void setIdPasta(Pasta pai) {
-		this.pai = pai;
-	}*/
-	
 }

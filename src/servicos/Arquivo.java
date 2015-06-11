@@ -104,17 +104,20 @@ public class Arquivo {
 		}
 		return response.buildResponse();
 	}
-	
-	/*@GET
-	@Path("{id}")
+	@POST
+	@Path("/favorito")
 	@Produces("application/json")
-	public Response find(@PathParam("id") int id) {
+	public Response adcionarFavorito(@FormParam("favorito") String favoritoJson) {
 		AppResponse response = new AppResponse();
 		try{
+			Favorito f = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
+			f.setDataCriacao(new Date(java.lang.System.currentTimeMillis()));
+			DAO.FavoritoDAO favoritoDAO = new DAO.FavoritoDAO();
+			f = favoritoDAO.adicionar(f);
+			ArrayList l = new ArrayList();
+			l.add(f);
 			response.setSuccess(true);
-			DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-			List<Favorito> favorito = acessoRapidoDAO.find(id);
-			response.setContent(favorito.get(0));
+			response.setContent(l);
 		}
 		catch(Exception e){
 			response.setSuccess(false);
@@ -123,22 +126,45 @@ public class Arquivo {
 		}
 		return response.buildResponse();
 	}
-		
-		@POST
-		@Produces("application/json")
-		public Response adicionarItem(@FormParam("favorito") String  favoritoJson){
-			AppResponse response = new AppResponse();
-			try{
-				Favorito favorito = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
-				DAO.AcessoRapido acessoRapidoDAO = new DAO.AcessoRapido();
-				acessoRapidoDAO.add(favorito);
-				response.setSuccess(true);
-			}
-			catch(Exception e){
-				response.setSuccess(false);
-				response.setContent(e.getMessage());
-				response.setStackTrace(e.getStackTrace());
-			}
-			return response.buildResponse();
-		}*/
+	
+	@PUT
+	@Path("/favorito")
+	@Produces("application/json")
+	public Response alterarFavorito(@FormParam("favorito") String favoritoJson) {
+		AppResponse response = new AppResponse();
+		try{
+			Favorito f = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
+			f.setDataCriacao(new Date(java.lang.System.currentTimeMillis()));
+			DAO.FavoritoDAO favoritoDAO = new DAO.FavoritoDAO();
+			f = favoritoDAO.alterar(f);
+			ArrayList l = new ArrayList();
+			l.add(f);
+			response.setSuccess(true);
+			response.setContent(l);
+		}
+		catch(Exception e){
+			response.setSuccess(false);
+			response.setContent(e.getMessage());
+			response.setStackTrace(e.getStackTrace());
+		}
+		return response.buildResponse();
+	}
+	
+	@DELETE
+	@Path("/favorito")
+	@Produces("application/json")
+	public Response removerFavorito(@FormParam("id") int id) {
+		AppResponse response = new AppResponse();
+		try{
+			DAO.FavoritoDAO favoritoDAO = new DAO.FavoritoDAO();
+			favoritoDAO.remover(id);
+			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.setSuccess(false);
+			response.setContent(e.getMessage());
+			response.setStackTrace(e.getStackTrace());
+		}
+		return response.buildResponse();
+	}
 }
