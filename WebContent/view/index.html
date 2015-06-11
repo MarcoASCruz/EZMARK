@@ -13,6 +13,107 @@
 <script src="view/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
 <script src="view/js/elements.js"></script>
 <script type="text/javascript">
+var modelo = {
+	pasta: function(){
+		var pasta = new Object();
+		pasta.id=0;
+		pasta.pai=0;
+		pasta.nome = '';
+		pasta.dataCriacao= null;
+		pasta.numEstrela = 0;
+		pasta.publica = false;
+		pasta.imagem = null;
+		pasta.favoritos = null;
+		pasta.pastas = null;
+		return pasta;
+	}
+	,
+	favorito: function(){
+		var favorito = new Object();
+		favorito.id=0;
+		favorito.url=null;
+		favorito.titulo = null;
+		favorito.descricao= null;
+		favorito.dataCriacao = null;
+		favorito.pai = 0;
+		favorito.numEstrela = 0;
+		favorito.imagem = null;
+		favorito.acessoRapido = false;
+		return favorito;
+	}
+}
+
+var getFavorito = function(){
+	var favorito = modelo.favorito();
+	favorito.id = 1;
+	favorito.url = "www.teste.com";
+	favorito.titulo = 'testeAlter';
+	favorito.pai = 5;
+	favorito.numEstrela = 1;
+	return favorito;
+}
+
+
+
+/*
+var id = 5;
+$.ajax({
+	method: "DELETE"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{id: id}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+/*
+$.ajax({
+	method: "PUT"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{favorito: JSON.stringify(getFavorito())}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+/*
+$.ajax({
+	method: "POST"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{favorito: JSON.stringify(getFavorito())}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+
 /*$.ajax({ //adicionando novo ícone no acesso rápido
 	method: "POST"
 	,
@@ -47,25 +148,11 @@
 	}
 })*/
 
-var modelo = {
-	pasta: function(){
-		var pasta = new Object();
-		pasta.id=0;
-		pasta.pai=0;
-		pasta.nome = '';
-		pasta.dataCriacao= null;
-		pasta.numEstrela = 0;
-		pasta.publica = false;
-		pasta.imagem = null;
-		pasta.favoritos = null;
-		pasta.pastas = null;
-		return pasta;
-	}
-}
+
 
 /*
 
-Adicionar Favoritos
+Adicionar Pasta
 
 var getPasta = function(){
 	var pasta = modelo.pasta();
