@@ -5,14 +5,62 @@
 <title>INDEX</title>
 <link rel="stylesheet" href="view/lib/bootstrap-3.3.2/css/bootstrap.min.css">
 </head>
+
 <body>
 	Teste.html
-	
+	<form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+		<input type="file" accept="image/*" name="img" id="img" required />
+		<input type="submit" value="Upload" class="submit" />
+	</div>
+	</form>
+	<img src="/GerenciadorDeFavoritos/servicos/arquivo/img">
 </body>
+
 <script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
+<script src="view/js/mapper.js"></script>
+<script src="view/js/servicos.js"></script>
 <script src="view/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
 <script src="view/js/elements.js"></script>
 <script type="text/javascript">
+
+
+servicos.buscarArquivos(
+	5
+	,
+	function(data){
+		console.log(data);
+	}
+);
+
+
+/*
+ * REQUISIÇÃO DA IMAGEM, INCOMPLETO
+ */
+ /*
+
+$("#uploadimage").on('submit',(function(e) {
+	e.preventDefault();
+	console.log(new FormData(this));
+	$.ajax({
+		url: "/GerenciadorDeFavoritos/servicos/arquivo/img", // Url to which the request is send
+		type: "POST",             // Type of request to be send, called as method
+		data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+		contentType: false,       // The content type used when sending data to the server.
+		cache: false,             // To unable request pages to be cached
+		processData:false,        // To send DOMDocument or non processed data file it is set to false
+		success: function(data){
+			$('img').s
+			console.log(data);
+		}
+		,
+		error: function(data){
+			console.log(data.responseJSON);
+			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+			modal.show();
+		}
+	});
+}));
+*/
 var modelo = {
 	pasta: function(){
 		var pasta = new Object();
@@ -53,6 +101,121 @@ var getFavorito = function(){
 	return favorito;
 }
 
+
+/*$.ajax({
+	method: "POST"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/img"
+	,
+	data: {
+		img: $('input').val()
+	}
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+/*
+$.ajax({
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/hierarquia"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})
+*/
+/*
+ * recemAdicionados
+ */
+/*$.ajax({
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAdicionados"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+/*
+ * maisAcessados
+ */
+/*$.ajax({
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/maisAcessados"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	, 
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+/*
+ * recemAcessados
+ */
+/*$.ajax({
+	method: "GET"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAcessados"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
+
+/*
+ * RegistrarAcesso
+ */
+ /*$.ajax({
+	method: "PUT"
+	,
+	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/atualizarAcesso"
+	,
+	success: function(data){
+		console.log(data);
+	}
+	,
+	data:{id: 2}
+	,
+	error: function(data){
+		console.log(data.responseJSON);
+		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+		modal.show();
+	}
+})*/
 /*
  * AcessoRapido
  */ 
@@ -96,8 +259,24 @@ var getFavorito = function(){
 	}
 )
   */
+ /*
+  var id = 2;
+  $.ajax({
+  	method: "GET"
+  	,
+  	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/" + id
+  	,
+  	success: function(data){
+  		console.log(data);
+  	}
+  	,
+  	error: function(data){
+  		console.log(data.responseJSON);
+  		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+  		modal.show();
+  	}
+  })
 
-/*
 var id = 5;
 $.ajax({
 	method: "DELETE"
@@ -158,6 +337,7 @@ $.ajax({
 	}
 })
 */
+
 /*
 $.ajax({
 	method: "POST"
@@ -176,9 +356,9 @@ $.ajax({
 		modal.show();
 	}
 })
-*/
 
-/*$.ajax({ //adicionando novo ícone no acesso rápido
+
+$.ajax({ //adicionando novo ícone no acesso rápido
 	method: "POST"
 	,
 	url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
@@ -277,27 +457,6 @@ $.ajax({
 	}
 })
 */
-
-/*
- Buscar todos os arquivos de uma pasta
- 
-var id = 5;
-$.ajax({
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/" + id
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
 
 /*
  * 

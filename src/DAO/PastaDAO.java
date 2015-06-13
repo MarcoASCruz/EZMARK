@@ -1,20 +1,37 @@
 package DAO;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+
 
 import modelos.Favorito;
+import modelos.Hierarquia;
 import modelos.Pasta;
 
 public class PastaDAO extends BasicDAO {
+	public List<Hierarquia> buscarHierarquia() throws Exception{
+		try{
+			criarQuery("SELECT id, id_pasta_pai, nome FROM pasta");
+			ResultSet res =  (ResultSet) ps.executeQuery();	
+			List<Hierarquia> hierarquia = new ArrayList<Hierarquia>();
+			while (res.next()){
+				Hierarquia h = new Hierarquia();
+				h.setId(res.getString("id"));
+				h.setParent(res.getString("id_pasta_pai"));
+				h.setText(res.getString("nome"));
+				hierarquia.add(h);
+			}
+			return hierarquia;
+		}
+		catch(Exception e){
+			throw e;
+		}
+	}
+	
 	public Pasta buscarArquivos(int idPasta) throws Exception{
 		try{
 			Pasta p = new Pasta();
@@ -53,7 +70,6 @@ public class PastaDAO extends BasicDAO {
 			close();
 		}
 	}
-	
 	private List<Favorito> buscarFavoritosFilhos(int idPasta)throws Exception{
 		try{
 			criarQuery("SELECT * FROM Favorito WHERE id_pasta = ?");
@@ -86,7 +102,7 @@ public class PastaDAO extends BasicDAO {
 			criarQuery("INSERT INTO pasta (`id_pasta_pai`,	`nome`,	`data_criacao`,	`num_estrela`,`publica`,`imagem`) VALUES (?,?,?,?,?,?)");
 			ps.setInt(1, pasta.getPai());
 			ps.setString(2, pasta.getNome());
-			ps.setDate(3, pasta.getDataCriacao());
+			ps.setTimestamp(3, pasta.getDataCriacao());
 			ps.setInt(4, pasta.getNumEstrela());
 			ps.setBoolean(5, pasta.isPublica());
 			ps.setBytes(6, pasta.getImagem());

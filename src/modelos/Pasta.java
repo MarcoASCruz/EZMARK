@@ -2,7 +2,7 @@ package modelos;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Table;
@@ -11,7 +11,7 @@ public class Pasta {
 	private int id;
 	private int pai;
 	private String nome;
-	private Date dataCriacao;
+	private Timestamp dataCriacao;
 	private int numEstrela;
 	private boolean publica;
 	private byte[] imagem;
@@ -19,7 +19,7 @@ public class Pasta {
 	private List<Pasta> pastas = new ArrayList<Pasta>();
 	
 	public Pasta(){}
-	public Pasta(int id, int pai, String nome, Date dataCriacao,
+	public Pasta(int id, int pai, String nome, Timestamp dataCriacao,
 			int numEstrela, boolean publica, byte[] imagem,
 			List<Favorito> favoritos, List<Pasta> pastas) {
 		super();
@@ -55,11 +55,11 @@ public class Pasta {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getDataCriacao() {
+	public Timestamp getDataCriacao() {
 		return dataCriacao;
 	}
 	
-	public void setDataCriacao(Date dataCriacao) {
+	public void setDataCriacao(Timestamp dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 	public int getNumEstrela() {

@@ -1,6 +1,6 @@
 package modelos;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,14 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="favorito")
 public class Favorito {
 	private int id;
 	private String url;
 	private String titulo;
 	private String descricao;
-	private Date dataCriacao;
+	private Timestamp dataAcesso;
+	private Timestamp dataCriacao;
 	private String[] tags;
 	private int pai;
 	private int numEstrela;
@@ -49,10 +48,16 @@ public class Favorito {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public Date getDataCriacao() {
+	public Timestamp getDataAcesso() {
+		return dataAcesso;
+	}
+	public void setDataAcesso(Timestamp dataAcesso) {
+		this.dataAcesso = dataAcesso;
+	}
+	public Timestamp getDataCriacao() {
 		return dataCriacao;
 	}
-	public void setDataCriacao(Date dataCriacao) {
+	public void setDataCriacao(Timestamp dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 	public String[] getTags() {
@@ -85,4 +90,5 @@ public class Favorito {
 	public void setAcessoRapido(boolean acessoRapido) {
 		this.acessoRapido = acessoRapido;
 	}
+	
 }
