@@ -132,7 +132,7 @@ public class Arquivo {
 	@POST
 	@Path("/favorito")
 	@Produces("application/json")
-	public Response adcionarFavorito(@FormParam("favorito") String favoritoJson) {
+	public Response adicionarFavorito(@FormParam("favorito") String favoritoJson) {
 		AppResponse response = new AppResponse();
 		try{
 			Favorito f = new JSONDeserializer<Favorito>().use( null, Favorito.class ).deserialize(favoritoJson);
