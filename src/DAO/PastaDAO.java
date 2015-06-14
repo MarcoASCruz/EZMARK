@@ -8,6 +8,9 @@ import java.util.List;
 
 
 
+
+
+
 import modelos.Favorito;
 import modelos.Hierarquia;
 import modelos.Pasta;
@@ -148,6 +151,38 @@ public class PastaDAO extends BasicDAO {
 			criarQuery("DELETE FROM pasta WHERE id=?");
 			ps.setInt(1, idPasta);
 			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+	
+	public void atualizarImagem(byte[] img, int id) throws Exception{
+		try{
+			criarQuery("UPDATE pasta SET `imagem` = ? WHERE id = ?");
+			ps.setBytes(1, img);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+
+	public byte[] getImagem(int id) throws Exception{
+		try{
+			criarQuery("SELECT imagem FROM pasta WHERE id = ?");
+			ps.setInt(1, id);
+			ResultSet res =  (ResultSet) ps.executeQuery();	
+			res =  (ResultSet) ps.executeQuery();
+			res.next();
+			return res.getBytes("imagem");
 		}
 		catch(Exception e){
 			throw e;

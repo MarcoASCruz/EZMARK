@@ -10,10 +10,11 @@
 	Teste.html
 	<form id="uploadimage" action="" method="post" enctype="multipart/form-data">
 		<input type="file" accept="image/*" name="img" id="img" required />
+		<input type="hidden" name="id" id="id" value="5" />
 		<input type="submit" value="Upload" class="submit" />
 	</div>
 	</form>
-	<img src="/GerenciadorDeFavoritos/servicos/arquivo/img">
+	<img src="/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/5">
 </body>
 
 <script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
@@ -72,13 +73,13 @@ var getPasta = function(){
 	return pasta;
 }
 
-/*servicos.buscarArquivos(
-5
-,
-function(data){
-	console.log(data);
-}
-);*/
+servicos.buscarArquivos(
+	5
+	,
+	function(data){
+		console.log(data);
+	}
+);
 
 /*servicos.buscarFavorito(
 2
@@ -184,60 +185,18 @@ servicos.buscarHierarquiaDePastas(
 )
 */
 
-//
-
-
 /*
- * REQUISIÇÃO DA IMAGEM, INCOMPLETO
- */
- /*
-
 $("#uploadimage").on('submit',(function(e) {
 	e.preventDefault();
-	console.log(new FormData(this));
-	$.ajax({
-		url: "/GerenciadorDeFavoritos/servicos/arquivo/img", // Url to which the request is send
-		type: "POST",             // Type of request to be send, called as method
-		data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-		contentType: false,       // The content type used when sending data to the server.
-		cache: false,             // To unable request pages to be cached
-		processData:false,        // To send DOMDocument or non processed data file it is set to false
-		success: function(data){
-			$('img').s
+	servicos.uploadImagemPasta(
+		new FormData(this)
+		,
+		function(data){
 			console.log(data);
 		}
-		,
-		error: function(data){
-			console.log(data.responseJSON);
-			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-			modal.show();
-		}
-	});
+	)
 }));
 */
-
-
-
-/*$.ajax({
-	method: "POST"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/img"
-	,
-	data: {
-		img: $('input').val()
-	}
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
 
 </script>
 </html>

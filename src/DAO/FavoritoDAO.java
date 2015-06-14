@@ -87,10 +87,11 @@ public class FavoritoDAO extends BasicDAO {
 		}
 	}
 	
-	public void alterarIMG(byte[] img) throws Exception{
+	public void atualizarImagem(byte[] img, int id) throws Exception{
 		try{
-			criarQuery("UPDATE favorito SET `imagem` = ? WHERE id = 1");
+			criarQuery("UPDATE favorito SET `imagem` = ? WHERE id = ?");
 			ps.setBytes(1, img);
+			ps.setInt(2, id);
 			ps.executeUpdate();
 		}
 		catch(Exception e){
@@ -103,7 +104,24 @@ public class FavoritoDAO extends BasicDAO {
 	
 	public byte[] getIMG() throws Exception{
 		try{
-			criarQuery("SELECT imagem FROM favorito WHERE id = 1");
+			criarQuery("SELECT imagem FROM gerenciador_de_favoritos.favorito WHERE id = 1");
+			ResultSet res =  (ResultSet) ps.executeQuery();	
+			res =  (ResultSet) ps.executeQuery();
+			res.next();
+			return res.getBytes("imagem");
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+	
+	public byte[] getImagem(int id) throws Exception{
+		try{
+			criarQuery("SELECT imagem FROM favorito WHERE id = ?");
+			ps.setInt(1, id);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			res =  (ResultSet) ps.executeQuery();
 			res.next();
@@ -217,4 +235,5 @@ public class FavoritoDAO extends BasicDAO {
 			close();
 		}
 	}
+	
 }

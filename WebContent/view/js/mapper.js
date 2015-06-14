@@ -6,7 +6,7 @@ var Mapper = function(){
 	this.services = {
 		buscarArquivos: function(id, onSuccess, onError){
 			requisicaoParametros = {
-				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/" + id
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/" + id
 				,
 				method: "GET"
 				,
@@ -19,7 +19,7 @@ var Mapper = function(){
 		,
 		buscarFavorito: function(id, onSuccess, onError){
 			requisicaoParametros = {
-				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/" + id
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/" + id
 				,
 				method: "GET"
 				,
@@ -200,6 +200,42 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		uploadImagemFavorito: function(form, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/img"
+				,
+				type: "POST"
+				,	
+				contentType: false,       // The content type used when sending data to the server.
+				cache: false,             // To unable request pages to be cached
+				processData:false,        // To send DOMDocument or non processed data file it is set to false
+				data: form
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		uploadImagemPasta: function(form, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/img"
+				,
+				type: "POST"
+				,	
+				contentType: false,       // The content type used when sending data to the server.
+				cache: false,             // To unable request pages to be cached
+				processData:false,        // To send DOMDocument or non processed data file it is set to false
+				data: form
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}	
 	}
 	
 	var executarRequisicao = function(options){

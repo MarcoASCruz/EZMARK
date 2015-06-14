@@ -172,4 +172,34 @@ var servicos = {
 			}
 		)
 	}
+	,
+	//form, precisa ter a imagem e o id do favorito destino
+	uploadImagemFavorito: function(form, onSuccess) {
+		mapper.services.uploadImagemFavorito(
+			form
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
+	//form, precisa ter a imagem e o id do pasta destino
+	uploadImagemPasta: function(form, onSuccess) {
+		mapper.services.uploadImagemPasta(
+			form
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
 }

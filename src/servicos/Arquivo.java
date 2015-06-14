@@ -22,6 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.cfg.IndexOrUniqueKeySecondPass;
 
 import com.sun.jersey.multipart.FormDataParam;
@@ -132,6 +133,7 @@ public class Arquivo {
 	@POST
 	@Path("/favorito")
 	@Produces("application/json")
+	//Não está adicionando imagem
 	public Response adicionarFavorito(@FormParam("favorito") String favoritoJson) {
 		AppResponse response = new AppResponse();
 		try{
@@ -153,6 +155,7 @@ public class Arquivo {
 	@PUT
 	@Path("/favorito")
 	@Produces("application/json")
+	//Não está adicionando imagem
 	public Response alterarFavorito(@FormParam("favorito") String favoritoJson) {
 		AppResponse response = new AppResponse();
 		try{
@@ -269,33 +272,46 @@ public class Arquivo {
 	}
 	
 	@POST
-	@Path("/img")
+	@Path("/favorito/img")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces("image/png")
-	public Response testeIMG(@FormDataParam("img") InputStream img) throws Exception {
-	    byte[] imageData; 
-	    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-	    int nRead;
-	    byte[] data = new byte[16384];
-	    
-	    while ((nRead = img.read(data, 0, data.length)) != -1) {
-	      buffer.write(data, 0, nRead);
-	    }
-
-	    buffer.flush();
-	    new FavoritoDAO().alterarIMG(buffer.toByteArray());
-	    // uncomment line below to send non-streamed
-	    // return Response.ok(imageData).build();
-
-	    // uncomment line below to send streamed
-	    return Response.ok("teste").build();
+	public Response atualizarImagemFavorito(@FormDataParam("img") InputStream img, @FormDataParam("id") int id){
+		AppResponse response = new AppResponse();
+		try{
+		    new FavoritoDAO().atualizarImagem(IOUtils.toByteArray(img), id);
+		    return Response.ok("OK").build();
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@POST
+	@Path("/pasta/img")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response atualizarImagemPasta(@FormDataParam("img") InputStream img, @FormDataParam("id") int id){
+		AppResponse response = new AppResponse();
+		try{
+		    new PastaDAO().atualizarImagem(IOUtils.toByteArray(img), id);
+		    return Response.ok("OK").build();
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
 	}
 	
 	@GET
-	@Path("/img")
+	@Path("/pasta/img/{id}")
 	@Produces("image/png")
-	public Response getIMG() throws Exception {
-	    return Response.ok(new FavoritoDAO().getIMG()).build();
+	public Response getImagemPasta(@PathParam("id") int id) throws Exception {
+	    return Response.ok(new PastaDAO().getImagem(id)).build();
+	}
+	
+	@GET
+	@Path("/favorito/img/{id}")
+	@Produces("image/*")
+	public Response getImagemFavorito(@PathParam("id") int id) throws Exception {		
+		return Response.ok(new FavoritoDAO().getImagem(id)).build();
 	}
 }
