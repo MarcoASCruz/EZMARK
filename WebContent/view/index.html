@@ -17,51 +17,12 @@
 </body>
 
 <script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
-<script src="view/js/mapper.js"></script>
-<script src="view/js/servicos.js"></script>
 <script src="view/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
 <script src="view/js/elements.js"></script>
+<script src="view/js/mapper.js"></script>
+<script src="view/js/servicos.js"></script>
 <script type="text/javascript">
 
-
-
-servicos.buscarArquivos(
-	5
-	,
-	function(data){
-		console.log(data);
-	}
-);
-
-
-/*
- * REQUISIÇÃO DA IMAGEM, INCOMPLETO
- */
- /*
-
-$("#uploadimage").on('submit',(function(e) {
-	e.preventDefault();
-	console.log(new FormData(this));
-	$.ajax({
-		url: "/GerenciadorDeFavoritos/servicos/arquivo/img", // Url to which the request is send
-		type: "POST",             // Type of request to be send, called as method
-		data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-		contentType: false,       // The content type used when sending data to the server.
-		cache: false,             // To unable request pages to be cached
-		processData:false,        // To send DOMDocument or non processed data file it is set to false
-		success: function(data){
-			$('img').s
-			console.log(data);
-		}
-		,
-		error: function(data){
-			console.log(data.responseJSON);
-			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-			modal.show();
-		}
-	});
-}));
-*/
 var modelo = {
 	pasta: function(){
 		var pasta = new Object();
@@ -94,13 +55,167 @@ var modelo = {
 
 var getFavorito = function(){
 	var favorito = modelo.favorito();
-	favorito.id = 1;
+	favorito.id = 11;
 	favorito.url = "www.teste.com";
-	favorito.titulo = 'testeAlter';
+	favorito.titulo = 'testeAlteracao';
 	favorito.pai = 5;
 	favorito.numEstrela = 1;
 	return favorito;
 }
+
+var getPasta = function(){
+	var pasta = modelo.pasta();
+	pasta.pai = 5;
+	pasta.nome = 'testeFront';
+	pasta.numEstrela = 3;
+	pasta.publica = false;
+	return pasta;
+}
+
+/*servicos.buscarArquivos(
+5
+,
+function(data){
+	console.log(data);
+}
+);*/
+
+/*servicos.buscarFavorito(
+2
+,
+function(data){
+	console.log(data);
+}
+);*/
+
+/*servicos.adicionarPasta(
+	getPasta()
+	,
+	function(data){
+		console.log(data);
+	}
+)*/
+
+/*
+servicos.alterarPasta(
+	getPasta()
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+/*
+servicos.removerPasta(
+	9
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+/*
+servicos.adicionarFavorito(
+	getFavorito()
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+/*
+servicos.alterarFavorito(
+	getFavorito()
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+/*
+servicos.removerFavorito(
+	10
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+/*
+servicos.atualizarAcesso(
+	11
+	,
+	function(data){
+		console.log(data);
+	}
+)
+*/
+/*
+servicos.recemAcessados(
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+/*
+servicos.maisAcessados(
+	function(data){
+		console.log(data);
+	}
+)
+*/
+/*
+servicos.recemAdicionados(
+	function(data){
+		console.log(data);
+	}
+)
+*/
+/*
+servicos.buscarHierarquiaDePastas(
+	function(data){
+		console.log(data);
+	}
+)
+*/
+
+//
+
+
+/*
+ * REQUISIÇÃO DA IMAGEM, INCOMPLETO
+ */
+ /*
+
+$("#uploadimage").on('submit',(function(e) {
+	e.preventDefault();
+	console.log(new FormData(this));
+	$.ajax({
+		url: "/GerenciadorDeFavoritos/servicos/arquivo/img", // Url to which the request is send
+		type: "POST",             // Type of request to be send, called as method
+		data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+		contentType: false,       // The content type used when sending data to the server.
+		cache: false,             // To unable request pages to be cached
+		processData:false,        // To send DOMDocument or non processed data file it is set to false
+		success: function(data){
+			$('img').s
+			console.log(data);
+		}
+		,
+		error: function(data){
+			console.log(data.responseJSON);
+			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+			modal.show();
+		}
+	});
+}));
+*/
+
 
 
 /*$.ajax({
@@ -122,368 +237,6 @@ var getFavorito = function(){
 		modal.show();
 	}
 })*/
-
-/*
-$.ajax({
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/hierarquia"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-*/
-/*
- * recemAdicionados
- */
-/*$.ajax({
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAdicionados"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
-/*
- * maisAcessados
- */
-/*$.ajax({
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/maisAcessados"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	, 
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
-/*
- * recemAcessados
- */
-/*$.ajax({
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAcessados"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
-/*
- * RegistrarAcesso
- */
- /*$.ajax({
-	method: "PUT"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/atualizarAcesso"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{id: 2}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-/*
- * AcessoRapido
- */ 
- /*
- $.ajax(
-	{ //pegando todos do acesso rápido
-		method: "GET"
-		,
-		url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
-		,
-		success: function(data){
-			console.log(data);
-		}
-		,
-		error: function(data){
-			console.log(data.responseJSON);
-			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-			modal.show();
-		}
-	}
-)
-
-
- $.ajax(
-	{
-		method: "POST"
-		,
-		url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
-		,
-		success: function(data){
-			console.log(data);
-		}
-		,
-		data: { id: 1 }
-		,
-		error: function(data){
-			console.log(data.responseJSON);
-			var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-			modal.show();
-		}
-	}
-)
-  */
- /*
-  var id = 2;
-  $.ajax({
-  	method: "GET"
-  	,
-  	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/" + id
-  	,
-  	success: function(data){
-  		console.log(data);
-  	}
-  	,
-  	error: function(data){
-  		console.log(data.responseJSON);
-  		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-  		modal.show();
-  	}
-  })
-
-var id = 5;
-$.ajax({
-	method: "DELETE"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{id: id}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-
-
-$.ajax(
-		{
-			method: "DELETE"
-			,
-			url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
-			,
-			success: function(data){
-				console.log(data);
-			}
-			,
-			data: { id: 3 }
-			,
-			error: function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
-		}
-	)
-*/
-
-/*
-$.ajax({
-	method: "PUT"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{favorito: JSON.stringify(getFavorito())}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-*/
-
-/*
-$.ajax({
-	method: "POST"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{favorito: JSON.stringify(getFavorito())}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-
-
-$.ajax({ //adicionando novo ícone no acesso rápido
-	method: "POST"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
-	,
-	data: {favorito: '{titulo: "TesteData", url: "www.TesteData.com"}'}
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
-/*$.ajax({ //pegando todos do acesso rápido
-	method: "GET"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/acessoRapido"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})*/
-
-
-
-/*
-
-Adicionar Pasta
-
-var getPasta = function(){
-	var pasta = modelo.pasta();
-	pasta.pai = 5;
-	pasta.nome = 'testeFront';
-	pasta.numEstrela = 3;
-	pasta.publica = false;
-	return pasta;
-}
-
-$.ajax({
-	method: "POST"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{pasta: JSON.stringify(getPasta())}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-*/
-
-/*
-//Alterar Favoritos
-
-var getPasta = function(){
-	var pasta = modelo.pasta();
-	pasta.id=8;
-	pasta.pai = 5;
-	pasta.nome = 'testeFrontAlteracao';
-	pasta.numEstrela = 3;
-	pasta.publica = false;
-	return pasta;
-}
-
-$.ajax({
-	method: "PUT"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{pasta: JSON.stringify(getPasta())}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-*/
-
-/*
- * 
- Deletar uma pasta
- 
-var id = 9;
-$.ajax({
-	method: "DELETE"
-	,
-	url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
-	,
-	success: function(data){
-		console.log(data);
-	}
-	,
-	data:{id: id}
-	,
-	error: function(data){
-		console.log(data.responseJSON);
-		var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-		modal.show();
-	}
-})
-*/
-
-
 
 
 </script>

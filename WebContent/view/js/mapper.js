@@ -6,6 +6,19 @@ var Mapper = function(){
 	this.services = {
 		buscarArquivos: function(id, onSuccess, onError){
 			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/" + id
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		buscarFavorito: function(id, onSuccess, onError){
+			requisicaoParametros = {
 				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/" + id
 				,
 				method: "GET"
@@ -17,18 +30,176 @@ var Mapper = function(){
 			executarRequisicao(requisicaoParametros);
 		}
 		,
-		adicionarPasta: function(){
-			
+		adicionarPasta: function(pasta, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+				,
+				method: "POST"
+				,
+				data:{
+					pasta: JSON.stringify(pasta)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
 		}
 		,
-		adicionarPasta: function(){
-			
+		alterarPasta: function(pasta, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+				,
+				method: "PUT"
+				,
+				data:{
+					pasta: JSON.stringify(pasta)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
 		}
 		,
-		removerPasta: function(){
-			
+		removerPasta: function(id, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta"
+				,
+				method: "DELETE"
+				,
+				data:{
+					id: id
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
 		}
-		//...
+		,
+		adicionarFavorito: function(favorito, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+				,
+				method: "POST"
+				,
+				data:{
+					favorito: JSON.stringify(favorito)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		alterarFavorito: function(favorito, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+				,
+				method: "PUT"
+				,
+				data:{
+					favorito: JSON.stringify(favorito)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		removerFavorito: function(id, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito"
+				,
+				method: "DELETE"
+				,
+				data:{
+					id: id
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		atualizarAcesso: function(id, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/atualizarAcesso"
+				,
+				method: "PUT"
+				,
+				data:{
+					id: id
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		recemAcessados: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAcessados"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		maisAcessados: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/maisAcessados"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		recemAdicionados: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAdicionados"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		buscarHierarquia: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/hierarquia"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){
