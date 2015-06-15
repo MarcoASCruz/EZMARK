@@ -265,7 +265,7 @@ $(document).ready(function(){
            
              
         $(this).animate({width: '100%'}, 1000);
-        $("#fav1-content").animate({height: '600px'}, 1000);
+        $("#fav1-content").animate({height: '100%'}, 1000);
             $( "#pastaAberta" ).delay(600).show('slow');
            $( "#orderFav" ).delay(600).show('slow');
     });
@@ -286,8 +286,8 @@ $(document).ready(function(){
                         'Favorito' +
                     '</div>'+                   
                     '<div class="col s2 pdzero">' +
-                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown10"><i class="mdi-navigation-more-vert"></i></a>' + 
-                        '<ul id="dropdown10" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li>li><a href="#!">Excluir</a></li>' + 
+                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown01"><i class="mdi-navigation-more-vert"></i></a>' + 
+                        '<ul id="dropdown01" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li><li><a href="#!">Excluir</a></li>' + 
                         '</ul></div></div></div></div>');
     }
   });
@@ -463,16 +463,6 @@ $('#dropDrag').click(function(){
                         
                               <!-- Dropdown Trigger -->
                         <li>
-                           
-  <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'> <span class="medium mdi-editor-format-list-bulleted"></span>
-                        Ordenar</a>
-
-  <!-- Dropdown Structure -->
-  <ul id='dropdown21' class='dropdown-content' style='width: 160px !important;'>
-    <li><a href="#!">Nome</a></li>
-    <li><a href="#!">Acessos</a></li>
-    <li><a href="#!">Data de inclusão</a></li>
-  </ul>
                         </li>
                         <li>                        
                                 <div class="input-field cyan darken-1">                                   
@@ -651,7 +641,7 @@ $('#dropDrag').click(function(){
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
+                <a class="modal-action modal-close waves-effect waves-green btn" onclick="Materialize.toast('Favorito', 4000)">Confirmar</a>
             </div>
         </div>    
                 
@@ -660,7 +650,34 @@ $('#dropDrag').click(function(){
                 
                 
                 
-                
+                <div class="row">
+                    
+                        <div class="col s6">
+                            <div class="cyan-text text-lighten-5 z-depth-1" style="background-color: #26a69a;   border: none;
+  border-radius: 2px;
+  display: inline-flex;
+  height: 36px;
+  line-height: 36px;
+  outline: 0;
+  padding: 0 0.5rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;">
+                               <a href="#!" class="cyan-text text-lighten-5"> <i class="mdi-action-home small"></i></a> <span id="orderFav" style="margin-botton: 3px;"> / Pasta Compartilhada</span>
+                            </div>
+                        </div>
+                        <div class="col s2 right">
+                            <a class='dropdown-button btn cyan-text text-lighten-5 right'  href='#' data-activates='dropdown13'><i class="mdi-editor-format-list-bulleted"></i>Ordenar</a>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown13' class='dropdown-content' style='width: 160px !important;'>
+    <li><a href="#!">Nome</a></li>
+    <li><a href="#!">Acessos</a></li>
+    <li><a href="#!">Data de inclusão</a></li>
+  </ul> 
+                        </div>
+                   
+                </div>
                 
                 
                 
@@ -702,18 +719,11 @@ $('#dropDrag').click(function(){
                 <div class="col s12 titulo-favorito">
                     <div class="col s10 truncate pdzero"><i class="mdi-file-folder-shared yellow-text text-darken-3"></i>
                         Pasta Compartilhada
-                          <a class='dropdown-button btn cyan-text text-lighten-5 right' id="orderFav" href='#' data-activates='dropdown13'><i class="mdi-editor-format-list-bulleted"></i>Ordenar</a>
-
-  <!-- Dropdown Structure -->
-  <ul id='dropdown13' class='dropdown-content' style='width: 160px !important;'>
-    <li><a href="#!">Nome</a></li>
-    <li><a href="#!">Acessos</a></li>
-    <li><a href="#!">Data de inclusão</a></li>
-  </ul> 
+                          
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown02'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown02' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
@@ -756,8 +766,8 @@ $('#dropDrag').click(function(){
                         Pasta
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown03'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown03' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
@@ -803,8 +813,8 @@ $('#dropDrag').click(function(){
                         Favorito
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" data-activates='dropdown04'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown04' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
@@ -849,8 +859,8 @@ $('#dropDrag').click(function(){
                         Favorito
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown05'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown05' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
@@ -903,8 +913,8 @@ $('#dropDrag').click(function(){
                         Pasta
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown06'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown06' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
@@ -950,8 +960,8 @@ $('#dropDrag').click(function(){
                         Favorito
                     </div>
                     <div class="col s2">
-                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown10'><i class="mdi-navigation-more-vert"></i></a>
-                        <ul id='dropdown10' class='dropdown-content'>
+                        <a class="dropdown-button cyan-text text-lighten-5" href='#' data-activates='dropdown07'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown07' class='dropdown-content'>
                         <li><a href="#!">Selecionar</a></li>
                         <li><a href="#!">Editar</a></li>
                         <li><a href="#!">Excluir</a></li>
