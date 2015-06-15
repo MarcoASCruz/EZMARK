@@ -70,20 +70,13 @@ var Materialize = function () {
 		return modal;
 	}
 
-	this.FavAcessoRapido = function(){
+	this.FavAcessoRapido = function(icon, nome, id){
         //icon, nome, descricao, id
 		var favAR = new ObjectHtml();
 		
 //		var iconUrl = icon;
-//        var nomeFavorito = nome;
-//        var descricao = this.descricao;
-//        var id = this.id;
-		
-		
         var iconUrl = 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
-        var nomeFavorito = 'Teste de nome';
-        var descricao = 'dasodiadiadsioaoisdoiaodaosd oiadoia jidjas';
-        var id = '1';
+        var nomeFavorito = nome;
         
         favAR.createElement = function () {
         var bloco = $('<div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
@@ -281,8 +274,8 @@ var Element = {
 	Pasta: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
 		return new materialize.Pasta(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
 	},
-    FavAcessoRapido: function(icon, nome, descricao, id){
-		return new materialize.FavAcessoRapido(icon, nome, descricao, id);
+    FavAcessoRapido: function(icon, nome, id){
+		return new materialize.FavAcessoRapido(icon, nome, id);
 	},
     Modal: function(columnTitleArray, contentArray){
 		return new materialize.Modal();
