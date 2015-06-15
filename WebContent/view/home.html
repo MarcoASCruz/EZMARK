@@ -321,6 +321,25 @@ $('#dropDrag').click(function(){
 			}
 		)
 	});
+	
+	$("#btnIncluirPasta").on("click", function(){
+		var getPasta = function(){
+			var pasta = modelo.pasta();
+			pasta.url = $("#url-pasta").val();
+			pasta.titulo = $("#nome-pasta").val();
+			pasta.descricao = $("#textareaPasta").val()
+			pasta.pai = 5;
+			pasta.numEstrela = 1;
+			return pasta;
+		}
+		servicos.adicionarPasta(
+			getPasta()
+			,
+			function(data){
+				atualizarPasta();
+			}
+		)
+	});
 
 });
 
@@ -529,7 +548,7 @@ $('#dropDrag').click(function(){
             <!--Botões que saltam do botão fixo-->      
             <ul id="atalho-fixo">
                 <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
-                <li><a class="btn-floating cyan darken-3"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+                <li><a class="modal-trigger btn-floating cyan darken-3" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
             </ul>
             <!--Fim dos Botões que saltam do botão fixo--> 
         </div>
@@ -567,6 +586,38 @@ $('#dropDrag').click(function(){
                 <a id="btnIncluirFavorito" href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
             </div>
         </div>    
+        
+        <div id="incluirPasta" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Incluir Pasta</h4>
+                <form>
+                    <div class="row">
+                        <div class="input-field m12 s6">
+                            <i class="mdi-action-stars prefix"></i>
+                            <input id="nomePasta" type="text" class="validate">
+                            <label for="nomePasta">Nome</label>
+                        </div>
+                        <div class="input-field col m12 s6">
+                            <i class="mdi-content-link prefix"></i>
+                            <input id="url-pasta" type="text" class="validate">
+                            <label for="url-pasta">URL</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="mdi-action-description prefix"></i>
+                            <textarea id="textareaPasta" class="materialize-textarea"></textarea>
+                            <label for="textareaPasta">Descrição</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="tags" type="text" class="validate">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnIncluirPasta" href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
+            </div>
+        </div>             
+                
                 
                 
                 
