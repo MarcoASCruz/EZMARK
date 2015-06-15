@@ -339,7 +339,15 @@ $('#dropDrag').click(function(){
 			}
 		)
 	});
-
+	
+	
+	$('#treeView').jstree({ 'core' : {
+	    'data' : servicos.buscarHierarquiaDePastas(
+	    		function(data){
+	    		console.log(data);
+	    		}
+	    		)
+	} });
 });
 
 
@@ -380,6 +388,8 @@ $('#dropDrag').click(function(){
                 <li class="divider"></li>
             </div>
             <!--Fim do Usuário Logado Menu Lateral--> 
+            <div id="treeView" class="col s12 pdzero"></div>
+            	
             <img class="responsive-img marRL5 marT15" src="http://i.imgur.com/OFPfj6L.png">
         </ul>
         <!--Fim do Menu Lateral Fixo-->
