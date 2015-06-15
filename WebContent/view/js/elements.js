@@ -128,13 +128,11 @@ var Materialize = function () {
 //        var descricao = this.descricao;
 //        var TomBloco = tipo//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
 //        var iconTipoBloco = iconTipo// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-        var id = '09';
+        
         var iconUrl = 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
-        var nomeFavorito = 'Teste de nome';
-        var descricao = 'dasodiadiadsioaoisdoiaodaosd oiadoia jidjas';
-        var TomBloco = '2'//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
-        var iconTipoBloco = 'mdi-navigation-more-vert'// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-        var numEstrela = 3;
+        var nomeFavorito = nome;
+        var TomBloco = tipo//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
+        var iconTipoBloco = iconTipo// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
 
         var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
         var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
@@ -203,7 +201,7 @@ var materialize = new Materialize();
 
 var Element = {
 	Bloco: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
-		return new materialize.Bloco();
+		return new materialize.Bloco(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
 	},
     FavAcessoRapido: function(icon, nome, descricao, id){
 		return new materialize.FavAcessoRapido();
