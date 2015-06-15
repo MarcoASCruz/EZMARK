@@ -141,7 +141,7 @@ var Materialize = function () {
         
 		bloco.createElement = function () {
 		var card = $('<div class="col s12 m3 pasta-fechada drag">');
-		var painel = $('<div class="card-panel card-complement cyan darken-'2">');
+		var painel = $('<div class="card-panel card-complement cyan darken-2">');
 		var conteudo = $('<div class="card-content white-text">');
 		var div_icon = $('<div class=" col s4 pdzero">');
 		var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
