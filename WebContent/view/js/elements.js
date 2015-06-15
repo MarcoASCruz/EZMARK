@@ -84,7 +84,7 @@ var Materialize = function () {
         var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
         var div_detalhes = $('<div class="col s12 cyan-text text-lighten-5 pdzero">');
         var detalhes_favorito = $('<div class="col s12 pdzero">');
-        var titulo_favorito = $('<div class="col s10 pdzero titulo-favorito-destaque">');
+        var titulo_favorito = $('<div class="col s10 pdzero titulo-favorito-destaque truncate">');
         var div_dropdown = $('<div class="col s2 pdzero">');
         var btDropdown = $('<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown' + id +'">');
         var btDropdown_icon = $('<i class="mdi-navigation-more-vert"></i>');
