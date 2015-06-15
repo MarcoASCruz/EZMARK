@@ -136,12 +136,13 @@ var Materialize = function () {
         var iconTipoBloco = 'mdi-navigation-more-vert'// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
         var numEstrela = 3;
 
+        var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
         var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
         var iconShar = $('<i class="mdi-file-folder-shared yellow-text text-darken-3"></i>');
         
 		bloco.createElement = function () {
 		var card = $('<div class="col s12 m3 pasta-fechada">');
-		if (tipo == '2'){ 
+		if (TomBloco == '2'){ 
 			card.addClass = 'drag';
         }
 		var painel = $('<div class="card-panel card-complement cyan darken-' + TomBloco + '">');
@@ -163,6 +164,8 @@ var Materialize = function () {
 		var div_estrelas = $('<div class="col s12">');
 		for (i=0; i<numEstrela; i++){
 		var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
+		div_estrelas.append (estrela);
+
 		}
 		var div_descricao = $('<div class="col s12 truncate">');
 		var div_tags = $('<div class="col s12 truncate">');
@@ -186,7 +189,7 @@ var Materialize = function () {
         dropdown_content.append (dropdownEditar);
         dropdown_content.append (dropdownExcluir);
 		div_dadosFavorito.append (div_estrelas);
-		div_estrelas.append (estrela);
+		
 		div_dadosFavorito.append (div_descricao);
 		div_descricao.append(descricao);
 		div_dadosFavorito.append (div_tags);
