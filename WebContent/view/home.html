@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src="jquery.tagsinput.js"></script>
+		<link rel="stylesheet" type="text/css" href="jquery.tagsinput.css" />
+        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <!--Inicializa o Menu lateral quando em modo Mobile-->
+        
+        <script>
+                $( document ).ready(function(){
+                $(".button-collapse").sideNav();
+                    $('#tags').tagsInput();
+                });      
+		</script>
+
+
+
+<script src="js/elements.js"></script>
+<script src="js/mapper.js"></script>
+<script src="js/servicos.js"></script>
+
+
+<script>
+$(document).ready(function(){
+     $( "#pastaAberta" ).hide();
+     $( "#orderFav" ).hide();
+       $("#fav1").click(function(){
+           $( "#fav2" ).hide("slow");
+           $( "#fav3" ).hide("slow");
+           $( "#fav4" ).hide("slow");
+           $( "#order" ).hide("slow");
+           $( "#imgFav" ).removeClass( 's4' );
+            $( "#imgFav" ).addClass( 's1' );
+            $( "#detFav" ).removeClass('s8' );
+              $( "#detFav" ).addClass( 's11' );
+           
+             
+        $(this).animate({width: '100%'}, 1000);
+        $("#fav1-content").animate({height: '600px'}, 1000);
+            $( "#pastaAberta" ).delay(600).show('slow');
+           $( "#orderFav" ).delay(600).show('slow');
+    });
+    var dropHelp = true;
+    var nomeFav = $('#nomeFav').val();    
+
+  $(".drag").draggable({
+    revert: 'invalid',
+    cursorAt: { top: 90, left: 80 },
+    helper: function(event) {
+      return $('        <div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin:5px 0.30em;">' +
+            '<div class="col s12 pdzero" style="margin-top: 5px;">' +
+                '<img class="responsive-img" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">'+
+            '</div>' +
+            '<div class="col s12 cyan-text text-lighten-5 pdzero">' +
+                '<div class="col s12 pdzero">' + 
+                    '<div class="col s10 pdzero titulo-favorito-destaque">' +
+                        'Favorito' +
+                    '</div>'+                   
+                    '<div class="col s2 pdzero">' +
+                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown10"><i class="mdi-navigation-more-vert"></i></a>' + 
+                        '<ul id="dropdown10" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li>li><a href="#!">Excluir</a></li>' + 
+                        '</ul></div></div></div></div>');
+    }
+  });
+  $(".droppable").droppable({
+    drop: function(event, ui) {
+        if(dropHelp){
+           //clone and remove positioning from the helper element
+           var newDiv = $(ui.helper).clone(false)
+               .removeClass('ui-draggable-dragging')
+               .css({position:'relative', left:0, top:0});            
+           $(this).append(newDiv);
+        
+        //drop the draggable source element
+        } else {
+           $(this).append(ui.draggable);
+        }
+    }
+  });
+
+$('#dropDrag').click(function(){
+    dropHelp = !dropHelp;
+});
+
+	servicos.buscarArquivos(
+		5
+		,
+		function(data){
+			console.log(data)
+			var limparContainer = function(){
+				$('#conteudoBlocos').empty();
+			}
+			
+			var inserirPastas = function(){
+				var pastas = data.content[0].pastas;
+				var length = pastas.length;
+				for(var i = 0; i < length; i++){
+					var bloco = Element.Bloco("imagem", pastas[i].nome, "trazer descricao", "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
+					$('#conteudoBlocos').append(bloco.getElement());
+				}
+			}
+			
+			var inserirFavoritos = function(){
+				var favoritos = data.content[0].favoritos;
+				var length = favoritos.length;
+				for(var i = 0; i < length; i++){
+					var bloco = Element.Bloco("imagem", favoritos[i].titulo, "trazer descricao", "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
+					$('#conteudoBlocos').append(bloco.getElement());
+				}
+			}
+			
+			limparContainer();
+			inserirPastas();
+			inserirFavoritos();
+			
+			
+		}
+	);
+
+
+	$('#btnMaisAcessados').on('click', function(){
+		var icon = Element.FavAcessoRapido(icon, nome, descricao, id);
+		$('#maisAcessados').html("TESDFSDFSDF");
+	})
+
+});
+
+
+
+
+</script>
+        
+                <script>
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+</script>
+    
+    
+        <style>
+            .gira {
+             -webkit-transition: all 0.5s ease 0s;
+             -moz-transition: all 0.5s ease 0s;
+             -o-transition: all 0.5s ease 0s;
+             -ms-transition: all 0.5s ease 0s;
+             transition: all 0.5s ease 0s;
+             cursor:pointer;
+             }
+             .gira:hover {
+             -webkit-transform: rotate(45deg);
+             -moz-transform: rotate(45deg);
+             -ms-transform: rotate(45deg);
+             -o-transform: rotate(45deg);
+             transform: rotate(45deg);
+             }
+            .conteudo{
+            padding: 0 0.5rem;
+            margin: 0 auto;
+            max-width: 1366px;
+            width: 100%;
+            }
+            .titulo-favorito{
+            color: #fff;
+            font-size: 20px;
+            font-weight: 300;
+            }
+            .titulo-favorito-destaque
+            {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.25;
+            }
+            .main{
+            padding-left: 240px; 
+            padding-top: 20px; 
+            height: 3000px;
+            }
+            .pdzero{
+            padding: 0!important;
+            }
+            .marginzero{
+            margin: 0!important;
+            }
+            .item-acesso-rapido{
+            min-width: 110px;
+            }
+            .overflow-y-auto{
+            overflow-y: auto;
+            }
+            .overflow-y-auto>li{
+/*            min-width: 200px;*/
+            }
+            .marRL5{
+            margin-right: 5px;
+            margin-left: 5px;
+            }
+            .marRL15{
+            margin-right: 15px;
+            margin-left: 15px;
+            }
+            .marT15{
+            margin-top: 15px;
+            }
+            .usuario-logado-bar{
+            max-width: 300px; 
+            height: 100%;
+            padding-right: 5px;
+            padding-left: 5px;
+            }
+            .pasta-fechada{
+/*            padding: 10px !important;*/
+/*            margin: 0.5rem 0.5rem 1rem 0.5rem;*/
+/*            border-radius: 2px;*/
+            min-width: 300px;
+            min-height: 135px;
+            }
+            .favorito{
+/*            padding: 10px !important;*/
+/*            margin: 0.5rem 0.5rem 1rem 0.5rem;*/
+/*            border-radius: 2px;*/
+
+            min-width: 102px;
+            max-height: 160px;
+
+            }
+            [type="checkbox"]:checked+label:before{
+            border-right-color: #00565F !important;
+            border-bottom-color: #00565F !important;
+            }
+            .card-complement{
+            overflow: hidden;
+            padding: 10px;
+            }
+
+            @media (max-width: 992px){
+            .main{
+            padding-left: 20px; 
+            }
+                    
+                
+        </style>
+    </head>
+    <body style="background-color: #fcfcfc">
+        <!--Menu Lateral Fixo-->
+        <ul id="slide-out" class="side-nav fixed">
+            <!--Usuário Logado Menu Lateral--> 
+            <div class="row">
+                <div class="col s3">
+                    <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+                </div>
+                <div class="col s9 marT15 truncate">
+                    <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+                </div>
+                <div class="col s12 pdzero">
+                    <a class="btn-flat waves-effect pdzero" href='#'>
+                        <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+                    </a>
+                </div>
+                <div class="col s12 pdzero">
+                    <a class="btn-flat waves-effect pdzero" href='#'>
+                        <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+                    </a>
+                </div>
+                <li class="divider"></li>
+            </div>
+            <!--Fim do Usuário Logado Menu Lateral--> 
+            <img class="responsive-img marRL5 marT15" src="http://i.imgur.com/OFPfj6L.png">
+        </ul>
+        <!--Fim do Menu Lateral Fixo-->
+        <!--Barra de Navegação/Superior-->
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper cyan darken-2">
+                    <a href="#!" class="brand-logo" style="padding-left: 270px;">Logo</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <ul class="right hide-on-med-and-down cyan darken-1">
+                        <!--Formulário para barra de Pesquisa --> 
+                        
+                              <!-- Dropdown Trigger -->
+                        <li>
+                           
+  <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'> <span class="medium mdi-editor-format-list-bulleted"></span>
+                        Ordenar</a>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown21' class='dropdown-content' style='width: 160px !important;'>
+    <li><a href="#!">Nome</a></li>
+    <li><a href="#!">Acessos</a></li>
+    <li><a href="#!">Data de inclusão</a></li>
+  </ul>
+                        </li>
+                        <li>                        
+                                <div class="input-field cyan darken-1">                                   
+                                    <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
+                                    <label for="search"><i class="mdi-action-search"></i></label>
+                                    <i class="mdi-navigation-close"></i>
+                                </div>               
+                        </li>
+                        <li>
+                            <form>
+                            <div class="marRL5">
+                                <input type="checkbox" id="check-favoritos" />
+                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
+                            </div></li>
+                        <li>
+                            <div class="marRL5 grey-text text-darken-4">
+                                <input type="checkbox" id="check-categorias" />
+                                <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label></div></li>
+                        <li>
+                            <div class="marRL5 grey-text text-darken-4">
+                                <input type="checkbox" id="check-tags" />
+                                <label class="cyan-text text-lighten-5" for="check-tags">Tags</label>
+                            </div>
+                            </form>
+                        </li>
+                      
+                        
+                                
+                        <!--Fim do Formulário para barra de Pesquisa -->
+                        <!--Usuário Logado na Barra de Navegação --> 
+<!--                        <li>
+                            <div class="usuario-logado-bar" >
+                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+                                <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
+                                    <div class="right">
+                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+                                            <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
+                                        </a>
+                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+                                            <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
+                                        </a>
+                                    </div>
+                            </div>        
+                        </li>-->
+                        <!--Fim do Usuário Logado na Barra de Navegação --> 
+                    </ul>
+                     <!--Fim da Barra de Navegação Superior -->  
+                    <!--Menu Lateral quando acionado o modo Mobile-->  
+                    <ul class="side-nav" id="mobile-demo">  
+                        <!--Usuário Logado Menu Lateral Mobile--> 
+                        <div class="row">
+                            <div class="col s3">
+                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+                            </div>
+                            <div class="col s9 truncate">
+                                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+                            </div>
+                            <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+                                </a>
+                            </div>
+                            <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+                                </a>
+                            </div>
+                            <li class="divider"></li>
+                        </div>
+                        <!--Fim do Usuário Logado Menu Lateral Mobile--> 
+                        <!--Formulário de Pesquisa Menu Lateral Mobile--> 
+                        <form>
+                            <div class="row">
+                                  <div class="col s12 pdzero">
+                                <a class="btn-flat waves-effect pdzero" href='#'>
+                                    <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
+                                </a>
+                            </div>
+                                
+                          
+                          
+                                
+                                <div class="col s2">
+                                    <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
+                                </div>
+                                <div class="col s10">
+                                    <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
+                                </div>
+                                <div class="col s10">
+                                <input type="checkbox" id="check-tagsm" />
+                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
+                                </div>
+                                 <div class="col s10">
+                                <input type="checkbox" id="check-tagsmm" />
+                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
+                                </div>
+                                 <div class="col s10">
+                                <input type="checkbox" id="check-tagsmmm" />
+                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
+                                </div>
+                            </div>
+                        </form>
+                        <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
+                    </ul>
+                    <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
+                </div>
+            </nav>
+        </div>    
+        <!--Fim da Barra de Navegação-->   
+        
+        <!--Corpo do conteúdo da página-->  
+        <main class="main">   
+            <div class="conteudo">
+            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+            <div class="row z-depth-1" style="background-color: white;">
+                <div class="col s12 pdzero" >
+                    <ul class="tabs cyan darken-2" >
+                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
+                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
+                        <li class="tab col s3"><a class="cyan-text text-lighten-5" href="#test3">Recém Acessados</a></li>
+                        <li class="tab col s3"><a class="cyan-text text-lighten-5" href="#test4">Recém Adicionados</a></li>
+                    </ul>
+                </div>
+            <!--Componente Favoritos Destaque-->     
+            <div id="test1" class="col s12">
+                <div class="row droppable" style="min-height: 100px;">
+                </div>   
+            </div>
+            <!--Fim do Componente Favoritos Destaque-->    
+            <div id="maisAcessados" class="col s12">Teste 2</div>
+            <div id="test3" class="col s12">Teste 3</div>
+            <div id="test4" class="col s12">Teste 4</div>
+            </div>
+            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+            
+        <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+            <a class="btn-floating btn-large red gira" id="botao-fixo">
+                <i class="large mdi-content-add"></i>
+            </a>
+            <!--Botões que saltam do botão fixo-->      
+            <ul id="atalho-fixo">
+                <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluir"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+                <li><a class="btn-floating cyan darken-3"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+            </ul>
+            <!--Fim dos Botões que saltam do botão fixo--> 
+        </div>
+        <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
+            
+            
+
+        <div id="incluir" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Incluir Favorito</h4>
+                <form>
+                    <div class="row">
+                        <div class="input-field m12 s6">
+                            <i class="mdi-action-stars prefix"></i>
+                            <input id="nomeFav" type="text" class="validate">
+                            <label for="nomeFav">Nome</label>
+                        </div>
+                        <div class="input-field col m12 s6">
+                            <i class="mdi-content-link prefix"></i>
+                            <input id="url-fav" type="text" class="validate">
+                            <label for="url-fav">URL</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <i class="mdi-action-description prefix"></i>
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Descrição</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="tags" type="text" class="validate">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
+            </div>
+        </div>    
+                
+                
+                
+             
+                
+				    <div id="conteudoBlocos" class="row">
+				    </div>
+				     
+               </div>
+        </main>   
+    </body>
+</html>
