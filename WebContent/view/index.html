@@ -3,7 +3,10 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>INDEX</title>
-<link rel="stylesheet" href="view/lib/bootstrap-3.3.2/css/bootstrap.min.css">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="view/lib/materialize/css/materialize.min.css"  media="screen,projection"/>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 </head>
 
 <body>
@@ -18,11 +21,19 @@
 </body>
 
 <script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
-<script src="view/lib/bootstrap-3.3.2/js/bootstrap.min.js"></script>
 <script src="view/js/elements.js"></script>
 <script src="view/js/mapper.js"></script>
 <script src="view/js/servicos.js"></script>
+<script type="text/javascript" src="view/lib/materialize/js/materialize.min.js"></script>
 <script type="text/javascript">
+
+//
+var bloco = Element.Bloco("", "teste", "testesteste", "3", "pasta", "2", "3")
+//console.log()
+$('body').append(bloco.getElement());
+
+
+
 
 var modelo = {
 	pasta: function(){
