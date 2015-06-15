@@ -6,147 +6,8 @@
         <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script src="jquery.tagsinput.js"></script>
-		<link rel="stylesheet" type="text/css" href="jquery.tagsinput.css" />
-        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
-        <!--Inicializa o Menu lateral quando em modo Mobile-->
         
-        <script>
-                $( document ).ready(function(){
-                $(".button-collapse").sideNav();
-                    $('#tags').tagsInput();
-                });      
-		</script>
-
-
-
-<script src="js/elements.js"></script>
-<script src="js/mapper.js"></script>
-<script src="js/servicos.js"></script>
-
-
-<script>
-$(document).ready(function(){
-     $( "#pastaAberta" ).hide();
-     $( "#orderFav" ).hide();
-       $("#fav1").click(function(){
-           $( "#fav2" ).hide("slow");
-           $( "#fav3" ).hide("slow");
-           $( "#fav4" ).hide("slow");
-           $( "#order" ).hide("slow");
-           $( "#imgFav" ).removeClass( 's4' );
-            $( "#imgFav" ).addClass( 's1' );
-            $( "#detFav" ).removeClass('s8' );
-              $( "#detFav" ).addClass( 's11' );
-           
-             
-        $(this).animate({width: '100%'}, 1000);
-        $("#fav1-content").animate({height: '600px'}, 1000);
-            $( "#pastaAberta" ).delay(600).show('slow');
-           $( "#orderFav" ).delay(600).show('slow');
-    });
-    var dropHelp = true;
-    var nomeFav = $('#nomeFav').val();    
-
-  $(".drag").draggable({
-    revert: 'invalid',
-    cursorAt: { top: 90, left: 80 },
-    helper: function(event) {
-      return $('        <div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin:5px 0.30em;">' +
-            '<div class="col s12 pdzero" style="margin-top: 5px;">' +
-                '<img class="responsive-img" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">'+
-            '</div>' +
-            '<div class="col s12 cyan-text text-lighten-5 pdzero">' +
-                '<div class="col s12 pdzero">' + 
-                    '<div class="col s10 pdzero titulo-favorito-destaque">' +
-                        'Favorito' +
-                    '</div>'+                   
-                    '<div class="col s2 pdzero">' +
-                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown10"><i class="mdi-navigation-more-vert"></i></a>' + 
-                        '<ul id="dropdown10" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li>li><a href="#!">Excluir</a></li>' + 
-                        '</ul></div></div></div></div>');
-    }
-  });
-  $(".droppable").droppable({
-    drop: function(event, ui) {
-        if(dropHelp){
-           //clone and remove positioning from the helper element
-           var newDiv = $(ui.helper).clone(false)
-               .removeClass('ui-draggable-dragging')
-               .css({position:'relative', left:0, top:0});            
-           $(this).append(newDiv);
         
-        //drop the draggable source element
-        } else {
-           $(this).append(ui.draggable);
-        }
-    }
-  });
-
-$('#dropDrag').click(function(){
-    dropHelp = !dropHelp;
-});
-
-	servicos.buscarArquivos(
-		5
-		,
-		function(data){
-			console.log(data)
-			var limparContainer = function(){
-				$('#conteudoBlocos').empty();
-			}
-			
-			var inserirPastas = function(){
-				var pastas = data.content[0].pastas;
-				var length = pastas.length;
-				for(var i = 0; i < length; i++){
-					var bloco = Element.Bloco("imagem", pastas[i].nome, "trazer descricao", "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
-					$('#conteudoBlocos').append(bloco.getElement());
-				}
-			}
-			
-			var inserirFavoritos = function(){
-				var favoritos = data.content[0].favoritos;
-				var length = favoritos.length;
-				for(var i = 0; i < length; i++){
-					var bloco = Element.Bloco("imagem", favoritos[i].titulo, "trazer descricao", "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
-					$('#conteudoBlocos').append(bloco.getElement());
-				}
-			}
-			
-			limparContainer();
-			inserirPastas();
-			inserirFavoritos();
-			
-			
-		}
-	);
-
-
-	$('#btnMaisAcessados').on('click', function(){
-		var icon = Element.FavAcessoRapido(icon, nome, descricao, id);
-		$('#maisAcessados').html("TESDFSDFSDF");
-	})
-
-});
-
-
-
-
-</script>
-        
-                <script>
-  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  });
-</script>
-    
-    
         <style>
             .gira {
              -webkit-transition: all 0.5s ease 0s;
@@ -250,7 +111,233 @@ $('#dropDrag').click(function(){
                     
                 
         </style>
-    </head>
+    
+        
+        
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src="jquery.tagsinput.js"></script>
+		<link rel="stylesheet" type="text/css" href="jquery.tagsinput.css" />
+        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <!--Inicializa o Menu lateral quando em modo Mobile-->
+        
+        <script>
+                $( document ).ready(function(){
+                $(".button-collapse").sideNav();
+                    $('#tags').tagsInput();
+                });      
+		</script>
+
+
+
+<script src="js/elements.js"></script>
+<script src="js/mapper.js"></script>
+<script src="js/servicos.js"></script>
+
+
+<script>
+$(document).ready(function(){
+     $( "#pastaAberta" ).hide();
+     $( "#orderFav" ).hide();
+       $("#fav1").click(function(){
+           $( "#fav2" ).hide("slow");
+           $( "#fav3" ).hide("slow");
+           $( "#fav4" ).hide("slow");
+           $( "#order" ).hide("slow");
+           $( "#imgFav" ).removeClass( 's4' );
+            $( "#imgFav" ).addClass( 's1' );
+            $( "#detFav" ).removeClass('s8' );
+              $( "#detFav" ).addClass( 's11' );
+           
+             
+        $(this).animate({width: '100%'}, 1000);
+        $("#fav1-content").animate({height: '600px'}, 1000);
+            $( "#pastaAberta" ).delay(600).show('slow');
+           $( "#orderFav" ).delay(600).show('slow');
+    });
+    var dropHelp = true;
+    var nomeFav = $('#nomeFav').val();    
+
+  $(".drag").draggable({
+    revert: 'invalid',
+    cursorAt: { top: 90, left: 80 },
+    helper: function(event) {
+      return $('        <div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin:5px 0.30em;">' +
+            '<div class="col s12 pdzero" style="margin-top: 5px;">' +
+                '<img class="responsive-img" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">'+
+            '</div>' +
+            '<div class="col s12 cyan-text text-lighten-5 pdzero">' +
+                '<div class="col s12 pdzero">' + 
+                    '<div class="col s10 pdzero titulo-favorito-destaque">' +
+                        'Favorito' +
+                    '</div>'+                   
+                    '<div class="col s2 pdzero">' +
+                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown10"><i class="mdi-navigation-more-vert"></i></a>' + 
+                        '<ul id="dropdown10" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li>li><a href="#!">Excluir</a></li>' + 
+                        '</ul></div></div></div></div>');
+    }
+  });
+  $(".droppable").droppable({
+    drop: function(event, ui) {
+        if(dropHelp){
+           //clone and remove positioning from the helper element
+           var newDiv = $(ui.helper).clone(false)
+               .removeClass('ui-draggable-dragging')
+               .css({position:'relative', left:0, top:0});            
+           $(this).append(newDiv);
+        
+        //drop the draggable source element
+        } else {
+           $(this).append(ui.draggable);
+        }
+    }
+  });
+
+$('#dropDrag').click(function(){
+    dropHelp = !dropHelp;
+});
+
+	var atualizarPasta = function(){
+		servicos.buscarArquivos(
+			5
+			,
+			function(data){
+				var limparContainer = function(){
+					$('#conteudoBlocos').empty();
+				}
+				
+				var inserirPastas = function(){
+					var pastas = data.content[0].pastas;
+					var length = pastas.length;
+					for(var i = 0; i < length; i++){
+						var bloco = Element.Pasta("imagem", pastas[i].nome, "trazer descricao", "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
+						$('#conteudoBlocos').append(bloco.getElement());
+					}
+				}
+				
+				var inserirFavoritos = function(){
+					var favoritos = data.content[0].favoritos;
+					var length = favoritos.length;
+					for(var i = 0; i < length; i++){
+						var bloco = Element.Favorito("imagem", favoritos[i].titulo, "trazer descricao", "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
+						$('#conteudoBlocos').append(bloco.getElement());
+					}
+				}
+				
+				limparContainer();
+				inserirPastas();
+				inserirFavoritos();
+				
+				
+			}
+		);
+	}
+		
+	atualizarPasta();
+	
+	
+	$('#btnMaisAcessados').on('click', function(){
+		servicos.maisAcessados(
+			function(data){
+				insereIcons(data.content, $('#maisAcessados'))
+			}
+		)
+	})
+	
+	$('#btnRecemAcessados').on('click', function(){
+		servicos.recemAcessados(
+			function(data){
+				insereIcons(data.content, $('#recemAcessados'))
+			}
+		)
+	})
+	
+	$('#btnRecemAdicionados').on('click', function(){
+		servicos.recemAdicionados(
+			function(data){
+				insereIcons(data.content, $('#recemAdicionados'))
+			}
+		)
+	})
+	
+	var insereIcons = function(favoritos, divDestino){
+		var length = favoritos.length;
+		divDestino.empty()
+		for(var i = 0; i < length; i++){
+			var icon = Element.FavAcessoRapido("", favoritos[i].titulo, favoritos[i].id);
+			divDestino.append(icon.getElement());
+		}
+	}
+	
+	var modelo = {
+		pasta: function(){
+			var pasta = new Object();
+			pasta.id=0;
+			pasta.pai=0;
+			pasta.nome = '';
+			pasta.dataCriacao= null;
+			pasta.numEstrela = 0;
+			pasta.publica = false;
+			pasta.imagem = null;
+			pasta.favoritos = null;
+			pasta.pastas = null;
+			return pasta;
+		}
+		,
+		favorito: function(){
+			var favorito = new Object();
+			favorito.id=0;
+			favorito.url=null;
+			favorito.titulo = null;
+			favorito.descricao= null;
+			favorito.dataCriacao = null;
+			favorito.pai = 0;
+			favorito.numEstrela = 0;
+			favorito.imagem = null;
+			favorito.acessoRapido = false;
+			return favorito;
+		}
+	}
+
+	
+	
+	$("#btnIncluirFavorito").on("click", function(){
+		var getFavorito = function(){
+			var favorito = modelo.favorito();
+			favorito.url = $("#url-fav").val();
+			favorito.titulo = $("#nomeFav").val();
+			favorito.descricao = $("#textareaFav").val()
+			favorito.pai = 5;
+			favorito.numEstrela = 1;
+			return favorito;
+		}
+		servicos.adicionarFavorito(
+			getFavorito()
+			,
+			function(data){
+				atualizarPasta();
+			}
+		)
+	});
+
+});
+
+
+
+
+</script>
+        
+                <script>
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+</script>
+    
+    
+</head>
     <body style="background-color: #fcfcfc">
         <!--Menu Lateral Fixo-->
         <ul id="slide-out" class="side-nav fixed">
@@ -418,8 +505,8 @@ $('#dropDrag').click(function(){
                     <ul class="tabs cyan darken-2" >
                         <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
                         <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
-                        <li class="tab col s3"><a class="cyan-text text-lighten-5" href="#test3">Recém Acessados</a></li>
-                        <li class="tab col s3"><a class="cyan-text text-lighten-5" href="#test4">Recém Adicionados</a></li>
+                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAcessados" href="#recemAcessados">Recém Acessados</a></li>
+                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
                     </ul>
                 </div>
             <!--Componente Favoritos Destaque-->     
@@ -428,9 +515,9 @@ $('#dropDrag').click(function(){
                 </div>   
             </div>
             <!--Fim do Componente Favoritos Destaque-->    
-            <div id="maisAcessados" class="col s12">Teste 2</div>
-            <div id="test3" class="col s12">Teste 3</div>
-            <div id="test4" class="col s12">Teste 4</div>
+            <div id="maisAcessados" class="col s12">content</div>
+            <div id="recemAcessados" class="col s12">content</div>
+            <div id="recemAdicionados" class="col s12">content</div>
             </div>
             <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
             
@@ -441,7 +528,7 @@ $('#dropDrag').click(function(){
             </a>
             <!--Botões que saltam do botão fixo-->      
             <ul id="atalho-fixo">
-                <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluir"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+                <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
                 <li><a class="btn-floating cyan darken-3"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
             </ul>
             <!--Fim dos Botões que saltam do botão fixo--> 
@@ -450,7 +537,7 @@ $('#dropDrag').click(function(){
             
             
 
-        <div id="incluir" class="modal modal-fixed-footer">
+        <div id="incluirFavorito" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>Incluir Favorito</h4>
                 <form>
@@ -467,8 +554,8 @@ $('#dropDrag').click(function(){
                         </div>
                         <div class="input-field col s12">
                             <i class="mdi-action-description prefix"></i>
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Descrição</label>
+                            <textarea id="textareaFav" class="materialize-textarea"></textarea>
+                            <label for="textareaFav">Descrição</label>
                         </div>
                         <div class="input-field col s12">
                             <input id="tags" type="text" class="validate">
@@ -477,7 +564,7 @@ $('#dropDrag').click(function(){
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
+                <a id="btnIncluirFavorito" href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
             </div>
         </div>    
                 
