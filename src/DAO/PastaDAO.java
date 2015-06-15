@@ -61,7 +61,6 @@ public class PastaDAO extends BasicDAO {
 				p.setImagem(res.getBytes("imagem"));
 				p.setPublica(res.getBoolean("publica"));
 				p.setDescricao(res.getString("descricao"));
-				//descrição
 				//tag?
 				pastas.add(p);
 			}
