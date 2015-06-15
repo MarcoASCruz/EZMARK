@@ -212,7 +212,7 @@ $('#dropDrag').click(function(){
 					var pastas = data.content[0].pastas;
 					var length = pastas.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Pasta("imagem", pastas[i].nome, "trazer descricao", "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
+						var bloco = Element.Pasta("imagem", pastas[i].nome, pastas[i].descricao, "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -221,7 +221,7 @@ $('#dropDrag').click(function(){
 					var favoritos = data.content[0].favoritos;
 					var length = favoritos.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito("imagem", favoritos[i].titulo, "trazer descricao", "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
+						var bloco = Element.Favorito("imagem", favoritos[i].titulo, favoritos[i].descricao, "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -325,7 +325,7 @@ $('#dropDrag').click(function(){
 	$("#btnIncluirPasta").on("click", function(){
 		var getPasta = function(){
 			var pasta = modelo.pasta();
-			pasta.titulo = $("#nome-pasta").val();
+			pasta.nome = $("#nomePasta").val();
 			pasta.descricao = $("#textareaPasta").val()
 			pasta.pai = 5;
 			pasta.numEstrela = 1;

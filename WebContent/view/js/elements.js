@@ -180,7 +180,7 @@ var Materialize = function () {
 		div_dadosFavorito.append (div_estrelas);
 		
 		div_dadosFavorito.append (div_descricao);
-		div_descricao.append(descricao);
+		div_descricao.append(descricao ? descricao : "(Sem descrição)");
 		div_dadosFavorito.append (div_tags);
 		div_tags.append (icon_tag); 
 			return card;
@@ -255,7 +255,7 @@ var Materialize = function () {
 		div_dadosFavorito.append (div_estrelas);
 		
 		div_dadosFavorito.append (div_descricao);
-		div_descricao.append(descricao);
+		div_descricao.append(descricao ? descricao : "(Sem descrição)");
 		div_dadosFavorito.append (div_tags);
 		div_tags.append (icon_tag); 
 			return card;

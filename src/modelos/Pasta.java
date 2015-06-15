@@ -17,11 +17,12 @@ public class Pasta {
 	private byte[] imagem;
 	private List<Favorito> favoritos;
 	private List<Pasta> pastas = new ArrayList<Pasta>();
+	private String descricao;
 	
 	public Pasta(){}
 	public Pasta(int id, int pai, String nome, Timestamp dataCriacao,
 			int numEstrela, boolean publica, byte[] imagem,
-			List<Favorito> favoritos, List<Pasta> pastas) {
+			List<Favorito> favoritos, List<Pasta> pastas, String descricao) {
 		super();
 		this.id = id;
 		this.pai = pai;
@@ -32,6 +33,7 @@ public class Pasta {
 		this.imagem = imagem;
 		this.favoritos = favoritos;
 		this.pastas = pastas;
+		this.descricao = descricao;
 	}
 	
 	
@@ -91,6 +93,12 @@ public class Pasta {
 	}
 	public void setPastas(List<Pasta> pastas) {
 		this.pastas = pastas;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
 	
