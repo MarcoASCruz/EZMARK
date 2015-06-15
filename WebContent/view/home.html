@@ -325,7 +325,6 @@ $('#dropDrag').click(function(){
 	$("#btnIncluirPasta").on("click", function(){
 		var getPasta = function(){
 			var pasta = modelo.pasta();
-			pasta.url = $("#url-pasta").val();
 			pasta.titulo = $("#nome-pasta").val();
 			pasta.descricao = $("#textareaPasta").val()
 			pasta.pai = 5;
@@ -596,11 +595,6 @@ $('#dropDrag').click(function(){
                             <i class="mdi-action-stars prefix"></i>
                             <input id="nomePasta" type="text" class="validate">
                             <label for="nomePasta">Nome</label>
-                        </div>
-                        <div class="input-field col m12 s6">
-                            <i class="mdi-content-link prefix"></i>
-                            <input id="url-pasta" type="text" class="validate">
-                            <label for="url-pasta">URL</label>
                         </div>
                         <div class="input-field col s12">
                             <i class="mdi-action-description prefix"></i>
