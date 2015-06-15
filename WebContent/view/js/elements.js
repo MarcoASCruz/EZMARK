@@ -276,10 +276,10 @@ var materialize = new Materialize();
 
 var Element = {
 	Favorito: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
-		return new materialize.Bloco(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
+		return new materialize.Favorito(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
 	},
 	Pasta: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
-		return new materialize.Bloco(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
+		return new materialize.Pasta(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
 	},
     FavAcessoRapido: function(icon, nome, descricao, id){
 		return new materialize.FavAcessoRapido(icon, nome, descricao, id);
