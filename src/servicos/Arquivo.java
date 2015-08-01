@@ -40,13 +40,18 @@ public class Arquivo {
 	@GET
 	@Path("/pasta/{id}")
 	@Produces("application/json")
-	public Response buscarArquivos(@PathParam("id") int id) {
+	public Response buscarArquivos(@PathParam("id") int idPastaPai) {
 		AppResponse response = new AppResponse();
 		try{
-			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
-			Pasta pasta = pastaDAO.buscarArquivos(id);
+			PastaDAO pastaDAO = new DAO.PastaDAO();
+			FavoritoDAO favoritoDAO = new FavoritoDAO();
+			Pasta p = new Pasta();
+			p.setPastas(pastaDAO.buscarPastasFilhas(idPastaPai));
+			p.setFavoritos(favoritoDAO.buscarFavoritosFilhos(idPastaPai));
+			
 			ArrayList l = new ArrayList();
-			l.add(pasta);
+			l.add(p);
+			
 			response.setSuccess(true);
 			response.setContent(l);
 		}
@@ -81,12 +86,14 @@ public class Arquivo {
 		AppResponse response = new AppResponse();
 		try{
 			Pasta p = new JSONDeserializer<Pasta>().use( null, Pasta.class ).deserialize(pastaJson);
-			p.setDataCriacao(new Timestamp(new java.util.Date().getTime()));
+			/*p.setDataCriacao(new Timestamp(new java.util.Date().getTime()));
 			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
 			Pasta pasta = pastaDAO.adicionar(p);
-			ArrayList l = new ArrayList();
+			*/ArrayList l = new ArrayList();
 			l.add(p);
-			response.setSuccess(true);
+			/*response.setSuccess(true);
+			response.setContent(l);*/
+			response.setSuccess(false);
 			response.setContent(l);
 		}
 		catch(Exception e){

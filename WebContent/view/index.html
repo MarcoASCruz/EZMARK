@@ -13,11 +13,12 @@
 	Teste.html
 	<form id="uploadimage" action="" method="post" enctype="multipart/form-data">
 		<input type="file" accept="image/*" name="img" id="img" required />
-		<input type="hidden" name="id" id="id" value="5" />
+		<input type="hidden" name="id" id="id" value="6" />
 		<input type="submit" value="Upload" class="submit" />
 	</div>
 	</form>
-	<img src="/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/5">
+	<img src="/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/6">
+	<div id="imgs"></div>
 </body>
 
 <script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
@@ -28,9 +29,9 @@
 <script type="text/javascript">
 
 //
-var bloco = Element.Bloco("", "teste", "testesteste", "3", "pasta", "2", "3")
+//var bloco = Element.Bloco("", "teste", "testesteste", "3", "pasta", "2", "3")
 //console.log()
-$('body').append(bloco.getElement());
+//$('body').append(bloco.getElement());
 
 
 
@@ -47,6 +48,7 @@ var modelo = {
 		pasta.imagem = null;
 		pasta.favoritos = null;
 		pasta.pastas = null;
+		favotitos = null;
 		return pasta;
 	}
 	,
@@ -84,13 +86,18 @@ var getPasta = function(){
 	return pasta;
 }
 
-servicos.buscarArquivos(
+/*servicos.buscarArquivos(
 	5
 	,
 	function(data){
-		console.log(data);
+		$.each(data.content[0].favoritos, function(index, favorito){
+			var img = $('<img>');
+			img.attr('src', favorito.imagem)
+			$("#imgs").append(img);
+			console.log(favorito);
+		})
 	}
-);
+);*/
 
 /*servicos.buscarFavorito(
 2
@@ -100,13 +107,13 @@ function(data){
 }
 );*/
 
-/*servicos.adicionarPasta(
+servicos.adicionarPasta(
 	getPasta()
 	,
 	function(data){
 		console.log(data);
 	}
-)*/
+)
 
 /*
 servicos.alterarPasta(
@@ -196,8 +203,8 @@ servicos.buscarHierarquiaDePastas(
 )
 */
 
-/*
-$("#uploadimage").on('submit',(function(e) {
+
+/*$("#uploadimage").on('submit',(function(e) {
 	e.preventDefault();
 	servicos.uploadImagemPasta(
 		new FormData(this)
@@ -206,8 +213,7 @@ $("#uploadimage").on('submit',(function(e) {
 			console.log(data);
 		}
 	)
-}));
-*/
+}));*/
 
 </script>
 </html>

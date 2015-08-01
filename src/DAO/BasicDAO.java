@@ -13,6 +13,10 @@ public class BasicDAO {
 		ps = (PreparedStatement) c.prepareStatement(query);	
 	} 
 	
+	protected void setQuery(String query) throws SQLException{
+		ps = (PreparedStatement) c.prepareStatement(query);	
+	}
+	
 	public void close()  throws Exception{
 		c.close();
 		ps.close();

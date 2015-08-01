@@ -115,7 +115,7 @@
         
         
         <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-1.11.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script src="jquery.tagsinput.js"></script>
@@ -160,7 +160,7 @@ $(document).ready(function(){
     var dropHelp = true;
     var nomeFav = $('#nomeFav').val();    
 
-  $(".drag").draggable({
+  /*$(".drag").draggable({
     revert: 'invalid',
     cursorAt: { top: 90, left: 80 },
     helper: function(event) {
@@ -197,7 +197,7 @@ $(document).ready(function(){
 
 $('#dropDrag').click(function(){
     dropHelp = !dropHelp;
-});
+});*/
 
 	var atualizarPasta = function(){
 		servicos.buscarArquivos(
@@ -212,7 +212,7 @@ $('#dropDrag').click(function(){
 					var pastas = data.content[0].pastas;
 					var length = pastas.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Pasta("imagem", pastas[i].nome, pastas[i].descricao, "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
+						var bloco = Element.Pasta(pastas[i].imagem, pastas[i].nome, pastas[i].descricao, "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -221,7 +221,7 @@ $('#dropDrag').click(function(){
 					var favoritos = data.content[0].favoritos;
 					var length = favoritos.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito("imagem", favoritos[i].titulo, favoritos[i].descricao, "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
+						var bloco = Element.Favorito(favoritos[i].imagem, favoritos[i].titulo, favoritos[i].descricao, "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -266,7 +266,7 @@ $('#dropDrag').click(function(){
 		var length = favoritos.length;
 		divDestino.empty()
 		for(var i = 0; i < length; i++){
-			var icon = Element.FavAcessoRapido("", favoritos[i].titulo, favoritos[i].id);
+			var icon = Element.FavAcessoRapido(favoritos[i].imagem, favoritos[i].titulo, favoritos[i].id);
 			divDestino.append(icon.getElement());
 		}
 	}

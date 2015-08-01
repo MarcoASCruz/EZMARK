@@ -25,7 +25,7 @@ public class AcessoRapidoDAO extends BasicDAO{
 				f.setId(res.getInt("id"));
 				f.setTitulo(res.getString("titulo"));
 				f.setUrl(res.getString("url"));
-				f.setImagem(res.getBytes("imagem"));
+				f.setImagem(res.getInt("id"));
 				favoritos.add(f);
 			}
 			return favoritos;

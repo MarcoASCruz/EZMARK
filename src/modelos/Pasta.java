@@ -14,14 +14,15 @@ public class Pasta {
 	private Timestamp dataCriacao;
 	private int numEstrela;
 	private boolean publica;
-	private byte[] imagem;
+	private String imagem;
 	private List<Favorito> favoritos;
 	private List<Pasta> pastas = new ArrayList<Pasta>();
 	private String descricao;
+	private List<Tag> tags;
 	
 	public Pasta(){}
 	public Pasta(int id, int pai, String nome, Timestamp dataCriacao,
-			int numEstrela, boolean publica, byte[] imagem,
+			int numEstrela, boolean publica, String imagem,
 			List<Favorito> favoritos, List<Pasta> pastas, String descricao) {
 		super();
 		this.id = id;
@@ -76,11 +77,11 @@ public class Pasta {
 	public void setPublica(boolean publica) {
 		this.publica = publica;
 	}
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
+	public void setImagem(int id) {
+		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/" + id;
 	}
 	public List<Favorito> getFavoritos() {
 		return favoritos;
@@ -100,7 +101,12 @@ public class Pasta {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+	public List<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 	
 	
 	

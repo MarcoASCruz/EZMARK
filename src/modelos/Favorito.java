@@ -1,14 +1,7 @@
 package modelos;
 
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.List;
 
 public class Favorito {
 	private int id;
@@ -17,10 +10,10 @@ public class Favorito {
 	private String descricao;
 	private Timestamp dataAcesso;
 	private Timestamp dataCriacao;
-	private String[] tags;
+	private List<Tag> tags;
 	private int pai;
 	private int numEstrela;
-	private byte[] imagem;
+	private String imagem;
 	private boolean acessoRapido;
 	
 	
@@ -60,10 +53,10 @@ public class Favorito {
 	public void setDataCriacao(Timestamp dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	public String[] getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
-	public void setTags(String[] tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 	public int getPai() {
@@ -78,11 +71,11 @@ public class Favorito {
 	public void setNumEstrela(int numEstrela) {
 		this.numEstrela = numEstrela;
 	}
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
+	public void setImagem(int id) {
+		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/favorito/img/" + id;
 	}
 	public boolean isAcessoRapido() {
 		return acessoRapido;
