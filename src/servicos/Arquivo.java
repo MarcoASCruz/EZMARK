@@ -327,7 +327,7 @@ public class Arquivo {
 	@POST
 	@Path("/favorito/tag")
 	@Produces("application/json")
-	public Response adcionarTag(@FormParam("idFavorito") int idFavorito , @FormParam("tag") String tagNome) {
+	public Response adicionarTagFavorito(@FormParam("idFavorito") int idFavorito , @FormParam("tag") String tagNome) {
 		AppResponse response = new AppResponse();
 		try{
 			Tag t = new Tag();
@@ -357,10 +357,26 @@ public class Arquivo {
 		return response.buildResponse();
 	}
 	
+	@DELETE
+	@Path("/favorito/tag")
+	@Produces("application/json")
+	public Response removerTagFavorito(@FormParam("idFavorito") int idFavorito , @FormParam("idTag") int idTag) {
+		AppResponse response = new AppResponse();
+		try{
+			FavoritoDAO favDAO = new FavoritoDAO();
+			favDAO.removerTag(idTag, idFavorito);
+			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
 	@POST
 	@Path("/pasta/tag")
 	@Produces("application/json")
-	public Response adicionarTag(@FormParam("idPasta") int idPasta , @FormParam("tag") String tagNome) {
+	public Response adicionarTagPasta(@FormParam("idPasta") int idPasta , @FormParam("tag") String tagNome) {
 		AppResponse response = new AppResponse();
 		try{
 			Tag t = new Tag();
@@ -389,4 +405,21 @@ public class Arquivo {
 		}
 		return response.buildResponse();
 	}
+	
+	@DELETE
+	@Path("/pasta/tag")
+	@Produces("application/json")
+	public Response removerTagPasta(@FormParam("idPasta") int idPasta , @FormParam("idTag") int idTag) {
+		AppResponse response = new AppResponse();
+		try{
+			PastaDAO pastaDAO = new PastaDAO();
+			pastaDAO.removerTag(idTag, idPasta);
+			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
 }

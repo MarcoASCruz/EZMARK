@@ -8,6 +8,7 @@ import java.util.List;
 
 
 
+
 import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
@@ -184,6 +185,21 @@ public class PastaDAO extends BasicDAO {
 	public void adicionarTag(int idTag, int idPasta) throws Exception{
 		try{
 			criarQuery("INSERT INTO pasta_tag (id_pasta, id_tag) VALUES (?, ?)");
+			ps.setInt(1, idPasta);
+			ps.setInt(2, idTag);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+
+	public void removerTag(int idTag, int idPasta) throws Exception{
+		try{
+			criarQuery("DELETE FROM pasta_tag WHERE id_pasta = ? AND id_tag = ?");
 			ps.setInt(1, idPasta);
 			ps.setInt(2, idTag);
 			ps.executeUpdate();
