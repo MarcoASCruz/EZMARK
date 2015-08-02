@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
@@ -171,6 +172,21 @@ public class PastaDAO extends BasicDAO {
 			res =  (ResultSet) ps.executeQuery();
 			res.next();
 			return res.getBytes("imagem");
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+	
+	public void adicionarTag(int idTag, int idPasta) throws Exception{
+		try{
+			criarQuery("INSERT INTO pasta_tag (id_pasta, id_tag) VALUES (?, ?)");
+			ps.setInt(1, idPasta);
+			ps.setInt(2, idTag);
+			ps.executeUpdate();
 		}
 		catch(Exception e){
 			throw e;

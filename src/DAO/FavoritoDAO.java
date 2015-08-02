@@ -293,4 +293,19 @@ public class FavoritoDAO extends BasicDAO {
 		}
 	}
 	
+	public void adicionarTag(int idTag, int idFavorito) throws Exception{
+		try{
+			criarQuery("INSERT INTO favorito_tag (id_favorito, id_tag) VALUES (?, ?)");
+			ps.setInt(1, idFavorito);
+			ps.setInt(2, idTag);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
+	
 }

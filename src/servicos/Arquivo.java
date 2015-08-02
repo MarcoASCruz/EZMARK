@@ -29,10 +29,12 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import DAO.FavoritoDAO;
 import DAO.PastaDAO;
+import DAO.TagDAO;
 import modelos.AppResponse;
 import modelos.Favorito;
 import modelos.Hierarquia;
 import modelos.Pasta;
+import modelos.Tag;
 import flexjson.JSONDeserializer;
 
 @Path("/arquivo")
@@ -320,5 +322,71 @@ public class Arquivo {
 	@Produces("image/*")
 	public Response getImagemFavorito(@PathParam("id") int id) throws Exception {		
 		return Response.ok(new FavoritoDAO().getImagem(id)).build();
+	}
+	
+	@POST
+	@Path("/favorito/tag")
+	@Produces("application/json")
+	public Response adcionarTag(@FormParam("idFavorito") int idFavorito , @FormParam("tag") String tagNome) {
+		AppResponse response = new AppResponse();
+		try{
+			Tag t = new Tag();
+			t.setNome(tagNome);
+			
+			TagDAO tagDao = new TagDAO();
+			int tagIdentificacao = tagDao.buscar(t);
+			if(tagIdentificacao == 0){
+				t = tagDao.adicionar(t);
+			}
+			else{
+				t.setId(tagIdentificacao);
+			}
+
+			FavoritoDAO favDAO = new FavoritoDAO();
+			favDAO.adicionarTag(t.getId(), idFavorito);
+			
+			ArrayList l = new ArrayList();
+			l.add(t);
+			
+			response.setSuccess(true);
+			response.setContent(l);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@POST
+	@Path("/pasta/tag")
+	@Produces("application/json")
+	public Response adicionarTag(@FormParam("idPasta") int idPasta , @FormParam("tag") String tagNome) {
+		AppResponse response = new AppResponse();
+		try{
+			Tag t = new Tag();
+			t.setNome(tagNome);
+			
+			TagDAO tagDao = new TagDAO();
+			int tagIdentificacao = tagDao.buscar(t);
+			if(tagIdentificacao == 0){
+				t = tagDao.adicionar(t);
+			}
+			else{
+				t.setId(tagIdentificacao);
+			}
+
+			PastaDAO pastaDAO = new PastaDAO();
+			pastaDAO.adicionarTag(t.getId(), idPasta);
+			
+			ArrayList l = new ArrayList();
+			l.add(t);
+			
+			response.setSuccess(true);
+			response.setContent(l);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
 	}
 }
