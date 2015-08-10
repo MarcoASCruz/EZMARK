@@ -125,8 +125,9 @@
         <script src="lib/jstree/dist/jstree.min.js"></script>
         <script>
                 $( document ).ready(function(){
-                $(".button-collapse").sideNav();
+                	$(".button-collapse").sideNav();
                     $('#tags').tagsInput();
+                    $('#tagsPasta').tagsInput();
                 });      
 		</script>
 
@@ -212,7 +213,7 @@ $('#dropDrag').click(function(){
 					var pastas = data.content[0].pastas;
 					var length = pastas.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Pasta(pastas[i].imagem, pastas[i].nome, pastas[i].descricao, "2", "mdi-navigation-more-vert", pastas[i].numEstrela, pastas[i].id);
+						var bloco = Element.Pasta(pastas[i]);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -221,7 +222,7 @@ $('#dropDrag').click(function(){
 					var favoritos = data.content[0].favoritos;
 					var length = favoritos.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito(favoritos[i].imagem, favoritos[i].titulo, favoritos[i].descricao, "2", "mdi-navigation-more-vert", favoritos[i].numEstrela, favoritos[i].id);
+						var bloco = Element.Favorito(favoritos[i]);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -229,7 +230,6 @@ $('#dropDrag').click(function(){
 				limparContainer();
 				inserirPastas();
 				inserirFavoritos();
-				
 				
 			}
 		);
@@ -283,6 +283,7 @@ $('#dropDrag').click(function(){
 			pasta.imagem = null;
 			pasta.favoritos = null;
 			pasta.pastas = null;
+			pasta.tags = null;
 			return pasta;
 		}
 		,
@@ -297,6 +298,7 @@ $('#dropDrag').click(function(){
 			favorito.numEstrela = 0;
 			favorito.imagem = null;
 			favorito.acessoRapido = false;
+			favorito.tags = null;
 			return favorito;
 		}
 	}
@@ -305,18 +307,29 @@ $('#dropDrag').click(function(){
 	
 	$("#btnIncluirFavorito").on("click", function(){
 		var getFavorito = function(){
+			var getTags = function(){
+				var tags = $('#tags').val().split(',');
+				if(tags){
+					return tags;
+				}
+				else{
+					return null;
+				}
+			}
 			var favorito = modelo.favorito();
 			favorito.url = $("#url-fav").val();
 			favorito.titulo = $("#nomeFav").val();
 			favorito.descricao = $("#textareaFav").val()
 			favorito.pai = 5;
 			favorito.numEstrela = 1;
+			favorito.tags = getTags();
 			return favorito;
 		}
 		servicos.adicionarFavorito(
 			getFavorito()
 			,
 			function(data){
+				$('#incluirFavorito').closeModal();
 				atualizarPasta();
 			}
 		)
@@ -324,17 +337,28 @@ $('#dropDrag').click(function(){
 	
 	$("#btnIncluirPasta").on("click", function(){
 		var getPasta = function(){
+			var getTags = function(){
+				var tags = $('#tagsPasta').val().split(',');
+				if(tags){
+					return tags;
+				}
+				else{
+					return null;
+				}
+			}
 			var pasta = modelo.pasta();
 			pasta.nome = $("#nomePasta").val();
-			pasta.descricao = $("#textareaPasta").val()
+			pasta.descricao = $("#textareaPasta").val();
 			pasta.pai = 5;
 			pasta.numEstrela = 1;
+			pasta.tags = getTags();
 			return pasta;
 		}
 		servicos.adicionarPasta(
 			getPasta()
 			,
 			function(data){
+				$('#incluirPasta').closeModal();
 				atualizarPasta();
 			}
 		)
@@ -370,274 +394,248 @@ $('#dropDrag').click(function(){
     
 </head>
     <body style="background-color: #fcfcfc">
-        <!--Menu Lateral Fixo-->
-        <ul id="slide-out" class="side-nav fixed">
-            <!--Usuário Logado Menu Lateral--> 
-            <div class="row">
-                <div class="col s3">
-                    <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
-                </div>
-                <div class="col s9 marT15 truncate">
-                    <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
-                </div>
-                <div class="col s12 pdzero">
-                    <a class="btn-flat waves-effect pdzero" href='#'>
-                        <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
-                    </a>
-                </div>
-                <div class="col s12 pdzero">
-                    <a class="btn-flat waves-effect pdzero" href='#'>
-                        <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
-                    </a>
-                </div>
-                <li class="divider"></li>
-            </div>
-            
-            <!--Fim do Usuário Logado Menu Lateral--> 
-            
-            <div id="treeView" class=""></div>
-            
-            	
-        </ul>
-        <!--Fim do Menu Lateral Fixo-->
-        <!--Barra de Navegação/Superior-->
-        <div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper cyan darken-2">
-                    <a href="#!" class="brand-logo" style="padding-left: 270px;">Logo</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-                    <ul class="right hide-on-med-and-down cyan darken-1">
-                        <!--Formulário para barra de Pesquisa --> 
-                        
-                              <!-- Dropdown Trigger -->
-                        <li>
-                           
-  <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'> <span class="medium mdi-editor-format-list-bulleted"></span>
-                        Ordenar</a>
-
-  <!-- Dropdown Structure -->
-  <ul id='dropdown21' class='dropdown-content' style='width: 160px !important;'>
-    <li><a href="#!">Nome</a></li>
-    <li><a href="#!">Acessos</a></li>
-    <li><a href="#!">Data de inclusão</a></li>
-  </ul>
-                        </li>
-                        <li>                        
-                                <div class="input-field cyan darken-1">                                   
-                                    <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
-                                    <label for="search"><i class="mdi-action-search"></i></label>
-                                    <i class="mdi-navigation-close"></i>
-                                </div>               
-                        </li>
-                        <li>
-                            <form>
-                            <div class="marRL5">
-                                <input type="checkbox" id="check-favoritos" />
-                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
-                            </div></li>
-                        <li>
-                            <div class="marRL5 grey-text text-darken-4">
-                                <input type="checkbox" id="check-categorias" />
-                                <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label></div></li>
-                        <li>
-                            <div class="marRL5 grey-text text-darken-4">
-                                <input type="checkbox" id="check-tags" />
-                                <label class="cyan-text text-lighten-5" for="check-tags">Tags</label>
-                            </div>
-                            </form>
-                        </li>
-                      
-                        
-                                
-                        <!--Fim do Formulário para barra de Pesquisa -->
-                        <!--Usuário Logado na Barra de Navegação --> 
-<!--                        <li>
-                            <div class="usuario-logado-bar" >
-                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
-                                <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
-                                    <div class="right">
-                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
-                                            <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
-                                        </a>
-                                        <a class="btn-floating waves-effect waves-light marRL5" href='#'>
-                                            <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
-                                        </a>
-                                    </div>
-                            </div>        
-                        </li>-->
-                        <!--Fim do Usuário Logado na Barra de Navegação --> 
-                    </ul>
-                     <!--Fim da Barra de Navegação Superior -->  
-                    <!--Menu Lateral quando acionado o modo Mobile-->  
-                    <ul class="side-nav" id="mobile-demo">  
-                        <!--Usuário Logado Menu Lateral Mobile--> 
-                        <div class="row">
-                            <div class="col s3">
-                                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
-                            </div>
-                            <div class="col s9 truncate">
-                                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
-                            </div>
-                            <div class="col s12 pdzero">
-                                <a class="btn-flat waves-effect pdzero" href='#'>
-                                    <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
-                                </a>
-                            </div>
-                            <div class="col s12 pdzero">
-                                <a class="btn-flat waves-effect pdzero" href='#'>
-                                    <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
-                                </a>
-                            </div>
-                            <li class="divider"></li>
-                        </div>
-                        <!--Fim do Usuário Logado Menu Lateral Mobile--> 
-                        <!--Formulário de Pesquisa Menu Lateral Mobile--> 
-                        <form>
-                            <div class="row">
-                                  <div class="col s12 pdzero">
-                                <a class="btn-flat waves-effect pdzero" href='#'>
-                                    <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
-                                </a>
-                            </div>
-                                
-                          
-                          
-                                
-                                <div class="col s2">
-                                    <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
-                                </div>
-                                <div class="col s10">
-                                    <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
-                                </div>
-                                <div class="col s10">
-                                <input type="checkbox" id="check-tagsm" />
-                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
-                                </div>
-                                 <div class="col s10">
-                                <input type="checkbox" id="check-tagsmm" />
-                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
-                                </div>
-                                 <div class="col s10">
-                                <input type="checkbox" id="check-tagsmmm" />
-                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
-                                </div>
-                            </div>
-                        </form>
-                        <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
-                    </ul>
-                    <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
-                </div>
-            </nav>
-        </div>    
-        <!--Fim da Barra de Navegação-->   
-        
-        <!--Corpo do conteúdo da página-->  
-        <main class="main">   
-            <div class="conteudo">
-            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
-            <div class="row z-depth-1" style="background-color: white;">
-                <div class="col s12 pdzero" >
-                    <ul class="tabs cyan darken-2" >
-                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
-                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
-                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAcessados" href="#recemAcessados">Recém Acessados</a></li>
-                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
-                    </ul>
-                </div>
-            <!--Componente Favoritos Destaque-->     
-            <div id="test1" class="col s12">
-                <div class="row droppable" style="min-height: 100px;">
-                </div>   
-            </div>
-            <!--Fim do Componente Favoritos Destaque-->    
-            <div id="maisAcessados" class="col s12">content</div>
-            <div id="recemAcessados" class="col s12">content</div>
-            <div id="recemAdicionados" class="col s12">content</div>
-            </div>
-            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
-            
-        <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
-        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large red gira" id="botao-fixo">
-                <i class="large mdi-content-add"></i>
-            </a>
-            <!--Botões que saltam do botão fixo-->      
-            <ul id="atalho-fixo">
-                <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
-                <li><a class="modal-trigger btn-floating cyan darken-3" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
-            </ul>
-            <!--Fim dos Botões que saltam do botão fixo--> 
-        </div>
-        <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
-            
-            
-
-        <div id="incluirFavorito" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h4>Incluir Favorito</h4>
-                <form>
-                    <div class="row">
-                        <div class="input-field m12 s6">
-                            <i class="mdi-action-stars prefix"></i>
-                            <input id="nomeFav" type="text" class="validate">
-                            <label for="nomeFav">Nome</label>
-                        </div>
-                        <div class="input-field col m12 s6">
-                            <i class="mdi-content-link prefix"></i>
-                            <input id="url-fav" type="text" class="validate">
-                            <label for="url-fav">URL</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="mdi-action-description prefix"></i>
-                            <textarea id="textareaFav" class="materialize-textarea"></textarea>
-                            <label for="textareaFav">Descrição</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="tags" type="text" class="validate">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a id="btnIncluirFavorito" href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
-            </div>
-        </div>    
-        
-        <div id="incluirPasta" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h4>Incluir Pasta</h4>
-                <form>
-                    <div class="row">
-                        <div class="input-field m12 s6">
-                            <i class="mdi-action-stars prefix"></i>
-                            <input id="nomePasta" type="text" class="validate">
-                            <label for="nomePasta">Nome</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="mdi-action-description prefix"></i>
-                            <textarea id="textareaPasta" class="materialize-textarea"></textarea>
-                            <label for="textareaPasta">Descrição</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="tags" type="text" class="validate">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a id="btnIncluirPasta" href="#!" class="modal-action modal-close waves-effect waves-green btn">Confirmar</a>
-            </div>
-        </div>             
-                
-                
-                
-                
-             
-                
-				    <div id="conteudoBlocos" class="row">
-				    </div>
-				     
-               </div>
-        </main>   
-    </body>
+	    <!--Menu Lateral Fixo-->
+	    <ul id="slide-out" class="side-nav fixed">
+	        <!--Usuário Logado Menu Lateral--> 
+	        <div class="row">
+	            <div class="col s3">
+	                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	            </div>
+	            <div class="col s9 marT15 truncate">
+	                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+	            </div>
+	            <div class="col s12 pdzero">
+	                <a class="btn-flat waves-effect pdzero" href='#'>
+	                <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+	                </a>
+	            </div>
+	            <div class="col s12 pdzero">
+	                <a class="btn-flat waves-effect pdzero" href='#'>
+	                <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+	                </a>
+	            </div>
+	            <li class="divider"></li>
+	        </div>
+	        <!--Fim do Usuário Logado Menu Lateral--> 
+	        <div id="treeView" class=""></div>
+	    </ul>
+	    <!--Fim do Menu Lateral Fixo-->
+	    <!--Barra de Navegação/Superior-->
+	    <div class="navbar-fixed">
+	        <nav>
+	            <div class="nav-wrapper cyan darken-2">
+	                <a href="#!" class="brand-logo" style="padding-left: 270px;">Logo</a>
+	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+	                <ul class="right hide-on-med-and-down cyan darken-1">
+	                    <!--Formulário para barra de Pesquisa --> 
+	                    <!-- Dropdown Trigger -->
+	                    <li>
+	                        <a class='dropdown-button btn-flatcyan-text text-lighten-5' id="order" href='#' data-activates='dropdown21'> <span class="medium mdi-editor-format-list-bulleted"></span>
+	                        Ordenar</a>
+	                        <!-- Dropdown Structure -->
+	                        <ul id='dropdown21' class='dropdown-content' style='width: 160px !important;'>
+	                            <li><a href="#!">Nome</a></li>
+	                            <li><a href="#!">Acessos</a></li>
+	                            <li><a href="#!">Data de inclusão</a></li>
+	                        </ul>
+	                    </li>
+	                    <li>
+	                        <div class="input-field cyan darken-1">                                   
+	                            <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
+	                            <label for="search"><i class="mdi-action-search"></i></label>
+	                            <i class="mdi-navigation-close"></i>
+	                        </div>
+	                    </li>
+	                    <li>
+	                        <form>
+	                            <div class="marRL5">
+	                                <input type="checkbox" id="check-favoritos" />
+	                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
+	                            </div>
+	                    </li>
+	                    <li>
+	                    <div class="marRL5 grey-text text-darken-4">
+	                    <input type="checkbox" id="check-categorias" />
+	                    <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label></div></li>
+	                    <li>
+	                    <div class="marRL5 grey-text text-darken-4">
+	                    <input type="checkbox" id="check-tags" />
+	                    <label class="cyan-text text-lighten-5" for="check-tags">Tags</label>
+	                    </div>
+	                    </form>
+	                    </li>
+	                    <!--Fim do Formulário para barra de Pesquisa -->
+	                    <!--Usuário Logado na Barra de Navegação --> 
+	                    <!--                        <li>
+	                        <div class="usuario-logado-bar" >
+	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	                            <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
+	                                <div class="right">
+	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+	                                        <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
+	                                    </a>
+	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+	                                        <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
+	                                    </a>
+	                                </div>
+	                        </div>        
+	                        </li>-->
+	                    <!--Fim do Usuário Logado na Barra de Navegação --> 
+	                </ul>
+	                <!--Fim da Barra de Navegação Superior -->  
+	                <!--Menu Lateral quando acionado o modo Mobile-->  
+	                <ul class="side-nav" id="mobile-demo">
+	                    <!--Usuário Logado Menu Lateral Mobile--> 
+	                    <div class="row">
+	                        <div class="col s3">
+	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	                        </div>
+	                        <div class="col s9 truncate">
+	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+	                        </div>
+	                        <div class="col s12 pdzero">
+	                            <a class="btn-flat waves-effect pdzero" href='#'>
+	                            <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+	                            </a>
+	                        </div>
+	                        <div class="col s12 pdzero">
+	                            <a class="btn-flat waves-effect pdzero" href='#'>
+	                            <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+	                            </a>
+	                        </div>
+	                        <li class="divider"></li>
+	                    </div>
+	                    <!--Fim do Usuário Logado Menu Lateral Mobile--> 
+	                    <!--Formulário de Pesquisa Menu Lateral Mobile--> 
+	                    <form>
+	                        <div class="row">
+	                            <div class="col s12 pdzero">
+	                                <a class="btn-flat waves-effect pdzero" href='#'>
+	                                <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
+	                                </a>
+	                            </div>
+	                            <div class="col s2">
+	                                <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
+	                            </div>
+	                            <div class="col s10">
+	                                <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsmm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsmmm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
+	                            </div>
+	                        </div>
+	                    </form>
+	                    <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
+	                </ul>
+	                <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
+	            </div>
+	        </nav>
+	    </div>
+	    <!--Fim da Barra de Navegação-->   
+	    <!--Corpo do conteúdo da página-->  
+	    <main class="main">
+	        <div class="conteudo">
+	            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+	            <div class="row z-depth-1" style="background-color: white;">
+	                <div class="col s12 pdzero" >
+	                    <ul class="tabs cyan darken-2" >
+	                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAcessados" href="#recemAcessados">Recém Acessados</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
+	                    </ul>
+	                </div>
+	                <!--Componente Favoritos Destaque-->     
+	                <div id="test1" class="col s12">
+	                    <div class="row droppable" style="min-height: 100px;">
+	                    </div>
+	                </div>
+	                <!--Fim do Componente Favoritos Destaque-->    
+	                <div id="maisAcessados" class="col s12">content</div>
+	                <div id="recemAcessados" class="col s12">content</div>
+	                <div id="recemAdicionados" class="col s12">content</div>
+	            </div>
+	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+	            <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
+	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+	                <a class="btn-floating btn-large red gira" id="botao-fixo">
+	                <i class="large mdi-content-add"></i>
+	                </a>
+	                <!--Botões que saltam do botão fixo-->      
+	                <ul id="atalho-fixo">
+	                    <li><a class="modal-trigger btn-floating cyan darken-2" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+	                    <li><a class="modal-trigger btn-floating cyan darken-3" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+	                </ul>
+	                <!--Fim dos Botões que saltam do botão fixo--> 
+	            </div>
+	            <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
+	            <div id="incluirFavorito" class="modal modal-fixed-footer">
+	                <div class="modal-content">
+	                    <h4>Incluir Favorito</h4>
+	                    <form>
+	                        <div class="row">
+	                            <div class="input-field m12 s6">
+	                                <i class="mdi-action-stars prefix"></i>
+	                                <input id="nomeFav" type="text" class="validate">
+	                                <label for="nomeFav">Nome</label>
+	                            </div>
+	                            <div class="input-field col m12 s6">
+	                                <i class="mdi-content-link prefix"></i>
+	                                <input id="url-fav" type="text" class="validate">
+	                                <label for="url-fav">URL</label>
+	                            </div>
+	                            <div class="input-field col s12">
+	                                <i class="mdi-action-description prefix"></i>
+	                                <textarea id="textareaFav" class="materialize-textarea"></textarea>
+	                                <label for="textareaFav">Descrição</label>
+	                            </div>
+	                            <div class="input-field col s12">
+	                                <input id="tags" type="text" class="validate">
+	                            </div>
+	                        </div>
+	                    </form>
+	                </div>
+	                <div class="modal-footer">
+	                    <a id="btnIncluirFavorito" href="#" class="waves-effect waves-green btn">Confirmar</a>
+	                </div>
+	            </div>
+	            <div id="incluirPasta" class="modal modal-fixed-footer">
+	                <div class="modal-content">
+	                    <h4>Incluir Pasta</h4>
+	                    <form>
+	                        <div class="row">
+	                            <div class="input-field m12 s6">
+	                                <i class="mdi-action-stars prefix"></i>
+	                                <input id="nomePasta" type="text" class="validate">
+	                                <label for="nomePasta">Nome</label>
+	                            </div>
+	                            <div class="input-field col s12">
+	                                <i class="mdi-action-description prefix"></i>
+	                                <textarea id="textareaPasta" class="materialize-textarea"></textarea>
+	                                <label for="textareaPasta">Descrição</label>
+	                            </div>
+	                            <div class="input-field col s12">
+                            		<input id="tagsPasta" type="text" class="validate">
+	                            </div>
+	                        </div>
+	                    </form>
+	                </div>
+	                <div class="modal-footer">
+	                    <a id="btnIncluirPasta" href="#!" class="waves-effect waves-green btn">Confirmar</a>
+	                </div>
+	            </div>
+	            <div id="conteudoBlocos" class="row">
+	            </div>
+	        </div>
+	    </main>
+	</body>
 </html>

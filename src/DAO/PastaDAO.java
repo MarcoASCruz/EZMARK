@@ -9,6 +9,8 @@ import java.util.List;
 
 
 
+
+
 import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
@@ -61,21 +63,19 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 	
-	public List<Tag> buscarTags(int idPasta) throws Exception{
+	public List<String> buscarTags(int idPasta) throws Exception{
 		try{
-			setQuery("SELECT tag.id AS `id`, tag.nome AS `nome` FROM pasta LEFT JOIN pasta_tag ON (pasta.id = pasta_tag.id_pasta) 	LEFT JOIN tag ON (tag.id = pasta_tag.id_tag) WHERE pasta.id = ?");
+			setQuery("SELECT tag.nome AS `nome` FROM pasta LEFT JOIN pasta_tag ON (pasta.id = pasta_tag.id_pasta) 	LEFT JOIN tag ON (tag.nome = pasta_tag.tag_nome) WHERE pasta.id = ?");
 			ps.setInt(1, idPasta);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			res =  (ResultSet) ps.executeQuery();	
-			List<Tag> tags = new ArrayList<Tag>();
+			
+			List<String> tags = new ArrayList<String>();
 			//if(res.next) não funciona... verificar o motivo disso...
 			res.next();
 			if(res.getString("nome") != null){
 				do {
-					Tag tag = new Tag();
-					tag.setId(res.getInt("id"));
-					tag.setNome(res.getString("nome"));
-					tags.add(tag);
+					tags.add(res.getString("nome"));
 				} while (res.next());
 			}
 			else {
@@ -92,6 +92,8 @@ public class PastaDAO extends BasicDAO {
 
 	public Pasta adicionar(Pasta pasta)throws Exception{
 		try{
+			openConection();
+			beginTransaction();
 			criarQuery("INSERT INTO pasta (`id_pasta_pai`,	`nome`,	`data_criacao`,	`num_estrela`,`publica`) VALUES (?,?,?,?,?)");
 			ps.setInt(1, pasta.getPai());
 			ps.setString(2, pasta.getNome());
@@ -105,7 +107,11 @@ public class PastaDAO extends BasicDAO {
 			res =  (ResultSet) ps.executeQuery();	
 			if (res.next()){
 				pasta.setId(res.getInt("id"));
+				for (String tag : pasta.getTags()) {
+					adicionarTag(tag, pasta.getId());
+				}
 			}
+			commitTransaction();
 			return pasta;
 		}
 		catch(Exception e){
@@ -182,26 +188,33 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 	
-	public void adicionarTag(int idTag, int idPasta) throws Exception{
+	public void adicionarTag(String tag, int idPasta) throws Exception{
 		try{
-			criarQuery("INSERT INTO pasta_tag (id_pasta, id_tag) VALUES (?, ?)");
+			TagDAO tagDao = new TagDAO(c);
+			String tagIdentificacao = tagDao.buscar(tag);
+			if(tagIdentificacao == null){
+				tagDao.adicionar(tag);
+			}
+			criarQuery("INSERT INTO pasta_tag (id_pasta, tag_nome) VALUES (?, ?)");
 			ps.setInt(1, idPasta);
-			ps.setInt(2, idTag);
+			ps.setString(2, tag);
 			ps.executeUpdate();
 		}
 		catch(Exception e){
 			throw e;
 		}
 		finally{
-			close();
+			if (c.getAutoCommit()){
+				close();
+			}
 		}
 	}
 
-	public void removerTag(int idTag, int idPasta) throws Exception{
+	public void removerTag(String tag, int idPasta) throws Exception{
 		try{
-			criarQuery("DELETE FROM pasta_tag WHERE id_pasta = ? AND id_tag = ?");
+			criarQuery("DELETE FROM pasta_tag WHERE id_pasta = ? AND tag_nome = ?");
 			ps.setInt(1, idPasta);
-			ps.setInt(2, idTag);
+			ps.setString(2, tag);
 			ps.executeUpdate();
 		}
 		catch(Exception e){

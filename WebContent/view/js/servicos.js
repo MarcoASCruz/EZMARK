@@ -69,6 +69,38 @@ var servicos = {
 		)
 	}
 	,
+	adicionarTagPasta: function(idPasta, tagNome, onSuccess) {
+		mapper.services.adicionarTagPasta(
+			idPasta
+			,
+			tagNome
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
+	removerTagPasta: function(idPasta, idTag, onSuccess) {
+		mapper.services.removerTagPasta(
+			idPasta
+			,
+			idTag
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
 	adicionarFavorito: function(favorito, onSuccess) {
 		mapper.services.adicionarFavorito(
 			favorito
@@ -100,6 +132,38 @@ var servicos = {
 	removerFavorito: function(id, onSuccess) {
 		mapper.services.removerFavorito(
 			id
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
+	adicionarTagFavorito: function(idFavorito, tagNome, onSuccess) {
+		mapper.services.adicionarTagFavorito(
+			idFavorito
+			,
+			tagNome
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
+	removerTagFavorito: function(idFavorito, idTag, onSuccess) {
+		mapper.services.removerTagFavorito(
+			idFavorito
+			,
+			idTag
 			,
 			onSuccess
 			,

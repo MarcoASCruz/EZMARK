@@ -112,152 +112,199 @@ var Materialize = function () {
         return favAR;
 	}
 	
-	this.Favorito = function (icon, nome,descricao, tipo, iconTipo, numEstrela, id) {
+	this.Favorito = function (favorito) {
 		
         var bloco = new ObjectHtml();
-
-//        var iconUrl = icon;
-        var nomeFavorito = nome;
-//        var TomBloco = tipo//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
-//        var iconTipoBloco = iconTipo// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-//        var id = '09';
-        var iconUrl = icon ? icon : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
-//        var nomeFavorito = 'Teste de nome';
-//        var descricao = 'dasodiadiadsioaoisdoiaodaosd oiadoia jidjas';
-//        var TomBloco = '2'//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
-//        var iconTipoBloco = 'mdi-navigation-more-vert'// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-//        var numEstrela = 3;
+        
+        var id = favorito.id;
+        var tags = favorito.tags;
+        var nomeFavorito = favorito.titulo;
+        var descricao = favorito.descricao;
+        var tipo = "2"
+        var iconTipo = "mdi-navigation-more-vert";
+        var numEstrela = favorito.numEstrela;
+        var iconUrl = favorito.imagem ? favorito.imagem : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
+        
 
         var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
         var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
         var iconShar = $('<i class="mdi-file-folder-shared yellow-text text-darken-3"></i>');
         
 		bloco.createElement = function () {
-		var card = $('<div class="col s12 m3 pasta-fechada drag">');
-		var painel = $('<div class="card-panel card-complement cyan darken-2">');
-		var conteudo = $('<div class="card-content white-text">');
-		var div_icon = $('<div class=" col s4 pdzero">');
-		var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
-		var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-		var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
-		var titulo_favorito = $('<div class="col s10 truncate pdzero">');
-		var tituloFavorito = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
-		var div_opcoes = $('<div class="col s2">');
-		var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
-        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
-        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
-        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-        var dropdownEditar = $('<li><a>Editar</a></li>');
-        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-		
-		var div_estrelas = $('<div class="col s12">');
-		for (i=0; i<numEstrela; i++){
-		var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
-		div_estrelas.append (estrela);
+			var card = $('<div class="col s12 m3 pasta-fechada drag">');
+			var painel = $('<div class="card-panel card-complement cyan darken-2">');
+			var conteudo = $('<div class="card-content white-text">');
+			var div_icon = $('<div class=" col s4 pdzero">');
+			var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
+			var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
+			var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
+			var titulo_favorito = $('<div class="col s10 truncate pdzero">');
+			var tituloFavorito = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
+			var div_opcoes = $('<div class="col s2">');
+			var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
+	        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
+	        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
+	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
+	        var dropdownEditar = $('<li><a>Editar</a></li>');
+	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
+			
+			var div_estrelas = $('<div class="col s12">');
+			for (i=0; i<numEstrela; i++){
+				var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
+				div_estrelas.append (estrela);
+			}
+			
+			var div_descricao = $('<div class="col s12 truncate">');
+			var getTags = function(tags){
+				var container = $('<div class="col s12 truncate">');
+				var icone = $('<i class="mdi-maps-local-offer">');
+				var criarTag = function(titulo){
+					var tag = $('<a class="amber-text text-darken-2" href="#">');
+					tag.append(titulo);
+					return tag;
+				}
+				
+				var adicionarTag = function(tag){
+					container.append(criarTag(tag));
+				}
+				
+				var preencherContainer = function(tags){
+					var quantTags = tags.length;
+					for (var i = 0; i < quantTags; i++){
+						adicionarTag(tags[i]);
+					}
+				}
 
-		}
-		var div_descricao = $('<div class="col s12 truncate">');
-		var div_tags = $('<div class="col s12 truncate">');
-		var icon_tag = $('<i class="mdi-maps-local-offer"></i>');
+				icone.appendTo(container);
+				if(tags){
+					preencherContainer(tags);
+				}
+				
+				return container;
+			}
+			var div_tags = getTags(tags);
 		
 		
-		card.append (painel);
-		painel.append (conteudo);
-		conteudo.append (div_icon);
-		div_icon.append (icon);
-		conteudo.append (div_dadosFavorito);
-		div_dadosFavorito.append (div_tituloFavorito);
-		div_tituloFavorito.append (titulo_favorito);
-		titulo_favorito.append (tituloFavorito);
-        titulo_favorito.append (nomeFavorito);
-		div_tituloFavorito.append (div_opcoes);
-		div_opcoes.append (btOpcoes);
-		div_opcoes.append (dropdown_content);
-		btOpcoes.append (icon_btOpcoes);
-        dropdown_content.append (dropdownSelecionar);
-        dropdown_content.append (dropdownEditar);
-        dropdown_content.append (dropdownExcluir);
-		div_dadosFavorito.append (div_estrelas);
-		
-		div_dadosFavorito.append (div_descricao);
-		div_descricao.append(descricao ? descricao : "(Sem descrição)");
-		div_dadosFavorito.append (div_tags);
-		div_tags.append (icon_tag); 
+			card.append (painel);
+			painel.append (conteudo);
+			conteudo.append (div_icon);
+			div_icon.append (icon);
+			conteudo.append (div_dadosFavorito);
+			div_dadosFavorito.append (div_tituloFavorito);
+			div_tituloFavorito.append (titulo_favorito);
+			titulo_favorito.append (tituloFavorito);
+	        titulo_favorito.append (nomeFavorito);
+			div_tituloFavorito.append (div_opcoes);
+			div_opcoes.append (btOpcoes);
+			div_opcoes.append (dropdown_content);
+			btOpcoes.append (icon_btOpcoes);
+	        dropdown_content.append (dropdownSelecionar);
+	        dropdown_content.append (dropdownEditar);
+	        dropdown_content.append (dropdownExcluir);
+			div_dadosFavorito.append (div_estrelas);
+			
+			div_dadosFavorito.append (div_descricao);
+			div_descricao.append(descricao ? descricao : "(Sem descrição)");
+			div_dadosFavorito.append (div_tags);
 			return card;
         }
         return bloco;
     }
 	
-	this.Pasta = function (icon, nome,descricao, tipo, iconTipo, numEstrela, id) {
+	this.Pasta = function (pasta) {
 		
         var bloco = new ObjectHtml();
+        
+        var id = pasta.id;
+        var tags = pasta.tags;
+        var nomeFavorito = pasta.nome;
+        var tipo = "2"
+        var iconTipo = "mdi-navigation-more-vert";
+        var numEstrela = pasta.numEstrela;
+        var iconUrl = pasta.imagem ? pasta.imagem : 'https://cdn1.iconfinder.com/data/icons/finance-items/512/folder_archive_directory_business_papers_computer_file_organize_information_flat_design_icon-512.png';
 
-        var iconUrl = icon;
-        var nomeFavorito = nome;
-//        var TomBloco = tipo//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
-//        var iconTipoBloco = iconTipo// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-        var iconUrl = icon ? icon : 'https://cdn1.iconfinder.com/data/icons/finance-items/512/folder_archive_directory_business_papers_computer_file_organize_information_flat_design_icon-512.png';
-//        var nomeFavorito = 'Teste de nome';
-//        var descricao = 'dasodiadiadsioaoisdoiaodaosd oiadoia jidjas';
-//        var TomBloco = '2'//Caracteriza a Cor do Favorito, da Pasta ou da Pasta compartilhada os números sao respectivamente 2,3 e 4
-//        var iconTipoBloco = 'mdi-navigation-more-vert'// Ícone que define caracteriza favorito, pasta ou pasta compartilhada
-
-
+        
         var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
         var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
         var iconShar = $('<i class="mdi-file-folder-shared yellow-text text-darken-3"></i>');
         
 		bloco.createElement = function () {
-		var card = $('<div class="col s12 m3 pasta-fechada">');
-		var painel = $('<div class="card-panel card-complement cyan darken-3">');
-		var conteudo = $('<div class="card-content white-text">');
-		var div_icon = $('<div class=" col s4 pdzero">');
-		var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
-		var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-		var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
-		var titulo_favorito = $('<div class="col s10 truncate pdzero">');
-		var tituloFavorito = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
-		var div_opcoes = $('<div class="col s2">');
-		var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
-        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
-        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
-        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-        var dropdownEditar = $('<li><a>Editar</a></li>');
-        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-		
-		var div_estrelas = $('<div class="col s12">');
-		for (i=0; i<numEstrela; i++){
-		var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
-		div_estrelas.append (estrela);
+			var card = $('<div class="col s12 m3 pasta-fechada">');
+			var painel = $('<div class="card-panel card-complement cyan darken-3">');
+			var conteudo = $('<div class="card-content white-text">');
+			var div_icon = $('<div class=" col s4 pdzero">');
+			var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
+			var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
+			var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
+			var titulo_favorito = $('<div class="col s10 truncate pdzero">');
+			var tituloFavorito = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
+			var div_opcoes = $('<div class="col s2">');
+			var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
+	        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
+	        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
+	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
+	        var dropdownEditar = $('<li><a>Editar</a></li>');
+	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
+			
+			var div_estrelas = $('<div class="col s12">');
+			for (i=0; i<numEstrela; i++){
+				var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
+				div_estrelas.append (estrela);
+			}
+			
+			var div_descricao = $('<div class="col s12 truncate">');
+			
+			var getTags = function(tags){
+				var container = $('<div class="col s12 truncate">');
+				var icone = $('<i class="mdi-maps-local-offer">');
+				var criarTag = function(titulo){
+					var tag = $('<a class="amber-text text-darken-2" href="#">');
+					tag.append(titulo);
+					return tag;
+				}
+				
+				var adicionarTag = function(tag){
+					container.append(criarTag(tag));
+				}
+				
+				var preencherContainer = function(tags){
+					var quantTags = tags.length;
+					for (var i = 0; i < quantTags; i++){
+						adicionarTag(tags[i]);
+					}
+				}
 
-		}
-		var div_descricao = $('<div class="col s12 truncate">');
-		var div_tags = $('<div class="col s12 truncate">');
-		var icon_tag = $('<i class="mdi-maps-local-offer"></i>');
+				icone.appendTo(container);
+				if(tags){
+					preencherContainer(tags);
+				}
+				
+				return container;
+			}	
+			
+			var div_tags = getTags(tags);
 		
-		
-		card.append (painel);
-		painel.append (conteudo);
-		conteudo.append (div_icon);
-		div_icon.append (icon);
-		conteudo.append (div_dadosFavorito);
-		div_dadosFavorito.append (div_tituloFavorito);
-		div_tituloFavorito.append (titulo_favorito);
-		titulo_favorito.append (tituloFavorito);
-        titulo_favorito.append (nomeFavorito);
-		div_tituloFavorito.append (div_opcoes);
-		div_opcoes.append (btOpcoes);
-		div_opcoes.append (dropdown_content);
-		btOpcoes.append (icon_btOpcoes);
-        dropdown_content.append (dropdownSelecionar);
-        dropdown_content.append (dropdownEditar);
-        dropdown_content.append (dropdownExcluir);
-		div_dadosFavorito.append (div_estrelas);
-		
-		div_dadosFavorito.append (div_descricao);
-		div_descricao.append(descricao ? descricao : "(Sem descrição)");
-		div_dadosFavorito.append (div_tags);
-		div_tags.append (icon_tag); 
+			card.append (painel);
+			painel.append (conteudo);
+			conteudo.append (div_icon);
+			div_icon.append (icon);
+			conteudo.append (div_dadosFavorito);
+			div_dadosFavorito.append (div_tituloFavorito);
+			div_tituloFavorito.append (titulo_favorito);
+			titulo_favorito.append (tituloFavorito);
+	        titulo_favorito.append (nomeFavorito);
+			div_tituloFavorito.append (div_opcoes);
+			div_opcoes.append (btOpcoes);
+			div_opcoes.append (dropdown_content);
+			btOpcoes.append (icon_btOpcoes);
+	        dropdown_content.append (dropdownSelecionar);
+	        dropdown_content.append (dropdownEditar);
+	        dropdown_content.append (dropdownExcluir);
+			div_dadosFavorito.append (div_estrelas);
+			
+			div_dadosFavorito.append (div_descricao);
+			div_descricao.append(pasta.descricao ? pasta.descricao : "(Sem descrição)");
+			div_dadosFavorito.append (div_tags);
 			return card;
         }
         return bloco;

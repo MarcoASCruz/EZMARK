@@ -18,7 +18,7 @@ public class Pasta {
 	private List<Favorito> favoritos;
 	private List<Pasta> pastas = new ArrayList<Pasta>();
 	private String descricao;
-	private List<Tag> tags;
+	private List<String> tags;
 	
 	public Pasta(){}
 	public Pasta(int id, int pai, String nome, Timestamp dataCriacao,
@@ -101,10 +101,10 @@ public class Pasta {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public List<Tag> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	

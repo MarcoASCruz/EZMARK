@@ -236,6 +236,78 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}	
+		,
+		adicionarTagPasta: function(idPasta, tagNome, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/tag"
+				,
+				method: "POST"
+				,
+				data:{
+					idPasta: idPasta,
+					tagNome: tagNome
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		removerTagPasta: function(idPasta, idTag, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/tag"
+				,
+				method: "DELETE"
+				,
+				data:{
+					idPasta: idPasta,
+					idTag: idTag
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		adicionarTagFavorito: function(idFavorito, tagNome, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/tag"
+				,
+				method: "POST"
+				,
+				data:{
+					idFavorito: idFavorito,
+					tagNome: tagNome
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		removerTagFavorito: function(idFavorito, idTag, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/tag"
+				,
+				method: "DELETE"
+				,
+				data:{
+					idFavorito: idFavorito,
+					idTag: idTag
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){

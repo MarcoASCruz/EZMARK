@@ -1,6 +1,7 @@
 package modelos;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Favorito {
@@ -10,7 +11,7 @@ public class Favorito {
 	private String descricao;
 	private Timestamp dataAcesso;
 	private Timestamp dataCriacao;
-	private List<Tag> tags;
+	private List<String> tags;
 	private int pai;
 	private int numEstrela;
 	private String imagem;
@@ -53,10 +54,10 @@ public class Favorito {
 	public void setDataCriacao(Timestamp dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	public List<Tag> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tag> tags) {
+	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	public int getPai() {

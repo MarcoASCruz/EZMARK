@@ -66,21 +66,18 @@ public class FavoritoDAO extends BasicDAO {
 		}
 	}
 	
-	public List<Tag> buscarTags(int idFavorito) throws Exception{
+	public List<String> buscarTags(int idFavorito) throws Exception{
 		try{
-			setQuery("SELECT tag.id AS `id`, tag.nome AS `nome` FROM favorito LEFT JOIN favorito_tag ON (favorito.id = favorito_tag.id_favorito) 	LEFT JOIN tag ON (tag.id = favorito_tag.id_tag) WHERE favorito.id = ?");
+			setQuery("SELECT tag.nome AS `nome` FROM favorito LEFT JOIN favorito_tag ON (favorito.id = favorito_tag.id_favorito) 	LEFT JOIN tag ON (tag.nome = favorito_tag.tag_nome) WHERE favorito.id = ?");
 			ps.setInt(1, idFavorito);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			res =  (ResultSet) ps.executeQuery();	
-			List<Tag> tags = new ArrayList<Tag>();
+			List<String> tags = new ArrayList<String>();
 			//if(res.next) não funciona... verificar o motivo disso...
 			res.next();
 			if(res.getString("nome") != null){
 				do {
-					Tag tag = new Tag();
-					tag.setId(res.getInt("id"));
-					tag.setNome(res.getString("nome"));
-					tags.add(tag);
+					tags.add(res.getString("nome"));
 				} while (res.next());
 			}
 			else {
@@ -96,6 +93,8 @@ public class FavoritoDAO extends BasicDAO {
 	
 	public Favorito adicionar(Favorito f) throws Exception{
 		try{
+			openConection();
+			beginTransaction();
 			criarQuery("INSERT INTO favorito (`id_pasta`, `url`, `titulo`,	`descricao`,`data_criacao`,`numEstrela`, `acesso_rapido`) VALUES (?,?,?,?,?,?,?)");
 			ps.setInt(1, f.getPai());
 			ps.setString(2, f.getUrl());
@@ -103,7 +102,6 @@ public class FavoritoDAO extends BasicDAO {
 			ps.setString(4, f.getDescricao());
 			ps.setTimestamp(5, f.getDataCriacao());
 			ps.setInt(6, f.getNumEstrela());
-			//ps.setBytes(7, f.getImagem());
 			ps.setBoolean(7, f.isAcessoRapido());
 			ps.executeUpdate();
 			ps = (PreparedStatement) c.prepareStatement("SELECT LAST_INSERT_ID() id FROM favorito");
@@ -111,7 +109,11 @@ public class FavoritoDAO extends BasicDAO {
 			res =  (ResultSet) ps.executeQuery();	
 			if (res.next()){
 				f.setId(res.getInt("id"));
+				for (String tag : f.getTags()) {
+					adicionarTag(tag, f.getId());
+				}
 			}
+			commitTransaction();
 			return f;
 		}
 		catch(Exception e){
@@ -121,6 +123,29 @@ public class FavoritoDAO extends BasicDAO {
 			close();
 		}
 	}
+	
+	public void adicionarTag(String tag, int idFavorito) throws Exception{
+		try{
+			TagDAO tagDao = new TagDAO(c);
+			String tagIdentificacao = tagDao.buscar(tag);
+			if(tagIdentificacao == null){
+				tagDao.adicionar(tag);
+			}
+			criarQuery("INSERT INTO favorito_tag (id_favorito, tag_nome) VALUES (?, ?)");
+			ps.setInt(1, idFavorito);
+			ps.setString(2, tag);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			if (c.getAutoCommit()){
+				close();
+			}
+		}
+	}
+	
 	public Favorito alterar(Favorito f) throws Exception{
 		try{
 			criarQuery("UPDATE favorito SET `id_pasta`=?, `url`=?, `titulo`=?,	`descricao`=?,`data_criacao` = ?,`numEstrela` = ?, `acesso_rapido` = ? WHERE id = ?");
@@ -293,26 +318,12 @@ public class FavoritoDAO extends BasicDAO {
 		}
 	}
 	
-	public void adicionarTag(int idTag, int idFavorito) throws Exception{
-		try{
-			criarQuery("INSERT INTO favorito_tag (id_favorito, id_tag) VALUES (?, ?)");
-			ps.setInt(1, idFavorito);
-			ps.setInt(2, idTag);
-			ps.executeUpdate();
-		}
-		catch(Exception e){
-			throw e;
-		}
-		finally{
-			close();
-		}
-	}
 	
-	public void removerTag(int idTag, int idFavorito) throws Exception{
+	public void removerTag(String tag, int idFavorito) throws Exception{
 		try{
-			criarQuery("DELETE FROM favorito_tag WHERE id_favorito = ? AND id_tag = ?");
+			criarQuery("DELETE FROM favorito_tag WHERE id_favorito = ? AND tag_nome = ?");
 			ps.setInt(1, idFavorito);
-			ps.setInt(2, idTag);
+			ps.setString(2, tag);
 			ps.executeUpdate();
 		}
 		catch(Exception e){

@@ -88,14 +88,12 @@ public class Arquivo {
 		AppResponse response = new AppResponse();
 		try{
 			Pasta p = new JSONDeserializer<Pasta>().use( null, Pasta.class ).deserialize(pastaJson);
-			/*p.setDataCriacao(new Timestamp(new java.util.Date().getTime()));
+			p.setDataCriacao(new Timestamp(new java.util.Date().getTime()));
 			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
 			Pasta pasta = pastaDAO.adicionar(p);
-			*/ArrayList l = new ArrayList();
+			ArrayList l = new ArrayList();
 			l.add(p);
-			/*response.setSuccess(true);
-			response.setContent(l);*/
-			response.setSuccess(false);
+			response.setSuccess(true);
 			response.setContent(l);
 		}
 		catch(Exception e){
@@ -330,23 +328,12 @@ public class Arquivo {
 	public Response adicionarTagFavorito(@FormParam("idFavorito") int idFavorito , @FormParam("tag") String tagNome) {
 		AppResponse response = new AppResponse();
 		try{
-			Tag t = new Tag();
-			t.setNome(tagNome);
-			
-			TagDAO tagDao = new TagDAO();
-			int tagIdentificacao = tagDao.buscar(t);
-			if(tagIdentificacao == 0){
-				t = tagDao.adicionar(t);
-			}
-			else{
-				t.setId(tagIdentificacao);
-			}
 
 			FavoritoDAO favDAO = new FavoritoDAO();
-			favDAO.adicionarTag(t.getId(), idFavorito);
+			favDAO.adicionarTag(tagNome, idFavorito);
 			
 			ArrayList l = new ArrayList();
-			l.add(t);
+			l.add(tagNome);
 			
 			response.setSuccess(true);
 			response.setContent(l);
@@ -360,11 +347,11 @@ public class Arquivo {
 	@DELETE
 	@Path("/favorito/tag")
 	@Produces("application/json")
-	public Response removerTagFavorito(@FormParam("idFavorito") int idFavorito , @FormParam("idTag") int idTag) {
+	public Response removerTagFavorito(@FormParam("idFavorito") int idFavorito , @FormParam("idTag") String tag) {
 		AppResponse response = new AppResponse();
 		try{
 			FavoritoDAO favDAO = new FavoritoDAO();
-			favDAO.removerTag(idTag, idFavorito);
+			favDAO.removerTag(tag, idFavorito);
 			response.setSuccess(true);
 		}
 		catch(Exception e){
@@ -379,23 +366,12 @@ public class Arquivo {
 	public Response adicionarTagPasta(@FormParam("idPasta") int idPasta , @FormParam("tag") String tagNome) {
 		AppResponse response = new AppResponse();
 		try{
-			Tag t = new Tag();
-			t.setNome(tagNome);
-			
-			TagDAO tagDao = new TagDAO();
-			int tagIdentificacao = tagDao.buscar(t);
-			if(tagIdentificacao == 0){
-				t = tagDao.adicionar(t);
-			}
-			else{
-				t.setId(tagIdentificacao);
-			}
-
 			PastaDAO pastaDAO = new PastaDAO();
-			pastaDAO.adicionarTag(t.getId(), idPasta);
+			pastaDAO.adicionarTag(tagNome, idPasta);
+			
 			
 			ArrayList l = new ArrayList();
-			l.add(t);
+			l.add(tagNome);
 			
 			response.setSuccess(true);
 			response.setContent(l);
@@ -409,11 +385,11 @@ public class Arquivo {
 	@DELETE
 	@Path("/pasta/tag")
 	@Produces("application/json")
-	public Response removerTagPasta(@FormParam("idPasta") int idPasta , @FormParam("idTag") int idTag) {
+	public Response removerTagPasta(@FormParam("idPasta") int idPasta , @FormParam("idTag") String tag) {
 		AppResponse response = new AppResponse();
 		try{
 			PastaDAO pastaDAO = new PastaDAO();
-			pastaDAO.removerTag(idTag, idPasta);
+			pastaDAO.removerTag(tag, idPasta);
 			response.setSuccess(true);
 		}
 		catch(Exception e){
