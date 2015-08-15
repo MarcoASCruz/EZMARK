@@ -2,112 +2,102 @@
 <html>
     <head>
         <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!--Let browser know website is optimized for mobile--> 
         <link rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+        <link rel="stylesheet" type="text/css" href="lib/tagsInput/jquery.tagsinput.css" />
         
-        <style>
+        <style>        
+        
             .gira {
-             -webkit-transition: all 0.5s ease 0s;
-             -moz-transition: all 0.5s ease 0s;
-             -o-transition: all 0.5s ease 0s;
-             -ms-transition: all 0.5s ease 0s;
-             transition: all 0.5s ease 0s;
-             cursor:pointer;
+	             -webkit-transition: all 0.5s ease 0s;
+	             -moz-transition: all 0.5s ease 0s;
+	             -o-transition: all 0.5s ease 0s;
+	             -ms-transition: all 0.5s ease 0s;
+	             transition: all 0.5s ease 0s;
+	             cursor:pointer;
              }
              .gira:hover {
-             -webkit-transform: rotate(45deg);
-             -moz-transform: rotate(45deg);
-             -ms-transform: rotate(45deg);
-             -o-transform: rotate(45deg);
-             transform: rotate(45deg);
+	             -webkit-transform: rotate(45deg);
+	             -moz-transform: rotate(45deg);
+	             -ms-transform: rotate(45deg);
+	             -o-transform: rotate(45deg);
+	             transform: rotate(45deg);
              }
             .conteudo{
-            padding: 0 0.5rem;
-            margin: 0 auto;
-            max-width: 1366px;
-            width: 100%;
+	            padding: 0 0.5rem;
+	            margin: 0 auto;
+	            max-width: 1366px;
+	            width: 100%;
             }
             .titulo-favorito{
-            color: #fff;
-            font-size: 20px;
-            font-weight: 300;
+	            color: #fff;
+	            font-size: 20px;
+	            font-weight: 300;
             }
-            .titulo-favorito-destaque
-            {
-            color: #fff;
-            font-size: 18px;
-            font-weight: 300;
-            line-height: 1.25;
+            .titulo-favorito-destaque {
+	            color: #fff;
+	            font-size: 18px;
+	            font-weight: 300;
+	            line-height: 1.25;
             }
             .main{
-            padding-left: 240px; 
-            padding-top: 20px; 
-            height: 3000px;
+	            padding-left: 240px; 
+	            padding-top: 20px; 
+	            height: 3000px;
             }
             .pdzero{
-            padding: 0!important;
+            	padding: 0!important;
             }
             .marginzero{
-            margin: 0!important;
+            	margin: 0!important;
             }
             .item-acesso-rapido{
-            min-width: 110px;
+            	min-width: 110px;
             }
             .overflow-y-auto{
-            overflow-y: auto;
-            }
-            .overflow-y-auto>li{
-/*            min-width: 200px;*/
+            	overflow-y: auto;
             }
             .marRL5{
-            margin-right: 5px;
-            margin-left: 5px;
+	            margin-right: 5px;
+	            margin-left: 5px;
             }
             .marRL15{
-            margin-right: 15px;
-            margin-left: 15px;
+	            margin-right: 15px;
+	            margin-left: 15px;
             }
             .marT15{
-            margin-top: 15px;
+            	margin-top: 15px;
             }
             .usuario-logado-bar{
-            max-width: 300px; 
-            height: 100%;
-            padding-right: 5px;
-            padding-left: 5px;
+	            max-width: 300px; 
+	            height: 100%;
+	            padding-right: 5px;
+	            padding-left: 5px;
             }
             .pasta-fechada{
-/*            padding: 10px !important;*/
-/*            margin: 0.5rem 0.5rem 1rem 0.5rem;*/
-/*            border-radius: 2px;*/
-            min-width: 300px;
-            min-height: 135px;
+	            min-width: 300px;
+	            min-height: 135px;
             }
             .favorito{
-/*            padding: 10px !important;*/
-/*            margin: 0.5rem 0.5rem 1rem 0.5rem;*/
-/*            border-radius: 2px;*/
-
-            min-width: 102px;
-            max-height: 160px;
-
+	            min-width: 102px;
+	            max-height: 160px;
             }
             [type="checkbox"]:checked+label:before{
-            border-right-color: #00565F !important;
-            border-bottom-color: #00565F !important;
+	            border-right-color: #00565F !important;
+	            border-bottom-color: #00565F !important;
             }
             .card-complement{
-            overflow: hidden;
-            padding: 10px;
+	            overflow: hidden;
+	            padding: 10px;
             }
 
             @media (max-width: 992px){
-            .main{
-            padding-left: 20px; 
-            }
+            	.main{
+            		padding-left: 20px; 
+            	}
                     
                 
         </style>
@@ -118,8 +108,8 @@
         <script type="text/javascript" src="lib/jquery-1.11.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script src="jquery.tagsinput.js"></script>
-		<link rel="stylesheet" type="text/css" href="jquery.tagsinput.css" />
+        <script src="lib/tagsInput/jquery.tagsinput.js"></script>
+		
         <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
         <!--Inicializa o Menu lateral quando em modo Mobile-->
         <script src="lib/jstree/dist/jstree.min.js"></script>
