@@ -112,9 +112,62 @@ var Materialize = function () {
         return favAR;
 	}
 	
+	//criar bloco abrigando o comun entre favorito e tag (Orientação a Obj)
+	var Bloco = function(){
+		var bloco = new ObjectHtml();
+		bloco.getTags = function(tags){
+			var container = $('<div class="col s12 truncate">');
+			var icone = $('<i class="mdi-maps-local-offer">');
+			
+			var adicionarTag = function(tag){
+				container.append(criarTag(tag));
+			}
+			var criarTag = function(titulo){
+				var tag = $('<a class="amber-text text-darken-2" href="#">');
+				tag.append(titulo);
+				return tag;
+			}
+
+			var adicionarVirgula = function(){
+				container.append(criarVirgula());
+			}
+			var criarVirgula = function(){
+				return $('<span class="amber-text text-darken-2">').append(', ')
+			}
+			
+			var preencherContainer = function(tags){
+				var quantTags = tags.length;
+				var proximaTagExistir = function(indiceAtual){
+					var existe = false;
+					if((indiceAtual + 1) == quantTags){
+						existe = false;
+					}
+					else {
+						existe = true;
+					}
+					return existe;
+				}
+				for (var i = 0; i < quantTags; i++){
+					adicionarTag(tags[i]);
+					if(proximaTagExistir(i)){
+						adicionarVirgula();
+					}
+				}
+			}
+
+			icone.appendTo(container);
+			if(tags){
+				preencherContainer(tags);
+			}
+			
+			return container;
+		}
+		return bloco;
+	};
+	
 	this.Favorito = function (favorito) {
 		
-        var bloco = new ObjectHtml();
+        var bloco = new Bloco();
         
         var id = favorito.id;
         var tags = favorito.tags;
@@ -155,34 +208,7 @@ var Materialize = function () {
 			}
 			
 			var div_descricao = $('<div class="col s12 truncate">');
-			var getTags = function(tags){
-				var container = $('<div class="col s12 truncate">');
-				var icone = $('<i class="mdi-maps-local-offer">');
-				var criarTag = function(titulo){
-					var tag = $('<a class="amber-text text-darken-2" href="#">');
-					tag.append(titulo);
-					return tag;
-				}
-				
-				var adicionarTag = function(tag){
-					container.append(criarTag(tag));
-				}
-				
-				var preencherContainer = function(tags){
-					var quantTags = tags.length;
-					for (var i = 0; i < quantTags; i++){
-						adicionarTag(tags[i]);
-					}
-				}
-
-				icone.appendTo(container);
-				if(tags){
-					preencherContainer(tags);
-				}
-				
-				return container;
-			}
-			var div_tags = getTags(tags);
+			var div_tags = bloco.getTags(tags);
 		
 		
 			card.append (painel);
@@ -213,7 +239,7 @@ var Materialize = function () {
 	
 	this.Pasta = function (pasta) {
 		
-        var bloco = new ObjectHtml();
+        var bloco = new Bloco();
         
         var id = pasta.id;
         var tags = pasta.tags;
@@ -253,36 +279,7 @@ var Materialize = function () {
 			}
 			
 			var div_descricao = $('<div class="col s12 truncate">');
-			
-			var getTags = function(tags){
-				var container = $('<div class="col s12 truncate">');
-				var icone = $('<i class="mdi-maps-local-offer">');
-				var criarTag = function(titulo){
-					var tag = $('<a class="amber-text text-darken-2" href="#">');
-					tag.append(titulo);
-					return tag;
-				}
-				
-				var adicionarTag = function(tag){
-					container.append(criarTag(tag));
-				}
-				
-				var preencherContainer = function(tags){
-					var quantTags = tags.length;
-					for (var i = 0; i < quantTags; i++){
-						adicionarTag(tags[i]);
-					}
-				}
-
-				icone.appendTo(container);
-				if(tags){
-					preencherContainer(tags);
-				}
-				
-				return container;
-			}	
-			
-			var div_tags = getTags(tags);
+			var div_tags = bloco.getTags(tags);
 		
 			card.append (painel);
 			painel.append (conteudo);
