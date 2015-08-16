@@ -159,8 +159,8 @@ var Materialize = function () {
 		    return container;
 	    }
 	    var criarIcone = function (iconeUrl) {
-	        var container = $('<div class=" col s4 pdzero">');
-	        var icon = $('<img class="responsive-img">');
+	        var container = $('<div class="valign-wrapper">');
+	        var icon = $('<img style="height:85px" class="circle responsive-img valign">');
 	        if (iconeUrl) {
 	            icon.attr('src', iconeUrl);
 	        }
