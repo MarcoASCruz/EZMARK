@@ -111,200 +111,276 @@ var Materialize = function () {
         }
         return favAR;
 	}
-	
-	//criar bloco abrigando o comun entre favorito e tag (Orientação a Obj)
-	this.Bloco = function(){
-		var bloco = new ObjectHtml();
-		bloco.getTags = function(tags){
-			var container = $('<div class="col s12 truncate">');
-			var icone = $('<i class="mdi-maps-local-offer">');
-			
-			var adicionarTag = function(tag){
-				container.append(criarTag(tag));
-			}
-			var criarTag = function(titulo){
-				var tag = $('<a class="amber-text text-darken-2" href="#">');
-				tag.append(titulo);
-				return tag;
-			}
 
-			var adicionarVirgula = function(){
-				container.append(criarVirgula());
-			}
-			var criarVirgula = function(){
-				return $('<span class="amber-text text-darken-2">').append(', ')
-			}
-			
-			var preencherContainer = function(tags){
-				var quantTags = tags.length;
-				var proximaTagExistir = function(indiceAtual){
-					var existe = false;
-					if((indiceAtual + 1) == quantTags){
-						existe = false;
-					}
-					else {
-						existe = true;
-					}
-					return existe;
-				}
-				for (var i = 0; i < quantTags; i++){
-					adicionarTag(tags[i]);
-					if(proximaTagExistir(i)){
-						adicionarVirgula();
-					}
-				}
-			}
+    //{iconeUrl:"", ... }
+	this.Bloco = function (dados) {
+	    var bloco = new ObjectHtml();
+	    bloco.createElement = function () {
+	        var container = $('<div class="col s12 m3 pasta-fechada drag">');
+	        var card = $('<div class="card-panel card-complement cyan darken-2">');
+		    var adicionarConteudo = function(){
+		        card.append(criarConteudo());
+		    }
+		    var criarConteudo = function () {
+		        var conteudo = $('<div class="card-content white-text">');
+		        var iconeContainer = $('<div class=" col s4 pdzero">');
+		        var dadosContainer = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
 
-			icone.appendTo(container);
-			if(tags){
-				preencherContainer(tags);
-			}
-			
-			return container;
+		        var adicionarIcone = function () {
+		            iconeContainer.append(criarIcone(dados.iconeUrl));
+		        }
+		        var adicionarHeader = function () {
+		            dadosContainer.append(criarHeader());
+		        }
+		        var adicionarEstrelas = function () {
+		            dadosContainer.append(criarEstrelas());
+		        }
+		        var adicionarDescricao = function () {
+		            dadosContainer.append(criarDescricao());
+		        }
+		        var adicionarTags = function () {
+		            dadosContainer.append(criarTags(dados.tags));
+		        }
+
+		        adicionarIcone();
+		        adicionarHeader();
+		        adicionarEstrelas();
+		        adicionarDescricao();
+		        adicionarTags();
+
+		        conteudo.append(iconeContainer);
+		        conteudo.append(dadosContainer);
+
+		        return conteudo;
+		    }
+		    adicionarConteudo();
+		    container.append(card);
+		    
+		    return container;
+	    }
+	    var criarIcone = function (iconeUrl) {
+	        var container = $('<div class=" col s4 pdzero">');
+	        var icon = $('<img class="responsive-img">');
+	        if (iconeUrl) {
+	            icon.attr('src', iconeUrl);
+	        }
+	        else {
+	            icon.attr('src', 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png');
+	        }
+	        container.append(icon);
+	        return container;
+	    }
+	    var criarHeader = function () {
+	        var container = $('<div class="col s12 titulo-favorito">'); //titulo favorito?????
+	        var adicionarTitulo = function () {
+	            container.append(bloco.criarTitulo());
+	        }
+	        var adicionarMenu = function () {
+	            container.append(bloco.Menu.obterHtml());
+	        }
+	        adicionarTitulo();
+	        adicionarMenu();
+	        return container;
+	    }
+	    bloco.criarTitulo = function () {
+	        return null;
+	    }
+	    bloco.Menu = new function() {
+	        var container = $('<div class="col s2">');
+	        var adicionarBotao = function () {
+	            container.append(criarBotao());
+	        }
+	        var criarBotao = function () {
+	            var botao = $('<a class="dropdown-button cyan-text text-lighten-5">');
+	            botao.attr('data-activates', 'dropdown' + dados.id);
+	            var icon = $('<i class="mdi-navigation-more-vert">');
+	            botao.append(icon);
+	            return botao;
+	        }
+	        var adicionarAcoes = function (acoes) {
+	            container.append(criarAcoes(acoes));
+	        }
+	        var criarAcoes = function (acoes) {
+	            var container = $('<ul class="dropdown-content">');
+	            container.attr('id', 'dropdown' + dados.id);
+
+	            var preencherAcoes = function () {
+	                var quantAcoes = acoes.length;
+	                for (var i = 0; i < quantAcoes; i++) {
+	                    adicionarAcao(acoes[i])
+	                }
+	            }
+	            var adicionarAcao = function (acao) {
+	                container.append(criarAcao(acao));
+	            }
+	            var criarAcao = function (acao) {
+	                var container = $('<li>');
+	                var conteudo = $('<a href="#">');
+	                conteudo.append(acao);
+	                container.append(conteudo);
+	                return container;
+	            }
+	            preencherAcoes();
+
+	            return container;
+	        }
+            
+	        this.init = function (acoes) {
+	            adicionarBotao();
+	            adicionarAcoes(acoes);
+	        }
+	        this.obterHtml = function () {
+	            return container;
+	        }
+	    }
+	    var criarEstrelas = function () {
+	        var container = $('<div class="col s12">');
+	        var quantEstrelas = dados.quantEstrelas;
+	        for (i = 0; i < quantEstrelas; i++) {
+	            var estrela = $('<i class="mdi-action-grade">');
+	            container.append(estrela);
+	        }
+	        return container;
+	    }
+	    var criarDescricao = function () {
+	        var container = $('<div class="col s12 truncate">');
+	        container.append(dados.descricao ? dados.descricao : "(Sem descrição)");
+	        return container;
+	    }
+	    var criarTags = function (tags) {
+		    var container = $('<div class="col s12 truncate">');
+		    var icone = $('<i class="mdi-maps-local-offer">');
+
+		    var adicionarTag = function (tag) {
+		        container.append(criarTag(tag));
+		    }
+		    var criarTag = function (titulo) {
+		        var tag = $('<a class="amber-text text-darken-2" href="#">');
+		        tag.append(titulo);
+		        return tag;
+		    }
+
+		    var adicionarVirgula = function () {
+		        container.append(criarVirgula());
+		    }
+		    var criarVirgula = function () {
+		        return $('<span class="amber-text text-darken-2">').append(', ')
+		    }
+
+		    var preencherContainer = function (tags) {
+		        var quantTags = tags.length;
+		        var proximaTagExistir = function (indiceAtual) {
+		            var existe = false;
+		            if ((indiceAtual + 1) == quantTags) {
+		                existe = false;
+		            }
+		            else {
+		                existe = true;
+		            }
+		            return existe;
+		        }
+		        for (var i = 0; i < quantTags; i++) {
+		            adicionarTag(tags[i]);
+		            if (proximaTagExistir(i)) {
+		                adicionarVirgula();
+		            }
+		        }
+		    }
+		    
+		    icone.appendTo(container);
+		    if (tags) {
+		        preencherContainer(tags);
+		    }
+
+		    return container;
 		}
-		return bloco;
+	    bloco.getTags = function (tags) {
+	        var container = $('<div class="col s12 truncate">');
+	        var icone = $('<i class="mdi-maps-local-offer">');
+
+	        var adicionarTag = function (tag) {
+	            container.append(criarTag(tag));
+	        }
+	        var criarTag = function (titulo) {
+	            var tag = $('<a class="amber-text text-darken-2" href="#">');
+	            tag.append(titulo);
+	            return tag;
+	        }
+
+	        var adicionarVirgula = function () {
+	            container.append(criarVirgula());
+	        }
+	        var criarVirgula = function () {
+	            return $('<span class="amber-text text-darken-2">').append(', ')
+	        }
+
+	        var preencherContainer = function (tags) {
+	            var quantTags = tags.length;
+	            var proximaTagExistir = function (indiceAtual) {
+	                var existe = false;
+	                if ((indiceAtual + 1) == quantTags) {
+	                    existe = false;
+	                }
+	                else {
+	                    existe = true;
+	                }
+	                return existe;
+	            }
+	            for (var i = 0; i < quantTags; i++) {
+	                adicionarTag(tags[i]);
+	                if (proximaTagExistir(i)) {
+	                    adicionarVirgula();
+	                }
+	            }
+	        }
+
+	        icone.appendTo(container);
+	        if (tags) {
+	            preencherContainer(tags);
+	        }
+
+	        return container;
+	    }
+	    return bloco;
 	};
 	
 	this.Favorito = function (favorito) {
-		
-        var bloco = new self.Bloco();
-        
-        var id = favorito.id;
-        var tags = favorito.tags;
-        var nomeFavorito = favorito.titulo;
-        var descricao = favorito.descricao;
-        var tipo = "2"
-        var iconTipo = "mdi-navigation-more-vert";
-        var numEstrela = favorito.numEstrela;
-        var iconUrl = favorito.imagem ? favorito.imagem : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
-        
-
-        var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
-        var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
-        var iconShar = $('<i class="mdi-file-folder-shared yellow-text text-darken-3"></i>');
-        
-		bloco.createElement = function () {
-			var card = $('<div class="col s12 m3 pasta-fechada drag">');
-			var painel = $('<div class="card-panel card-complement cyan darken-2">');
-			var conteudo = $('<div class="card-content white-text">');
-			var div_icon = $('<div class=" col s4 pdzero">');
-			var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
-			var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-			var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
-			var titulo_favorito = $('<div class="col s10 truncate pdzero">');
-			var tituloFavorito = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
-			var div_opcoes = $('<div class="col s2">');
-			var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
-	        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
-	        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
-	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-	        var dropdownEditar = $('<li><a>Editar</a></li>');
-	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-			
-			var div_estrelas = $('<div class="col s12">');
-			for (i=0; i<numEstrela; i++){
-				var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
-				div_estrelas.append (estrela);
-			}
-			
-			var div_descricao = $('<div class="col s12 truncate">');
-			var div_tags = bloco.getTags(tags);
-		
-		
-			card.append (painel);
-			painel.append (conteudo);
-			conteudo.append (div_icon);
-			div_icon.append (icon);
-			conteudo.append (div_dadosFavorito);
-			div_dadosFavorito.append (div_tituloFavorito);
-			div_tituloFavorito.append (titulo_favorito);
-			titulo_favorito.append (tituloFavorito);
-	        titulo_favorito.append (nomeFavorito);
-			div_tituloFavorito.append (div_opcoes);
-			div_opcoes.append (btOpcoes);
-			div_opcoes.append (dropdown_content);
-			btOpcoes.append (icon_btOpcoes);
-	        dropdown_content.append (dropdownSelecionar);
-	        dropdown_content.append (dropdownEditar);
-	        dropdown_content.append (dropdownExcluir);
-			div_dadosFavorito.append (div_estrelas);
-			
-			div_dadosFavorito.append (div_descricao);
-			div_descricao.append(descricao ? descricao : "(Sem descrição)");
-			div_dadosFavorito.append (div_tags);
-			return card;
-        }
+	    var bloco = new self.Bloco({
+	        id: favorito.id,
+	        quantEstrelas: favorito.numEstrela,
+	        descricao: favorito.descricao,
+	        tags: favorito.tags,
+	        iconeUrl: favorito.imagem
+	    });
+	    bloco.criarTitulo = function () {
+	        var titulo = $('<div class="col s10 truncate pdzero">');
+	        var icone = $('<i class="mdi-action-stars yellow-text text-accent-2">');
+	        titulo.append(icone);
+	        titulo.append(favorito.titulo);
+	        return titulo;
+	    }
+	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
         return bloco;
     }
 	
 	this.Pasta = function (pasta) {
-		
-        var bloco = new self.Bloco();
-        
-        var id = pasta.id;
-        var tags = pasta.tags;
-        var nomeFavorito = pasta.nome;
-        var tipo = "2"
-        var iconTipo = "mdi-navigation-more-vert";
-        var numEstrela = pasta.numEstrela;
-        var iconUrl = pasta.imagem ? pasta.imagem : 'https://cdn1.iconfinder.com/data/icons/finance-items/512/folder_archive_directory_business_papers_computer_file_organize_information_flat_design_icon-512.png';
-
-        
-        var iconFav = $('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
-        var iconFold = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
-        var iconShar = $('<i class="mdi-file-folder-shared yellow-text text-darken-3"></i>');
-        
-		bloco.createElement = function () {
-			var card = $('<div class="col s12 m3 pasta-fechada">');
-			var painel = $('<div class="card-panel card-complement cyan darken-3">');
-			var conteudo = $('<div class="card-content white-text">');
-			var div_icon = $('<div class=" col s4 pdzero">');
-			var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
-			var div_dadosFavorito = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-			var div_tituloFavorito = $('<div class="col s12 titulo-favorito">');
-			var titulo_favorito = $('<div class="col s10 truncate pdzero">');
-			var tituloFavorito = $('<i class="mdi-file-folder yellow-text text-darken-3"></i>');
-			var div_opcoes = $('<div class="col s2">');
-			var btOpcoes = $('<a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown' + id +'">');
-	        var icon_btOpcoes = $('<i class="mdi-navigation-more-vert"></i>');
-	        var dropdown_content = $('<ul id="dropdown' + id + '" class="dropdown-content">');
-	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-	        var dropdownEditar = $('<li><a>Editar</a></li>');
-	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-			
-			var div_estrelas = $('<div class="col s12">');
-			for (i=0; i<numEstrela; i++){
-				var estrela = $('<i class="mdi-action-grade"></i>' + estrela);
-				div_estrelas.append (estrela);
-			}
-			
-			var div_descricao = $('<div class="col s12 truncate">');
-			var div_tags = bloco.getTags(tags);
-		
-			card.append (painel);
-			painel.append (conteudo);
-			conteudo.append (div_icon);
-			div_icon.append (icon);
-			conteudo.append (div_dadosFavorito);
-			div_dadosFavorito.append (div_tituloFavorito);
-			div_tituloFavorito.append (titulo_favorito);
-			titulo_favorito.append (tituloFavorito);
-	        titulo_favorito.append (nomeFavorito);
-			div_tituloFavorito.append (div_opcoes);
-			div_opcoes.append (btOpcoes);
-			div_opcoes.append (dropdown_content);
-			btOpcoes.append (icon_btOpcoes);
-	        dropdown_content.append (dropdownSelecionar);
-	        dropdown_content.append (dropdownEditar);
-	        dropdown_content.append (dropdownExcluir);
-			div_dadosFavorito.append (div_estrelas);
-			
-			div_dadosFavorito.append (div_descricao);
-			div_descricao.append(pasta.descricao ? pasta.descricao : "(Sem descrição)");
-			div_dadosFavorito.append (div_tags);
-			return card;
-        }
-        return bloco;
+	    console.log(pasta)
+		var bloco = new self.Bloco({
+	        id: pasta.id,
+	        quantEstrelas: pasta.numEstrela,
+	        descricao: pasta.descricao,
+	        tags: pasta.tags,
+	        iconeUrl: pasta.imagem
+	    });
+	    bloco.criarTitulo = function () {
+	        var titulo = $('<div class="col s10 truncate pdzero">');
+	        var icone = $('<i class="mdi-file-folder yellow-text text-darken-3">');
+	        titulo.append(icone);
+	        titulo.append(pasta.nome);
+	        return titulo;
+	    }
+	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
+	    return bloco;
     }
 	
 	
