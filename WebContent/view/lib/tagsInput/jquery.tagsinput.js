@@ -177,9 +177,9 @@
 	$.fn.tagsInput = function(options) {
     var settings = jQuery.extend({
       interactive:true,
-      defaultText:'add a tag',
+      defaultText:'Digite uma tag',
       minChars:0,
-      width:'300px',
+      width:'92%',
       height:'100px',
       autocomplete: {selectFirst: false },
       hide:true,

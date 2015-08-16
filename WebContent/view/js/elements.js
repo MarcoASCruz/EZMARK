@@ -113,7 +113,7 @@ var Materialize = function () {
 	}
 	
 	//criar bloco abrigando o comun entre favorito e tag (Orientação a Obj)
-	var Bloco = function(){
+	this.Bloco = function(){
 		var bloco = new ObjectHtml();
 		bloco.getTags = function(tags){
 			var container = $('<div class="col s12 truncate">');
@@ -167,7 +167,7 @@ var Materialize = function () {
 	
 	this.Favorito = function (favorito) {
 		
-        var bloco = new Bloco();
+        var bloco = new self.Bloco();
         
         var id = favorito.id;
         var tags = favorito.tags;
@@ -239,7 +239,7 @@ var Materialize = function () {
 	
 	this.Pasta = function (pasta) {
 		
-        var bloco = new Bloco();
+        var bloco = new self.Bloco();
         
         var id = pasta.id;
         var tags = pasta.tags;
