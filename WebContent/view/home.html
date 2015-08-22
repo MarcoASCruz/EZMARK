@@ -348,11 +348,21 @@ $(document).ready(function(){
 	
 	servicos.buscarHierarquiaDePastas(
 		function(data){
+			var prepararDados = function(dados){
+				var result = new Array();
+				var quantDados = dados.length;
+				for(var i = 0; i < quantDados; i++){
+					dados[i].icon = "mdi-file-folder yellow-text text-darken-3"
+					result.push(dados[i]);	
+				}
+				console.log(result);
+				return result;
+			}
 			console.log(data);
 			$('#treeView').jstree(
 				{ 
 					'core' : {
-						'data' : data.content
+						'data' : prepararDados(data.content)
 					}
 				}
 			)
