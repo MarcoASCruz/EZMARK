@@ -4,7 +4,14 @@ public class Hierarquia {
 	private String id;
 	private String parent;
 	private String text;
+	private String icon = "mdi-file-folder yellow-text text-darken-3";
 	
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 	public String getId() {
 		return id;
 	}

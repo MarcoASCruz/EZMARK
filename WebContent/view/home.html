@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="lib/tagsInput/jquery.tagsinput.css" />
         <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile--> 
-        <link rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+        <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
         
         
         <style>        	
@@ -16,6 +16,30 @@
         	div.tagsinput input{
         		min-width: 130px;
         	}
+        	
+        	
+        	.side-nav .jstree  li {
+        		padding: 0px;
+        	}
+        	
+        	.side-nav .jstree li:hover, .side-nav li.active {
+			    background-color: transparent; 
+			}
+        	
+        	.side-nav.fixed .jstree a{
+			    display: inline-block;
+			    padding: 0 4px 0 1px;
+			    margin: 0;
+			}
+			
+			.side-nav.fixed a.jstree-clicked {
+				color: white;
+				background: #0097a7;
+			}
+			
+			.side-nav .jstree i{
+				font-size: 20px;
+			}
         	
             .gira {
 	             -webkit-transition: all 0.5s ease 0s;
@@ -155,47 +179,9 @@ $(document).ready(function(){
            $( "#orderFav" ).delay(600).show('slow');
     });
     var dropHelp = true;
-    var nomeFav = $('#nomeFav').val();    
+    var nomeFav = $('#nomeFav').val();  
 
-  /*$(".drag").draggable({
-    revert: 'invalid',
-    cursorAt: { top: 90, left: 80 },
-    helper: function(event) {
-      return $('        <div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin:5px 0.30em;">' +
-            '<div class="col s12 pdzero" style="margin-top: 5px;">' +
-                '<img class="responsive-img" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">'+
-            '</div>' +
-            '<div class="col s12 cyan-text text-lighten-5 pdzero">' +
-                '<div class="col s12 pdzero">' + 
-                    '<div class="col s10 pdzero titulo-favorito-destaque">' +
-                        'Favorito' +
-                    '</div>'+                   
-                    '<div class="col s2 pdzero">' +
-                        '<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown10"><i class="mdi-navigation-more-vert"></i></a>' + 
-                        '<ul id="dropdown10" class="dropdown-content"><li><a href="#!">Selecionar</a></li><li><a href="#!">Editar</a></li>li><a href="#!">Excluir</a></li>' + 
-                        '</ul></div></div></div></div>');
-    }
-  });
-  $(".droppable").droppable({
-    drop: function(event, ui) {
-        if(dropHelp){
-           //clone and remove positioning from the helper element
-           var newDiv = $(ui.helper).clone(false)
-               .removeClass('ui-draggable-dragging')
-               .css({position:'relative', left:0, top:0});            
-           $(this).append(newDiv);
-        
-        //drop the draggable source element
-        } else {
-           $(this).append(ui.draggable);
-        }
-    }
-  });
-
-$('#dropDrag').click(function(){
-    dropHelp = !dropHelp;
-});*/
-
+    
 	var atualizarPasta = function(){
 		servicos.buscarArquivos(
 			5
