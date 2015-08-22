@@ -75,8 +75,7 @@
             }
             .main{
 	            padding-left: 240px; 
-	            padding-top: 20px; 
-	            height: 3000px;
+	            padding-top: 20px;
             }
             .pdzero{
             	padding: 0!important;
@@ -182,9 +181,9 @@ $(document).ready(function(){
     var nomeFav = $('#nomeFav').val();  
 
     
-	var atualizarPasta = function(){
+	var atualizarPasta = function(idPasta){
 		servicos.buscarArquivos(
-			5
+			idPasta ? idPasta : 5
 			,
 			function(data){
 				var limparContainer = function(){
@@ -348,24 +347,30 @@ $(document).ready(function(){
 	
 	servicos.buscarHierarquiaDePastas(
 		function(data){
-			var prepararDados = function(dados){
+			var prepararModelo = function(dados){
 				var result = new Array();
 				var quantDados = dados.length;
 				for(var i = 0; i < quantDados; i++){
 					dados[i].icon = "mdi-file-folder yellow-text text-darken-3"
 					result.push(dados[i]);	
 				}
-				console.log(result);
 				return result;
 			}
-			console.log(data);
+			
+			var	criarEventos = function(){
+				$('#treeView').on('changed.jstree', function (e, data) {
+					atualizarPasta(data.selected[data.selected.length - 1]);
+			  	})
+			}
+			
 			$('#treeView').jstree(
 				{ 
 					'core' : {
-						'data' : prepararDados(data.content)
+						'data' : prepararModelo(data.content)
 					}
 				}
 			)
+			criarEventos();
 		}
     )
 	

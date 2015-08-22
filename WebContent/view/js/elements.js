@@ -364,7 +364,6 @@ var Materialize = function () {
     }
 	
 	this.Pasta = function (pasta) {
-	    console.log(pasta)
 		var bloco = new self.Bloco({
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
