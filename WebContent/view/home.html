@@ -347,30 +347,9 @@ $(document).ready(function(){
 	
 	servicos.buscarHierarquiaDePastas(
 		function(data){
-			var prepararModelo = function(dados){
-				var result = new Array();
-				var quantDados = dados.length;
-				for(var i = 0; i < quantDados; i++){
-					dados[i].icon = "mdi-file-folder yellow-text text-darken-3"
-					result.push(dados[i]);	
-				}
-				return result;
-			}
 			
-			var	criarEventos = function(){
-				$('#treeView').on('changed.jstree', function (e, data) {
-					atualizarPasta(data.selected[data.selected.length - 1]);
-			  	})
-			}
-			
-			$('#treeView').jstree(
-				{ 
-					'core' : {
-						'data' : prepararModelo(data.content)
-					}
-				}
-			)
-			criarEventos();
+			var arvore = Element.Arvore(data.content, atualizarPasta);
+			$('#treeView').append(arvore.getElement());
 		}
     )
 	

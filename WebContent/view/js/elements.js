@@ -11,7 +11,7 @@ var ObjectHtml = function(){
 	}
 }
 
-var Materialize = function () {
+var Element = function () {
 	var self = this;
 		
 	this.Toast = function(mensagem){
@@ -381,22 +381,39 @@ var Materialize = function () {
 	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
 	    return bloco;
     }
-	
-	
-};
-var materialize = new Materialize();
 
-var Element = {
-	Favorito: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
-		return new materialize.Favorito(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
-	},
-	Pasta: function(icon, nome,descricao, tipo, iconTipo, numEstrela, id){
-		return new materialize.Pasta(icon, nome,descricao, tipo, iconTipo, numEstrela, id);
-	},
-    FavAcessoRapido: function(icon, nome, id){
-		return new materialize.FavAcessoRapido(icon, nome, id);
-	},
-    Modal: function(columnTitleArray, contentArray){
-		return new materialize.Modal();
+	this.Arvore = function (dados, onClick){
+		var arvore = new ObjectHtml();
+		var container = $('<div>');
+		arvore.createElement = function(){
+			container.jstree(
+				{ 
+					'core' : {
+						'data' : obterModelo()
+					}
+				}
+			)
+			criarEventos();
+			return container;
+		}
+		var obterModelo = function(){
+			var result = new Array();
+			var quantDados = dados.length;
+			for(var i = 0; i < quantDados; i++){
+				dados[i].icon = "mdi-file-folder yellow-text text-darken-3"
+				result.push(dados[i]);	
+			}
+			return result;
+		}
+			
+		var	criarEventos = function(){
+			container.on('changed.jstree', function (e, data) {
+				onClick(data.selected[data.selected.length - 1]);
+		  	})
+		}
+		
+		return arvore;
+		
 	}
-}
+};
+var Element = new Element();
