@@ -393,6 +393,7 @@ var Element = function () {
 					}
 				}
 			)
+			
 			criarEventos();
 			return container;
 		}

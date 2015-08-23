@@ -181,9 +181,24 @@ $(document).ready(function(){
     var nomeFav = $('#nomeFav').val();  
 
     
+    var contexto = {
+    	home: undefined
+    	,
+		pastaAtual: undefined
+    }
+    
+    var init = function(){
+    	var obterHome = function(){
+    		return 5; //criar serviço para retornar home
+    	}
+    	var idHome = obterHome();
+    	contexto.home = idHome;
+    	atualizarPasta(idHome);
+    }
+    
 	var atualizarPasta = function(idPasta){
 		servicos.buscarArquivos(
-			idPasta ? idPasta : 5
+			idPasta ? idPasta : contexto.pastaAtual
 			,
 			function(data){
 				var limparContainer = function(){
@@ -211,12 +226,10 @@ $(document).ready(function(){
 				limparContainer();
 				inserirPastas();
 				inserirFavoritos();
-				
+				contexto.pastaAtual = Number(idPasta);
 			}
 		);
 	}
-		
-	atualizarPasta();
 	
 	
 	$('#btnMaisAcessados').on('click', function(){
@@ -301,11 +314,12 @@ $(document).ready(function(){
 			favorito.url = $("#url-fav").val();
 			favorito.titulo = $("#nomeFav").val();
 			favorito.descricao = $("#textareaFav").val()
-			favorito.pai = 5;
+			favorito.pai = contexto.pastaAtual;
 			favorito.numEstrela = 1;
 			favorito.tags = getTags();
 			return favorito;
 		}
+		
 		servicos.adicionarFavorito(
 			getFavorito()
 			,
@@ -330,7 +344,7 @@ $(document).ready(function(){
 			var pasta = modelo.pasta();
 			pasta.nome = $("#nomePasta").val();
 			pasta.descricao = $("#textareaPasta").val();
-			pasta.pai = 5;
+			pasta.pai = contexto.pastaAtual;
 			pasta.numEstrela = 1;
 			pasta.tags = getTags();
 			return pasta;
@@ -347,12 +361,12 @@ $(document).ready(function(){
 	
 	servicos.buscarHierarquiaDePastas(
 		function(data){
-			
 			var arvore = Element.Arvore(data.content, atualizarPasta);
 			$('#treeView').append(arvore.getElement());
 		}
     )
-	
+    
+    init();
 });
 
 
