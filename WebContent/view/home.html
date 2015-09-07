@@ -369,21 +369,11 @@ $(document).ready(function(){
 	});
     
     init();
-    
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-        $("#imgInp").change(function(){
-            readURL(this);
-    });    
 });
+
+
+
+
 </script>
         
                 <script>
@@ -449,18 +439,16 @@ $(document).ready(function(){
 	                        </div>
 	                    </li>
 	                    <li>
-                        <form>
-                            <div class="marRL5">
-                                <input type="checkbox" id="check-favoritos" />
-                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
-                            </div>
+	                        <form>
+	                            <div class="marRL5">
+	                                <input type="checkbox" id="check-favoritos" />
+	                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
+	                            </div>
 	                    </li>
 	                    <li>
-                            <div class="marRL5 grey-text text-darken-4">
-                                <input type="checkbox" id="check-categorias" />
-                                <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label>
-                            </div>
-                        </li>
+	                    <div class="marRL5 grey-text text-darken-4">
+	                    <input type="checkbox" id="check-categorias" />
+	                    <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label></div></li>
 	                    <li>
 	                    <div class="marRL5 grey-text text-darken-4">
 	                    <input type="checkbox" id="check-tags" />
