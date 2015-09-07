@@ -180,6 +180,13 @@ $(document).ready(function(){
     var dropHelp = true;
     var nomeFav = $('#nomeFav').val();  
 
+    var arvore = undefined;
+    servicos.buscarHierarquiaDePastas(
+   		function(data){
+   			arvore = Element.Arvore(data.content, atualizarPasta);
+   			$('#treeView').append(arvore.getElement());
+   		}
+    )
     
     var contexto = {
     	home: undefined
@@ -353,18 +360,13 @@ $(document).ready(function(){
 			getPasta()
 			,
 			function(data){
+				var pasta = data.content[0];
+				arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
 				$('#incluirPasta').closeModal();
 				atualizarPasta();
 			}
 		)
 	});
-	
-	servicos.buscarHierarquiaDePastas(
-		function(data){
-			var arvore = Element.Arvore(data.content, atualizarPasta);
-			$('#treeView').append(arvore.getElement());
-		}
-    )
     
     init();
     

@@ -390,10 +390,11 @@ var Element = function () {
 				{ 
 					'core' : {
 						'data' : obterModelo()
+						,
+						check_callback: true 
 					}
 				}
 			)
-			
 			criarEventos();
 			return container;
 		}
@@ -401,9 +402,10 @@ var Element = function () {
 			var result = new Array();
 			var quantDados = dados.length;
 			for(var i = 0; i < quantDados; i++){
-				dados[i].icon = "mdi-file-folder yellow-text text-darken-3"
+				dados[i].icon = "mdi-file-folder yellow-text text-darken-3";
 				result.push(dados[i]);	
 			}
+			console.log(result)
 			return result;
 		}
 			
@@ -411,6 +413,11 @@ var Element = function () {
 			container.on('changed.jstree', function (e, data) {
 				onClick(data.selected[data.selected.length - 1]);
 		  	})
+		}
+		arvore.criarPasta = function(id, idPai, nome){
+			var icon = "mdi-file-folder yellow-text text-darken-3";
+			var tree = arvore.getElement().jstree(true);
+			tree.create_node(idPai , {id: id, text: nome, icon: icon});
 		}
 		
 		return arvore;
