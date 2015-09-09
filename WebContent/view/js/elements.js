@@ -116,7 +116,7 @@ var Element = function () {
 	this.Bloco = function (dados) {
 	    var bloco = new ObjectHtml();
 	    bloco.createElement = function () {
-	        var container = $('<div class="col s12 m3 pasta-fechada drag">');
+	        var container = $('<div class="click col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
 		    var adicionarConteudo = function(){
 		        card.append(criarConteudo());
@@ -125,7 +125,7 @@ var Element = function () {
 		        var conteudo = $('<div class="card-content white-text">');
 		        var iconeContainer = $('<div class=" col s4 pdzero">');
 		        var dadosContainer = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-
+		        adicionarEventoDeClick(iconeContainer);
 		        var adicionarIcone = function () {
 		            iconeContainer.append(criarIcone(dados.iconeUrl));
 		        }
@@ -170,13 +170,15 @@ var Element = function () {
 	        container.append(icon);
 	        return container;
 	    }
+	    
 	    var criarHeader = function () {
-	        var container = $('<div class="col s12 titulo-favorito">'); //titulo favorito?????
+	        var container = $('<div class="col s12 titulo-favorito">');
 	        var adicionarTitulo = function () {
 	            container.append(bloco.criarTitulo());
 	        }
 	        var adicionarMenu = function () {
-	            container.append(bloco.Menu.obterHtml());
+	        	var menu = bloco.Menu.obterHtml();
+	        	container.append(menu);
 	        }
 	        adicionarTitulo();
 	        adicionarMenu();
@@ -240,11 +242,13 @@ var Element = function () {
 	            var estrela = $('<i class="mdi-action-grade">');
 	            container.append(estrela);
 	        }
+	        adicionarEventoDeClick(container);
 	        return container;
 	    }
 	    var criarDescricao = function () {
 	        var container = $('<div class="col s12 truncate">');
 	        container.append(dados.descricao ? dados.descricao : "(Sem descrição)");
+	        adicionarEventoDeClick(container);
 	        return container;
 	    }
 	    var criarTags = function (tags) {
@@ -291,9 +295,14 @@ var Element = function () {
 		    if (tags) {
 		        preencherContainer(tags);
 		    }
-
+		    adicionarEventoDeClick(container);
 		    return container;
 		}
+	    var adicionarEventoDeClick = function(element){
+	    	element.click(function(){
+	    		dados.onClick(dados.id)
+    		});
+	    }
 	    bloco.getTags = function (tags) {
 	        var container = $('<div class="col s12 truncate">');
 	        var icone = $('<i class="mdi-maps-local-offer">');
@@ -363,19 +372,23 @@ var Element = function () {
         return bloco;
     }
 	
-	this.Pasta = function (pasta) {
+	this.Pasta = function (pasta, acoes) {
 		var bloco = new self.Bloco({
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
 	        descricao: pasta.descricao,
 	        tags: pasta.tags,
-	        iconeUrl: pasta.imagem
+	        iconeUrl: pasta.imagem,
+	        onClick: acoes.onClick
 	    });
 	    bloco.criarTitulo = function () {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
 	        var icone = $('<i class="mdi-file-folder yellow-text text-darken-3">');
 	        titulo.append(icone);
 	        titulo.append(pasta.nome);
+	        titulo.click(function(){
+	        	acoes.onClick(pasta.id)
+    		});
 	        return titulo;
 	    }
 	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
@@ -403,6 +416,13 @@ var Element = function () {
 			var quantDados = dados.length;
 			for(var i = 0; i < quantDados; i++){
 				dados[i].icon = "mdi-file-folder yellow-text text-darken-3";
+				if(dados[i].parent == '#'){
+					dados[i].state = {
+						opened: true
+						,
+						selected: true
+					}
+				}
 				result.push(dados[i]);	
 			}
 			console.log(result)
@@ -410,7 +430,7 @@ var Element = function () {
 		}
 			
 		var	criarEventos = function(){
-			container.on('changed.jstree', function (e, data) {
+			container.on('select_node.jstree', function (e, data) {
 				onClick(data.selected[data.selected.length - 1]);
 		  	})
 		}
@@ -418,6 +438,11 @@ var Element = function () {
 			var icon = "mdi-file-folder yellow-text text-darken-3";
 			var tree = arvore.getElement().jstree(true);
 			tree.create_node(idPai , {id: id, text: nome, icon: icon});
+		}
+		arvore.selecionarItem = function(id){
+			var tree = arvore.getElement().jstree(true);
+			tree.deselect_all();
+			tree.select_node(id);
 		}
 		
 		return arvore;
