@@ -125,7 +125,7 @@ var Element = function () {
 		        var conteudo = $('<div class="card-content white-text">');
 		        var iconeContainer = $('<div class=" col s4 pdzero">');
 		        var dadosContainer = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-		        adicionarEventoDeClick(iconeContainer);
+		        
 		        var adicionarIcone = function () {
 		            iconeContainer.append(criarIcone(dados.iconeUrl));
 		        }
@@ -148,6 +148,7 @@ var Element = function () {
 		        adicionarDescricao();
 		        adicionarTags();
 
+		        adicionarEventoDeClick(container);
 		        conteudo.append(iconeContainer);
 		        conteudo.append(dadosContainer);
 
@@ -242,13 +243,11 @@ var Element = function () {
 	            var estrela = $('<i class="mdi-action-grade">');
 	            container.append(estrela);
 	        }
-	        adicionarEventoDeClick(container);
 	        return container;
 	    }
 	    var criarDescricao = function () {
 	        var container = $('<div class="col s12 truncate">');
 	        container.append(dados.descricao ? dados.descricao : "(Sem descrição)");
-	        adicionarEventoDeClick(container);
 	        return container;
 	    }
 	    var criarTags = function (tags) {
@@ -295,7 +294,6 @@ var Element = function () {
 		    if (tags) {
 		        preencherContainer(tags);
 		    }
-		    adicionarEventoDeClick(container);
 		    return container;
 		}
 	    var adicionarEventoDeClick = function(element){
@@ -386,9 +384,6 @@ var Element = function () {
 	        var icone = $('<i class="mdi-file-folder yellow-text text-darken-3">');
 	        titulo.append(icone);
 	        titulo.append(pasta.nome);
-	        titulo.click(function(){
-	        	acoes.onClick(pasta.id)
-    		});
 	        return titulo;
 	    }
 	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
