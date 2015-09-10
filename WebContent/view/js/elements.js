@@ -148,7 +148,7 @@ var Element = function () {
 		        adicionarDescricao();
 		        adicionarTags();
 
-		        adicionarEventoDeClick(container);
+		        adicionarEventoDeClick(card);
 		        conteudo.append(iconeContainer);
 		        conteudo.append(dadosContainer);
 
