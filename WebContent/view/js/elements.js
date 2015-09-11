@@ -116,7 +116,7 @@ var Element = function () {
 	this.Bloco = function (dados) {
 	    var bloco = new ObjectHtml();
 	    bloco.createElement = function () {
-	        var container = $('<div class="click col s12 m3 pasta-fechada drag">');
+	        var container = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
 		    var adicionarConteudo = function(){
 		        card.append(criarConteudo());
@@ -298,7 +298,7 @@ var Element = function () {
 		}
 	    var adicionarEventoDeClick = function(element){
 	    	element.click(function(){
-	    		dados.onClick(dados.id)
+	    		dados.onClick(dados)
     		});
 	    }
 	    bloco.getTags = function (tags) {
@@ -351,13 +351,15 @@ var Element = function () {
 	    return bloco;
 	};
 	
-	this.Favorito = function (favorito) {
+	this.Favorito = function (favorito, acoes) {
 	    var bloco = new self.Bloco({
 	        id: favorito.id,
 	        quantEstrelas: favorito.numEstrela,
 	        descricao: favorito.descricao,
 	        tags: favorito.tags,
-	        iconeUrl: favorito.imagem
+	        iconeUrl: favorito.imagem,
+	        url: favorito.url,
+	        onClick: acoes.onClick
 	    });
 	    bloco.criarTitulo = function () {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
@@ -420,7 +422,6 @@ var Element = function () {
 				}
 				result.push(dados[i]);	
 			}
-			console.log(result)
 			return result;
 		}
 			

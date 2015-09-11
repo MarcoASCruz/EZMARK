@@ -7,7 +7,7 @@
         <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile--> 
         <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
-        
+        <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style>        	
         	div.tagsinput{
@@ -215,8 +215,8 @@ $(document).ready(function(){
 				var inserirPastas = function(){
 					var pastas = data.content[0].pastas;
 					var acoes = {
-						onClick: function(id){
-							arvore.selecionarItem(id);
+						onClick: function(pasta){
+							arvore.selecionarItem(pasta.id);
 						}
 					}
 					var length = pastas.length;
@@ -228,9 +228,14 @@ $(document).ready(function(){
 				
 				var inserirFavoritos = function(){
 					var favoritos = data.content[0].favoritos;
+					var acoes = {
+						onClick: function(favorito){
+							window.open('http://' + favorito.url);
+						}
+					}
 					var length = favoritos.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito(favoritos[i]);
+						var bloco = Element.Favorito(favoritos[i], acoes);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
