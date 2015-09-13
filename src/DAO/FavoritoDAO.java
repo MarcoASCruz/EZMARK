@@ -219,9 +219,18 @@ public class FavoritoDAO extends BasicDAO {
 	
 	public void remover(int id)throws Exception{
 		try{
+			openConection();
+			beginTransaction();
+			
+			setQuery("DELETE FROM favorito_tag WHERE id_favorito=?");
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			
 			criarQuery("DELETE FROM favorito WHERE id=?");
 			ps.setInt(1, id);
 			ps.executeUpdate();
+			
+			commitTransaction();
 		}
 		catch(Exception e){
 			throw e;

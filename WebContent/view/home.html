@@ -183,7 +183,6 @@ $(document).ready(function(){
     var arvore = undefined;
     servicos.buscarHierarquiaDePastas(
    		function(data){
-	   		console.log(data.content)
    			arvore = Element.Arvore(data.content, atualizarPasta);
    			$('#treeView').append(arvore.getElement());
    		}
@@ -240,6 +239,13 @@ $(document).ready(function(){
 					var acoes = {
 						onClick: function(favorito){
 							window.open('http://' + favorito.url);
+						}
+						,
+						remover: function(favorito, bloco){
+							servicos.removerFavorito(favorito.id, function(){
+								bloco.remove();
+								Element.Toast("Favorito removido com sucesso!", 2000)
+							})
 						}
 					}
 					var length = favoritos.length;

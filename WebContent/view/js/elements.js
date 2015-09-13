@@ -407,7 +407,13 @@ var Element = function () {
 	        titulo.append(favorito.titulo);
 	        return titulo;
 	    }
-	    //bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
+	    bloco.Menu.init([
+             {
+            	 titulo: 'Excluir'
+        		 ,
+        		 executar: acoes.remover
+             }
+     	])
         return bloco;
     }
 	
