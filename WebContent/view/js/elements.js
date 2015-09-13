@@ -14,8 +14,14 @@ var ObjectHtml = function(){
 var Element = function () {
 	var self = this;
 		
-	this.Toast = function(mensagem){
-		 dialog = Materialize.toast(mensagem);
+	this.Toast = function(mensagem, tempo){
+		 var dialog = undefined;
+		 if(tempo){
+			 dialog = Materialize.toast(mensagem, tempo);
+		 }
+		 else {
+			 dialog = Materialize.toast(mensagem); 
+		 }
 		 return dialog;
 	}
 	
@@ -115,8 +121,9 @@ var Element = function () {
     //{iconeUrl:"", ... }
 	this.Bloco = function (dados) {
 	    var bloco = new ObjectHtml();
+	    var blocoContainer;
 	    bloco.createElement = function () {
-	        var container = $('<div class="bloco col s12 m3 pasta-fechada drag">');
+	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
 		    var adicionarConteudo = function(){
 		        card.append(criarConteudo());
@@ -155,9 +162,9 @@ var Element = function () {
 		        return conteudo;
 		    }
 		    adicionarConteudo();
-		    container.append(card);
+		    blocoContainer.append(card);
 		    
-		    return container;
+		    return blocoContainer;
 	    }
 	    var criarIcone = function (iconeUrl) {
 	        var container = $('<div class="valign-wrapper">');
@@ -195,17 +202,37 @@ var Element = function () {
 	        }
 	        var criarBotao = function () {
 	            var botao = $('<a class="dropdown-button cyan-text text-lighten-5">');
-	            botao.attr('data-activates', 'dropdown' + dados.id);
+	            botao.attr('data-activates', 'dropdown-acoes-' + dados.id);
 	            var icon = $('<i class="mdi-navigation-more-vert">');
 	            botao.append(icon);
+	            var dropDownHabilitado = false;
+	            botao.on('click', function(event){
+	            	fecharDropDownAberto();
+	            	if(!dropDownHabilitado){
+	            		dropDownHabilitado = true;
+	            		habilitarDropDown();
+	            		abrirDropDown();
+	            	}
+	            	event.stopPropagation();
+	            })
+	            var habilitarDropDown = function(){
+	        		botao.dropdown({constrainwidth: false});
+	        	}
+	        	var abrirDropDown = function(){
+	        		botao.click();
+	        	}
 	            return botao;
 	        }
+	        var fecharDropDownAberto = function(){
+            	$('.dropdown-content.active').css('display', 'none');
+            	$('.dropdown-content.active').removeClass('active');
+            }
 	        var adicionarAcoes = function (acoes) {
 	            container.append(criarAcoes(acoes));
 	        }
 	        var criarAcoes = function (acoes) {
 	            var container = $('<ul class="dropdown-content">');
-	            container.attr('id', 'dropdown' + dados.id);
+	            container.attr('id', 'dropdown-acoes-' + dados.id);
 
 	            var preencherAcoes = function () {
 	                var quantAcoes = acoes.length;
@@ -219,8 +246,13 @@ var Element = function () {
 	            var criarAcao = function (acao) {
 	                var container = $('<li>');
 	                var conteudo = $('<a href="#">');
-	                conteudo.append(acao);
+	                conteudo.append(acao.titulo);
 	                container.append(conteudo);
+	                container.on('click', function(event){
+	                	event.stopPropagation();
+	                	acao.executar(dados, bloco);
+	                	fecharDropDownAberto();
+	                })
 	                return container;
 	            }
 	            preencherAcoes();
@@ -348,6 +380,13 @@ var Element = function () {
 
 	        return container;
 	    }
+	    bloco.remove = function(){
+	    	blocoContainer.fadeOut(
+    	        function(){
+    	        	blocoContainer.remove();
+    	        }
+    	    );
+        }
 	    return bloco;
 	};
 	
@@ -368,7 +407,7 @@ var Element = function () {
 	        titulo.append(favorito.titulo);
 	        return titulo;
 	    }
-	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
+	    //bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
         return bloco;
     }
 	
@@ -388,7 +427,13 @@ var Element = function () {
 	        titulo.append(pasta.nome);
 	        return titulo;
 	    }
-	    bloco.Menu.init(['Selecionar', 'Editar', 'Excluir']);
+	    bloco.Menu.init([
+             {
+            	 titulo: 'Excluir'
+        		 ,
+        		 executar: acoes.remover
+             }
+     	])
 	    return bloco;
     }
 
@@ -440,7 +485,10 @@ var Element = function () {
 			tree.deselect_all();
 			tree.select_node(id);
 		}
-		
+		arvore.removerItem = function(id){
+			var tree = arvore.getElement().jstree(true);
+			tree.delete_node(id);
+		}
 		return arvore;
 		
 	}

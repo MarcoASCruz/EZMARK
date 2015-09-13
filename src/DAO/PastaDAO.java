@@ -37,7 +37,8 @@ public class PastaDAO extends BasicDAO {
 
 	public List<Pasta> buscarPastasFilhas(int idPasta)throws Exception{
 		try{
-			criarQuery("SELECT * FROM PASTA WHERE id_pasta_pai = ? AND id != ?");
+			openConection();
+			setQuery("SELECT * FROM PASTA WHERE id_pasta_pai = ? AND id != ?");
 			ps.setInt(1, idPasta);
 			ps.setInt(2, idPasta);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
@@ -144,9 +145,22 @@ public class PastaDAO extends BasicDAO {
 
 	public void remover(int idPasta)throws Exception{
 		try{
-			criarQuery("DELETE FROM pasta WHERE id=?");
+			List<Pasta> pastasFilhas = buscarPastasFilhas(idPasta);
+			for (Pasta pastaFilha : pastasFilhas) {
+				remover(pastaFilha.getId());
+			}
+			openConection();
+			beginTransaction();
+			
+			setQuery("DELETE FROM pasta_tag WHERE id_pasta=?");
 			ps.setInt(1, idPasta);
 			ps.executeUpdate();
+			
+			setQuery("DELETE FROM pasta WHERE id=?");
+			ps.setInt(1, idPasta);
+			ps.executeUpdate();
+			
+			commitTransaction();
 		}
 		catch(Exception e){
 			throw e;
