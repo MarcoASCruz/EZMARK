@@ -3,3 +3,10 @@
 .bloco .card-panel{
 	cursor: pointer;
 }
+
+.loader .preloader-wrapper{
+	z-index: 1000;
+	position: absolute;
+	left: 46%;
+	top: 42%;
+}
