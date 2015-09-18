@@ -7,7 +7,7 @@
         <link type="text/css" rel="stylesheet" href="lib/materialize/css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile--> 
         <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/elements.css" />
+        
         
         <style>        	
         	div.tagsinput{
@@ -180,13 +180,6 @@ $(document).ready(function(){
     var dropHelp = true;
     var nomeFav = $('#nomeFav').val();  
 
-    var arvore = undefined;
-    servicos.buscarHierarquiaDePastas(
-   		function(data){
-   			arvore = Element.Arvore(data.content, atualizarPasta);
-   			$('#treeView').append(arvore.getElement());
-   		}
-    )
     
     var contexto = {
     	home: undefined
@@ -214,28 +207,18 @@ $(document).ready(function(){
 				
 				var inserirPastas = function(){
 					var pastas = data.content[0].pastas;
-					var acoes = {
-						onClick: function(pasta){
-							arvore.selecionarItem(pasta.id);
-						}
-					}
 					var length = pastas.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Pasta(pastas[i], acoes);
+						var bloco = Element.Pasta(pastas[i]);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
 				
 				var inserirFavoritos = function(){
 					var favoritos = data.content[0].favoritos;
-					var acoes = {
-						onClick: function(favorito){
-							window.open('http://' + favorito.url);
-						}
-					}
 					var length = favoritos.length;
 					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito(favoritos[i], acoes);
+						var bloco = Element.Favorito(favoritos[i]);
 						$('#conteudoBlocos').append(bloco.getElement());
 					}
 				}
@@ -370,20 +353,35 @@ $(document).ready(function(){
 			getPasta()
 			,
 			function(data){
-				var pasta = data.content[0];
-				arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
 				$('#incluirPasta').closeModal();
 				atualizarPasta();
 			}
 		)
 	});
+	
+	servicos.buscarHierarquiaDePastas(
+		function(data){
+			var arvore = Element.Arvore(data.content, atualizarPasta);
+			$('#treeView').append(arvore.getElement());
+		}
+    )
     
     init();
+    
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+        $("#imgInp").change(function(){
+            readURL(this);
+    });    
 });
-
-
-
-
 </script>
         
                 <script>
@@ -449,21 +447,23 @@ $(document).ready(function(){
 	                        </div>
 	                    </li>
 	                    <li>
-	                        <form>
-	                            <div class="marRL5">
-	                                <input type="checkbox" id="check-favoritos" />
-	                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
-	                            </div>
+                        <form>
+                            <div class="marRL5">
+                                <input type="checkbox" id="check-favoritos" />
+                                <label class="cyan-text text-lighten-5" for="check-favoritos">Favoritos</label>
+                            </div>
 	                    </li>
 	                    <li>
-	                    <div class="marRL5 grey-text text-darken-4">
-	                    <input type="checkbox" id="check-categorias" />
-	                    <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label></div></li>
+                            <div class="marRL5 grey-text text-darken-4">
+                                <input type="checkbox" id="check-categorias" />
+                                <label class="cyan-text text-lighten-5" for="check-categorias">Categorias</label>
+                            </div>
+                        </li>
 	                    <li>
-	                    <div class="marRL5 grey-text text-darken-4">
-	                    <input type="checkbox" id="check-tags" />
-	                    <label class="cyan-text text-lighten-5" for="check-tags">Tags</label>
-	                    </div>
+                            <div class="marRL5 grey-text text-darken-4">
+                                <input type="checkbox" id="check-tags" />
+                                <label class="cyan-text text-lighten-5" for="check-tags">Tags</label>
+                            </div>
 	                    </form>
 	                    </li>
 	                    <!--Fim do Formulário para barra de Pesquisa -->
@@ -574,7 +574,7 @@ $(document).ready(function(){
 	                </a>
 	                <!--Botões que saltam do botão fixo-->      
 	                <ul id="atalho-fixo">
-	                     <li><a class="modal-trigger btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+	                    <li><a class="modal-trigger btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
 	                    <li><a class="modal-trigger btn-floating cyan darken-3 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
 	                </ul>
 	                <!--Fim dos Botões que saltam do botão fixo--> 
@@ -583,7 +583,60 @@ $(document).ready(function(){
 	            <div id="incluirFavorito" class="modal modal-fixed-footer">
 	                <div class="modal-content">
 	                    <h4>Incluir Favorito</h4>
-	                    <form>
+	                    <div class="row">
+                <div class="col s12 m3 pasta-fechada drag">
+          <div class="card-panel card-complement cyan darken-2">
+            <div class="card-content white-text">
+               <div class=" col s4 pdzero">
+                <img id="blah" class="responsive-img circle" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">
+            </div>
+                            <div class="col s8 cyan-text text-lighten-5 pdzero">
+                <div class="col s12 titulo-favorito">
+                    <div class="col s10 truncate pdzero"><i class="mdi-action-stars yellow-text text-accent-2"></i>
+                        Favorito
+                    </div>
+                    <div class="col s2">
+                        <a class="dropdown-button cyan-text text-lighten-5" data-activates='dropdown04'><i class="mdi-navigation-more-vert"></i></a>
+                        <ul id='dropdown04' class='dropdown-content'>
+                        <li><a href="#!">Selecionar</a></li>
+                        <li><a href="#!">Editar</a></li>
+                        <li><a href="#!">Excluir</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                    <i class="mdi-action-grade"></i>
+                </div>
+                <div class="col s12 truncate">
+                    Descrição Descrição
+                </div>
+                <div class="col s12 truncate">
+                    Descrição Descrição Descrição Descrição Descrição Descrição Descrição
+                </div>
+                <div class="col s12 truncate">
+                    <i class="mdi-maps-local-offer"></i>   
+                    <a class="amber-text text-darken-2" href='#'>Tag 1, </a>
+                    <a class="amber-text text-darken-2" href='#'>Tag 2, </a>
+                    <a class="amber-text text-darken-2" href='#'>Tag 3</a>
+                </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            </div>
+                    <div class="row">
+                        <form> 
+                        <div class="file-field input-field m12 s12">
+                            <input  class="file-path validate" type="text"/>
+                            <div class="btn">
+                                <span>File</span>
+                                <input type="file" id="imgInp"/>
+                            </div>
+                        </div>
 	                        <div class="row">
 	                            <div class="input-field m12 s6">
 	                                <i class="mdi-action-stars prefix"></i>
