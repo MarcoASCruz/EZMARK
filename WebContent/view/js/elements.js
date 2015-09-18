@@ -77,10 +77,8 @@ var Element = function () {
 	}
 
 	this.FavAcessoRapido = function(icon, nome, id){
-        //icon, nome, descricao, id
 		var favAR = new ObjectHtml();
 		
-//		var iconUrl = icon;
         var iconUrl = icon ? icon : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
         var nomeFavorito = nome;
         
@@ -171,9 +169,12 @@ var Element = function () {
 	        var icon = $('<img style="height:85px" class="circle responsive-img valign">');
 	        if (iconeUrl) {
 	            icon.attr('src', iconeUrl);
+	            icon.error(function(){
+	            	icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
+	            })
 	        }
 	        else {
-	            icon.attr('src', 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png');
+	            icon.attr('src', '/GerenciadorDeFavoritos/view/img/favorito.png');
 	        }
 	        container.append(icon);
 	        return container;
@@ -418,6 +419,7 @@ var Element = function () {
     }
 	
 	this.Pasta = function (pasta, acoes) {
+		console.log(pasta.imagem)
 		var bloco = new self.Bloco({
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
