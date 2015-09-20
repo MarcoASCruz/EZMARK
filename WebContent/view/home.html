@@ -390,6 +390,20 @@ $(document).ready(function(){
     $('.modal-trigger').leanModal();
   });
 </script>
+
+<script>
+    $(document).ready(function(){
+        $('#nomeFav').keyup(function(){
+            var a = " " + $(this).val();
+            $('#exemploNomeFav').text(a); 
+            $('#exemploNomeFav').prepend('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
+        });      
+        $('#textareaFav').keyup(function(){
+            var a = " " + $(this).val();
+            $('#exemploDescFav').text(a); 
+        }); 
+    });
+</script>
     
     
 </head>
@@ -567,7 +581,7 @@ $(document).ready(function(){
 	                <div id="recemAdicionados" class="col s12">content</div>
 	            </div>
 	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
-	            <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
+				<!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
 	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
 	                <a class="btn-floating btn-large red gira tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar" id="botao-fixo">
 	                <i class="large mdi-content-add"></i>
@@ -583,7 +597,7 @@ $(document).ready(function(){
 	            <div id="incluirFavorito" class="modal modal-fixed-footer">
 	                <div class="modal-content">
 	                    <h4>Incluir Favorito</h4>
-	                    <div class="row">
+<div class="row">
                 <div class="col s12 m3 pasta-fechada drag">
           <div class="card-panel card-complement cyan darken-2">
             <div class="card-content white-text">
@@ -592,7 +606,7 @@ $(document).ready(function(){
             </div>
                             <div class="col s8 cyan-text text-lighten-5 pdzero">
                 <div class="col s12 titulo-favorito">
-                    <div class="col s10 truncate pdzero"><i class="mdi-action-stars yellow-text text-accent-2"></i>
+                    <div class="col s10 truncate pdzero" id="exemploNomeFav"><i class="mdi-action-stars yellow-text text-accent-2"></i>
                         Favorito
                     </div>
                     <div class="col s2">
@@ -611,7 +625,7 @@ $(document).ready(function(){
                     <i class="mdi-action-grade"></i>
                     <i class="mdi-action-grade"></i>
                 </div>
-                <div class="col s12 truncate">
+                <div class="col s12 truncate" id="exemploDescFav">
                     Descrição Descrição
                 </div>
                 <div class="col s12 truncate">

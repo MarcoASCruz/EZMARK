@@ -338,6 +338,19 @@ $('#dropDrag').click(function(){
     });
     });
     </script>
+        <script>
+    $(document).ready(function(){
+        $('#nomeFav').keyup(function(){
+            var a = " " + $(this).val();
+            $('#exemploNomeFav').text(a); 
+            $('#exemploNomeFav').prepend('<i class="mdi-action-stars yellow-text text-accent-2"></i>');
+        });      
+        $('#textareaFav').keyup(function(){
+            var a = " " + $(this).val();
+            $('#exemploDescFav').text(a); 
+        }); 
+    });
+</script>
     
     
         <style>
@@ -642,11 +655,11 @@ $('#dropDrag').click(function(){
           <div class="card-panel card-complement cyan darken-2">
             <div class="card-content white-text">
                <div class=" col s4 pdzero">
-                <img id="blah" class="responsive-img circle" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">
+                <img id="blah" class="responsive-img circle" src="default.png">
             </div>
                             <div class="col s8 cyan-text text-lighten-5 pdzero">
                 <div class="col s12 titulo-favorito">
-                    <div class="col s10 truncate pdzero"><i class="mdi-action-stars yellow-text text-accent-2"></i>
+                    <div class="col s10 truncate pdzero" id="exemploNomeFav"><i class="mdi-action-stars yellow-text text-accent-2"></i>
                         Favorito
                     </div>
                     <div class="col s2">
@@ -665,7 +678,7 @@ $('#dropDrag').click(function(){
                     <i class="mdi-action-grade"></i>
                     <i class="mdi-action-grade"></i>
                 </div>
-                <div class="col s12 truncate">
+                <div class="col s12 truncate" id="exemploDescFav">
                     Descrição Descrição
                 </div>
                 <div class="col s12 truncate">
@@ -710,8 +723,8 @@ $('#dropDrag').click(function(){
                         </div>
                         <div class="input-field col s12">
                             <i class="mdi-action-description prefix"></i>
-                            <textarea id="textarea1" class="materialize-textarea"></textarea>
-                            <label for="textarea1">Descrição</label>
+                            <textarea id="textareaFav" class="materialize-textarea"></textarea>
+                            <label for="textareaFav">Descrição</label>
                         </div>
                         <div class="input-field col s12">
                             <input id="tags" type="text" class="validate">
@@ -793,7 +806,7 @@ $('#dropDrag').click(function(){
           <div class="card-panel cyan darken-4 card-complement" id="fav1-content">
             <div class="card-content white-text">
                <div class="card-content col s4 pdzero" id="imgFav">
-                <img class="responsive-img" style="max-height: 100px;" src="https://cdn1.iconfinder.com/data/icons/finance-items/512/folder_archive_directory_business_papers_computer_file_organize_information_flat_design_icon-512.png">
+                <img class="responsive-img" style="max-height: 100px;" src="default.png">
             </div>
                             <div class="col s8 cyan-text text-lighten-5 pdzero" id="detFav">
                 <div class="col s12 titulo-favorito">
@@ -885,7 +898,7 @@ $('#dropDrag').click(function(){
           <div class="card-panel card-complement cyan darken-2">
             <div class="card-content white-text">
                <div class=" col s4 pdzero">
-                <img class="responsive-img" src="https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png">
+                <img class="responsive-img" src="default.png">
             </div>
                             <div class="col s8 cyan-text text-lighten-5 pdzero">
                 <div class="col s12 titulo-favorito">
@@ -985,7 +998,7 @@ $('#dropDrag').click(function(){
           <div class="card-panel cyan darken-3 card-complement">
             <div class="card-content white-text">
                <div class="col s4 pdzero">
-                <img class="responsive-img" src="https://cdn1.iconfinder.com/data/icons/finance-items/512/folder_archive_directory_business_papers_computer_file_organize_information_flat_design_icon-512.png">
+                <img class="responsive-img" src="default.png">
             </div>
                             <div class="col s8 cyan-text text-lighten-5 pdzero">
                 <div class="col s12 titulo-favorito">
