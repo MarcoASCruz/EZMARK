@@ -289,8 +289,11 @@ $(document).ready(function(){
 	})
 	
 	var insereIcons = function(favoritos, divDestino){
+		var limparDestino = function(){
+			divDestino.empty();
+		}
 		var length = favoritos.length;
-		divDestino.empty()
+		limparDestino();
 		for(var i = 0; i < length; i++){
 			var icon = Element.FavAcessoRapido(favoritos[i].imagem, favoritos[i].titulo, favoritos[i].id);
 			divDestino.append(icon.getElement());

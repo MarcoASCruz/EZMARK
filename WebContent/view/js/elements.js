@@ -76,16 +76,35 @@ var Element = function () {
 		return modal;
 	}
 
-	this.FavAcessoRapido = function(icon, nome, id){
+	this.FavAcessoRapido = function(iconUrl, nome, id){
 		var favAR = new ObjectHtml();
+		var criarIcon = function(iconeUrl){
+			var icon = $('<img class="responsive-img" style="width: 77px;height: 77px;">');
+			var adicionarImagemDefault = function(){
+				icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
+			}
+			
+			if(iconeUrl){
+				icon.attr('src', iconeUrl);
+			}
+			else{
+				adicionarImagemDefault();
+			}
+			
+	        icon.error(function(){
+	        	adicionarImagemDefault();
+	        })
+	        return icon;
+		}
 		
-        var iconUrl = icon ? icon : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
+		//var iconUrl = icon ? icon : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
         var nomeFavorito = nome;
         
         favAR.createElement = function () {
         var bloco = $('<div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
-        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 5px;">');
-        var icon = $('<img class="responsive-img" src="' + iconUrl +  '">');
+        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
+        
+        var icon = criarIcon(iconUrl);
         var div_detalhes = $('<div class="col s12 cyan-text text-lighten-5 pdzero">');
         var detalhes_favorito = $('<div class="col s12 pdzero">');
         var titulo_favorito = $('<div class="col s10 pdzero titulo-favorito-destaque truncate">');
@@ -174,7 +193,7 @@ var Element = function () {
 	            })
 	        }
 	        else {
-	            icon.attr('src', '/GerenciadorDeFavoritos/view/img/favorito.png');
+	            icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
 	        }
 	        container.append(icon);
 	        return container;
@@ -419,7 +438,6 @@ var Element = function () {
     }
 	
 	this.Pasta = function (pasta, acoes) {
-		console.log(pasta.imagem)
 		var bloco = new self.Bloco({
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
