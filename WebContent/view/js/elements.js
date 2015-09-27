@@ -412,6 +412,7 @@ var Element = function () {
 	
 	this.Favorito = function (favorito, acoes) {
 	    var bloco = new self.Bloco({
+	    	titulo: favorito.titulo,
 	        id: favorito.id,
 	        quantEstrelas: favorito.numEstrela,
 	        descricao: favorito.descricao,
@@ -420,11 +421,11 @@ var Element = function () {
 	        url: favorito.url,
 	        onClick: acoes.onClick
 	    });
-	    bloco.criarTitulo = function () {
+	    bloco.criarTitulo = function (favTitulo) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
 	        var icone = $('<i class="mdi-action-stars yellow-text text-accent-2">');
 	        titulo.append(icone);
-	        titulo.append(favorito.titulo);
+	        titulo.append(favTitulo);
 	        return titulo;
 	    }
 	    bloco.Menu.init([
@@ -432,6 +433,12 @@ var Element = function () {
             	 titulo: 'Excluir'
         		 ,
         		 executar: acoes.remover
+             }
+             ,
+             {
+            	 titulo: 'Editar'
+        		 ,
+        		 executar: acoes.editar
              }
      	])
         return bloco;

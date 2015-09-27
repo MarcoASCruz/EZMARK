@@ -148,17 +148,20 @@ public class FavoritoDAO extends BasicDAO {
 	
 	public Favorito alterar(Favorito f) throws Exception{
 		try{
-			criarQuery("UPDATE favorito SET `id_pasta`=?, `url`=?, `titulo`=?,	`descricao`=?,`data_criacao` = ?,`numEstrela` = ?, `acesso_rapido` = ? WHERE id = ?");
-			ps.setInt(1, f.getPai());
-			ps.setString(2, f.getUrl());
-			ps.setString(3, f.getTitulo());
-			ps.setString(4, f.getDescricao());
-			ps.setTimestamp(5, f.getDataCriacao());
-			ps.setInt(6, f.getNumEstrela());
-			//ps.setBytes(7, f.getImagem());
-			ps.setBoolean(7, f.isAcessoRapido());
-			ps.setInt(8, f.getId());
+			openConection();
+			beginTransaction();
+			int idFavorito = f.getId();
+			removerTodasTags(idFavorito);
+			for (String tag : f.getTags()) {
+				adicionarTag(tag, idFavorito);
+			}
+			setQuery("UPDATE favorito SET `url`=?, `titulo`=?,	`descricao`=? WHERE id = ?");
+			ps.setString(1, f.getUrl());
+			ps.setString(2, f.getTitulo());
+			ps.setString(3, f.getDescricao());
+			ps.setInt(4, f.getId());
 			ps.executeUpdate();
+			commitTransaction();
 			return f;
 		}
 		catch(Exception e){
@@ -340,6 +343,21 @@ public class FavoritoDAO extends BasicDAO {
 		}
 		finally{
 			close();
+		}
+	}
+	public void removerTodasTags(int idFavorito) throws Exception{
+		try{
+			setQuery("DELETE FROM favorito_tag WHERE id_favorito = ?");
+			ps.setInt(1, idFavorito);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			if (c.getAutoCommit()){
+				close();
+			}
 		}
 	}
 	
