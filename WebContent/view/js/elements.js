@@ -139,6 +139,7 @@ var Element = function () {
 	this.Bloco = function (dados) {
 	    var bloco = new ObjectHtml();
 	    var blocoContainer;
+	    var idBloco = dados.tipo + "-" + dados.id;
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
@@ -222,7 +223,7 @@ var Element = function () {
 	        }
 	        var criarBotao = function () {
 	            var botao = $('<a class="dropdown-button cyan-text text-lighten-5">');
-	            botao.attr('data-activates', 'dropdown-acoes-' + dados.id);
+	            botao.attr('data-activates', 'dropdown-acoes-' + idBloco);
 	            var icon = $('<i class="mdi-navigation-more-vert">');
 	            botao.append(icon);
 	            var dropDownHabilitado = false;
@@ -252,7 +253,7 @@ var Element = function () {
 	        }
 	        var criarAcoes = function (acoes) {
 	            var container = $('<ul class="dropdown-content">');
-	            container.attr('id', 'dropdown-acoes-' + dados.id);
+	            container.attr('id', 'dropdown-acoes-' + idBloco);
 
 	            var preencherAcoes = function () {
 	                var quantAcoes = acoes.length;
@@ -412,6 +413,7 @@ var Element = function () {
 	
 	this.Favorito = function (favorito, acoes) {
 	    var bloco = new self.Bloco({
+	    	tipo: "favorito",
 	    	titulo: favorito.titulo,
 	        id: favorito.id,
 	        quantEstrelas: favorito.numEstrela,
@@ -446,6 +448,7 @@ var Element = function () {
 	
 	this.Pasta = function (pasta, acoes) {
 		var bloco = new self.Bloco({
+			tipo: "pasta",
 			titulo: pasta.nome,
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
