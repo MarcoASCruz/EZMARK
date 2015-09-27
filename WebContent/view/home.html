@@ -246,9 +246,17 @@ $(document).ready(function(){
 								var preencherTags = function(){
 									if (pasta.tags){
 										var tagsInput = $('.tagsPasta', modal);
+										var limparTagsInput = function(){
+											var tags = tagsInput.val().split(',');
+											var quantTags = tags.length;
+											for (var i = 0; i < quantTags; i++){
+												tagsInput.removeTag(tags[i]);	
+											}	
+										}
 										var adicionarTag = function(tag){
 											tagsInput.addTag(tag);
 										}
+										limparTagsInput();
 										var tags = pasta.tags;
 										var quantTags = tags.length;
 										for (var i = 0; i < quantTags; i++){
@@ -292,6 +300,7 @@ $(document).ready(function(){
 									return modeloPasta;
 								}
 								var pastaAlterada = getPasta();
+								var btn = $(this);
 								servicos.alterarPasta(
 									pastaAlterada
 									,
@@ -299,6 +308,7 @@ $(document).ready(function(){
 										modal.closeModal();
 										atualizarPasta();
 										arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
+										btn.off();
 									}
 								)
 							})
@@ -346,9 +356,17 @@ $(document).ready(function(){
 								var preencherTags = function(){
 									if (favorito.tags){
 										var tagsInput = $('.tagsFavorito', modal);
+										var limparTagsInput = function(){
+											var tags = tagsInput.val().split(',');
+											var quantTags = tags.length;
+											for (var i = 0; i < quantTags; i++){
+												tagsInput.removeTag(tags[i]);	
+											}	
+										}
 										var adicionarTag = function(tag){
 											tagsInput.addTag(tag);
 										}
+										limparTagsInput();
 										var tags = favorito.tags;
 										var quantTags = tags.length;
 										for (var i = 0; i < quantTags; i++){
@@ -394,13 +412,14 @@ $(document).ready(function(){
 									return modeloFavorito;
 								}
 								var favoritoAlterado = getFavorito();
-								console.log(favoritoAlterado);
+								var btn = $(this);
 								servicos.alterarFavorito(
 									favoritoAlterado
 									,
 									function(data){
 										modal.closeModal();
 										atualizarPasta();
+										btn.off();
 									}
 								)
 							})
@@ -416,7 +435,9 @@ $(document).ready(function(){
 				limparContainer();
 				inserirPastas();
 				inserirFavoritos();
-				contexto.pastaAtual = Number(idPasta);
+				if (idPasta){
+					contexto.pastaAtual = Number(idPasta);
+				}
 			}
 		);
 	}
