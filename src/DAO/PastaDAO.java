@@ -125,14 +125,19 @@ public class PastaDAO extends BasicDAO {
 	
 	public Pasta alterar(Pasta pasta)throws Exception{
 		try{
-			criarQuery("UPDATE pasta SET id_pasta_pai=?, nome = ?,	num_estrela= ?, publica = ? WHERE id = ?");
-			ps.setInt(1, pasta.getPai());
-			ps.setString(2, pasta.getNome());
-			ps.setInt(3, pasta.getNumEstrela());
-			ps.setBoolean(4, pasta.isPublica());
-			//ps.setBytes(5, pasta.getImagem());
-			ps.setInt(5, pasta.getId());
+			openConection();
+			beginTransaction();
+			int idPasta = pasta.getId();
+			removerTodasTags(idPasta);
+			for (String tag : pasta.getTags()) {
+				adicionarTag(tag, idPasta);
+			}
+			setQuery("UPDATE pasta SET nome = ?, descricao = ? WHERE id = ?");
+			ps.setString(1, pasta.getNome());
+			ps.setString(2, pasta.getDescricao());
+			ps.setInt(3, idPasta);
 			ps.executeUpdate();
+			commitTransaction();
 			return pasta;
 		}
 		catch(Exception e){
@@ -236,6 +241,22 @@ public class PastaDAO extends BasicDAO {
 		}
 		finally{
 			close();
+		}
+	}
+
+	public void removerTodasTags(int idPasta) throws Exception{
+		try{
+			setQuery("DELETE FROM pasta_tag WHERE id_pasta = ?");
+			ps.setInt(1, idPasta);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			if (c.getAutoCommit()){
+				close();
+			}
 		}
 	}
 }

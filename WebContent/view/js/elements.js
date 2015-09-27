@@ -202,7 +202,7 @@ var Element = function () {
 	    var criarHeader = function () {
 	        var container = $('<div class="col s12 titulo-favorito">');
 	        var adicionarTitulo = function () {
-	            container.append(bloco.criarTitulo());
+	            container.append(bloco.criarTitulo(dados.titulo));
 	        }
 	        var adicionarMenu = function () {
 	        	var menu = bloco.Menu.obterHtml();
@@ -212,7 +212,7 @@ var Element = function () {
 	        adicionarMenu();
 	        return container;
 	    }
-	    bloco.criarTitulo = function () {
+	    bloco.criarTitulo = function (titulo) {
 	        return null;
 	    }
 	    bloco.Menu = new function() {
@@ -439,6 +439,7 @@ var Element = function () {
 	
 	this.Pasta = function (pasta, acoes) {
 		var bloco = new self.Bloco({
+			titulo: pasta.nome,
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,
 	        descricao: pasta.descricao,
@@ -446,11 +447,11 @@ var Element = function () {
 	        iconeUrl: pasta.imagem,
 	        onClick: acoes.onClick
 	    });
-	    bloco.criarTitulo = function () {
+	    bloco.criarTitulo = function (nomePasta) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
 	        var icone = $('<i class="mdi-file-folder yellow-text text-darken-3">');
 	        titulo.append(icone);
-	        titulo.append(pasta.nome);
+	        titulo.append(nomePasta);
 	        return titulo;
 	    }
 	    bloco.Menu.init([
@@ -458,6 +459,12 @@ var Element = function () {
             	 titulo: 'Excluir'
         		 ,
         		 executar: acoes.remover
+             }
+             ,
+             {
+            	 titulo: 'Editar'
+        		 ,
+        		 executar: acoes.editar
              }
      	])
 	    return bloco;
@@ -514,6 +521,10 @@ var Element = function () {
 		arvore.removerItem = function(id){
 			var tree = arvore.getElement().jstree(true);
 			tree.delete_node(id);
+		}
+		arvore.renomearItem = function(id, titulo){
+			var tree = arvore.getElement().jstree(true);
+			tree.rename_node(id, titulo);
 		}
 		return arvore;
 		
