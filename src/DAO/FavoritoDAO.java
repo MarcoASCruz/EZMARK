@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelos.Favorito;
+import modelos.Pasta;
 import modelos.Tag;
 
 public class FavoritoDAO extends BasicDAO {
@@ -358,6 +359,35 @@ public class FavoritoDAO extends BasicDAO {
 			if (c.getAutoCommit()){
 				close();
 			}
+		}
+	}
+	
+	public List<Favorito> pesquisar(String favorito) throws Exception{
+		try{
+			openConection();
+			setQuery("SELECT id, titulo, url, descricao, numEstrela FROM favorito WHERE titulo LIKE CONCAT(?) OR url LIKE CONCAT(?)");
+			String textoComLike = "%" + favorito + "%"; 
+			ps.setString(1, textoComLike);
+			ps.setString(2, textoComLike);
+			beginTransaction();
+			ResultSet res =  (ResultSet) ps.executeQuery();	
+			List<Favorito> favoritos = new ArrayList<Favorito>();
+			while (res.next()){
+				Favorito f = new Favorito();
+				f.setId(res.getInt("id"));
+				f.addImagemUrl();
+				f.setTitulo(res.getString("titulo"));
+				f.setUrl(res.getString("url"));
+				f.setDescricao(res.getString("descricao"));
+				f.setNumEstrela(res.getInt("numEstrela"));
+				f.setTags(buscarTags(f.getId()));
+				favoritos.add(f);
+			}
+			commitTransaction();
+			return favoritos;
+		}
+		catch(Exception e){
+			throw e;
 		}
 	}
 	

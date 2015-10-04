@@ -31,6 +31,7 @@ import DAO.FavoritoDAO;
 import DAO.PastaDAO;
 import DAO.TagDAO;
 import modelos.AppResponse;
+import modelos.DTOPesquisa;
 import modelos.Favorito;
 import modelos.Hierarquia;
 import modelos.Pasta;
@@ -391,6 +392,32 @@ public class Arquivo {
 			PastaDAO pastaDAO = new PastaDAO();
 			pastaDAO.removerTag(tag, idPasta);
 			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@GET
+	@Path("/pesquisar/{conteudo}")
+	@Produces("application/json")
+	public Response pesquisar(@PathParam("conteudo") String conteudo) {
+		AppResponse response = new AppResponse();
+		try{
+			PastaDAO pastaDAO = new DAO.PastaDAO();
+			FavoritoDAO favoritoDAO = new FavoritoDAO();
+			
+			List<Pasta> pastas = pastaDAO.pesquisar(conteudo);
+			List<Favorito> favoritos = favoritoDAO.pesquisar(conteudo);
+			
+			DTOPesquisa pesquisa = new DTOPesquisa(pastas, favoritos);
+			
+			ArrayList l = new ArrayList();
+			l.add(pesquisa);
+			
+			response.setSuccess(true);
+			response.setContent(l);
 		}
 		catch(Exception e){
 			response.addException(e);

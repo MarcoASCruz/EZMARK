@@ -75,6 +75,9 @@ public class Favorito {
 	public String getImagem() {
 		return imagem;
 	}
+	public void addImagemUrl() {
+		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/favorito/img/" + id;
+	}
 	public void setImagem(int id) {
 		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/favorito/img/" + id;
 	}

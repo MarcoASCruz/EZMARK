@@ -80,6 +80,9 @@ public class Pasta {
 	public String getImagem() {
 		return imagem;
 	}
+	public void buildImagemUrl (){
+		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/" + id;
+	}
 	public void setImagem(int id) {
 		this.imagem = "/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/" + id;
 	}

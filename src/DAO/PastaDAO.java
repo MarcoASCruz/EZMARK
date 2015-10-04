@@ -259,4 +259,32 @@ public class PastaDAO extends BasicDAO {
 			}
 		}
 	}
+
+	public List<Pasta> pesquisar(String pasta) throws Exception{
+		try{
+			openConection();
+			setQuery("SELECT id, id_pasta_pai, nome, data_criacao, num_estrela, publica, descricao FROM pasta WHERE nome LIKE CONCAT(?)");
+			ps.setString(1, "%" + pasta + "%");
+			beginTransaction();
+			ResultSet res =  (ResultSet) ps.executeQuery();	
+			List<Pasta> pastas = new ArrayList<Pasta>();
+			while (res.next()){
+				Pasta p = new Pasta();
+				p.setId(res.getInt("id"));
+				p.buildImagemUrl();
+				p.setPai(res.getInt("id_pasta_pai"));
+				p.setNome(res.getString("nome"));
+				p.setNumEstrela(res.getInt("num_estrela"));
+				p.setPublica(res.getBoolean("publica"));
+				p.setDescricao(res.getString("descricao"));
+				p.setTags(buscarTags(p.getId()));
+				pastas.add(p);
+			}
+			commitTransaction();
+			return pastas;
+		}
+		catch(Exception e){
+			throw e;
+		}
+	}
 }
