@@ -263,8 +263,10 @@ public class PastaDAO extends BasicDAO {
 	public List<Pasta> pesquisar(String pasta) throws Exception{
 		try{
 			openConection();
-			setQuery("SELECT id, id_pasta_pai, nome, data_criacao, num_estrela, publica, descricao FROM pasta WHERE nome LIKE CONCAT(?)");
-			ps.setString(1, "%" + pasta + "%");
+			setQuery("SELECT id, id_pasta_pai, pasta.nome, data_criacao, num_estrela, publica, descricao FROM pasta LEFT JOIN pasta_tag ON (pasta.id = pasta_tag.id_pasta) LEFT JOIN tag ON (pasta_tag.tag_nome = tag.nome) WHERE pasta.nome LIKE CONCAT(?) OR tag.nome LIKE CONCAT(?)");
+			String pastaComLike = "%" + pasta + "%";
+			ps.setString(1, pastaComLike);
+			ps.setString(2, pastaComLike);
 			beginTransaction();
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			List<Pasta> pastas = new ArrayList<Pasta>();

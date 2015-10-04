@@ -365,10 +365,11 @@ public class FavoritoDAO extends BasicDAO {
 	public List<Favorito> pesquisar(String favorito) throws Exception{
 		try{
 			openConection();
-			setQuery("SELECT id, titulo, url, descricao, numEstrela FROM favorito WHERE titulo LIKE CONCAT(?) OR url LIKE CONCAT(?)");
+			setQuery("SELECT id, titulo, url, descricao, numEstrela FROM favorito LEFT JOIN favorito_tag ON (favorito.id = favorito_tag.id_favorito) LEFT JOIN tag ON (favorito_tag.tag_nome = tag.nome) WHERE titulo LIKE CONCAT(?) OR url LIKE CONCAT(?) OR tag.nome LIKE CONCAT(?)");
 			String textoComLike = "%" + favorito + "%"; 
 			ps.setString(1, textoComLike);
 			ps.setString(2, textoComLike);
+			ps.setString(3, textoComLike);
 			beginTransaction();
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			List<Favorito> favoritos = new ArrayList<Favorito>();
