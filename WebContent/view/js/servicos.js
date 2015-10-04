@@ -266,4 +266,18 @@ var servicos = {
 			}
 		)
 	}
+	,
+	pesquisa: function(form, onSuccess) {
+		mapper.services.pesquisa(
+			form
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
 }

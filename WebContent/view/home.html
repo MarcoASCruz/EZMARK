@@ -574,12 +574,32 @@ $(document).ready(function(){
 			}
 		)
 	});
+	
+
+	$("#search").keyup(function(e) {
+		var getPesquisa = function(value) {
+			servicos.pesquisa(
+					value
+					,
+					function(data){
+					    var div_data = "<div id='conteudoBusca' class='conteudo'>Conteudo da Pesquisa aqui</div>";
+					    $(".main").append(div_data);  
+					})
+		}
+	    $("#conteudoBusca").remove();
+	   	$("#conteudo").hide();
+	    value = $(this).val();
+		$.trim(value);
+		getPesquisa(value);
+	    
+	    if (value.length === 0 ) {
+	    	$("#conteudo").show();
+	        $("#conteudoBusca").remove();
+	    }    
+	});
     
     init();
 });
-
-
-
 
 </script>
         
@@ -742,7 +762,20 @@ $(document).ready(function(){
 	    <!--Fim da Barra de Navegação-->   
 	    <!--Corpo do conteúdo da página-->  
 	    <main class="main">
-	        <div class="conteudo">
+			<!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
+	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+	                <a class="btn-floating btn-large red gira tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar" id="botao-fixo">
+	                <i class="large mdi-content-add"></i>
+	                </a>
+	                <!--Botões que saltam do botão fixo-->      
+	                <ul id="atalho-fixo">
+	                     <li><a class="modal-trigger btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+	                    <li><a class="modal-trigger btn-floating cyan darken-3 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+	                </ul>
+	                <!--Fim dos Botões que saltam do botão fixo--> 
+	            </div>
+	            <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
+	        <div id="conteudo" class="conteudo">
 	            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
 	            <div class="row z-depth-1" style="background-color: white;">
 	                <div class="col s12 pdzero" >
@@ -764,19 +797,6 @@ $(document).ready(function(){
 	                <div id="recemAdicionados" class="col s12">content</div>
 	            </div>
 	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
-	            <!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
-	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-	                <a class="btn-floating btn-large red gira tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar" id="botao-fixo">
-	                <i class="large mdi-content-add"></i>
-	                </a>
-	                <!--Botões que saltam do botão fixo-->      
-	                <ul id="atalho-fixo">
-	                     <li><a class="modal-trigger btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" href="#incluirFavorito"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
-	                    <li><a class="modal-trigger btn-floating cyan darken-3 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" href="#incluirPasta"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
-	                </ul>
-	                <!--Fim dos Botões que saltam do botão fixo--> 
-	            </div>
-	            <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
 	            <div id="incluirFavorito" class="modal modal-fixed-footer">
 	                <div class="modal-content">
 	                    <h4>Incluir Favorito</h4>

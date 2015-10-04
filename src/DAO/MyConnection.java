@@ -11,7 +11,7 @@ public class MyConnection {
 		{	
 			String database = "jdbc:mysql://127.0.0.1:3306/gerenciador_de_favoritos";
 			String usuario = "root";
-			String senha = "";		
+			String senha = "vertrigo";		
 			Class.forName("com.mysql.jdbc.Driver"); 
 			concection = (Connection) DriverManager.getConnection( database, usuario, senha );
 

@@ -275,7 +275,7 @@ var Mapper = function(){
 		,
 		adicionarTagFavorito: function(idFavorito, tagNome, onSuccess, onError){
 			requisicaoParametros = {
-				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/tag"
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pesquisar/tag"
 				,
 				method: "POST"
 				,
@@ -301,6 +301,19 @@ var Mapper = function(){
 					idFavorito: idFavorito,
 					idTag: idTag
 				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
+		pesquisa: function(valorPesquisa, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pesquisar/" + valorPesquisa
+				,
+				method: "GET"
 				,
 				success: onSuccess
 				,
