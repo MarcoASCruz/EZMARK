@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset='utf-8'>
@@ -205,236 +205,237 @@ $(document).ready(function(){
     	atualizarPasta(idHome);
     }
     
+    var limparContainer = function (container) {
+        container.empty();
+    }
+
+    var inserirPastas = function (pastas, container) {
+        var acoes = {
+            onClick: function (pasta) {
+                arvore.selecionarItem(pasta.id);
+            }
+            ,
+            remover: function (pasta, bloco) {
+                servicos.removerPasta(pasta.id, function () {
+                    bloco.remove();
+                    arvore.removerItem(pasta.id);
+                    Element.Toast("Pasta removida com sucesso!", 2000)
+                })
+            }
+            ,
+            editar: function (pasta) {
+                var modal = $('.alterarPasta');
+                var abrirModal = function () {
+                    modal.openModal();
+                }
+                var preencherCamposModal = function () {
+                    var preencherTitulo = function () {
+                        var titulo = $('.nomePasta', modal);
+                        preencherCampo(titulo, pasta.titulo);
+                    }
+                    var preencherDescricao = function () {
+                        var descricao = $('.textareaPasta', modal);
+                        preencherCampo(descricao, pasta.descricao);
+                    }
+                    var preencherTags = function () {
+                        if (pasta.tags) {
+                            var tagsInput = $('.tagsPasta', modal);
+                            var limparTagsInput = function () {
+                                var tags = tagsInput.val().split(',');
+                                var quantTags = tags.length;
+                                for (var i = 0; i < quantTags; i++) {
+                                    tagsInput.removeTag(tags[i]);
+                                }
+                            }
+                            var adicionarTag = function (tag) {
+                                tagsInput.addTag(tag);
+                            }
+                            limparTagsInput();
+                            var tags = pasta.tags;
+                            var quantTags = tags.length;
+                            for (var i = 0; i < quantTags; i++) {
+                                adicionarTag(tags[i]);
+                            }
+                        }
+                    }
+                    var preencherCampo = function (campo, valor) {
+                        ativarCampo(campo);
+                        adicionarValorAoCampo(campo, valor);
+                    }
+                    var ativarCampo = function (campo) {
+                        $('label', campo.parent()).addClass('active');
+                    }
+                    var adicionarValorAoCampo = function (campo, valor) {
+                        campo.val(valor);
+                    }
+                    preencherTitulo();
+                    preencherDescricao();
+                    preencherTags();
+                }
+                abrirModal();
+                preencherCamposModal();
+                $('.btnAlterarPasta', modal).on('click', function () {
+                    var getPasta = function () {
+                        var getTags = function () {
+                            var tags = $('.tagsPasta', modal).val().split(',');
+                            if (tags) {
+                                return tags;
+                            }
+                            else {
+                                return null;
+                            }
+                        }
+                        var modeloPasta = modelo.pasta();
+                        modeloPasta.id = pasta.id;
+                        modeloPasta.nome = $(".nomePasta", modal).val();
+                        modeloPasta.descricao = $(".textareaPasta", modal).val();
+                        modeloPasta.pai = contexto.pastaAtual;
+                        modeloPasta.tags = getTags();
+                        return modeloPasta;
+                    }
+                    var pastaAlterada = getPasta();
+                    var btn = $(this);
+                    servicos.alterarPasta(
+                        pastaAlterada
+                        ,
+                        function (data) {
+                            modal.closeModal();
+                            atualizarPasta();
+                            arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
+                            btn.off();
+                        }
+                    )
+                })
+            }
+        }
+        var length = pastas.length;
+        for (var i = 0; i < length; i++) {
+            var bloco = Element.Pasta(pastas[i], acoes);
+            container.append(bloco.getElement());
+        }
+    }
+
+    var inserirFavoritos = function (favoritos, container) {
+        var acoes = {
+            onClick: function (favorito) {
+                window.open('http://' + favorito.url);
+            }
+            ,
+            remover: function (favorito, bloco) {
+                servicos.removerFavorito(favorito.id, function () {
+                    bloco.remove();
+                    Element.Toast("Favorito removido com sucesso!", 2000)
+                })
+            }
+            ,
+            editar: function (favorito) {
+                var modal = $('.alterarFavorito');
+                var abrirModal = function () {
+                    modal.openModal();
+                }
+                var preencherCamposModal = function () {
+                    var preencherTitulo = function () {
+                        var titulo = $('.nomeFav', modal);
+                        preencherCampo(titulo, favorito.titulo);
+                    }
+                    var preencherUrl = function () {
+                        var url = $('.url-fav', modal);
+                        preencherCampo(url, favorito.url);
+                    }
+                    var preencherDescricao = function () {
+                        var descricao = $('.textareaFav', modal);
+                        preencherCampo(descricao, favorito.descricao);
+                    }
+                    var preencherTags = function () {
+                        if (favorito.tags) {
+                            var tagsInput = $('.tagsFavorito', modal);
+                            var limparTagsInput = function () {
+                                var tags = tagsInput.val().split(',');
+                                var quantTags = tags.length;
+                                for (var i = 0; i < quantTags; i++) {
+                                    tagsInput.removeTag(tags[i]);
+                                }
+                            }
+                            var adicionarTag = function (tag) {
+                                tagsInput.addTag(tag);
+                            }
+                            limparTagsInput();
+                            var tags = favorito.tags;
+                            var quantTags = tags.length;
+                            for (var i = 0; i < quantTags; i++) {
+                                adicionarTag(tags[i]);
+                            }
+                        }
+                    }
+                    var preencherCampo = function (campo, valor) {
+                        ativarCampo(campo);
+                        adicionarValorAoCampo(campo, valor);
+                    }
+                    var ativarCampo = function (campo) {
+                        $('label', campo.parent()).addClass('active');
+                    }
+                    var adicionarValorAoCampo = function (campo, valor) {
+                        campo.val(valor);
+                    }
+                    preencherTitulo();
+                    preencherUrl();
+                    preencherDescricao();
+                    preencherTags();
+
+                }
+                abrirModal();
+                preencherCamposModal();
+                $('.btnAlterarFavorito', modal).on('click', function () {
+                    var getFavorito = function () {
+                        var getTags = function () {
+                            var tags = $('.tagsFavorito', modal).val().split(',');
+                            if (tags) {
+                                return tags;
+                            }
+                            else {
+                                return null;
+                            }
+                        }
+                        var modeloFavorito = modelo.favorito();
+                        modeloFavorito.id = favorito.id;
+                        modeloFavorito.url = $(".url-fav", modal).val();
+                        modeloFavorito.titulo = $(".nomeFav", modal).val();
+                        modeloFavorito.descricao = $(".textareaFav", modal).val()
+                        modeloFavorito.tags = getTags();
+                        return modeloFavorito;
+                    }
+                    var favoritoAlterado = getFavorito();
+                    var btn = $(this);
+                    servicos.alterarFavorito(
+                        favoritoAlterado
+                        ,
+                        function (data) {
+                            modal.closeModal();
+                            atualizarPasta();
+                            btn.off();
+                        }
+                    )
+                })
+            }
+        }
+        var length = favoritos.length;
+        for (var i = 0; i < length; i++) {
+            var bloco = Element.Favorito(favoritos[i], acoes);
+            container.append(bloco.getElement());
+        }
+    }
+
 	var atualizarPasta = function(idPasta){
 		servicos.buscarArquivos(
 			idPasta ? idPasta : contexto.pastaAtual
 			,
 			function(data){
-				var limparContainer = function(){
-					$('#conteudoBlocos').empty();
-				}
+			    var pastas = data.content[0].pastas;
+			    var favoritos = data.content[0].favoritos;
 				
-				var inserirPastas = function(){
-					var pastas = data.content[0].pastas;
-					var acoes = {
-						onClick: function(pasta){
-							arvore.selecionarItem(pasta.id);
-						}
-						,
-						remover: function(pasta, bloco){
-							servicos.removerPasta(pasta.id, function(){
-								bloco.remove();
-								arvore.removerItem(pasta.id);
-								Element.Toast("Pasta removida com sucesso!", 2000)
-							})
-						}
-						,
-						editar: function(pasta){
-							var modal = $('.alterarPasta');
-							var abrirModal = function(){
-								modal.openModal();	
-							}
-							var preencherCamposModal = function(){
-								var preencherTitulo = function(){
-									var titulo = $('.nomePasta', modal);
-									preencherCampo(titulo, pasta.titulo);
-								}
-								var preencherDescricao = function(){
-									var descricao = $('.textareaPasta', modal);
-									preencherCampo(descricao, pasta.descricao);
-								}
-								var preencherTags = function(){
-									if (pasta.tags){
-										var tagsInput = $('.tagsPasta', modal);
-										var limparTagsInput = function(){
-											var tags = tagsInput.val().split(',');
-											var quantTags = tags.length;
-											for (var i = 0; i < quantTags; i++){
-												tagsInput.removeTag(tags[i]);	
-											}	
-										}
-										var adicionarTag = function(tag){
-											tagsInput.addTag(tag);
-										}
-										limparTagsInput();
-										var tags = pasta.tags;
-										var quantTags = tags.length;
-										for (var i = 0; i < quantTags; i++){
-											adicionarTag(tags[i]);	
-										}
-									}
-								}
-								var preencherCampo = function(campo, valor){
-									ativarCampo(campo);
-									adicionarValorAoCampo(campo, valor);
-								}
-								var ativarCampo = function(campo){
-									$('label', campo.parent()).addClass('active');
-								}
-								var adicionarValorAoCampo = function(campo, valor){
-									campo.val(valor);
-								}
-								preencherTitulo();
-								preencherDescricao();
-								preencherTags();
-							}
-							abrirModal();
-							preencherCamposModal();
-							$('.btnAlterarPasta', modal).on('click', function(){
-								var getPasta = function(){
-									var getTags = function(){
-										var tags = $('.tagsPasta', modal).val().split(',');
-										if(tags){
-											return tags;
-										}
-										else{
-											return null;
-										}
-									}
-									var modeloPasta = modelo.pasta();
-									modeloPasta.id = pasta.id;
-									modeloPasta.nome = $(".nomePasta", modal).val();
-									modeloPasta.descricao = $(".textareaPasta", modal).val();
-									modeloPasta.pai = contexto.pastaAtual;
-									modeloPasta.tags = getTags();
-									return modeloPasta;
-								}
-								var pastaAlterada = getPasta();
-								var btn = $(this);
-								servicos.alterarPasta(
-									pastaAlterada
-									,
-									function(data){
-										modal.closeModal();
-										atualizarPasta();
-										arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
-										btn.off();
-									}
-								)
-							})
-						}
-					}
-					var length = pastas.length;
-					for(var i = 0; i < length; i++){
-						var bloco = Element.Pasta(pastas[i], acoes);
-						$('#conteudoBlocos').append(bloco.getElement());
-					}
-				}
-				
-				var inserirFavoritos = function(){
-					var favoritos = data.content[0].favoritos;
-					var acoes = {
-						onClick: function(favorito){
-							window.open('http://' + favorito.url);
-						}
-						,
-						remover: function(favorito, bloco){
-							servicos.removerFavorito(favorito.id, function(){
-								bloco.remove();
-								Element.Toast("Favorito removido com sucesso!", 2000)
-							})
-						}
-						,
-						editar: function(favorito){
-							var modal = $('.alterarFavorito');
-							var abrirModal = function(){
-								modal.openModal();	
-							}
-							var preencherCamposModal = function(){
-								var preencherTitulo = function(){
-									var titulo = $('.nomeFav', modal);
-									preencherCampo(titulo, favorito.titulo);
-								}
-								var preencherUrl = function(){
-									var url = $('.url-fav', modal);
-									preencherCampo(url, favorito.url);
-								}
-								var preencherDescricao = function(){
-									var descricao = $('.textareaFav', modal);
-									preencherCampo(descricao, favorito.descricao);
-								}
-								var preencherTags = function(){
-									if (favorito.tags){
-										var tagsInput = $('.tagsFavorito', modal);
-										var limparTagsInput = function(){
-											var tags = tagsInput.val().split(',');
-											var quantTags = tags.length;
-											for (var i = 0; i < quantTags; i++){
-												tagsInput.removeTag(tags[i]);	
-											}	
-										}
-										var adicionarTag = function(tag){
-											tagsInput.addTag(tag);
-										}
-										limparTagsInput();
-										var tags = favorito.tags;
-										var quantTags = tags.length;
-										for (var i = 0; i < quantTags; i++){
-											adicionarTag(tags[i]);	
-										}
-									}
-								}
-								var preencherCampo = function(campo, valor){
-									ativarCampo(campo);
-									adicionarValorAoCampo(campo, valor);
-								}
-								var ativarCampo = function(campo){
-									$('label', campo.parent()).addClass('active');
-								}
-								var adicionarValorAoCampo = function(campo, valor){
-									campo.val(valor);
-								}
-								preencherTitulo();
-								preencherUrl();
-								preencherDescricao();
-								preencherTags();
-								
-							}
-							abrirModal();
-							preencherCamposModal();
-							$('.btnAlterarFavorito', modal).on('click', function(){
-								var getFavorito = function(){
-									var getTags = function(){
-										var tags = $('.tagsFavorito', modal).val().split(',');
-										if(tags){
-											return tags;
-										}
-										else{
-											return null;
-										}
-									}
-									var modeloFavorito = modelo.favorito();
-									modeloFavorito.id = favorito.id;
-									modeloFavorito.url = $(".url-fav", modal).val();
-									modeloFavorito.titulo = $(".nomeFav", modal).val();
-									modeloFavorito.descricao = $(".textareaFav", modal).val()
-									modeloFavorito.tags = getTags();
-									return modeloFavorito;
-								}
-								var favoritoAlterado = getFavorito();
-								var btn = $(this);
-								servicos.alterarFavorito(
-									favoritoAlterado
-									,
-									function(data){
-										modal.closeModal();
-										atualizarPasta();
-										btn.off();
-									}
-								)
-							})
-						}
-					}
-					var length = favoritos.length;
-					for(var i = 0; i < length; i++){
-						var bloco = Element.Favorito(favoritos[i], acoes);
-						$('#conteudoBlocos').append(bloco.getElement());
-					}
-				}
-				
-				limparContainer();
-				inserirPastas();
-				inserirFavoritos();
+			    limparContainer($('#conteudoBlocos'));
+				inserirPastas(pastas, $('#conteudoBlocos'));
+				inserirFavoritos(favoritos, $('#conteudoBlocos'));
 				if (idPasta){
 					contexto.pastaAtual = Number(idPasta);
 				}
@@ -582,11 +583,17 @@ $(document).ready(function(){
 				value
 				,
 				function(data){
-					$(".conteudoBusca").remove();
+				    var pastas = data.content[0].pastas;
+				    var favoritos = data.content[0].favoritos;
+				    var conteudoPesquisa = $("<div class='conteudoBusca conteudo'>");
+                    
+				    $(".conteudoBusca").remove();
 				   	$("#conteudo").hide();
+
+				   	inserirPastas(pastas, conteudoPesquisa);
+				   	inserirFavoritos(favoritos, conteudoPesquisa);
 				   	
-				    var div_data = "<div id='conteudoBusca' class='conteudoBusca conteudo'>Conteudo da Pesquisa aqui</div>";
-				    $(".main").append(div_data);
+				    $(".main").append(conteudoPesquisa);
 				}
 			)
 		}
