@@ -588,14 +588,13 @@ $(document).ready(function(){
 		}
 	    $("#conteudoBusca").remove();
 	   	$("#conteudo").hide();
-	    value = $(this).val();
-		$.trim(value);
-		getPesquisa(value);
-	    
-	    if (value.length === 0 ) {
-	    	$("#conteudo").show();
-	        $("#conteudoBusca").remove();
-	    }    
+	    value = $.trim($(this).val());
+		if (value.length !== 0) {
+			getPesquisa(value);
+		}else{
+    	$("#conteudo").show();
+        $("#conteudoBusca").remove();   
+		}
 	});
     
     init();
