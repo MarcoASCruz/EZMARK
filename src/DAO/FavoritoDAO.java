@@ -390,6 +390,9 @@ public class FavoritoDAO extends BasicDAO {
 		catch(Exception e){
 			throw e;
 		}
+		finally{
+			close();
+		}
 	}
 	
 }

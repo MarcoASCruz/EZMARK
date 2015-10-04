@@ -288,5 +288,8 @@ public class PastaDAO extends BasicDAO {
 		catch(Exception e){
 			throw e;
 		}
+		finally{
+			close();
+		}
 	}
 }
