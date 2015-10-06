@@ -433,9 +433,12 @@ $(document).ready(function(){
 			    var pastas = data.content[0].pastas;
 			    var favoritos = data.content[0].favoritos;
 				
-			    limparContainer($('#conteudoBlocos'));
-				inserirPastas(pastas, $('#conteudoBlocos'));
-				inserirFavoritos(favoritos, $('#conteudoBlocos'));
+			    var containerBlocos = $('#conteudoBlocos');
+			    limparContainer(containerBlocos);
+				inserirPastas(pastas, containerBlocos);
+				inserirFavoritos(favoritos, containerBlocos);
+				Pesquisa.remover();
+				
 				if (idPasta){
 					contexto.pastaAtual = Number(idPasta);
 				}
@@ -577,36 +580,56 @@ $(document).ready(function(){
 	});
 	
 
-	$("#search").keyup(function(e) {
-		var getPesquisa = function(value) {
+	var Pesquisa = new function(){
+		this.executar = function(value) {
+			if (value.length !== 0) {
+				pesquisar(value);
+			}
+			else {
+				this.remover();   
+			}
+		}
+		var pesquisar = function(value){ 
 			servicos.pesquisa(
 				value
 				,
 				function(data){
 				    var pastas = data.content[0].pastas;
 				    var favoritos = data.content[0].favoritos;
-				    var conteudoPesquisa = $("<div class='conteudoBusca conteudo row'>");
-                    
-				    $(".conteudoBusca").remove();
-				   	$("#conteudo").hide();
-
-				   	inserirPastas(pastas, conteudoPesquisa);
-				   	inserirFavoritos(favoritos, conteudoPesquisa);
-				   	
-				    $(".main").append(conteudoPesquisa);
+				    
+				    exibirHTML(criarHTML(pastas, favoritos));
 				}
 			)
 		}
-		
-	   	value = $.trim($(this).val());
-		if (value.length !== 0) {
-			getPesquisa(value);
+		this.remover = function(){
+			if ($(".conteudoBusca")){
+				destroirPesquisaDoHTML();
+				limparInput();
+				$("#conteudo").show();
+			}
 		}
-		else {
-	    	$("#conteudo").show();
-	        $(".conteudoBusca").remove();   
+		var destroirPesquisaDoHTML = function(){
+			$(".conteudoBusca").remove();
 		}
+		var limparInput = function(){
+			$('#search').val("");
+		}
+		var exibirHTML = function(html){
+	    	destroirPesquisaDoHTML();
+		   	$("#conteudo").hide();
+		    $(".main").append(html);
+	    }
+		var criarHTML = function(pastas, favoritos){
+	    	var container = $("<div class='conteudoBusca conteudo row'>");
+	    	inserirPastas(pastas, container);
+		   	inserirFavoritos(favoritos, container);
+		   	return container;
+	    }
+	}
+	$("#search").keyup(function(e) {
+	   	Pesquisa.executar($.trim($(this).val()))
 	});
+	
     
     init();
 });
