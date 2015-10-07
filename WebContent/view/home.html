@@ -584,9 +584,11 @@ $(document).ready(function(){
 		this.executar = function(value) {
 			if (value.length !== 0) {
 				pesquisar(value);
+				desabilitaBotaoFixo();
 			}
 			else {
-				this.remover();   
+				this.remover();
+				habilitaBotaoFixo();
 			}
 		}
 		var pesquisar = function(value){ 
@@ -619,6 +621,18 @@ $(document).ready(function(){
 		   	$("#conteudo").hide();
 		    $(".main").append(html);
 	    }
+		var desabilitaBotaoFixo = function(){
+		   	$(".tooltipped").tooltip("remove");
+		   	$("#botao-fixo").removeClass("red gira");
+		   	$("#botao-fixo").addClass("disabled");	
+		   	$("#atalho-fixo").hide();
+		}
+		var habilitaBotaoFixo = function(){
+			$('.tooltipped').tooltip({delay: 50});
+			$("#botao-fixo").addClass("red gira");
+		   	$("#botao-fixo").removeClass("disabled");
+		   	$("#atalho-fixo").show();
+		}
 		var criarHTML = function(pastas, favoritos){
 	    	var container = $("<div class='conteudoBusca conteudo row'>");
 	    	inserirPastas(pastas, container);
