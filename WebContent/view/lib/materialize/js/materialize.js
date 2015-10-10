@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 /*!
  * Materialize v0.97.1 (http://materializecss.com)
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
+=======
+/*!
+ * Materialize v0.97.1 (http://materializecss.com)
+ * Copyright 2014-2015 Materialize
+ * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
+ */
+>>>>>>> branch 'master' of https://github.com/MarcoASCruz/GerenciadorDeFavoritos.git
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
