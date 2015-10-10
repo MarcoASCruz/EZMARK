@@ -644,20 +644,26 @@ $(document).ready(function(){
 	   	Pesquisa.executar($.trim($(this).val()))
 	});
 	
+	$('#logOut').on('click', function(){
+		servicos.logOut(function(){
+			location.reload();
+		});
+	})
     
     init();
 });
 
 </script>
-        
-                <script>
-  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal();
-  });
+
+<script>
+  $(document).
+	ready(function() {
+		// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+		$('.modal-trigger').leanModal();
+	});
 </script>
-    
-    
+
+
 </head>
     <body style="background-color: #fcfcfc">
 	    <!--Menu Lateral Fixo-->
@@ -670,13 +676,13 @@ $(document).ready(function(){
 	            <div class="col s9 marT15 truncate">
 	                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
 	            </div>
-	            <div class="col s12 pdzero">
+	            <!-- <div class="col s12 pdzero">
 	                <a class="btn-flat waves-effect pdzero" href='#'>
 	                <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
 	                </a>
-	            </div>
+	            </div> -->
 	            <div class="col s12 pdzero">
-	                <a class="btn-flat waves-effect pdzero" href='#'>
+	                <a id="logOut" class="btn-flat waves-effect pdzero" href='#'>
 	                <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
 	                </a>
 	            </div>

@@ -280,4 +280,16 @@ var servicos = {
 			}
 		)
 	}
+	,
+	logOut: function(onSuccess) {
+		mapper.services.logOut(
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
 }

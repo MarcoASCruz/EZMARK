@@ -321,6 +321,19 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		logOut: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/j_spring_security_logout"
+				,
+				method: "POST"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){
