@@ -78,16 +78,16 @@
             <div class="col center">
                 <!-- Formulário Login -->
                 <div class="loginFormulario z-depth-3">
-                    <form action="" autocomplete="off" method=""><!-- Colocar ação do formulário!!! -->
+                    <form action="../j_spring_security_check" autocomplete="off" method="POST"><!-- Colocar ação do formulário!!! -->
                     	<div class="input-field">
 	                    	<i class="mdi-action-account-circle prefix"></i>
 	                        
-	                        <input type="email" id="email" name="email" maxlength="30" required="">
+	                        <input type="text" id="email" name="j_username" maxlength="30" required="">
 	                       	<label for="email">e-mail</label>
       					</div>
       					<div class="input-field">
 	      					<i class="mdi-communication-vpn-key prefix"></i>
-	                        <input type="password" id="senha" name="senha" maxlength="30" required="">
+	                        <input type="password" id="senha" name="j_password" maxlength="30" required="">
 	                        <label for="senha">senha</label>
                         </div>
                         <div class="center-btn">
