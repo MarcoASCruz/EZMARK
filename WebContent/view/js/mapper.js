@@ -334,6 +334,19 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		obterUsuario: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/usuario/obterNome"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){

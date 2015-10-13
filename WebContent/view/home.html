@@ -650,6 +650,10 @@ $(document).ready(function(){
 		});
 	})
     
+	servicos.obterUsuario(function(usuario) {
+		$('#usuarioLogin').html(usuario.content[0].nome);
+	})
+	
     init();
 });
 
@@ -674,7 +678,7 @@ $(document).ready(function(){
 	                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
 	            </div>
 	            <div class="col s9 marT15 truncate">
-	                <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+	                <spam id="usuarioLogin"class="titulo-favorito marRL5 grey-text text-darken-4"></spam>
 	            </div>
 	            <!-- <div class="col s12 pdzero">
 	                <a class="btn-flat waves-effect pdzero" href='#'>

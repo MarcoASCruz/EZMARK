@@ -292,4 +292,16 @@ var servicos = {
 			}
 		)
 	}
+	,
+	obterUsuario: function(onSuccess) {
+		mapper.services.obterUsuario(
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
 }
