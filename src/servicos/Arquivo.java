@@ -24,12 +24,15 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.cfg.IndexOrUniqueKeySecondPass;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.sun.jersey.multipart.FormDataParam;
 
 import DAO.FavoritoDAO;
 import DAO.PastaDAO;
 import DAO.TagDAO;
+import DAO.UsuarioDAO;
 import modelos.AppResponse;
 import modelos.DTOPesquisa;
 import modelos.Favorito;
@@ -46,10 +49,14 @@ public class Arquivo {
 	public Response buscarArquivos(@PathParam("id") int idPastaPai) {
 		AppResponse response = new AppResponse();
 		try{
+			Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
+			UsuarioDAO userDAO = new UsuarioDAO();
+			modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
+			
 			PastaDAO pastaDAO = new DAO.PastaDAO();
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
 			Pasta p = new Pasta();
-			p.setPastas(pastaDAO.buscarPastasFilhas(idPastaPai));
+			p.setPastas(pastaDAO.buscarPastasFilhas(idPastaPai, usuario.getId()));
 			p.setFavoritos(favoritoDAO.buscarFavoritosFilhos(idPastaPai));
 			
 			ArrayList l = new ArrayList();

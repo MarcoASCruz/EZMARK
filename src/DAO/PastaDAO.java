@@ -35,12 +35,13 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 
-	public List<Pasta> buscarPastasFilhas(int idPasta)throws Exception{
+	public List<Pasta> buscarPastasFilhas(int idPasta, int idUsuario)throws Exception{
 		try{
 			openConection();
-			setQuery("SELECT * FROM PASTA WHERE id_pasta_pai = ? AND id != ?");
+			setQuery("SELECT id, nome, num_estrela, publica, descricao FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id_pasta_pai = ? AND id != ? AND up.user_id = ?");
 			ps.setInt(1, idPasta);
 			ps.setInt(2, idPasta);
+			ps.setInt(3, idUsuario);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			List<Pasta> pastas = new ArrayList<Pasta>();
 			while (res.next()){
@@ -150,7 +151,7 @@ public class PastaDAO extends BasicDAO {
 
 	public void remover(int idPasta)throws Exception{
 		try{
-			List<Pasta> pastasFilhas = buscarPastasFilhas(idPasta);
+			List<Pasta> pastasFilhas = buscarPastasFilhas(idPasta, 1);
 			for (Pasta pastaFilha : pastasFilhas) {
 				remover(pastaFilha.getId());
 			}
