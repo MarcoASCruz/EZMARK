@@ -16,9 +16,10 @@ import modelos.Pasta;
 import modelos.Tag;
 
 public class PastaDAO extends BasicDAO {
-	public List<Hierarquia> buscarHierarquia() throws Exception{
+	public List<Hierarquia> buscarHierarquia(int idUsuario) throws Exception{
 		try{
-			criarQuery("SELECT id, id_pasta_pai, nome FROM pasta");
+			criarQuery("SELECT id, id_pasta_pai, nome FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE up.user_id = ?");
+			ps.setInt(1, idUsuario);
 			ResultSet res =  (ResultSet) ps.executeQuery();	
 			List<Hierarquia> hierarquia = new ArrayList<Hierarquia>();
 			while (res.next()){

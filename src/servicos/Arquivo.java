@@ -280,7 +280,7 @@ public class Arquivo {
 		AppResponse response = new AppResponse();
 		try{
 			PastaDAO pastaDAO = new PastaDAO();
-			List<Hierarquia> hierarquia = pastaDAO.buscarHierarquia();
+			List<Hierarquia> hierarquia = pastaDAO.buscarHierarquia(obterUsuarioLogado().getId());
 			response.setContent(hierarquia);
 			response.setSuccess(true);
 		}
