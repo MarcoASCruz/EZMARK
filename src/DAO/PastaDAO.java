@@ -149,23 +149,23 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 
-	public void remover(int idPasta)throws Exception{
+	public void remover(int idPasta, int idUsuario)throws Exception{
 		try{
 			List<Pasta> pastasFilhas = buscarPastasFilhas(idPasta, 1);
 			for (Pasta pastaFilha : pastasFilhas) {
-				remover(pastaFilha.getId());
+				remover(pastaFilha.getId(), idUsuario);
 			}
 			openConection();
 			beginTransaction();
 			
 			setQuery("DELETE pasta_tag FROM pasta_tag JOIN user_has_pasta AS up ON (pasta_tag.id_pasta = up.pasta_id) WHERE id_pasta=? AND up.user_id = ?");
 			ps.setInt(1, idPasta);
-			ps.setInt(2, 1);
+			ps.setInt(2, idUsuario);
 			ps.executeUpdate();
 			
 			setQuery("DELETE pasta, up FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id=? and up.user_id =?");
 			ps.setInt(1, idPasta);
-			ps.setInt(2, 1);
+			ps.setInt(2, idUsuario);
 			ps.executeUpdate();
 			
 			commitTransaction();

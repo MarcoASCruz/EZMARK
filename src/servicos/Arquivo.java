@@ -132,7 +132,7 @@ public class Arquivo {
 		AppResponse response = new AppResponse();
 		try{
 			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
-			pastaDAO.remover(id);//, obterUsuarioLogado().getId());
+			pastaDAO.remover(id, obterUsuarioLogado().getId());
 			response.setSuccess(true);
 		}
 		catch(Exception e){
