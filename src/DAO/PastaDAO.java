@@ -158,12 +158,14 @@ public class PastaDAO extends BasicDAO {
 			openConection();
 			beginTransaction();
 			
-			setQuery("DELETE FROM pasta_tag WHERE id_pasta=?");
+			setQuery("DELETE pasta_tag FROM pasta_tag JOIN user_has_pasta AS up ON (pasta_tag.id_pasta = up.pasta_id) WHERE id_pasta=? AND up.user_id = ?");
 			ps.setInt(1, idPasta);
+			ps.setInt(2, 1);
 			ps.executeUpdate();
 			
-			setQuery("DELETE FROM pasta WHERE id=?");
+			setQuery("DELETE pasta, up FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id=? and up.user_id =?");
 			ps.setInt(1, idPasta);
+			ps.setInt(2, 1);
 			ps.executeUpdate();
 			
 			commitTransaction();

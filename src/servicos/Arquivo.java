@@ -33,7 +33,6 @@ import DAO.FavoritoDAO;
 import DAO.PastaDAO;
 import DAO.TagDAO;
 import DAO.UsuarioDAO;
-import modelos.AppResponse;
 import modelos.DTOPesquisa;
 import modelos.Favorito;
 import modelos.Hierarquia;
@@ -49,14 +48,10 @@ public class Arquivo {
 	public Response buscarArquivos(@PathParam("id") int idPastaPai) {
 		AppResponse response = new AppResponse();
 		try{
-			Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
-			UsuarioDAO userDAO = new UsuarioDAO();
-			modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
-			
 			PastaDAO pastaDAO = new DAO.PastaDAO();
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
 			Pasta p = new Pasta();
-			p.setPastas(pastaDAO.buscarPastasFilhas(idPastaPai, usuario.getId()));
+			p.setPastas(pastaDAO.buscarPastasFilhas(idPastaPai, obterUsuarioLogado().getId()));
 			p.setFavoritos(favoritoDAO.buscarFavoritosFilhos(idPastaPai));
 			
 			ArrayList l = new ArrayList();
@@ -137,7 +132,7 @@ public class Arquivo {
 		AppResponse response = new AppResponse();
 		try{
 			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
-			pastaDAO.remover(id);
+			pastaDAO.remover(id);//, obterUsuarioLogado().getId());
 			response.setSuccess(true);
 		}
 		catch(Exception e){
@@ -145,6 +140,15 @@ public class Arquivo {
 		}
 		return response.buildResponse();
 	}
+	
+	private modelos.Usuario obterUsuarioLogado() throws Exception{
+		Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioDAO userDAO = new UsuarioDAO();
+		modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
+		return usuario;
+	}
+	
+	
 	@POST
 	@Path("/favorito")
 	@Produces("application/json")
