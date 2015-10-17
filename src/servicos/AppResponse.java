@@ -1,4 +1,4 @@
-package modelos;
+package servicos;
 
 import javax.ws.rs.core.Response;
 
