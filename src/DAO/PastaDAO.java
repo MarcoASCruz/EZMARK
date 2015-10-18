@@ -93,7 +93,7 @@ public class PastaDAO extends BasicDAO {
 	}
 	
 
-	public Pasta adicionar(Pasta pasta)throws Exception{
+	public Pasta adicionar(Pasta pasta, int idUsuario)throws Exception{
 		try{
 			openConection();
 			beginTransaction();
@@ -114,6 +114,7 @@ public class PastaDAO extends BasicDAO {
 					adicionarTag(tag, pasta.getId());
 				}
 			}
+			vincularUsuario(idUsuario, pasta.getId());
 			commitTransaction();
 			return pasta;
 		}
@@ -121,6 +122,16 @@ public class PastaDAO extends BasicDAO {
 			throw e;
 		}
 		finally{
+			close();
+		}
+	}
+	
+	public void vincularUsuario(int idUsuario, int idPasta) throws Exception{
+		criarQuery("INSERT INTO user_has_pasta (user_id,pasta_id) VALUES (?,?)");
+		ps.setInt(1, idUsuario);
+		ps.setInt(2, idPasta);
+		ps.executeUpdate();
+		if (c.getAutoCommit()){
 			close();
 		}
 	}
@@ -147,6 +158,28 @@ public class PastaDAO extends BasicDAO {
 		}
 		finally{
 			close();
+		}
+	}
+	
+	public void adicionarTag(String tag, int idPasta) throws Exception{
+		try{
+			TagDAO tagDao = new TagDAO(c);
+			String tagIdentificacao = tagDao.buscar(tag);
+			if(tagIdentificacao == null){
+				tagDao.adicionar(tag);
+			}
+			criarQuery("INSERT INTO pasta_tag (id_pasta, tag_nome) VALUES (?, ?)");
+			ps.setInt(1, idPasta);
+			ps.setString(2, tag);
+			ps.executeUpdate();
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			if (c.getAutoCommit()){
+				close();
+			}
 		}
 	}
 
@@ -211,27 +244,7 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 	
-	public void adicionarTag(String tag, int idPasta) throws Exception{
-		try{
-			TagDAO tagDao = new TagDAO(c);
-			String tagIdentificacao = tagDao.buscar(tag);
-			if(tagIdentificacao == null){
-				tagDao.adicionar(tag);
-			}
-			criarQuery("INSERT INTO pasta_tag (id_pasta, tag_nome) VALUES (?, ?)");
-			ps.setInt(1, idPasta);
-			ps.setString(2, tag);
-			ps.executeUpdate();
-		}
-		catch(Exception e){
-			throw e;
-		}
-		finally{
-			if (c.getAutoCommit()){
-				close();
-			}
-		}
-	}
+	
 
 	public void removerTag(String tag, int idPasta) throws Exception{
 		try{

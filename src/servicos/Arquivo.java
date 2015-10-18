@@ -93,7 +93,7 @@ public class Arquivo {
 			Pasta p = new JSONDeserializer<Pasta>().use( null, Pasta.class ).deserialize(pastaJson);
 			p.setDataCriacao(new Timestamp(new java.util.Date().getTime()));
 			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
-			Pasta pasta = pastaDAO.adicionar(p);
+			Pasta pasta = pastaDAO.adicionar(p, obterUsuarioLogado().getId());
 			ArrayList l = new ArrayList();
 			l.add(p);
 			response.setSuccess(true);
