@@ -1,9 +1,11 @@
 package DAO;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -308,5 +310,14 @@ public class PastaDAO extends BasicDAO {
 		finally{
 			close();
 		}
+	}
+	
+	public void adicionarHome(int idUsuario)throws Exception{
+		openConection();
+		CallableStatement cs =c.prepareCall("{CALL createFileHome(?)}");
+		cs.setInt(1, idUsuario);
+		cs.executeUpdate();
+		commitTransaction();
+		close();
 	}
 }
