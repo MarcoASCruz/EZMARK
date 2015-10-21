@@ -8,6 +8,8 @@
         <!--Let browser know website is optimized for mobile--> 
         <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
+        <!--Animate CSS--> 
+        <link type="text/css" rel="stylesheet" href="lib/animate/animate.css" />
         
         <style>        
             /*           Login          */
@@ -60,10 +62,38 @@
 <script src="js/elements.js"></script>
 <script src="js/mapper.js"></script>
 <script src="js/servicos.js"></script>
+<script> 
+	$(document).ready(function() {
+	
+
+		
+//		var carregaPagina = function(){
+//			window.setTimeout( function(){
+//				$("#login").removeClass("animated bounceOutRight");
+//		      }, 2000);
+//			$("#login").addClass("animated bounceInLeft"); 
+//			$("#login").load("cadastro.html");
+//			window.setTimeout( function(){
+//				$("#login").removeClass("animated bounceInLeft");
+//		      }, 2000);
+//		};
+			
+			
+		$("#registro").on('click', function(){
+			
+		//		$("#login").addClass("animated bounceOutRight"); 
+			//	carregaPagina();
+			
+			$("#login").load("cadastro.html");
+				
+			});
+		});
+
+</script>
     
     
     </head>
-    <body class="loginConteudo">
+    <body class="loginConteudo" id="login">
 	    <div class="row">
 	        <!-- Logo EZMARK -->
 	        <div class="row">

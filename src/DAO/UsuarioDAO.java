@@ -25,4 +25,30 @@ public class UsuarioDAO extends BasicDAO {
 			close();
 		}
 	}
+	public Usuario cadastro(Usuario usuario) throws Exception{
+		try{
+			criarQuery("INSERT INTO user (`username`,	`passowrd`,	`enable`,	`email`,`role_id`) VALUES (?,?,?,?,?)");
+			ps.setString(1, usuario.getNome());
+			ps.setString(2, usuario.getSenha());
+			ps.setInt(3, 1);
+			ps.setString(4, usuario.getEmail());
+			ps.setInt(5, 1);
+			ResultSet res =  (ResultSet) ps.executeQuery();
+			/**TODO
+			 * Resgatar ID do usuário adicionad
+			 * Criar uma pasta raiz
+			 * Associar usuário a uma pasta raiz
+			 */
+			
+			
+			
+			return usuario;
+		}
+		catch(Exception e){
+			throw e;
+		}
+		finally{
+			close();
+		}
+	}
 }

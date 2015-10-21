@@ -304,4 +304,18 @@ var servicos = {
 			}
 		)
 	}
+	,
+	adicionarUsuario: function(usuario, onSuccess) {
+		mapper.services.adicionarUsuario(
+			usuario
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
 }

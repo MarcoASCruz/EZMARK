@@ -61,6 +61,33 @@
 <script src="js/mapper.js"></script>
 <script src="js/servicos.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>    
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+
+
+var getCadastroInfo = function () {
+	var cadastroInfo = Object();
+	cadastroInfo.nome = $("#nome").val;
+	cadastroInfo.senha = $("#senha").val;
+	cadastroInfo.email = $("#email").val;
+    return cadastroInfo;
+}
+$("#btnRegistro").on("click", function(){
+	var getCadastroInfo ();
+	
+	servicos.adicionarFavorito(
+		getFavorito()
+		,
+		function(data){
+			Element.Toast("Você foi cadastrado com sucesso!", 2000)
+		}
+	)
+});
+alert(form.email.value());v
+</script>
     
     </head>
     <body class="loginConteudo">
@@ -87,12 +114,17 @@
 	                <form action="" autocomplete="off" method=""><!-- Colocar ação do formulário!!! -->
 	                    <div class="input-field">
 	                        <i class="mdi-action-account-circle prefix"></i>               
-	                        <input type="email" id="email" name="email" maxlength="30" required="">
+	                        <input type="text" id="nome" name="nome" maxlength="30" required>
+	                        <label for="nome">Nome</label>
+	                    </div>
+	                    <div class="input-field">
+	                        <i class="material-icons prefix"></i>               
+	                        <input type="email" id="email" name="email" maxlength="30" required>
 	                        <label for="email">e-mail</label>
 	                    </div>
 	                    <div class="input-field">
 	                        <i class="mdi-communication-vpn-key prefix"></i>
-	                        <input type="password" id="senha" name="senha" maxlength="30" required="">
+	                        <input type="password" id="senha" name="senha" maxlength="30" required>
 	                        <label for="senha">senha</label>
 	                    </div>
 	                    <div class="input-field">
@@ -104,8 +136,8 @@
 	                        <div class="g-recaptcha" data-sitekey="6LcIkA4TAAAAAG5eJiq05O_tk0BcXfG6FtmKv6v3"></div>
 	                    </div>
 	                    <div class="center-btn" style="margin-top: 15px;">
-	                        <a class="waves-effect waves-light btn" id="registro" href="login.html"><i class="mdi-hardware-keyboard-arrow-left left"></i>Login</a>
-	                        <button type="submit" class="waves-effect waves-light btn" id="btnLogin"><i class="mdi-social-person-add left"></i>Registre-se!</button>
+	                        <a class="waves-effect waves-light btn" id="btnLogin" href="login.html"><i class="mdi-hardware-keyboard-arrow-left left"></i>Login</a>
+	                        <button type="submit" class="waves-effect waves-light btn" id="btnRegistro"><i class="mdi-social-person-add left"></i>Registre-se!</button>
 	                    </div>
 	                </form>
 	            </div>

@@ -347,6 +347,23 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		adicionarUsuario: function(usuario, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/usuario/cadastro"
+				,
+				method: "POST"
+				,
+				data:{
+					usuario: JSON.stringify(usuario)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){
