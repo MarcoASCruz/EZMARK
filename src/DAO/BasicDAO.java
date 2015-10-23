@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BasicDAO {
@@ -39,5 +40,16 @@ public class BasicDAO {
 	}
 	protected void setQuery(String query) throws SQLException{
 		ps = (PreparedStatement) c.prepareStatement(query);	
+	}
+	protected int getLastIdInserted(String tableName) throws Exception{
+		ps = (PreparedStatement) c.prepareStatement("SELECT LAST_INSERT_ID() id FROM " + tableName);
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		res =  (ResultSet) ps.executeQuery();
+		if (res.next()){
+			return res.getInt("id");
+		}
+		else{
+			throw new Exception("Last id not found");
+		}
 	}
 }

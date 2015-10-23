@@ -350,7 +350,7 @@ var Mapper = function(){
 		,
 		adicionarUsuario: function(usuario, onSuccess, onError){
 			requisicaoParametros = {
-				url: "/GerenciadorDeFavoritos/servicos/usuario/cadastro"
+				url: "/GerenciadorDeFavoritos/servicos/usuario/adicionar"
 				,
 				method: "POST"
 				,

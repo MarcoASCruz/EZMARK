@@ -316,8 +316,9 @@ public class PastaDAO extends BasicDAO {
 		openConection();
 		CallableStatement cs =c.prepareCall("{CALL createFileHome(?)}");
 		cs.setInt(1, idUsuario);
-		cs.executeUpdate();
-		commitTransaction();
-		close();
+		cs.execute();
+		if (cs != null) { 
+			cs.close();
+		}
 	}
 }
