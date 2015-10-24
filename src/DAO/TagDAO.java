@@ -13,6 +13,7 @@ public class TagDAO extends BasicDAO {
 		super(connection);
 	}
 	public String adicionar(String tag) throws Exception{
+		validarTag(tag);
 		criarQuery("INSERT INTO  tag (nome) VALUES (?)");
 		ps.setString(1, tag);
 		ps.executeUpdate();
@@ -20,6 +21,11 @@ public class TagDAO extends BasicDAO {
 			close();
 		}
 		return tag;
+	}
+	private void validarTag(String tag) throws Exception{
+		if(tag == null || tag.isEmpty()){
+			throw new Exception("Tag vazia ou nulla");
+		}
 	}
 	
 	public String buscar(String tag) throws Exception{

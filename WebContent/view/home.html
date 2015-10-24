@@ -521,7 +521,7 @@ $(document).ready(function(){
 		var getFavorito = function(){
 			var getTags = function(){
 				var tags = $('#tags').val().split(',');
-				if(tags){
+				if(tags && tags != ""){
 					return tags;
 				}
 				else{
@@ -552,7 +552,7 @@ $(document).ready(function(){
 		var getPasta = function(){
 			var getTags = function(){
 				var tags = $('#tagsPasta').val().split(',');
-				if(tags){
+				if(tags && tags != ""){
 					return tags;
 				}
 				else{
