@@ -13,41 +13,27 @@ public class TagDAO extends BasicDAO {
 		super(connection);
 	}
 	public String adicionar(String tag) throws Exception{
-		try{
-			criarQuery("INSERT INTO  tag (nome) VALUES (?)");
-			ps.setString(1, tag);
-			ps.executeUpdate();
-			return tag;
+		criarQuery("INSERT INTO  tag (nome) VALUES (?)");
+		ps.setString(1, tag);
+		ps.executeUpdate();
+		if(c.getAutoCommit()){
+			close();
 		}
-		catch(Exception e){
-			throw e;
-		}
-		finally{
-			if(c.getAutoCommit()){
-				close();
-			}
-		}
+		return tag;
 	}
 	
 	public String buscar(String tag) throws Exception{
-		try{
-			criarQuery("SELECT nome FROM Tag WHERE nome = ?");
-			ps.setString(1, tag);
-			ResultSet res =  (ResultSet) ps.executeQuery();	
-			res =  (ResultSet) ps.executeQuery();
-			String result = null;
-			if (res.next()){
-				result = res.getString("nome");
-			}
-			return result;
+		criarQuery("SELECT nome FROM Tag WHERE nome = ?");
+		ps.setString(1, tag);
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		res =  (ResultSet) ps.executeQuery();
+		String result = null;
+		if (res.next()){
+			result = res.getString("nome");
 		}
-		catch(Exception e){
-			throw e;
+		if(c.getAutoCommit()){
+			close();
 		}
-		finally{
-			if(c.getAutoCommit()){
-				close();
-			}
-		}
+		return result;
 	} 
 }
