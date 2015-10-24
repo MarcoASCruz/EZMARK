@@ -57,36 +57,12 @@
 		
         <script type="text/javascript" src="lib/materialize/v0.97.0/js/materialize.min.js"></script>
 
-<script src="js/elements.js"></script>
-<script src="js/mapper.js"></script>
-<script src="js/servicos.js"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>    
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function() {
+		<script src="js/elements.js"></script>
+		<script src="js/mapper.js"></script>
+		<script src="js/servicos.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>    
 
 
-
-var getCadastroInfo = function () {
-	var cadastroInfo = Object();
-	cadastroInfo.nome = $("#nome").val;
-	cadastroInfo.senha = $("#senha").val;
-	cadastroInfo.email = $("#email").val;
-    return cadastroInfo;
-}
-//$("#btnRegistro").on("click", function(){
-//	var getCadastroInfo ();
-//	
-//	servicos.adicionarFavorito(
-//		getFavorito()
-//		,
-//		function(data){
-//			Element.Toast("Você foi cadastrado com sucesso!", 2000)
-//		}
-//	)
-//});
-</script>
     
     </head>
     <body class="loginConteudo">
@@ -110,7 +86,7 @@ var getCadastroInfo = function () {
 	        <div class="col center">
 	            <!-- Formulário Registro -->
 	            <div class="loginFormulario z-depth-3">
-	                <form action="../servicos/usuario/adicionar" autocomplete="off" method="POST"><!-- Colocar ação do formulário!!! -->
+	                <form action="" autocomplete="off" method="">
 	                    <div class="input-field">
 	                        <i class="mdi-action-account-circle prefix"></i>               
 	                        <input type="text" id="nome" name="nome" maxlength="30" required>
@@ -136,7 +112,7 @@ var getCadastroInfo = function () {
 	                    </div>
 	                    <div class="center-btn" style="margin-top: 15px;">
 	                        <a class="waves-effect waves-light btn" id="btnLogin" href="login.html"><i class="mdi-hardware-keyboard-arrow-left left"></i>Login</a>
-	                        <button type="submit" class="waves-effect waves-light btn" id="btnRegistro"><i class="mdi-social-person-add left"></i>Registre-se!</button>
+	                        <button type="button" class="waves-effect waves-light btn" id="btnRegistro"><i class="mdi-social-person-add left"></i>Registre-se!</button>
 	                    </div>
 	                </form>
 	            </div>
@@ -144,5 +120,23 @@ var getCadastroInfo = function () {
 	        </div>
 	    </div>
     </body>
+    <script>
+		$('#btnRegistro').on('click', function(){
+			var getCadastroInfo = function () {
+				var cadastroInfo = new Object();
+				cadastroInfo.nome = $("#nome").val();
+				cadastroInfo.senha = $("#senha").val();
+				cadastroInfo.email = $("#email").val();
+			    return cadastroInfo;
+			}
+			servicos.adicionarUsuario(
+				getCadastroInfo()
+				,
+				function(data){
+					Element.Toast("Você foi cadastrado com sucesso!", 2000);
+				}
+			)
+		})
+	</script>
 </html>
     

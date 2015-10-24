@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -41,18 +42,13 @@ public class Usuario {
 		}
 		return response.buildResponse();
 	}
-	@GET  
+	@POST  
 	@Path("/adicionar")
 	@Produces("application/json")
-	public Response adicionar(){//(@FormParam("usuario") String usuarioJson) {
+	public Response adicionar(@FormParam("usuario") String usuarioJson) {
 		AppResponse response = new AppResponse();
 		try{
-			//a linha correta é a do comentário, porém, a de baixo esta sendo usada nos testes
-			//modelos.Usuario usuario = new JSONDeserializer<modelos.Usuario>().use( null, modelos.Usuario.class ).deserialize(usuarioJson);
-			modelos.Usuario usuario = new modelos.Usuario();
-			usuario.setNome("MyUser");
-			usuario.setEmail("MyUser@gmail.com");
-			usuario.setSenha("123");
+			modelos.Usuario usuario = new JSONDeserializer<modelos.Usuario>().use( null, modelos.Usuario.class ).deserialize(usuarioJson);
 			UsuarioDAO userDAO = new UsuarioDAO();
 			usuario = userDAO.adicionar(usuario);
 			
