@@ -86,7 +86,7 @@
 	        <div class="col center">
 	            <!-- Formulário Registro -->
 	            <div class="loginFormulario z-depth-3">
-	                <form action="" autocomplete="off" method="">
+	                <form id="formCadastro" autocomplete="off">
 	                    <div class="input-field">
 	                        <i class="mdi-action-account-circle prefix"></i>               
 	                        <input type="text" id="nome" name="nome" maxlength="30" required>
@@ -104,7 +104,7 @@
 	                    </div>
 	                    <div class="input-field">
 	                        <i class="prefix"></i>
-	                        <input type="password" id="confirmaSenha" name="confirmaSenha" maxlength="30" required="">
+	                        <input type="password" id="confirmaSenha" name="confirmaSenha" maxlength="30" required>
 	                        <label for="confirmaSenha">Confirme sua senha</label>
 	                    </div>
 	                    <div>
@@ -112,7 +112,7 @@
 	                    </div>
 	                    <div class="center-btn" style="margin-top: 15px;">
 	                        <a class="waves-effect waves-light btn" id="btnLogin" href="login.html"><i class="mdi-hardware-keyboard-arrow-left left"></i>Login</a>
-	                        <button type="button" class="waves-effect waves-light btn" id="btnRegistro"><i class="mdi-social-person-add left"></i>Registre-se!</button>
+	                        <button type="submit" class="waves-effect waves-light btn"><i class="mdi-social-person-add left"></i>Registre-se!</button>
 	                    </div>
 	                </form>
 	            </div>
@@ -121,22 +121,53 @@
 	    </div>
     </body>
     <script>
-		$('#btnRegistro').on('click', function(){
-			var getCadastroInfo = function () {
-				var cadastroInfo = new Object();
-				cadastroInfo.nome = $("#nome").val();
-				cadastroInfo.senha = $("#senha").val();
-				cadastroInfo.email = $("#email").val();
-			    return cadastroInfo;
-			}
-			servicos.adicionarUsuario(
-				getCadastroInfo()
-				,
-				function(data){
-					Element.Toast("Você foi cadastrado com sucesso!", 2000);
+
+		var senha = document.getElementById("senha")
+		,confirmaSenha = document.getElementById("confirmaSenha");
+		
+		function validatePassword(){
+			if(senha.value.length < 4) {
+				senha.setCustomValidity("A senha deve conter pelo menos 4 caracteres!");
+			} 
+			else {
+				if(senha.value != confirmaSenha.value){
+					confirmaSenha.setCustomValidity("Senhas diferentes!");
+					senha.setCustomValidity("");
 				}
-			)
-		})
+				else{
+					senha.setCustomValidity("");
+					confirmaSenha.setCustomValidity("");
+				}
+			}	
+		}
+		       
+	      senha.onkeyup = validatePassword;
+	      confirmaSenha.onkeyup = validatePassword; 
+	    $('#formCadastro').submit( function(){
+	    	event.preventDefault();
+				var getCadastroInfo = function () {
+					var cadastroInfo = new Object();
+					cadastroInfo.nome = $("#nome").val();
+					cadastroInfo.senha = $("#senha").val();
+					cadastroInfo.email = $("#email").val();
+				    return cadastroInfo;
+				}
+				servicos.adicionarUsuario(
+					getCadastroInfo()
+					,
+					function(data){
+						Element.Toast("Você foi cadastrado com sucesso!", 2000);
+						setTimeout(function(){window.location = "login.html";}, 5000);
+					}
+					,
+					function(data){
+						Element.Toast("Desculpe, estamos com um problema no sistema de cadastro. Tente novamente mais tarde", 4000);
+						setTimeout(function(){window.location = "login.html";}, 5000);
+					}
+				)
+				
+		});
+    
 	</script>
 </html>
     
