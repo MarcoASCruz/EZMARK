@@ -364,6 +364,19 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		buscarHome: function(onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/usuario/buscarHome"
+				,
+				method: "GET"
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){

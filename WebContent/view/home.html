@@ -197,12 +197,11 @@ $(document).ready(function(){
     }
     
     var init = function(){
-    	var obterHome = function(){
-    		return 5; //criar serviço para retornar home
-    	}
-    	var idHome = obterHome();
-    	contexto.home = idHome;
-    	atualizarPasta(idHome);
+    	servicos.buscarHome(function(data){
+    		var idHome = data.content[0].id;
+        	contexto.home = idHome;
+        	atualizarPasta(idHome);
+    	})
     }
     
     var limparContainer = function (container) {

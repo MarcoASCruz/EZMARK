@@ -42,6 +42,31 @@ public class Usuario {
 		}
 		return response.buildResponse();
 	}
+	@GET
+	@Path("/buscarHome")
+	@Produces("application/json")
+	public Response buscarHome() {
+		AppResponse response = new AppResponse();
+		try{
+			Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
+		    
+			UsuarioDAO userDAO = new UsuarioDAO();
+			modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
+			
+			PastaDAO pastaDAO = new PastaDAO();
+			Pasta pasta = pastaDAO.buscarHome(usuario.getId());
+			
+			ArrayList<Pasta> l = new ArrayList<Pasta>();
+			l.add(pasta);
+			
+			response.setSuccess(true);
+			response.setContent(l);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
 	@POST  
 	@Path("/adicionar")
 	@Produces("application/json")

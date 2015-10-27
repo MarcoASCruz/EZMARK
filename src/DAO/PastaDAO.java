@@ -238,4 +238,17 @@ public class PastaDAO extends BasicDAO {
 			cs.close();
 		}
 	}
+	
+	public Pasta buscarHome(int idUsuario) throws Exception{
+		openConection();
+		setQuery("SELECT id FROM pasta join user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE up.user_id = ? AND pasta.id_pasta_pai = pasta.id;");
+		ps.setInt(1, idUsuario);
+		ResultSet res =  (ResultSet) ps.executeQuery();
+		Pasta pasta = new Pasta();
+		if (res.next()){
+			pasta.setId(res.getInt("id"));
+		}
+		close();
+		return pasta;
+	}
 }
