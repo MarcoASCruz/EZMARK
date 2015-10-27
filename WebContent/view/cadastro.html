@@ -61,6 +61,7 @@
 		<script src="js/mapper.js"></script>
 		<script src="js/servicos.js"></script>
 		<script src='https://www.google.com/recaptcha/api.js'></script>    
+		<script src='jsdom.js'></script>    
 
 
     
@@ -121,7 +122,6 @@
 	    </div>
     </body>
     <script>
-
 		var senha = document.getElementById("senha")
 		,confirmaSenha = document.getElementById("confirmaSenha");
 		
@@ -156,13 +156,12 @@
 					getCadastroInfo()
 					,
 					function(data){
-						Element.Toast("Você foi cadastrado com sucesso!", 2000);
-						setTimeout(function(){window.location = "login.html";}, 5000);
+						Element.Toast("Você foi cadastrado com sucesso!", 3000);
+						setTimeout(function(){window.location = "login.html";}, 3000);
 					}
 					,
 					function(data){
-						Element.Toast("Desculpe, estamos com um problema no sistema de cadastro. Tente novamente mais tarde", 4000);
-						setTimeout(function(){window.location = "login.html";}, 5000);
+						Element.Toast(data.responseJson.content, 3000);
 					}
 				)
 				
