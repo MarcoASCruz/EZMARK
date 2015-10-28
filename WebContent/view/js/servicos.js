@@ -305,17 +305,13 @@ var servicos = {
 		)
 	}
 	,
-	adicionarUsuario: function(usuario, onSuccess) {
+	adicionarUsuario: function(usuario, onSuccess, onError) {
 		mapper.services.adicionarUsuario(
 			usuario
 			,
 			onSuccess
-			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			, 
+			onError
 		)
 	}
 	,
