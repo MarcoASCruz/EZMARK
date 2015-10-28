@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset='utf-8'>
@@ -653,6 +653,22 @@ $(document).ready(function(){
 		$('#usuarioLogin').html(usuario.content[0].nome);
 	})
 	
+	    function imgPreview(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#imgUpload").change(function(){
+    	imgPreview(this);
+    });
+	
     init();
 });
 
@@ -829,6 +845,18 @@ $(document).ready(function(){
 	                    <h4>Incluir Favorito</h4>
 	                    <form>
 	                        <div class="row">
+                                <div class="s12 center">
+                                    <img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png">
+                                </div>
+                                <div class="file-field input-field">
+                                    <div class="btn">
+                                        <span>File</span>
+                                        <input type="file" single id="imgUpload">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                                    </div>
+                                </div>
 	                            <div class="input-field m12 s6">
 	                                <i class="mdi-action-stars prefix"></i>
 	                                <input id="nomeFav" type="text" class="validate">
