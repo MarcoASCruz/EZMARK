@@ -18,7 +18,7 @@ public class Pasta {
 	private List<Favorito> favoritos;
 	private List<Pasta> pastas = new ArrayList<Pasta>();
 	private String descricao;
-	private List<String> tags;
+	private List<String> tags = new ArrayList<String>();
 	
 	public Pasta(){}
 	public Pasta(int id, int pai, String nome, Timestamp dataCriacao,

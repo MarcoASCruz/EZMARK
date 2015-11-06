@@ -11,7 +11,7 @@ public class Favorito {
 	private String descricao;
 	private Timestamp dataAcesso;
 	private Timestamp dataCriacao;
-	private List<String> tags;
+	private List<String> tags = new ArrayList<String>();
 	private int pai;
 	private int numEstrela;
 	private String imagem;
