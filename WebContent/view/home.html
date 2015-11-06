@@ -7,9 +7,17 @@
         <link type="text/css" rel="stylesheet" href="lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
         <!--Let browser know website is optimized for mobile--> 
         <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+        <link rel="stylesheet" type="text/css" href="lib/raty-2.7.0/jquery.raty.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
-        <style>        	
+        <style>  
+        .estrelas-form .cancel-on-png,
+		.estrelas-form .cancel-off-png,
+		.estrelas-form .star-on-png,
+		.estrelas-form .star-off-png,
+		.estrelas-form .star-half-png{
+			font-size: 2em;
+		}      	
         	div.tagsinput{
         		float: right;
         	}
@@ -142,6 +150,8 @@
         <script type="text/javascript" src="lib/materialize/v0.97.0/js/materialize.min.js"></script>
         <!--Inicializa o Menu lateral quando em modo Mobile-->
         <script src="lib/jstree/dist/jstree.min.js"></script>
+        <script src="lib/raty-2.7.0/jquery.raty.js"></script>
+        
         <script>
                 $( document ).ready(function(){
                 	$(".button-collapse").sideNav();
@@ -267,9 +277,13 @@ $(document).ready(function(){
                     var adicionarValorAoCampo = function (campo, valor) {
                         campo.val(valor);
                     }
+                    var preencherEstrelas = function(){
+                    	$('.estrelas-form', modal).append(criarEstrelasForm(pasta.quantEstrelas));
+                    }
                     preencherTitulo();
                     preencherDescricao();
                     preencherTags();
+                    preencherEstrelas();
                 }
                 abrirModal();
                 preencherCamposModal();
@@ -376,11 +390,14 @@ $(document).ready(function(){
                     var adicionarValorAoCampo = function (campo, valor) {
                         campo.val(valor);
                     }
+                    var preencherEstrelas = function(){
+                    	$('.estrelas-form', modal).append(criarEstrelasForm(favorito.quantEstrelas));
+                    }
                     preencherTitulo();
                     preencherUrl();
                     preencherDescricao();
                     preencherTags();
-
+                    preencherEstrelas();
                 }
                 abrirModal();
                 preencherCamposModal();
@@ -577,7 +594,24 @@ $(document).ready(function(){
 			}
 		)
 	});
-	
+
+
+	$('#incluirPasta .estrelas-form').append(criarEstrelasForm());
+	$('#incluirFavorito .estrelas-form').append(criarEstrelasForm());
+	function criarEstrelasForm(quantEstrelas){
+		var options = {
+			cancel   : true,
+			starType : 'i',
+			click: function(score, evt) {
+			    alert('ID: ' + this.id + "\nscore: " + score + "\nevent: " + evt);
+			}
+   		}
+		if(quantEstrelas){
+			options.score = quantEstrelas;
+		}
+        var estrelas = new Element.Star(options);
+        return estrelas.getElement();
+	}
 
 	var Pesquisa = new function(){
 		this.executar = function(value) {
@@ -652,6 +686,22 @@ $(document).ready(function(){
 	servicos.obterUsuario(function(usuario) {
 		$('#usuarioLogin').html(usuario.content[0].nome);
 	})
+	
+	    function imgPreview(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#imgUpload").change(function(){
+    	imgPreview(this);
+    });
 	
     init();
 });
@@ -829,6 +879,18 @@ $(document).ready(function(){
 	                    <h4>Incluir Favorito</h4>
 	                    <form>
 	                        <div class="row">
+                                <div class="s12 center">
+                                    <img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png">
+                                </div>
+                                <div class="file-field input-field">
+                                    <div class="btn">
+                                        <span>File</span>
+                                        <input type="file" single id="imgUpload">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                                    </div>
+                                </div>
 	                            <div class="input-field m12 s6">
 	                                <i class="mdi-action-stars prefix"></i>
 	                                <input id="nomeFav" type="text" class="validate">
@@ -844,6 +906,7 @@ $(document).ready(function(){
 	                                <textarea id="textareaFav" class="materialize-textarea"></textarea>
 	                                <label for="textareaFav">Descrição</label>
 	                            </div>
+	                            <div class="estrelas-form input-field col s12"></div>
 	                            <div class="input-field col s12">
 	                            	<i class="mdi-action-label prefix"></i>
 	                                <input id="tags" type="text" class="validate">
@@ -875,6 +938,7 @@ $(document).ready(function(){
 									<textarea class="textareaFav materialize-textarea"></textarea>
 									<label for="textareaFav">Descrição</label>
 								</div>
+								<div class="estrelas-form input-field col s12"></div>
 								<div class="input-field col s12">
 									<i class="mdi-action-label prefix"></i>
 									<input type="text" class="tagsFavorito validate">
@@ -902,6 +966,7 @@ $(document).ready(function(){
 	                                <textarea id="textareaPasta" class="materialize-textarea"></textarea>
 	                                <label for="textareaPasta">Descrição</label>
 	                            </div>
+	                            <div class="estrelas-form input-field col s12"></div>
 	                            <div class="input-field col s12">
 	                            	<i class="mdi-action-label prefix"></i>
                             		<input id="tagsPasta" type="text" class="validate">
@@ -928,6 +993,7 @@ $(document).ready(function(){
 									<textarea class="textareaPasta materialize-textarea"></textarea>
 									<label for="textareaPasta">Descrição</label>
 								</div>
+								<div class="estrelas-form input-field col s12"></div>
 								<div class="input-field col s12">
 									<i class="mdi-action-label prefix"></i>
 									<input type="text" class="tagsPasta validate">

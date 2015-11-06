@@ -291,11 +291,13 @@ var Element = function () {
 	    }
 	    var criarEstrelas = function () {
 	        var container = $('<div class="col s12">');
-	        var quantEstrelas = dados.quantEstrelas;
-	        for (i = 0; i < quantEstrelas; i++) {
-	            var estrela = $('<i class="mdi-action-grade">');
-	            container.append(estrela);
-	        }
+	        var options = {
+      		  readOnly: true,
+      		  score: dados.quantEstrelas,
+      		  starType : 'i'  
+      		}
+	        var estrelas = new Element.Star(options);
+	        container.append(estrelas.getElement());
 	        return container;
 	    }
 	    var criarDescricao = function () {
@@ -543,6 +545,26 @@ var Element = function () {
 	this.Loader = function(){
 		var container = $('<div class="loader"> <div class="preloader-wrapper big active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> </div> <div id="lean-overlay" class="" style="display: block; opacity: 0.5;"></div> </div>')	
 		return container;
+	}
+
+	this.Star = function(options){
+		var star = new ObjectHtml();
+		var optionsDefault = {
+		  cancel   : true,
+		  starType : 'i'  
+		}
+		star.createElement = function(){
+			var container = $('<div>');
+			if(options){
+				container.raty(options);
+			}
+			else{
+				container.raty(optionsDefault);
+			}
+			return container;
+		}
+		
+		return star;
 	}
 };
 var Element = new Element();
