@@ -546,19 +546,36 @@ var Element = function () {
 			}
 			return container;
 		}
+		star.getScore(){
+			var quant = star.getElement().raty('score');
+			if (quant == undefined){
+				quant = 0;
+			}
+			return quant;
+		}
 		return star;
 	}
 	
 	this.TagsInput = function(){
 		var tagsInput = new ObjectHtml();
+		var input = $('<input>');
+		
 		tagsInput.createElement = function(){
 			var container = $('<div onunload="test()">');
-			var input = $('<input>')
 			container.append(input);
 			container.on('DOMNodeInsertedIntoDocument', function(){
 				input.tagsInput();
 			})
 			return container;
+		}
+		tagsInput.getValues = function(){
+			var tags = input.val().split(',');
+			if(tags && tags != ""){
+				return tags;
+			}
+			else{
+				return null;
+			}
 		}
 		return tagsInput;
 	}
