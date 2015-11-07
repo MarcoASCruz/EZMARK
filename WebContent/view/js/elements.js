@@ -546,7 +546,7 @@ var Element = function () {
 			}
 			return container;
 		}
-		star.getScore(){
+		star.getScore= function(){
 			var quant = star.getElement().raty('score');
 			if (quant == undefined){
 				quant = 0;
