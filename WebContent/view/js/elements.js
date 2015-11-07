@@ -552,8 +552,12 @@ var Element = function () {
 	this.TagsInput = function(){
 		var tagsInput = new ObjectHtml();
 		tagsInput.createElement = function(){
-			var container = $('<input>');
-			//container.tagsInput();
+			var container = $('<div onunload="test()">');
+			var input = $('<input>')
+			container.append(input);
+			container.on('DOMNodeInsertedIntoDocument', function(){
+				input.tagsInput();
+			})
 			return container;
 		}
 		return tagsInput;
