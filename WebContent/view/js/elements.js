@@ -26,53 +26,36 @@ var Element = function () {
 	}
 	
 	
-	this.Modal = function(id){
+	this.Modal = function(){
 		var modal = new ObjectHtml();
-		var id = this.id;
-		var tituloModal = 'titulo teste';
-        var idIn1 = '001';
-        var idIn2 = '002';
-        var idIn3 = '003';
-			
-		modal.createElement = function(){
-			
-		var janela = $('<div id="' + id + '" class="modal modal-fixed-footer">');
+		var container = $('<div class="modal modal-fixed-footer">');
 		var conteudo = $('<div class="modal-content">');
-		var titulo = $('<h4>');
-		var formulario = $('<form>');
-		var conteudo_formulario = $('<div class="row">');
-		var nome = $('<div class="input-field m12 s6">' +
-                '<i class="mdi-action-stars prefix"></i>'+
-                '<input id="' + idIn1 + '" type="text" class="validate">'+
-                '<label for="'+ idIn1 + '">Nome</label>'+
-            	'</div>');
-		var url = $('<div class="input-field m12 s6">' +
-                '<i class="mdi-action-stars prefix"></i>'+
-                '<input id="' + idIn2 + '" type="text" class="validate">'+
-                '<label for="'+ idIn2 + '">Nome</label>'+
-				'</div>');
-		var descr = $('<div class="input-field m12 s6">' +
-                '<i class="mdi-action-stars prefix"></i>'+
-                '<input id="' + idIn3 + '" type="text" class="validate">'+
-                '<label for="'+ idIn3 + '">Nome</label>'+
-            	'</div>');
+		var footer = $('<div class="modal-footer">');
 		
-		
-//		var tags = $('<div class="input-field col s12">'+
-//                  '<input id="tags" type="text" class="validate">'+
-//                '</div>');
-
-		janela.append (conteudo);
-		conteudo.append (titulo);
-		titulo.append (tituloModal);
-		conteudo.append (formulario);
-		formulario.append (conteudo_formulario);
-		conteudo_formulario.append (nome);
-		conteudo_formulario.append (url);
-		conteudo_formulario.append (descr);
-			
-		return janela;	
+		modal.createElement = function(){
+			container.append(conteudo);
+			container.append(footer);
+			return container;
 		}		
+		
+		modal.addConteudo = function(element){
+			conteudo.append(element);
+		}
+		modal.addFooter = function(element){
+			footer.append(element);
+		}
+		modal.show = function(){
+			$('body').append(modal.getElement());
+			modal.getElement().openModal({
+				 dismissible: true,
+				 complete: function() { 
+					 modal.destroy();
+				 }
+		    });
+		}
+		modal.destroy = function(){
+			modal.getElement().remove();
+		}
 		return modal;
 	}
 
@@ -564,6 +547,16 @@ var Element = function () {
 			return container;
 		}
 		return star;
+	}
+	
+	this.TagsInput = function(){
+		var tagsInput = new ObjectHtml();
+		tagsInput.createElement = function(){
+			var container = $('<input>');
+			//container.tagsInput();
+			return container;
+		}
+		return tagsInput;
 	}
 };
 var Element = new Element();
