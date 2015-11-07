@@ -563,7 +563,6 @@ var Element = function () {
 			}
 			return container;
 		}
-		
 		return star;
 	}
 };

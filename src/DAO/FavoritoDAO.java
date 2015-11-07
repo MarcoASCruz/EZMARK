@@ -120,11 +120,12 @@ public class FavoritoDAO extends BasicDAO {
 		for (String tag : f.getTags()) {
 			adicionarTag(tag, idFavorito);
 		}
-		setQuery("UPDATE favorito SET `url`=?, `titulo`=?,	`descricao`=? WHERE id = ?");
+		setQuery("UPDATE favorito SET `url`=?, `titulo`=?,	`descricao`=?, numEstrela=? WHERE id = ?");
 		ps.setString(1, f.getUrl());
 		ps.setString(2, f.getTitulo());
 		ps.setString(3, f.getDescricao());
-		ps.setInt(4, f.getId());
+		ps.setInt(4, f.getNumEstrela());
+		ps.setInt(5, f.getId());
 		ps.executeUpdate();
 		commitTransaction();
 		close();

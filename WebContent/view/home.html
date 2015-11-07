@@ -289,21 +289,13 @@ $(document).ready(function(){
                 preencherCamposModal();
                 $('.btnAlterarPasta', modal).on('click', function () {
                     var getPasta = function () {
-                        var getTags = function () {
-                            var tags = $('.tagsPasta', modal).val().split(',');
-                            if (tags) {
-                                return tags;
-                            }
-                            else {
-                                return null;
-                            }
-                        }
                         var modeloPasta = modelo.pasta();
                         modeloPasta.id = pasta.id;
                         modeloPasta.nome = $(".nomePasta", modal).val();
                         modeloPasta.descricao = $(".textareaPasta", modal).val();
                         modeloPasta.pai = contexto.pastaAtual;
-                        modeloPasta.tags = getTags();
+                        modeloPasta.numEstrela = obterQuantEstrelas('alterarPasta');
+                        modeloPasta.tags = getTags($('.tagsPasta', modal));
                         return modeloPasta;
                     }
                     var pastaAlterada = getPasta();
@@ -403,21 +395,13 @@ $(document).ready(function(){
                 preencherCamposModal();
                 $('.btnAlterarFavorito', modal).on('click', function () {
                     var getFavorito = function () {
-                        var getTags = function () {
-                            var tags = $('.tagsFavorito', modal).val().split(',');
-                            if (tags) {
-                                return tags;
-                            }
-                            else {
-                                return null;
-                            }
-                        }
                         var modeloFavorito = modelo.favorito();
                         modeloFavorito.id = favorito.id;
                         modeloFavorito.url = $(".url-fav", modal).val();
                         modeloFavorito.titulo = $(".nomeFav", modal).val();
-                        modeloFavorito.descricao = $(".textareaFav", modal).val()
-                        modeloFavorito.tags = getTags();
+                        modeloFavorito.descricao = $(".textareaFav", modal).val();
+                        modeloFavorito.numEstrela = obterQuantEstrelas('alterarFavorito');
+                        modeloFavorito.tags = getTags($('.tagsFavorito', modal));
                         return modeloFavorito;
                     }
                     var favoritoAlterado = getFavorito();
@@ -535,22 +519,13 @@ $(document).ready(function(){
 	
 	$("#btnIncluirFavorito").on("click", function(){
 		var getFavorito = function(){
-			var getTags = function(){
-				var tags = $('#tags').val().split(',');
-				if(tags && tags != ""){
-					return tags;
-				}
-				else{
-					return null;
-				}
-			}
 			var favorito = modelo.favorito();
 			favorito.url = $("#url-fav").val();
 			favorito.titulo = $("#nomeFav").val();
 			favorito.descricao = $("#textareaFav").val()
 			favorito.pai = contexto.pastaAtual;
-			favorito.numEstrela = 1;
-			favorito.tags = getTags();
+			favorito.numEstrela = obterQuantEstrelas('incluirFavorito');
+			favorito.tags = getTags($('#tags'));
 			return favorito;
 		}
 		
@@ -566,21 +541,12 @@ $(document).ready(function(){
 	
 	$("#btnIncluirPasta").on("click", function(){
 		var getPasta = function(){
-			var getTags = function(){
-				var tags = $('#tagsPasta').val().split(',');
-				if(tags && tags != ""){
-					return tags;
-				}
-				else{
-					return null;
-				}
-			}
 			var pasta = modelo.pasta();
 			pasta.nome = $("#nomePasta").val();
 			pasta.descricao = $("#textareaPasta").val();
 			pasta.pai = contexto.pastaAtual;
-			pasta.numEstrela = 1;
-			pasta.tags = getTags();
+			pasta.numEstrela = obterQuantEstrelas('incluirPasta');
+			pasta.tags = getTags($('#tagsPasta'));
 			return pasta;
 		}
 		servicos.adicionarPasta(
@@ -594,6 +560,16 @@ $(document).ready(function(){
 			}
 		)
 	});
+	
+	function getTags(tagElement){
+		var tags = tagElement.val().split(',');
+		if(tags && tags != ""){
+			return tags;
+		}
+		else{
+			return null;
+		}
+	}
 
 
 	$('#incluirPasta .estrelas-form').append(criarEstrelasForm());
@@ -601,16 +577,20 @@ $(document).ready(function(){
 	function criarEstrelasForm(quantEstrelas){
 		var options = {
 			cancel   : true,
-			starType : 'i',
-			click: function(score, evt) {
-			    alert('ID: ' + this.id + "\nscore: " + score + "\nevent: " + evt);
-			}
+			starType : 'i'
    		}
 		if(quantEstrelas){
 			options.score = quantEstrelas;
 		}
         var estrelas = new Element.Star(options);
         return estrelas.getElement();
+	}
+	function obterQuantEstrelas(idForm){
+		var quant = $('#'+ idForm +' .estrelas-form div').raty('score');
+		if (quant == undefined){
+			quant = 0;
+		}
+		return quant;
 	}
 
 	var Pesquisa = new function(){
@@ -934,7 +914,7 @@ $(document).ready(function(){
 	                    <a id="btnIncluirFavorito" href="#" class="waves-effect waves-green btn">Confirmar</a>
 	                </div>
 	            </div>
-	            <div class="alterarFavorito modal modal-fixed-footer">
+	            <div id="alterarFavorito" class="alterarFavorito modal modal-fixed-footer">
 					<div class="modal-content">
 						<h4>Alterar Favorito</h4>
 						<form>
@@ -994,7 +974,7 @@ $(document).ready(function(){
 	                    <a id="btnIncluirPasta" href="#!" class="waves-effect waves-green btn">Confirmar</a>
 	                </div>
 	            </div>
-	            <div class="alterarPasta modal modal-fixed-footer">
+	            <div id="alterarPasta" class="alterarPasta modal modal-fixed-footer">
 					<div class="modal-content">
 						<h4>Alterar Pasta</h4>
 						<form>

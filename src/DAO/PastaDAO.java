@@ -118,10 +118,11 @@ public class PastaDAO extends BasicDAO {
 		for (String tag : pasta.getTags()) {
 			adicionarTag(tag, idPasta);
 		}
-		setQuery("UPDATE pasta SET nome = ?, descricao = ? WHERE id = ?");
+		setQuery("UPDATE pasta SET nome = ?, descricao = ?, num_estrela = ? WHERE id = ?");
 		ps.setString(1, pasta.getNome());
 		ps.setString(2, pasta.getDescricao());
-		ps.setInt(3, idPasta);
+		ps.setInt(3, pasta.getNumEstrela());
+		ps.setInt(4, idPasta);
 		ps.executeUpdate();
 		commitTransaction();
 		close();
