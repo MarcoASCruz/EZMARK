@@ -53,6 +53,13 @@ var Element = function () {
 				 }
 		    });
 		}
+		modal.close = function(){
+			modal.getElement().closeModal({
+				 complete: function() { 
+					 modal.destroy();
+				 }
+		    });
+		}
 		modal.destroy = function(){
 			modal.getElement().remove();
 		}
@@ -546,12 +553,15 @@ var Element = function () {
 			}
 			return container;
 		}
-		star.getScore= function(){
+		star.getScore = function(){
 			var quant = star.getElement().raty('score');
 			if (quant == undefined){
 				quant = 0;
 			}
 			return quant;
+		}
+		star.setScore = function(score){
+			star.getElement().raty('score', score);
 		}
 		return star;
 	}
@@ -576,6 +586,12 @@ var Element = function () {
 			else{
 				return null;
 			}
+		}
+		tagsInput.add = function(tags){
+            var quantTags = tags.length;
+            for (var i = 0; i < quantTags; i++) {
+            	input.addTag(tags[i]);
+            }
 		}
 		return tagsInput;
 	}
