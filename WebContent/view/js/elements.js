@@ -49,7 +49,7 @@ var Element = function () {
 			modal.getElement().openModal({
 				 dismissible: true,
 				 complete: function() { 
-					 modal.destroy();
+					 modal.close();
 				 }
 		    });
 		}
@@ -595,5 +595,219 @@ var Element = function () {
 		}
 		return tagsInput;
 	}
+	
+	this.Form = function(titulo){
+		var form = new ObjectHtml();
+		var container = $('<form>');
+		var conteudo = $('<div class="row">');
+		
+		form.createElement = function(callback){
+			container.append(conteudo);
+			adicionarTitulo(titulo);
+			form.element = container;
+			if(callback){
+				callback();
+			}
+		}
+		
+		var adicionarTitulo = function(titulo){
+			conteudo.append(criarTitulo(titulo));
+		}
+		var criarTitulo = function(titulo){
+			var container = $('<h4>');
+			container.append(titulo);
+			return container;
+		}
+		
+		form.adicionarItem = function(icone, item){
+			conteudo.append(criarItem(icone, item));
+		}
+		var criarItem = function(icone, item){
+			var container = $('<div class="input-field">')
+			var iconeContainer = $('<i class="prefix">');
+			if(icone){
+				iconeContainer.addClass(icone);
+				container.append(iconeContainer);
+			}
+			container.append(item);
+			return container;
+		}
+        form.preencherCampos = function(){
+        	throw "Form.preencherCampos is not implemented";
+        }
+        return form;
+	}
+	
+	 this.FormPasta = function(titulo){
+		var form = new Element.Form(titulo);
+		var estrelas = undefined;
+		var tags = undefined;
+		
+		form.createElement(function(){
+			var criarNome = function(){
+				return $('<input id="nomePasta" type="text" class="validate"><label for="nomePasta">Nome</label>');
+			}
+			var criarDescricao = function(){
+				return $('<textarea id="textareaPasta" class="materialize-textarea"></textarea><label for="textareaPasta">Descrição</label>');
+			}
+			var criarEstrelas = function(){
+				var options = {
+					cancel   : true,
+					starType : 'i'
+				 }
+			    estrelas = new Element.Star(options);
+			    return estrelas.getElement();
+			}
+			var criarTags = function(){    
+			    tags = new Element.TagsInput();
+			    return tags.getElement();
+			}
+			
+			form.adicionarItem("mdi-file-folder", criarNome());
+			form.adicionarItem("mdi-action-description", criarDescricao());
+			form.adicionarItem(null, criarEstrelas());
+			form.adicionarItem("mdi-action-label", criarTags());
+		});
+        
+        form.getNome = function(){
+    		return $("#nomePasta", form.getElement()).val();
+    	}
+        form.getDescricao = function(){
+    		return $("#textareaPasta", form.getElement()).val();
+    	}
+        form.getQuantEstrelas = function(){
+        	return estrelas.getScore();
+        }
+        form.getTags = function(){
+        	return tags.getValues();
+        }
+        form.preencherCampos = function(pasta){
+            var preencherTitulo = function () {
+                var titulo = $('#nomePasta', form.getElement());
+                preencherCampo(titulo, pasta.titulo);
+            }
+            var preencherDescricao = function () {
+                var descricao = $('#textareaPasta', form.getElement());
+                preencherCampo(descricao, pasta.descricao);
+            }
+            var preencherCampo = function (campo, valor) {
+                ativarCampo(campo);
+                adicionarValorAoCampo(campo, valor);
+            }
+            var ativarCampo = function (campo) {
+                $('label', campo.parent()).addClass('active');
+            }
+            var adicionarValorAoCampo = function (campo, valor) {
+                campo.val(valor);
+            }
+            var preencherTags = function () {
+                if (pasta.tags) {
+                    tags.add(pasta.tags);
+                }
+            }
+            var preencherEstrelas = function(){
+            	estrelas.setScore(pasta.quantEstrelas);
+            }
+            preencherTitulo();
+            preencherDescricao();
+            preencherTags();
+            preencherEstrelas();
+        }
+		return form;
+        
+	}
+	 
+	this.FormFavorito = function(titulo){
+		var form = new Element.Form(titulo);
+		var estrelas = undefined;
+		var tags = undefined;
+		form.createElement(function(){
+			var criarImg = function(){
+				return $('<div class="row"><div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div></div>');
+			}
+			var criarNome = function(){
+				return $('<input id="nomeFav" type="text" class="validate"><label for="nomeFav">Nome</label>');
+			}
+			var criarUrl = function(){
+				return $('<input id="url-fav" type="text" class="validate"><label for="url-fav">URL</label>');
+			}
+			var criarDescricao = function(){
+				return $('<textarea id="textareaFav" class="materialize-textarea"></textarea><label for="textareaFav">Descrição</label>');
+			}
+			var criarEstrelas = function(){
+				var options = {
+					cancel   : true,
+					starType : 'i'
+				 }
+			    estrelas = new Element.Star(options);
+			    return estrelas.getElement();
+			}
+			var criarTags = function(){    
+			    tags = new Element.TagsInput();
+			    return tags.getElement();
+			}
+			form.adicionarItem(null, criarImg());
+			form.adicionarItem("mdi-action-stars", criarNome());
+			form.adicionarItem("mdi-content-link", criarUrl());
+			form.adicionarItem("mdi-action-description", criarDescricao());
+			form.adicionarItem(null, criarEstrelas());
+			form.adicionarItem("mdi-action-label", criarTags());
+		});
+        
+        form.getNome = function(){
+    		return $("#nomeFav", form.getElement()).val();
+    	}
+        form.getUrl = function(){
+    		return $("#url-fav", form.getElement()).val();
+    	}
+        form.getDescricao = function(){
+    		return $("#textareaFav", form.getElement()).val();
+    	}
+        form.getQuantEstrelas = function(){
+        	return estrelas.getScore();
+        }
+        form.getTags = function(){
+        	return tags.getValues();
+        }
+        form.preencherCampos = function(pasta){
+            var preencherTitulo = function () {
+                var titulo = $('#nomeFav', form.getElement());
+                preencherCampo(titulo, pasta.titulo);
+            }
+            var preencherUrl = function () {
+                var url = $('#url-fav', form.getElement());
+                preencherCampo(url, pasta.url);
+            }
+            var preencherDescricao = function () {
+                var descricao = $('#textareaFav', form.getElement());
+                preencherCampo(descricao, pasta.descricao);
+            }
+            var preencherCampo = function (campo, valor) {
+                ativarCampo(campo);
+                adicionarValorAoCampo(campo, valor);
+            }
+            var ativarCampo = function (campo) {
+                $('label', campo.parent()).addClass('active');
+            }
+            var adicionarValorAoCampo = function (campo, valor) {
+                campo.val(valor);
+            }
+            var preencherTags = function () {
+                if (pasta.tags) {
+                    tags.add(pasta.tags);
+                }
+            }
+            var preencherEstrelas = function(){
+            	estrelas.setScore(pasta.quantEstrelas);
+            }
+            preencherTitulo();
+            preencherDescricao();
+            preencherTags();
+            preencherEstrelas();
+        }
+		return form;
+        
+	}
+	
 };
 var Element = new Element();
