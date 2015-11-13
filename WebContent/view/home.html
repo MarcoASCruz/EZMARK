@@ -448,88 +448,7 @@ $(document).ready(function(){
 	            }
 	            ,
 	            editar: function (favorito) {
-	                var modal = $('.alterarFavorito');
-	                var abrirModal = function () {
-	                    modal.openModal();
-	                }
-	                var preencherCamposModal = function () {
-	                    var preencherTitulo = function () {
-	                        var titulo = $('.nomeFav', modal);
-	                        preencherCampo(titulo, favorito.titulo);
-	                    }
-	                    var preencherUrl = function () {
-	                        var url = $('.url-fav', modal);
-	                        preencherCampo(url, favorito.url);
-	                    }
-	                    var preencherDescricao = function () {
-	                        var descricao = $('.textareaFav', modal);
-	                        preencherCampo(descricao, favorito.descricao);
-	                    }
-	                    var preencherTags = function () {
-	                        if (favorito.tags) {
-	                            var tagsInput = $('.tagsFavorito', modal);
-	                            var limparTagsInput = function () {
-	                                var tags = tagsInput.val().split(',');
-	                                var quantTags = tags.length;
-	                                for (var i = 0; i < quantTags; i++) {
-	                                    tagsInput.removeTag(tags[i]);
-	                                }
-	                            }
-	                            var adicionarTag = function (tag) {
-	                                tagsInput.addTag(tag);
-	                            }
-	                            limparTagsInput();
-	                            var tags = favorito.tags;
-	                            var quantTags = tags.length;
-	                            for (var i = 0; i < quantTags; i++) {
-	                                adicionarTag(tags[i]);
-	                            }
-	                        }
-	                    }
-	                    var preencherCampo = function (campo, valor) {
-	                        ativarCampo(campo);
-	                        adicionarValorAoCampo(campo, valor);
-	                    }
-	                    var ativarCampo = function (campo) {
-	                        $('label', campo.parent()).addClass('active');
-	                    }
-	                    var adicionarValorAoCampo = function (campo, valor) {
-	                        campo.val(valor);
-	                    }
-	                    var preencherEstrelas = function(){
-	                    	$('.estrelas-form', modal).append(criarEstrelasForm(favorito.quantEstrelas));
-	                    }
-	                    preencherTitulo();
-	                    preencherUrl();
-	                    preencherDescricao();
-	                    preencherTags();
-	                    preencherEstrelas();
-	                }
-	                abrirModal();
-	                preencherCamposModal();
-	                $('.btnAlterarFavorito', modal).on('click', function () {
-	                    var getFavorito = function () {
-	                        var modeloFavorito = modelo.favorito();
-	                        modeloFavorito.id = favorito.id;
-	                        modeloFavorito.url = $(".url-fav", modal).val();
-	                        modeloFavorito.titulo = $(".nomeFav", modal).val();
-	                        modeloFavorito.descricao = $(".textareaFav", modal).val();
-	                        modeloFavorito.numEstrela = obterQuantEstrelas('alterarFavorito');
-	                        modeloFavorito.tags = getTags($('.tagsFavorito', modal));
-	                        return modeloFavorito;
-	                    }
-	                    var favoritoAlterado = getFavorito();
-	                    var btn = $(this);
-	                    servicos.alterarFavorito(
-	                        favoritoAlterado
-	                        ,
-	                        function (data) {
-	                            modal.closeModal();
-	                            atualizarPasta();
-	                            btn.off();
-	                        }
-	                    )
-	                })
+	            	criarFormAlteracaoFavorito(favorito);
 	            }
 	        }
 	        var length = favoritos.length;
@@ -720,6 +639,24 @@ $(document).ready(function(){
 						}
 					)
 				}
+			)
+		}
+		function criarFormAlteracaoFavorito(favorito){
+			criarFormFavorito(
+				"Alterar Favorito"
+				,
+				function(favoritoAlterado, onSuccess){	
+					servicos.alterarFavorito(
+						favoritoAlterado
+						,
+						function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+					)
+				}
+				,
+				favorito
 			)
 		}
 		
