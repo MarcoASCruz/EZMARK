@@ -769,18 +769,18 @@ var Element = function () {
         form.getTags = function(){
         	return tags.getValues();
         }
-        form.preencherCampos = function(pasta){
+        form.preencherCampos = function(favorito){
             var preencherTitulo = function () {
-                var titulo = $('#nomeFav', form.getElement());
-                preencherCampo(titulo, pasta.titulo);
+                var titulo = $('#nomeFav', form.getElement()); //redundante
+                preencherCampo(titulo, favorito.titulo);
             }
             var preencherUrl = function () {
                 var url = $('#url-fav', form.getElement());
-                preencherCampo(url, pasta.url);
+                preencherCampo(url, favorito.url);
             }
             var preencherDescricao = function () {
                 var descricao = $('#textareaFav', form.getElement());
-                preencherCampo(descricao, pasta.descricao);
+                preencherCampo(descricao, favorito.descricao);
             }
             var preencherCampo = function (campo, valor) {
                 ativarCampo(campo);
@@ -793,15 +793,16 @@ var Element = function () {
                 campo.val(valor);
             }
             var preencherTags = function () {
-                if (pasta.tags) {
-                    tags.add(pasta.tags);
+                if (favorito.tags) {
+                    tags.add(favorito.tags);
                 }
             }
             var preencherEstrelas = function(){
-            	estrelas.setScore(pasta.quantEstrelas);
+            	estrelas.setScore(favorito.quantEstrelas);
             }
             preencherTitulo();
             preencherDescricao();
+            preencherUrl();
             preencherTags();
             preencherEstrelas();
         }

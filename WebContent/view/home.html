@@ -516,137 +516,125 @@ $(document).ready(function(){
 		
 		
 		function criarFormInclusaoPasta(){
-			criarFormPasta(
-				"Adicionar Pasta"
-				,
-				function(pastaAlterada, onSuccess){
-					servicos.adicionarPasta(
-						pastaAlterada
-						,
-						function(data){
-							onSuccess();
-							var pasta = data.content[0];
-							arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
-							atualizarPasta();
-						}
-					)
-				}
-			)
+			var form = new Element.FormPasta("Adicionar Pasta");
+			var formModal = new FormModal(form);
+			formModal.onSend = function(pastaAlterada, onSuccess){
+                servicos.adicionarPasta(
+					pastaAlterada
+					,
+					function(data){
+						onSuccess();
+						var pasta = data.content[0];
+						arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
+						atualizarPasta();
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormPasta(form, modelo.pasta());
+			}
+			formModal.show();
 		}
 		function criarFormAlteracaoPasta(pasta){
-			criarFormPasta(
-				"Alterar Pasta"
-				,
-				function(pastaAlterada, onSuccess){
-					servicos.alterarPasta(
-                        pastaAlterada
-                        ,
-                        function (data) {
-                            onSuccess();
-                            atualizarPasta();
-                            arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
-                        }
-                    )
-				}
-				,
-				pasta
-			)
-		}
-		function criarFormPasta(titulo, onSendPasta, pasta){
-			var form = new Element.FormPasta(titulo);
-			var modal = new Element.Modal();
-			
-			var criarBotaoConfirmar = function(){
-				var button = $('<a href="#" class="waves-effect waves-green btn">Confirmar</a>')
-				button.on('click', function(){
-					var getPasta = function(){
-						var modeloPasta = modelo.pasta();
-						if (pasta){
-							modeloPasta.id = pasta.id;
-						}
-						modeloPasta.nome = form.getNome();
-						modeloPasta.descricao = form.getDescricao()
-						modeloPasta.pai = contexto.pastaAtual;
-						modeloPasta.numEstrela = form.getQuantEstrelas();
-						modeloPasta.tags = form.getTags();
-						return modeloPasta;
-					}
-					onSendPasta(
-						getPasta()
-						,
-						function(){
-							modal.close();
-		                    $(this).off();
-						}
-					);
-				})
-				return button;
+			var form = new Element.FormPasta("Alterar Pasta");
+			var formModal = new FormModal(form, pasta);
+			formModal.onSend = function(pastaAlterada, onSuccess){
+				servicos.alterarPasta(
+                    pastaAlterada
+                    ,
+                    function (data) {
+                        onSuccess();
+                        atualizarPasta();
+                        arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
+                    }
+                )
 			}
-			
-			if(pasta){
-				form.preencherCampos(pasta);
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormPasta(form, pasta);
 			}
-			modal.addConteudo(form.getElement());
-			modal.addFooter(criarBotaoConfirmar());
-			modal.show();
+			formModal.show();
 		}
-		function criarFormInclusaoFavorito(){
-			criarFormFavorito(
-				"Adicionar Favorito"
-				,
-				function(favorito, onSuccess){	
-					servicos.adicionarFavorito(
-						favorito
-						,
-						function(data){
-							onSuccess();
-							atualizarPasta();
-						}
-					)
-				}
-			)
-		}
-		function criarFormAlteracaoFavorito(favorito){
-			criarFormFavorito(
-				"Alterar Favorito"
-				,
-				function(favoritoAlterado, onSuccess){	
-					servicos.alterarFavorito(
-						favoritoAlterado
-						,
-						function(data){
-							onSuccess();
-							atualizarPasta();
-						}
-					)
-				}
-				,
-				favorito
-			)
+	    var obterDadosFormPasta = function(form, pasta){
+	    	pasta.pai = contexto.pastaAtual;
+			pasta.nome = form.getNome();
+			pasta.descricao = form.getDescricao();
+			pasta.numEstrela = form.getQuantEstrelas();
+			pasta.tags = form.getTags();
+			return pasta;
 		}
 		
-		function criarFormFavorito(titulo, onSendFav, favorito){
-			var form = new Element.FormFavorito(titulo);
+		
+		
+		
+		
+		function criarFormInclusaoFavorito(){
+			var form = new Element.FormFavorito("Adicionar Favorito");
+			var formModal = new FormModal(form);
+			formModal.onSend = function(favoritoAlterado, onSuccess){	
+				servicos.adicionarFavorito(
+					favoritoAlterado
+					,
+					function(data){
+						onSuccess();
+						atualizarPasta();
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormFavorito(form, modelo.favorito());
+			} 
+			formModal.show();
+		}
+		function criarFormAlteracaoFavorito(favorito){
+			var form = new Element.FormFavorito("Alterar Favorito");
+			var formModal = new FormModal(form, favorito);
+			formModal.onSend = function(favoritoAlterado, onSuccess){	
+				servicos.alterarFavorito(
+					favoritoAlterado
+					,
+					function(data){
+						onSuccess();
+						atualizarPasta();
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormFavorito(form, favorito);
+			}
+			formModal.show();
+		}
+		var obterDadosFormFavorito = function(form, favorito){
+			favorito.pai = contexto.pastaAtual;
+			favorito.url = form.getUrl();
+			favorito.titulo = form.getNome();
+			favorito.descricao = form.getDescricao();
+			favorito.numEstrela = form.getQuantEstrelas();
+			favorito.tags = form.getTags();
+			return favorito;
+		}
+		
+		function FormModal(form, dadosBloco){
+			var self = this;
 			var modal = new Element.Modal();
+			
+			this.show = function(){
+				create();
+				modal.show();
+			}
+			
+			var create = function(){
+				if(dadosBloco){
+					form.preencherCampos(dadosBloco);
+				}
+				modal.addConteudo(form.getElement());
+				modal.addFooter(criarBotaoConfirmar());	
+			}
 			
 			var criarBotaoConfirmar = function(){
 				var button = $('<a href="#" class="waves-effect waves-green btn">Confirmar</a>')
 				button.on('click', function(){
-					var getFavorito = function(){
-						var favoritoModelo = modelo.favorito();
-						if(favorito){
-							favoritoModelo.id = favorito.id;
-						}
-						favoritoModelo.url = form.getUrl();
-						favoritoModelo.titulo = form.getNome();
-						favoritoModelo.descricao = form.getDescricao();
-						favoritoModelo.pai = contexto.pastaAtual;
-						favoritoModelo.numEstrela = form.getQuantEstrelas();
-						favoritoModelo.tags = form.getTags();
-						return favoritoModelo;
-					}
-					onSendFav(
-						getFavorito()
+					self.onSend(
+						self.obterDadosBloco(form)
 						,
 						function(){
 							modal.close();
@@ -657,32 +645,12 @@ $(document).ready(function(){
 				return button;
 			}
 			
-			if(favorito){
-				form.preencherCampos(favorito);
+			this.onSend = function(form){
+				throw "FormModal.obterSend is not implemented";
 			}
-			modal.addConteudo(form.getElement());
-			modal.addFooter(criarBotaoConfirmar());
-			modal.show();
-		}
-	
-		$('#incluirFavorito .estrelas-form').append(criarEstrelasForm());
-		function criarEstrelasForm(quantEstrelas){
-			var options = {
-				cancel   : true,
-				starType : 'i'
-	   		}
-			if(quantEstrelas){
-				options.score = quantEstrelas;
+			this.obterDadosBloco = function(form){
+				throw "FormModal.obterDadosBloco is not implemented";
 			}
-	        var estrelas = new Element.Star(options);
-	        return estrelas.getElement();
-		}
-		function obterQuantEstrelas(idForm){
-			var quant = $('#'+ idForm +' .estrelas-form div').raty('score');
-			if (quant == undefined){
-				quant = 0;
-			}
-			return quant;
 		}
 	
 		var Pesquisa = new function(){
