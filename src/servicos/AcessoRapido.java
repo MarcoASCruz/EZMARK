@@ -30,7 +30,7 @@ public class AcessoRapido extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
-			List<Favorito> favoritos = acessoRapidoDAO.buscarFavoritos();
+			List<Favorito> favoritos = acessoRapidoDAO.buscarFavoritos(obterUsuarioLogado().getId());
 			response.setSuccess(true);
 			response.setContent(favoritos);
 		}
@@ -48,7 +48,7 @@ public class AcessoRapido extends Servico {
 			Favorito favorito = new Favorito();
 			favorito.setId(idFavorito);
 			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
-			acessoRapidoDAO.adicionar(favorito);
+			acessoRapidoDAO.adicionar(favorito, obterUsuarioLogado().getId());
 			response.setSuccess(true);
 		}
 		catch(Exception e){
@@ -63,7 +63,7 @@ public class AcessoRapido extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
-			acessoRapidoDAO.remover(idFavorito);
+			acessoRapidoDAO.remover(idFavorito, obterUsuarioLogado().getId());
 			response.setSuccess(true);
 		}
 		catch(Exception e){
