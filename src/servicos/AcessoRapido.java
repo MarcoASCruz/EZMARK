@@ -62,6 +62,7 @@ public class AcessoRapido extends Servico {
 	}
 	
 	@DELETE
+	@Path("/remover")
 	@Produces("application/json")
 	public Response remover(@FormParam("id") int  idFavorito){
 		AppResponse response = new AppResponse();

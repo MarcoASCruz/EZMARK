@@ -215,6 +215,20 @@ var servicos = {
 		)
 	}
 	,
+	removerAcessoRapido: function(id, onSuccess){
+		mapper.services.removerAcessoRapido(
+			id
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
 	recemAcessados: function(onSuccess) {
 		mapper.services.recemAcessados(
 			onSuccess

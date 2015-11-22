@@ -519,6 +519,12 @@ $(document).ready(function(){
 					function (favorito) {
 	            		abrirLinkFav(favorito.url);
             		}
+					,
+					function(id){
+						servicos.removerAcessoRapido(id, function(){
+							atualizarAcessoRapido();
+						})
+					}
 				);
 				divDestino.append(icon.getElement());
 			}

@@ -179,6 +179,23 @@ var Mapper = function(){
 			executarRequisicao(requisicaoParametros);
 		}
 		,
+		removerAcessoRapido: function(id, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/acessoRapido/remover"
+				,
+				method: "DELETE"
+				,
+				data:{
+					id: id
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
 		recemAcessados: function(onSuccess, onError){
 			requisicaoParametros = {
 				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAcessados"

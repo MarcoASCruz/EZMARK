@@ -66,7 +66,7 @@ var Element = function () {
 		return modal;
 	}
 
-	this.FavAcessoRapido = function(favorito, onClick){
+	this.FavAcessoRapido = function(favorito, onClick, onDelete){
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
@@ -84,7 +84,7 @@ var Element = function () {
 	        div_detalhes.append (detalhes_favorito);
 	        detalhes_favorito.append (titulo_favorito);
 	        titulo_favorito.append (favorito.titulo);
-	        //detalhes_favorito.append (criarMenu());
+	        detalhes_favorito.append (criarMenu());
 	        
 	        bloco.on('click', function(){
 	        	onClick(favorito);
@@ -112,25 +112,95 @@ var Element = function () {
 		}
         
         var criarMenu = function(){
-        	var div_dropdown = $('<div class="col s2 pdzero">');
-	        var btDropdown = $('<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown' + favorito.id +'">');
-	        var btDropdown_icon = $('<i class="mdi-navigation-more-vert"></i>');
-	        var dropdown_content = $('<ul id="dropdown' + favorito.id +'" class="dropdown-content">');
-	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-	        var dropdownEditar = $('<li><a>Editar</a></li>');
-	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-	        
-	        div_dropdown.append(btDropdown);
-	        btDropdown.append (btDropdown_icon);
-	        div_dropdown.append(dropdown_content);
-	        dropdown_content.append (dropdownSelecionar);
-	        dropdown_content.append (dropdownEditar);
-	        dropdown_content.append (dropdownExcluir);
-	        
-	        return div_dropdown;
+        	var drop = new Element.MenuDropDown(favorito.id);
+        	drop.adicionarAcoes([
+                  {
+                 	 titulo: 'Remover'
+             		 ,
+             		 executar: function(id){
+             			onDelete(id);
+             		 }
+                  }
+          	])
+        	drop.getElement().addClass("pdzero");
+        	return drop.getElement();
         }
         return favAR;
 	}
+	
+	this.MenuDropDown = function(id) {
+		var drop = new ObjectHtml();
+        var container = $('<div class="col s2">');
+        
+        drop.createElement = function(){
+        	adicionarBotao();
+        	return container;
+        }
+        
+        var adicionarBotao = function () {
+            container.append(criarBotao());
+        }
+        var criarBotao = function () {
+            var botao = $('<a class="dropdown-button cyan-text text-lighten-5">');
+            botao.attr('data-activates', 'dropdown-element-' + id);
+            var icon = $('<i class="mdi-navigation-more-vert">');
+            botao.append(icon);
+            var dropDownHabilitado = false;
+            botao.on('click', function(event){
+            	fecharDropDownAberto();
+            	if(!dropDownHabilitado){
+            		dropDownHabilitado = true;
+            		habilitarDropDown();
+            		abrirDropDown();
+            	}
+            	event.stopPropagation();
+            })
+            var habilitarDropDown = function(){
+        		botao.dropdown({constrainwidth: false});
+        	}
+        	var abrirDropDown = function(){
+        		botao.click();
+        	}
+            return botao;
+        }
+        var fecharDropDownAberto = function(){
+        	$('.dropdown-content.active').css('display', 'none');
+        	$('.dropdown-content.active').removeClass('active');
+        }
+        drop.adicionarAcoes = function (acoes) {
+            container.append(criarAcoes(acoes));
+        }
+        var criarAcoes = function (acoes) {
+            var container = $('<ul class="dropdown-content">');
+            container.attr('id', 'dropdown-element-' + id);
+
+            var preencherAcoes = function () {
+                var quantAcoes = acoes.length;
+                for (var i = 0; i < quantAcoes; i++) {
+                    adicionarAcao(acoes[i])
+                }
+            }
+            var adicionarAcao = function (acao) {
+                container.append(criarAcao(acao));
+            }
+            var criarAcao = function (acao) {
+                var container = $('<li>');
+                var conteudo = $('<a href="#">');
+                conteudo.append(acao.titulo);
+                container.append(conteudo);
+                container.on('click', function(event){
+                	event.stopPropagation();
+                	acao.executar(id);
+                	fecharDropDownAberto();
+                })
+                return container;
+            }
+            preencherAcoes();
+
+            return container;
+        }
+        return drop;
+    }
 
     //{iconeUrl:"", ... }
 	this.Bloco = function (dados) {
