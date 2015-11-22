@@ -78,12 +78,13 @@ public class PastaDAO extends BasicDAO {
 	public Pasta adicionar(Pasta pasta, int idUsuario)throws Exception{
 		openConection();
 		beginTransaction();
-		criarQuery("INSERT INTO pasta (`id_pasta_pai`,	`nome`,	`data_criacao`,	`num_estrela`,`publica`) VALUES (?,?,?,?,?)");
+		criarQuery("INSERT INTO pasta (`id_pasta_pai`,	`nome`,	`data_criacao`,	`num_estrela`,`publica`, descricao) VALUES (?,?,?,?,?,?)");
 		ps.setInt(1, pasta.getPai());
 		ps.setString(2, pasta.getNome());
 		ps.setTimestamp(3, pasta.getDataCriacao());
 		ps.setInt(4, pasta.getNumEstrela());
 		ps.setBoolean(5, pasta.isPublica());
+		ps.setString(6, pasta.getDescricao());
 		ps.executeUpdate();
 		ps = (PreparedStatement) c.prepareStatement("SELECT LAST_INSERT_ID() id FROM pasta");
 		ResultSet res =  (ResultSet) ps.executeQuery();	
