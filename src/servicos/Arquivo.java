@@ -224,7 +224,7 @@ public class Arquivo extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
-			response.setContent(favoritoDAO.recemAcessados());
+			response.setContent(favoritoDAO.recemAcessados(obterUsuarioLogado().getId()));
 			response.setSuccess(true);
 		}
 		catch(Exception e){
@@ -240,7 +240,7 @@ public class Arquivo extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
-			response.setContent(favoritoDAO.maisAcessados());
+			response.setContent(favoritoDAO.maisAcessados(obterUsuarioLogado().getId()));
 			response.setSuccess(true);
 		}
 		catch(Exception e){
@@ -256,7 +256,7 @@ public class Arquivo extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
-			response.setContent(favoritoDAO.recemAdicionados());
+			response.setContent(favoritoDAO.recemAdicionados(obterUsuarioLogado().getId()));
 			response.setSuccess(true);
 		}
 		catch(Exception e){

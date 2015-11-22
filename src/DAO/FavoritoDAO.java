@@ -185,51 +185,54 @@ public class FavoritoDAO extends BasicDAO {
 		close();
 	}
 	
-	public List<Favorito> recemAcessados() throws Exception{
-		criarQuery("SELECT id, `url`, `titulo`, `imagem` FROM gerenciador_de_favoritos.favorito ORDER BY `data_acesso` DESC LIMIT 10");
+	public List<Favorito> recemAcessados(int idUsuario) throws Exception{
+		criarQuery("SELECT favorito.id as idFav, url, titulo FROM favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE up.user_id = ? ORDER BY data_acesso DESC LIMIT 10");
+		ps.setInt(1, idUsuario);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();	
 		List<Favorito> favoritos = new ArrayList<Favorito>();
 		while (res.next()){
 			Favorito f = new Favorito();
-			f.setId(res.getInt("id"));
+			f.setId(res.getInt("idFav"));
 			f.setTitulo(res.getString("titulo"));
 			f.setUrl(res.getString("url"));
-			f.setImagem(res.getInt("id"));
+			f.setImagem(res.getInt("idFav"));
 			favoritos.add(f);
 		}
 		close();
 		return favoritos;
 	}
 	
-	public List<Favorito> maisAcessados() throws Exception{
-		criarQuery("SELECT id, `url`, `titulo`, `imagem` FROM gerenciador_de_favoritos.favorito ORDER BY `quant_acesso` DESC LIMIT 10");
+	public List<Favorito> maisAcessados(int idUsuario) throws Exception{
+		criarQuery("SELECT favorito.id as idFav, url, titulo FROM favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE up.user_id = ? ORDER BY quant_acesso DESC LIMIT 10");
+		ps.setInt(1, idUsuario);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();	
 		List<Favorito> favoritos = new ArrayList<Favorito>();
 		while (res.next()){
 			Favorito f = new Favorito();
-			f.setId(res.getInt("id"));
+			f.setId(res.getInt("idFav"));
 			f.setTitulo(res.getString("titulo"));
 			f.setUrl(res.getString("url"));
-			f.setImagem(res.getInt("id"));
+			f.setImagem(res.getInt("idFav"));
 			favoritos.add(f);
 		}
 		close();
 		return favoritos;
 	}
 	
-	public List<Favorito> recemAdicionados() throws Exception{
-		criarQuery("SELECT id, `url`, `titulo`, `imagem` FROM gerenciador_de_favoritos.favorito ORDER BY `data_criacao` DESC LIMIT 10");
+	public List<Favorito> recemAdicionados(int idUsuario) throws Exception{
+		criarQuery("SELECT favorito.id as idFav, url, titulo FROM favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE up.user_id = ? ORDER BY favorito.data_criacao DESC LIMIT 10");
+		ps.setInt(1, idUsuario);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();	
 		List<Favorito> favoritos = new ArrayList<Favorito>();
 		while (res.next()){
 			Favorito f = new Favorito();
-			f.setId(res.getInt("id"));
+			f.setId(res.getInt("idFav"));
 			f.setTitulo(res.getString("titulo"));
 			f.setUrl(res.getString("url"));
-			f.setImagem(res.getInt("id"));
+			f.setImagem(res.getInt("idFav"));
 			favoritos.add(f);
 		}
 		close();
