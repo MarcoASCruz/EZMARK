@@ -23,7 +23,7 @@ import com.sun.jersey.json.impl.JSONUnmarshallerImpl;
 import flexjson.JSONDeserializer;
 
 @Path("/acessoRapido")
-public class AcessoRapido {
+public class AcessoRapido extends Servico {
 	@GET
 	@Produces("application/json")
 	public Response findAll() {

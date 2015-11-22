@@ -19,20 +19,15 @@ import DAO.PastaDAO;
 import DAO.UsuarioDAO;
 
 @Path("/usuario")
-public class Usuario {
+public class Usuario extends Servico {
 	@GET
 	@Path("/obterNome")
 	@Produces("application/json")
 	public Response obterNome() {
 		AppResponse response = new AppResponse();
-		try{
-			Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
-		    
-			UsuarioDAO userDAO = new UsuarioDAO();
-			modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
-			
+		try{			
 			ArrayList<modelos.Usuario> l = new ArrayList<modelos.Usuario>();
-			l.add(usuario);
+			l.add(obterUsuarioLogado());
 			
 			response.setSuccess(true);
 			response.setContent(l);
@@ -48,13 +43,8 @@ public class Usuario {
 	public Response buscarHome() {
 		AppResponse response = new AppResponse();
 		try{
-			Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
-		    
-			UsuarioDAO userDAO = new UsuarioDAO();
-			modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
-			
 			PastaDAO pastaDAO = new PastaDAO();
-			Pasta pasta = pastaDAO.buscarHome(usuario.getId());
+			Pasta pasta = pastaDAO.buscarHome(obterUsuarioLogado().getId());
 			
 			ArrayList<Pasta> l = new ArrayList<Pasta>();
 			l.add(pasta);

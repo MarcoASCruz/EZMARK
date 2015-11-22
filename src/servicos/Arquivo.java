@@ -41,7 +41,7 @@ import modelos.Tag;
 import flexjson.JSONDeserializer;
 
 @Path("/arquivo")
-public class Arquivo {
+public class Arquivo extends Servico {
 	@GET
 	@Path("/pasta/{id}")
 	@Produces("application/json")
@@ -140,14 +140,6 @@ public class Arquivo {
 		}
 		return response.buildResponse();
 	}
-	
-	private modelos.Usuario obterUsuarioLogado() throws Exception{
-		Authentication usuarioAutenticado = SecurityContextHolder.getContext().getAuthentication();
-		UsuarioDAO userDAO = new UsuarioDAO();
-		modelos.Usuario usuario = userDAO.obter(usuarioAutenticado.getName());
-		return usuario;
-	}
-	
 	
 	@POST
 	@Path("/favorito")
