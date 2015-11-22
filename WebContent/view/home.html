@@ -10,9 +10,18 @@
         <link rel="stylesheet" type="text/css" href="lib/raty-2.7.0/jquery.raty.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
-        <style>  
+        <style> 
+        	.container-favorito-icon .indicator{
+        		height: 4px;
+        	}
         	.favorito-icon{
         		cursor: pointer;
+        	}
+        	#acessoRapido,
+        	#maisAcessados,
+        	#recemAcessados,
+        	#recemAdicionados{
+        		min-height: 125px;
         	}
         	
 	        form .cancel-on-png,
@@ -326,24 +335,19 @@ $(document).ready(function(){
 	            <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
 	        <div id="conteudo" class="conteudo">
 	            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
-	            <div class="row z-depth-1" style="background-color: white;">
+	            <div class="container-favorito-icon row z-depth-1" style="background-color: white;">
 	                <div class="col s12 pdzero" >
 	                    <ul class="tabs cyan darken-2" >
-	                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#test1">Acesso Rápido</a></li>
+	                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#acessoRapido">Acesso Rápido</a></li>
 	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
 	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAcessados" href="#recemAcessados">Recém Acessados</a></li>
 	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
 	                    </ul>
 	                </div>
-	                <!--Componente Favoritos Destaque-->     
-	                <div id="test1" class="col s12">
-	                    <div class="row droppable" style="min-height: 100px;">
-	                    </div>
-	                </div>
-	                <!--Fim do Componente Favoritos Destaque-->    
-	                <div id="maisAcessados" class="col s12">content</div>
-	                <div id="recemAcessados" class="col s12">content</div>
-	                <div id="recemAdicionados" class="col s12">content</div>
+	                <div id="acessoRapido" class="col s12">loading...</div>    
+	                <div id="maisAcessados" class="col s12">loading...</div>
+	                <div id="recemAcessados" class="col s12">loading...</div>
+	                <div id="recemAdicionados" class="col s12">loading...</div>
 	            </div>
 	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
 	           
@@ -372,6 +376,12 @@ $(document).ready(function(){
 		   			$('#treeView').append(arvore.getElement());
 		   		}
 		    )
+		    servicos.buscarAcessoRapido(
+				function(data){
+					console.log(data);
+					insereIcons(data.content, $('#acessoRapido'))
+				}
+			)
 	    }
 	    
 	    var limparContainer = function (container) {

@@ -15,17 +15,17 @@ import modelos.Favorito;
 
 public class AcessoRapidoDAO extends BasicDAO{
 	public List<Favorito> buscarFavoritos(int idUsuario) throws Exception{
-		criarQuery("SELECT favorito.id, favorito.imagem, titulo, url FROM favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE acesso_rapido = ? AND up.user_id = ?");
+		criarQuery("SELECT favorito.id AS idFav, titulo, url FROM favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE acesso_rapido = ? AND up.user_id = ?");
 		ps.setBoolean(1, true);
-		ps.setInt(1, idUsuario);
+		ps.setInt(2, idUsuario);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		List<Favorito> favoritos = new ArrayList<Favorito>();
 		while (res.next()){
 			Favorito f = new Favorito();
-			f.setId(res.getInt("id"));
+			f.setId(res.getInt("idFav"));
 			f.setTitulo(res.getString("titulo"));
 			f.setUrl(res.getString("url"));
-			f.setImagem(res.getInt("id"));
+			f.setImagem(res.getInt("idFav"));
 			favoritos.add(f);
 		}
 		close();

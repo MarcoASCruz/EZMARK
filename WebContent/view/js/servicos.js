@@ -189,6 +189,18 @@ var servicos = {
 		)
 	}
 	,
+	buscarAcessoRapido: function(onSuccess){
+		mapper.services.buscarAcessoRapido(
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
 	recemAcessados: function(onSuccess) {
 		mapper.services.recemAcessados(
 			onSuccess

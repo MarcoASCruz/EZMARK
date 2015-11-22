@@ -1,5 +1,6 @@
 package servicos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -25,12 +26,14 @@ import flexjson.JSONDeserializer;
 @Path("/acessoRapido")
 public class AcessoRapido extends Servico {
 	@GET
+	@Path("/buscarTodos")
 	@Produces("application/json")
 	public Response findAll() {
 		AppResponse response = new AppResponse();
 		try{
 			DAO.AcessoRapidoDAO acessoRapidoDAO = new DAO.AcessoRapidoDAO();
 			List<Favorito> favoritos = acessoRapidoDAO.buscarFavoritos(obterUsuarioLogado().getId());
+			
 			response.setSuccess(true);
 			response.setContent(favoritos);
 		}
