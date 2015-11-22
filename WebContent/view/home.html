@@ -11,6 +11,10 @@
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style>  
+        	.favorito-icon{
+        		cursor: pointer;
+        	}
+        	
 	        form .cancel-on-png,
 			form .cancel-off-png,
 			form .star-on-png,
@@ -402,7 +406,7 @@ $(document).ready(function(){
 	    var inserirFavoritos = function (favoritos, container) {
 	        var acoes = {
 	            onClick: function (favorito) {
-	                window.open('http://' + favorito.url);
+	            	abrirLinkFav(favorito.url);
 	            }
 	            ,
 	            remover: function (favorito, bloco) {
@@ -476,10 +480,20 @@ $(document).ready(function(){
 			var length = favoritos.length;
 			limparDestino();
 			for(var i = 0; i < length; i++){
-				var icon = Element.FavAcessoRapido(favoritos[i].imagem, favoritos[i].titulo, favoritos[i].id);
+				var icon = Element.FavAcessoRapido(
+					favoritos[i]
+					,
+					function (favorito) {
+	            		abrirLinkFav(favorito.url);
+            		}
+				);
 				divDestino.append(icon.getElement());
 			}
 		}
+		
+		var abrirLinkFav = function (url) {
+            window.open('http://' + url);
+        }
 		
 		var modelo = {
 			pasta: function(){

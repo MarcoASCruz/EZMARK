@@ -66,9 +66,33 @@ var Element = function () {
 		return modal;
 	}
 
-	this.FavAcessoRapido = function(iconUrl, nome, id){
-		var favAR = new ObjectHtml();
-		var criarIcon = function(iconeUrl){
+	this.FavAcessoRapido = function(favorito, onClick){
+		var favAR = new ObjectHtml();	
+        
+        favAR.createElement = function () {
+	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
+	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
+	        
+	        var icon = criarIcon(favorito.imagem);
+	        var div_detalhes = $('<div class="col s12 cyan-text text-lighten-5 pdzero">');
+	        var detalhes_favorito = $('<div class="col s12 pdzero">');
+	        var titulo_favorito = $('<div class="col s10 pdzero titulo-favorito-destaque truncate">');
+	        
+	        bloco.append (div_icon);
+	        div_icon.append (icon);
+	        bloco.append (div_detalhes);
+	        div_detalhes.append (detalhes_favorito);
+	        detalhes_favorito.append (titulo_favorito);
+	        titulo_favorito.append (favorito.titulo);
+	        //detalhes_favorito.append (criarMenu());
+	        
+	        bloco.on('click', function(){
+	        	onClick(favorito);
+	        })
+	        
+	        return bloco;
+        }
+        var criarIcon = function(iconeUrl){
 			var icon = $('<img class="responsive-img" style="width: 77px;height: 77px;">');
 			var adicionarImagemDefault = function(){
 				icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
@@ -86,41 +110,24 @@ var Element = function () {
 	        })
 	        return icon;
 		}
-		
-		//var iconUrl = icon ? icon : 'https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/12_-_Star-512.png';
-        var nomeFavorito = nome;
         
-        favAR.createElement = function () {
-        var bloco = $('<div class="favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
-        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
-        
-        var icon = criarIcon(iconUrl);
-        var div_detalhes = $('<div class="col s12 cyan-text text-lighten-5 pdzero">');
-        var detalhes_favorito = $('<div class="col s12 pdzero">');
-        var titulo_favorito = $('<div class="col s10 pdzero titulo-favorito-destaque truncate">');
-        var div_dropdown = $('<div class="col s2 pdzero">');
-        var btDropdown = $('<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown' + id +'">');
-        var btDropdown_icon = $('<i class="mdi-navigation-more-vert"></i>');
-        var dropdown_content = $('<ul id="dropdown' + id +'" class="dropdown-content">');
-        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
-        var dropdownEditar = $('<li><a>Editar</a></li>');
-        var dropdownExcluir = $('<li><a>Excluir</a></li>');
-        
-        bloco.append (div_icon);
-        div_icon.append (icon);
-        bloco.append (div_detalhes);
-        div_detalhes.append (detalhes_favorito);
-        detalhes_favorito.append (titulo_favorito);
-        titulo_favorito.append (nomeFavorito);
-        detalhes_favorito.append (div_dropdown);
-        div_dropdown.append(btDropdown);
-        btDropdown.append (btDropdown_icon);
-        div_dropdown.append(dropdown_content);
-        dropdown_content.append (dropdownSelecionar);
-        dropdown_content.append (dropdownEditar);
-        dropdown_content.append (dropdownExcluir);
-        
-        return bloco;
+        var criarMenu = function(){
+        	var div_dropdown = $('<div class="col s2 pdzero">');
+	        var btDropdown = $('<a class="dropdown-button cyan-text text-lighten-5" href="#" data-activates="dropdown' + favorito.id +'">');
+	        var btDropdown_icon = $('<i class="mdi-navigation-more-vert"></i>');
+	        var dropdown_content = $('<ul id="dropdown' + favorito.id +'" class="dropdown-content">');
+	        var dropdownSelecionar = $('<li><a>Selecionar</a></li>');
+	        var dropdownEditar = $('<li><a>Editar</a></li>');
+	        var dropdownExcluir = $('<li><a>Excluir</a></li>');
+	        
+	        div_dropdown.append(btDropdown);
+	        btDropdown.append (btDropdown_icon);
+	        div_dropdown.append(dropdown_content);
+	        dropdown_content.append (dropdownSelecionar);
+	        dropdown_content.append (dropdownEditar);
+	        dropdown_content.append (dropdownExcluir);
+	        
+	        return div_dropdown;
         }
         return favAR;
 	}
