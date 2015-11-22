@@ -201,6 +201,20 @@ var servicos = {
 		)
 	}
 	,
+	adicionarAcessoRapido: function(id, onSuccess){
+		mapper.services.adicionarAcessoRapido(
+			id
+			,
+			onSuccess
+			,
+			function(data){
+				console.log(data.responseJSON);
+				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
+				modal.show();
+			}
+		)
+	}
+	,
 	recemAcessados: function(onSuccess) {
 		mapper.services.recemAcessados(
 			onSuccess

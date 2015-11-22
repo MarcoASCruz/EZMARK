@@ -442,7 +442,15 @@ var Element = function () {
         		 executar: acoes.editar
              }
      	])
-        return bloco;
+     	var adicionarDragAndDrop = function(){
+	    	bloco.getElement().attr("draggable", "true");
+		    bloco.getElement().get(0).addEventListener('dragstart', function(e){
+		    	e.dataTransfer.setData("idFavorito", favorito.id);
+		    });
+	    }
+     	adicionarDragAndDrop();
+        
+	    return bloco;
     }
 	
 	this.Pasta = function (pasta, acoes) {

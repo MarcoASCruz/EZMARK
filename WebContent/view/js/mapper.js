@@ -162,6 +162,23 @@ var Mapper = function(){
 			executarRequisicao(requisicaoParametros);
 		}
 		,
+		adicionarAcessoRapido: function(id, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/acessoRapido/adicionar"
+				,
+				method: "POST"
+				,
+				data:{
+					id: id
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
 		recemAcessados: function(onSuccess, onError){
 			requisicaoParametros = {
 				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/recemAcessados"

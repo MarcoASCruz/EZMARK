@@ -44,6 +44,7 @@ public class AcessoRapido extends Servico {
 	}
 	
 	@POST
+	@Path("/adicionar")
 	@Produces("application/json")
 	public Response adicionarItem(@FormParam("id") int  idFavorito){
 		AppResponse response = new AppResponse();

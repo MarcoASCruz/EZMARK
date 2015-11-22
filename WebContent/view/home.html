@@ -376,11 +376,35 @@ $(document).ready(function(){
 		   			$('#treeView').append(arvore.getElement());
 		   		}
 		    )
-		    servicos.buscarAcessoRapido(
+		    atualizarAcessoRapido();
+		    configurarDragAndDropAcessoRapido();
+	    }
+	    
+	    var atualizarAcessoRapido = function(){
+	    	servicos.buscarAcessoRapido(
 				function(data){
-					insereIcons(data.content, $('#acessoRapido'))
+					var container = $('#acessoRapido');
+					container.empty();
+					insereIcons(data.content, container);
 				}
 			)
+	    }
+	    var configurarDragAndDropAcessoRapido = function(){
+	    	var acessoRapido = $('#acessoRapido').get(0);
+	    	acessoRapido.addEventListener('dragover', function(e){
+				e.preventDefault();
+	    	});
+	    	acessoRapido.addEventListener('drop', function(e){
+				e.preventDefault();
+				var idFavorito = e.dataTransfer.getData("idFavorito");
+				servicos.adicionarAcessoRapido(
+					idFavorito
+					,
+					function(){
+						atualizarAcessoRapido();
+					}
+				)
+	    	});
 	    }
 	    
 	    var limparContainer = function (container) {
