@@ -246,7 +246,7 @@ $(document).ready(function(){
 	                        <div class="input-field cyan darken-1">                                   
 	                            <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
 	                            <label for="search"><i class="mdi-action-search"></i></label>
-	                            <i class="mdi-navigation-close"></i>
+	                            <i id="limparPesquisa" class="mdi-navigation-close"></i>
 	                        </div>
 	                    </li>
 	                    <!--Fim do Formulário para barra de Pesquisa -->
@@ -716,6 +716,11 @@ $(document).ready(function(){
 		}
 	
 		var Pesquisa = new function(){
+			var self = this;
+			$('#limparPesquisa').on('click', function(){
+				self.remover();
+				habilitaBotaoFixo();
+			})
 			this.executar = function(value) {
 				if (value.length !== 0) {
 					pesquisar(value);
