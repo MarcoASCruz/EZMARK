@@ -47,7 +47,6 @@ var Element = function () {
 		modal.show = function(){
 			$('body').append(modal.getElement());
 			modal.getElement().openModal({
-				 dismissible: true,
 				 complete: function() { 
 					 modal.close();
 				 }
@@ -808,7 +807,8 @@ var Element = function () {
 		var tags = undefined;
 		form.createElement(function(){
 			var criarImg = function(){
-				return $('<div class="row"><div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div></div>');
+				var img = new Element.FormImg(); 
+				return img.getElement();
 			}
 			var criarNome = function(){
 				return $('<input id="nomeFav" type="text" class="validate"><label for="nomeFav">Nome</label>');
@@ -893,6 +893,22 @@ var Element = function () {
         }
 		return form;
         
+	}
+	
+	this.FormImg = function(){
+		var formImg = new ObjectHtml();
+		
+		var container = $('<div class="row">');
+		
+		formImg.createElement = function(){
+			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
+			container.append(imgAndInputUpload);
+			$("#imgUpload", imgAndInputUpload).change(function(){
+				alert('preview');
+		    });
+			return container;
+		}
+		return formImg;
 	}
 	
 };

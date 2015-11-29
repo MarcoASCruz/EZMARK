@@ -781,28 +781,6 @@ $(document).ready(function(){
 			$('#usuarioLogin').html(usuario.content[0].nome);
 		})
 		
-		/*
-		*	@TODO
-		*	UPLOAD DE IMAGEM
-		*/
-		
-		    function imgPreview(input) {
-	        if (input.files && input.files[0]) {
-	            var reader = new FileReader();
-	            
-	            reader.onload = function (e) {
-	                $('#imgPreview').attr('src', e.target.result);
-	            }
-	            
-	            reader.readAsDataURL(input.files[0]);
-	        }
-	    }
-	    
-	    $("#imgUpload").change(function(){
-	    	imgPreview(this);
-	    });
-		
-	
     	init();
 	</script>
 </html>
