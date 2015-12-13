@@ -923,8 +923,8 @@ var Element = function () {
 				reader.onload = function (e) {
 					//@TODO 
 					//VALIDAR TAMANHO DA IMAGEM
-					//REMOVER PATH DE ARQUIVOS DIFERENTES IMAGEM DO CAMPO DE INPUT
-					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃO DAR REFRESH
+					//REMOVER PATH DE ARQUIVOS DIFERENTES IMAGEM DO CAMPO DE INPUT 
+					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃO DAR REFRESH.
 					if (input.files[0].type.indexOf("image") > -1){
 						$('#imgPreview').attr('src', e.target.result);
 						//TESTE
