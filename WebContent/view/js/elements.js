@@ -924,9 +924,19 @@ var Element = function () {
 					//@TODO 
 					//VALIDAR TAMANHO DA IMAGEM
 					//REMOVER PATH DE ARQUIVOS DIFERENTES IMAGEM DO CAMPO DE INPUT
+					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃO DAR REFRESH
 					if (input.files[0].type.indexOf("image") > -1){
 						$('#imgPreview').attr('src', e.target.result);
+						//TESTE
+						var form_data = new FormData();
+				        var file_data = $("#imgUpload").get(0).files[0];
+				        form_data.append("img", file_data);
+				        form_data.append("id", "12");
+				        servicos.uploadImagemFavorito(form_data, function(){
+				        	console.log("Sucesso");
+				        })
 					}else{
+						refresh();
 						Element.Toast("O arquivo selecionado não é uma imagem.",3000);
 					}
 				} 
@@ -935,17 +945,23 @@ var Element = function () {
 		}
 		
 		
-		
-		
-		formImg.createElement = function(){
-			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
-			container.append(imgAndInputUpload);
+		var createInputImg = function(){
+			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload" accept="image/*"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
 			$("#imgUpload", imgAndInputUpload).change(function(){
 				console.log(this);
 				imgPreview(this);
 		    });
+			return imgAndInputUpload;
+		}
+		
+		formImg.createElement = function(){
+			container.append(createInputImg());
 			return container;
 		}
+			var refresh = function(){
+				formImg.element.empty();
+				formImg.element.append(formImg.createElement()); 
+			}
 		return formImg;
 	}
 	
