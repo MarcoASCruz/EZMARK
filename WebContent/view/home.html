@@ -11,6 +11,14 @@
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style> 
+        	/*Ajustes no bug da modal que decrementa z-index*/
+        	.lean-overlay{
+        		z-index: 999 !important;
+        	}
+        	.modal{
+        	    z-index: 1003 !important;
+        	}
+        
         	.container-favorito-icon .indicator{
         		height: 4px;
         	}
@@ -238,7 +246,7 @@ $(document).ready(function(){
 	                        <div class="input-field cyan darken-1">                                   
 	                            <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
 	                            <label for="search"><i class="mdi-action-search"></i></label>
-	                            <i class="mdi-navigation-close"></i>
+	                            <i id="limparPesquisa" class="mdi-navigation-close"></i>
 	                        </div>
 	                    </li>
 	                    <!--Fim do Formulário para barra de Pesquisa -->
@@ -708,6 +716,11 @@ $(document).ready(function(){
 		}
 	
 		var Pesquisa = new function(){
+			var self = this;
+			$('#limparPesquisa').on('click', function(){
+				self.remover();
+				habilitaBotaoFixo();
+			})
 			this.executar = function(value) {
 				if (value.length !== 0) {
 					pesquisar(value);

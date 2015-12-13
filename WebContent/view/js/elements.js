@@ -591,7 +591,9 @@ var Element = function () {
 			
 		var	criarEventos = function(){
 			container.on('select_node.jstree', function (e, data) {
-				onClick(data.selected[data.selected.length - 1]);
+				var id = data.selected[data.selected.length - 1];
+				onClick(id);
+				arvore.openItem(id);
 		  	})
 		}
 		arvore.criarPasta = function(id, idPai, nome){
@@ -603,6 +605,11 @@ var Element = function () {
 			var tree = arvore.getElement().jstree(true);
 			tree.deselect_all();
 			tree.select_node(id);
+			tree.open_node(id);
+		} 
+		arvore.openItem = function(id){
+			var tree = arvore.getElement().jstree(true);
+			tree.open_node(id);
 		}
 		arvore.removerItem = function(id){
 			var tree = arvore.getElement().jstree(true);
@@ -750,7 +757,7 @@ var Element = function () {
 			form.adicionarItem("mdi-file-folder", criarNome());
 			form.adicionarItem("mdi-action-description", criarDescricao());
 			form.adicionarItem(null, criarEstrelas());
-			form.adicionarItem("mdi-action-label", criarTags());
+			form.adicionarItem("mdi-maps-local-offer", criarTags());
 		});
         
         form.getNome = function(){
@@ -836,7 +843,7 @@ var Element = function () {
 			form.adicionarItem("mdi-content-link", criarUrl());
 			form.adicionarItem("mdi-action-description", criarDescricao());
 			form.adicionarItem(null, criarEstrelas());
-			form.adicionarItem("mdi-action-label", criarTags());
+			form.adicionarItem("mdi-maps-local-offer", criarTags());
 		});
         form.getImgData = function (){
         var retornoImagem = null;
