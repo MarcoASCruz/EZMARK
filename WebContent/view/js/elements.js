@@ -838,7 +838,18 @@ var Element = function () {
 			form.adicionarItem(null, criarEstrelas());
 			form.adicionarItem("mdi-action-label", criarTags());
 		});
-        
+        form.getImgData = function (){
+        var retornoImagem = null;
+        input = $("#imgUpload");
+    			if (input.files && input.files[0]) {
+    				var reader = new FileReader(); 
+    				reader.onload = function (e) {
+    					retornoImagem = e.target.result;			
+    				} 
+    				reader.readAsDataURL(input.files[0]);
+    			}
+    		return retornoImagem;
+        }
         form.getNome = function(){
     		return $("#nomeFav", form.getElement()).val();
     	}
@@ -897,14 +908,34 @@ var Element = function () {
 	
 	this.FormImg = function(){
 		var formImg = new ObjectHtml();
-		
 		var container = $('<div class="row">');
+
+		function imgPreview(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader(); 
+				reader.onload = function (e) {
+					//@TODO 
+					//VALIDAR TAMANHO DA IMAGEM
+					//REMOVER PATH DE ARQUIVOS DIFERENTES IMAGEM DO CAMPO DE INPUT
+					if (input.files[0].type.indexOf("image") > -1){
+						$('#imgPreview').attr('src', e.target.result);
+					}else{
+						Element.Toast("O arquivo selecionado não é uma imagem.",3000);
+					}
+				} 
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		
+		
+		
 		
 		formImg.createElement = function(){
 			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
 			container.append(imgAndInputUpload);
 			$("#imgUpload", imgAndInputUpload).change(function(){
-				alert('preview');
+				console.log(this);
+				imgPreview(this);
 		    });
 			return container;
 		}
