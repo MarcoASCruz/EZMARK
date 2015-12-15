@@ -11,6 +11,11 @@
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style> 
+        	.arrastar-favorito-msg{
+	        	font-size: 35px;
+			    font-weight: bold;
+			    color: #C7C7C7;
+        	}
         	/*Ajustes no bug da modal que decrementa z-index*/
         	.lean-overlay{
         		z-index: 999 !important;
@@ -389,11 +394,21 @@ $(document).ready(function(){
 	    }
 	    
 	    var atualizarAcessoRapido = function(){
+	    	var criarMensagemDeAjuda = function(){
+	    		var container = $('<div class="arrastar-favorito-msg">');
+	    		container.append("Arraste um favorito aqui adicioná-lo em seu acesso rápido")
+	    		return container;
+	    	}
 	    	servicos.buscarAcessoRapido(
 				function(data){
 					var container = $('#acessoRapido');
 					container.empty();
-					insereIcons(data.content, container);
+					if (data.content.length == 0){
+						container.append(criarMensagemDeAjuda())
+					}
+					else{
+						insereIcons(data.content, container);
+					}
 				}
 			)
 	    }
