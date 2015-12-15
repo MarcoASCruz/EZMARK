@@ -812,9 +812,10 @@ var Element = function () {
 		var form = new Element.Form(titulo);
 		var estrelas = undefined;
 		var tags = undefined;
+		var img = undefined;
 		form.createElement(function(){
 			var criarImg = function(){
-				var img = new Element.FormImg(); 
+				img = new Element.FormImg(); 
 				return img.getElement();
 			}
 			var criarNome = function(){
@@ -846,16 +847,9 @@ var Element = function () {
 			form.adicionarItem("mdi-maps-local-offer", criarTags());
 		});
         form.getImgData = function (){
-        var retornoImagem = null;
-        input = $("#imgUpload");
-    			if (input.files && input.files[0]) {
-    				var reader = new FileReader(); 
-    				reader.onload = function (e) {
-    					retornoImagem = e.target.result;			
-    				} 
-    				reader.readAsDataURL(input.files[0]);
-    			}
-    		return retornoImagem;
+	        var input = $("#imgUpload", img.getElement());
+	        var file_data = input[0].files[0];
+	    	return file_data;
         }
         form.getNome = function(){
     		return $("#nomeFav", form.getElement()).val();
@@ -873,6 +867,10 @@ var Element = function () {
         	return tags.getValues();
         }
         form.preencherCampos = function(favorito){
+        	var preencherImagem = function () {
+        		console.log(favorito);
+        		img.add(favorito.iconeUrl);
+        	}
             var preencherTitulo = function () {
                 var titulo = $('#nomeFav', form.getElement()); //redundante
                 preencherCampo(titulo, favorito.titulo);
@@ -903,6 +901,7 @@ var Element = function () {
             var preencherEstrelas = function(){
             	estrelas.setScore(favorito.quantEstrelas);
             }
+            preencherImagem();
             preencherTitulo();
             preencherDescricao();
             preencherUrl();
@@ -927,14 +926,6 @@ var Element = function () {
 					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃO DAR REFRESH.
 					if (input.files[0].type.indexOf("image") > -1){
 						$('#imgPreview').attr('src', e.target.result);
-						//TESTE
-						var form_data = new FormData();
-				        var file_data = $("#imgUpload").get(0).files[0];
-				        form_data.append("img", file_data);
-				        form_data.append("id", "12");
-				        servicos.uploadImagemFavorito(form_data, function(){
-				        	console.log("Sucesso");
-				        })
 					}else{
 						refresh();
 						Element.Toast("O arquivo selecionado não é uma imagem.",3000);
@@ -958,10 +949,15 @@ var Element = function () {
 			container.append(createInputImg());
 			return container;
 		}
-			var refresh = function(){
-				formImg.element.empty();
-				formImg.element.append(formImg.createElement()); 
-			}
+		
+		var refresh = function(){
+			formImg.element.empty();
+			formImg.element.append(formImg.createElement()); 
+		}
+		
+		formImg.add = function(urlImage){
+			$('#imgPreview', formImg.getElement()).attr('src', urlImage);
+		}
 		return formImg;
 	}
 	

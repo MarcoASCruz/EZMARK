@@ -637,8 +637,23 @@ $(document).ready(function(){
 					favoritoAlterado
 					,
 					function(data){
-						onSuccess();
-						atualizarPasta();
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+							console.log("Cadastrado");
+						}
+						if(imagemFoiAlterada(form)){
+							aposCadastrar();
+						}
+						else{
+							servicos.uploadImagemFavorito(
+								criarImgForm(data.content[0], form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)	
+						}
 					}
 				)
 			}
@@ -647,6 +662,7 @@ $(document).ready(function(){
 			} 
 			formModal.show();
 		}
+		
 		function criarFormAlteracaoFavorito(favorito){
 			var form = new Element.FormFavorito("Alterar Favorito");
 			var formModal = new FormModal(form, favorito);
@@ -655,8 +671,30 @@ $(document).ready(function(){
 					favoritoAlterado
 					,
 					function(data){
-						onSuccess();
-						atualizarPasta();
+						var aposCadastrar = function(){
+							onSuccess();
+							atualizarPasta();
+							console.log("Cadastrado");
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemFavorito(
+								criarImgForm(data.content[0], form)
+								, 
+								function(data){
+									setTimeout(
+										function(){
+											console.log(data);
+											aposCadastrar();
+										}
+										,
+										2000
+									)
+								}
+							)
+						}
+						else{
+							aposCadastrar();	
+						}
 					}
 				)
 			}
@@ -664,6 +702,16 @@ $(document).ready(function(){
 				return obterDadosFormFavorito(form, favorito);
 			}
 			formModal.show();
+		}
+		var imagemFoiAlterada = function(form){
+			return $('.file-path', form.getElement()).val() !== "";
+		}
+		var criarImgForm = function(favorito, form){
+			var formData = new FormData();
+			var imgData = form.getImgData();
+			formData.append("img", imgData);
+			formData.append("id", favorito.id);
+			return formData;
 		}
 		var obterDadosFormFavorito = function(form, favorito){
 			favorito.pai = contexto.pastaAtual;

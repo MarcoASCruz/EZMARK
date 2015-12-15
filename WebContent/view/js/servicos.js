@@ -285,7 +285,7 @@ var servicos = {
 			onSuccess
 			,
 			function(data){
-				console.log(data.responseJSON);
+				console.log(data);
 				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
 				modal.show();
 			}
