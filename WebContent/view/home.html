@@ -12,9 +12,14 @@
         
         <style> 
         	.arrastar-favorito-msg{
-	        	font-size: 35px;
+	        	font-size: 30px;
 			    font-weight: bold;
 			    color: #C7C7C7;
+			    margin-top: 35px;
+        	}
+        	.border-dashed{
+        	border-style: dashed;
+        	border-color: #C7C7C7;
         	}
         	/*Ajustes no bug da modal que decrementa z-index*/
         	.lean-overlay{
@@ -243,7 +248,7 @@ $(document).ready(function(){
 	    <div class="navbar-fixed">
 	        <nav>
 	            <div class="nav-wrapper cyan darken-2">
-	                <a href="#!" class="brand-logo" style="padding-left: 270px;">Logo</a>
+	                <a href="#!" class="brand-logo" style="padding-left: 270px; color: #e0f7fa; font-weight: bold;">EZMARK</a>
 	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 	                <ul class="right hide-on-med-and-down cyan darken-1">
 	                    <!--Formulário para barra de Pesquisa --> 
@@ -395,7 +400,7 @@ $(document).ready(function(){
 	    
 	    var atualizarAcessoRapido = function(){
 	    	var criarMensagemDeAjuda = function(){
-	    		var container = $('<div class="arrastar-favorito-msg">');
+	    		var container = $('<div align="center" class="arrastar-favorito-msg">');
 	    		container.append("Arraste um favorito aqui adicioná-lo em seu acesso rápido")
 	    		return container;
 	    	}
@@ -404,9 +409,11 @@ $(document).ready(function(){
 					var container = $('#acessoRapido');
 					container.empty();
 					if (data.content.length == 0){
-						container.append(criarMensagemDeAjuda())
+						container.append(criarMensagemDeAjuda());
+						container.addClass("border-dashed");
 					}
 					else{
+						container.removeClass("border-dashed");
 						insereIcons(data.content, container);
 					}
 				}
