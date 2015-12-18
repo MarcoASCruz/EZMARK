@@ -665,16 +665,16 @@ $(document).ready(function(){
 							console.log("Cadastrado");
 						}
 						if(imagemFoiAlterada(form)){
-							aposCadastrar();
-						}
-						else{
 							servicos.uploadImagemFavorito(
 								criarImgForm(data.content[0], form)
 								, 
 								function(data){
 									aposCadastrar();
 								}
-							)	
+							)
+						}
+						else{
+							aposCadastrar();
 						}
 					}
 				)
@@ -726,6 +726,7 @@ $(document).ready(function(){
 			formModal.show();
 		}
 		var imagemFoiAlterada = function(form){
+			console.log($('.file-path', form.getElement()).val() !== "");
 			return $('.file-path', form.getElement()).val() !== "";
 		}
 		var criarImgForm = function(favorito, form){
