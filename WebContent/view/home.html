@@ -607,10 +607,24 @@ $(document).ready(function(){
 					pastaAlterada
 					,
 					function(data){
-						onSuccess();
 						var pasta = data.content[0];
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemPasta(
+								criarImgForm(pasta.id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();
+						}
 						arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
-						atualizarPasta();
 					}
 				)
 			}
@@ -627,9 +641,24 @@ $(document).ready(function(){
                     pastaAlterada
                     ,
                     function (data) {
-                        onSuccess();
-                        atualizarPasta();
-                        arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
+                    	var pasta = data.content[0];
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemPasta(
+								criarImgForm(pasta.id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();
+						}
+						arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
                     }
                 )
 			}
@@ -665,7 +694,7 @@ $(document).ready(function(){
 						}
 						if(imagemFoiAlterada(form)){
 							servicos.uploadImagemFavorito(
-								criarImgForm(data.content[0], form)
+								criarImgForm(data.content[0].id, form)
 								, 
 								function(data){
 									aposCadastrar();
@@ -699,17 +728,10 @@ $(document).ready(function(){
 						}
 						if(imagemFoiAlterada(form)){
 							servicos.uploadImagemFavorito(
-								criarImgForm(data.content[0], form)
+								criarImgForm(data.content[0].id, form)
 								, 
 								function(data){
-									setTimeout(
-										function(){
-											console.log(data);
-											aposCadastrar();
-										}
-										,
-										2000
-									)
+									aposCadastrar();
 								}
 							)
 						}
@@ -728,11 +750,11 @@ $(document).ready(function(){
 			console.log($('.file-path', form.getElement()).val() !== "");
 			return $('.file-path', form.getElement()).val() !== "";
 		}
-		var criarImgForm = function(favorito, form){
+		var criarImgForm = function(idItem, form){
 			var formData = new FormData();
 			var imgData = form.getImgData();
 			formData.append("img", imgData);
-			formData.append("id", favorito.id);
+			formData.append("id", idItem);
 			return formData;
 		}
 		var obterDadosFormFavorito = function(form, favorito){

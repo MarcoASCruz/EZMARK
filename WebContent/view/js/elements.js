@@ -733,8 +733,13 @@ var Element = function () {
 		var form = new Element.Form(titulo);
 		var estrelas = undefined;
 		var tags = undefined;
+		var img = undefined;
 		
 		form.createElement(function(){
+			var criarImg = function(){
+				img = new Element.FormImg(); 
+				return img.getElement();
+			}
 			var criarNome = function(){
 				return $('<input id="nomePasta" type="text" class="validate"><label for="nomePasta">Nome</label>');
 			}
@@ -753,14 +758,19 @@ var Element = function () {
 			    tags = new Element.TagsInput();
 			    return tags.getElement();
 			}
-			
+			form.adicionarItem(null, criarImg());
 			form.adicionarItem("mdi-file-folder", criarNome());
 			form.adicionarItem("mdi-action-description", criarDescricao());
 			form.adicionarItem(null, criarEstrelas());
 			form.adicionarItem("mdi-maps-local-offer", criarTags());
 		});
         
-        form.getNome = function(){
+		form.getImgData = function (){
+	        var input = $("#imgUpload", img.getElement());
+	        var file_data = input[0].files[0];
+	    	return file_data;
+        }
+		form.getNome = function(){
     		return $("#nomePasta", form.getElement()).val();
     	}
         form.getDescricao = function(){
@@ -773,7 +783,10 @@ var Element = function () {
         	return tags.getValues();
         }
         form.preencherCampos = function(pasta){
-            var preencherTitulo = function () {
+        	var preencherImagem = function () {
+        		img.add(pasta.iconeUrl);
+        	}
+        	var preencherTitulo = function () {
                 var titulo = $('#nomePasta', form.getElement());
                 preencherCampo(titulo, pasta.titulo);
             }
@@ -799,6 +812,7 @@ var Element = function () {
             var preencherEstrelas = function(){
             	estrelas.setScore(pasta.quantEstrelas);
             }
+            preencherImagem();
             preencherTitulo();
             preencherDescricao();
             preencherTags();
@@ -868,7 +882,6 @@ var Element = function () {
         }
         form.preencherCampos = function(favorito){
         	var preencherImagem = function () {
-        		console.log(favorito);
         		img.add(favorito.iconeUrl);
         	}
             var preencherTitulo = function () {
