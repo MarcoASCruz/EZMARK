@@ -3,8 +3,12 @@ package DAO;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+
+
 
 
 
@@ -18,6 +22,45 @@ import modelos.Pasta;
 import modelos.Tag;
 
 public class PastaDAO extends BasicDAO {
+	public Pasta buscar (int idPasta) throws SQLException{
+		criarQuery("SELECT id, publica FROM pasta WHERE pasta.id = ?");
+		ps.setInt(1, idPasta);
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		res =  (ResultSet) ps.executeQuery();
+		res.next();
+		Pasta pasta = new Pasta();
+		pasta.setPublica(res.getBoolean("publica"));
+		return pasta;
+	}
+	public Pasta buscarPastaCompleta (int idPasta) throws Exception{
+		openConection();
+		setQuery("SELECT id, nome, num_estrela, descricao FROM pasta WHERE id = ?");
+		ps.setInt(1, idPasta);
+		ResultSet res =  (ResultSet) ps.executeQuery();
+		res.next();
+		Pasta pastaRaiz = new Pasta();
+		pastaRaiz.setId(res.getInt("id"));
+		pastaRaiz.setNome(res.getString("nome"));
+		pastaRaiz.setNumEstrela(res.getInt("num_estrela"));
+		pastaRaiz.setImagem(res.getInt("id"));
+		pastaRaiz.setDescricao(res.getString("descricao"));
+		close();
+		
+		pastaRaiz.setPastas(buscarTodosOsFilhos(idPasta));
+		
+		return pastaRaiz;
+	}
+	
+	private List<Pasta> buscarTodosOsFilhos (int idPasta) throws Exception{
+		List<Pasta> pastas = buscarPastasFilhas(idPasta, 1);
+		for (Pasta pasta : pastas) {
+			pasta.setPastas(buscarTodosOsFilhos(pasta.getId()));
+		}
+		return pastas;
+	}
+	
+	
+	
 	public List<Hierarquia> buscarHierarquia(int idUsuario) throws Exception{
 		criarQuery("SELECT id, id_pasta_pai, nome FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE up.user_id = ?");
 		ps.setInt(1, idUsuario);

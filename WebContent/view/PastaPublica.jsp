@@ -1,7 +1,7 @@
 <%@page import="modelos.Pasta"%>
 <%@page import="java.util.List"%>
 <% 
-	List<Pasta> pastas = (List<Pasta>) request.getAttribute("pastas"); 
+	Pasta pasta = (Pasta) request.getAttribute("pasta"); 
 %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -14,9 +14,9 @@
 </head>
 <body>
 	<% 
-		for(Pasta pasta : pastas){
+		for(Pasta p : pasta.getPastas()){
 			%>
-			Nome: <%=pasta.getNome() %> <br />
+			Nome: <%=p.getNome() %> <br />
 			<%
 		}
 	%>
