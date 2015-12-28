@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import modelos.Pasta;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,7 +39,7 @@ public class ExibirPastaPublica extends HttpServlet {
 		int idPasta = Integer.parseInt(request.getParameter("id"));
 		try {
 			if(!pastaPublica(idPasta)){
-				request.setAttribute("pasta", new DAO.PastaDAO().buscarPastaCompleta(idPasta));
+				request.setAttribute("pasta", buscarPastaRaiz(idPasta));
 				request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
 			}
 			else{
@@ -54,7 +56,9 @@ public class ExibirPastaPublica extends HttpServlet {
 	
 	private JSONObject buscarPastaRaiz (int idPasta) throws Exception{
 		JSONObject pasta = new JSONObject();
-		pasta.put("pasta", new DAO.PastaDAO().buscarPastaCompleta(idPasta));
+		ArrayList<Pasta> l = new ArrayList<Pasta>();
+		l.add(new DAO.PastaDAO().buscarPastaCompleta(idPasta));
+		pasta.put("pasta", l);
 		return pasta;
 	}
 

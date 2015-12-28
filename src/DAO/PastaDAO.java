@@ -47,6 +47,7 @@ public class PastaDAO extends BasicDAO {
 		close();
 		
 		pastaRaiz.setPastas(buscarTodosOsFilhos(idPasta));
+		pastaRaiz.setFavoritos(new FavoritoDAO().buscarFavoritosFilhos(idPasta));
 		
 		return pastaRaiz;
 	}
@@ -55,6 +56,7 @@ public class PastaDAO extends BasicDAO {
 		List<Pasta> pastas = buscarPastasFilhas(idPasta, 1);
 		for (Pasta pasta : pastas) {
 			pasta.setPastas(buscarTodosOsFilhos(pasta.getId()));
+			pasta.setFavoritos(new FavoritoDAO().buscarFavoritosFilhos(pasta.getId()));
 		}
 		return pastas;
 	}
@@ -78,7 +80,7 @@ public class PastaDAO extends BasicDAO {
 
 	public List<Pasta> buscarPastasFilhas(int idPasta, int idUsuario)throws Exception{
 		openConection();
-		setQuery("SELECT id, nome, num_estrela, publica, descricao FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id_pasta_pai = ? AND id != ? AND up.user_id = ?");
+		setQuery("SELECT id, nome, num_estrela, publica, descricao, id_pasta_pai FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id_pasta_pai = ? AND id != ? AND up.user_id = ?");
 		ps.setInt(1, idPasta);
 		ps.setInt(2, idPasta);
 		ps.setInt(3, idUsuario);
@@ -92,6 +94,7 @@ public class PastaDAO extends BasicDAO {
 			p.setImagem(res.getInt("id"));
 			p.setPublica(res.getBoolean("publica"));
 			p.setDescricao(res.getString("descricao"));
+			p.setPai(res.getInt("id_pasta_pai"));
 			p.setTags(buscarTags(p.getId()));
 			pastas.add(p);
 		}

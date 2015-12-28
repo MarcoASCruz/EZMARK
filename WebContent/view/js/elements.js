@@ -479,7 +479,7 @@ var Element = function () {
 	    return bloco;
 	};
 	
-	this.Favorito = function (favorito, acoes) {
+	this.Favorito = function (favorito, acoes, temMenu) {
 	    var bloco = new self.Bloco({
 	    	tipo: "favorito",
 	    	titulo: favorito.titulo,
@@ -498,19 +498,21 @@ var Element = function () {
 	        titulo.append(favTitulo);
 	        return titulo;
 	    }
-	    bloco.Menu.init([
-             {
-            	 titulo: 'Excluir'
-        		 ,
-        		 executar: acoes.remover
-             }
-             ,
-             {
-            	 titulo: 'Editar'
-        		 ,
-        		 executar: acoes.editar
-             }
-     	])
+	    if(temMenu != false){
+		    bloco.Menu.init([
+	             {
+	            	 titulo: 'Excluir'
+	        		 ,
+	        		 executar: acoes.remover
+	             }
+	             ,
+	             {
+	            	 titulo: 'Editar'
+	        		 ,
+	        		 executar: acoes.editar
+	             }
+	     	])
+	    }
      	var adicionarDragAndDrop = function(){
 	    	bloco.getElement().attr("draggable", "true");
 		    bloco.getElement().get(0).addEventListener('dragstart', function(e){
@@ -522,7 +524,7 @@ var Element = function () {
 	    return bloco;
     }
 	
-	this.Pasta = function (pasta, acoes) {
+	this.Pasta = function (pasta, acoes, temMenu) {
 		var bloco = new self.Bloco({
 			tipo: "pasta",
 			titulo: pasta.nome,
@@ -540,19 +542,22 @@ var Element = function () {
 	        titulo.append(nomePasta);
 	        return titulo;
 	    }
-	    bloco.Menu.init([
-             {
-            	 titulo: 'Excluir'
-        		 ,
-        		 executar: acoes.remover
-             }
-             ,
-             {
-            	 titulo: 'Editar'
-        		 ,
-        		 executar: acoes.editar
-             }
-     	])
+	    if(temMenu != false){
+	    	bloco.Menu.init([
+	             {
+	            	 titulo: 'Excluir'
+	        		 ,
+	        		 executar: acoes.remover
+	             }
+	             ,
+	             {
+	            	 titulo: 'Editar'
+	        		 ,
+	        		 executar: acoes.editar
+	             }
+	     	])
+	    }
+	    
 	    return bloco;
     }
 
