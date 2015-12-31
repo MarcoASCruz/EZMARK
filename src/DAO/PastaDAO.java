@@ -299,4 +299,25 @@ public class PastaDAO extends BasicDAO {
 		close();
 		return pasta;
 	}
+	
+	public void compartilhar(int idPasta) throws Exception {
+		compartilharPasta(idPasta);
+		compartilharFilhos(idPasta);
+	}
+	
+	private void compartilharFilhos(int idPasta) throws Exception {
+		List<Pasta> pastas = buscarPastasFilhas(idPasta, 1);
+		for (Pasta pasta : pastas) {
+			compartilharFilhos(pasta.getId());
+			compartilharPasta(pasta.getId());
+		}
+	}
+	
+	private void compartilharPasta(int idPasta) throws Exception {
+		criarQuery("UPDATE pasta SET `publica` = ? WHERE id = ?");
+		ps.setBoolean(1, true);
+		ps.setInt(2, idPasta);
+		ps.executeUpdate();
+		close();
+	}
 }

@@ -30,7 +30,7 @@ import org.hibernate.cfg.IndexOrUniqueKeySecondPass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import servicos.CacheAnnotations.NoCache;
+//import servicos.CacheAnnotations.NoCache;
 
 import com.sun.jersey.multipart.FormDataParam;
 
@@ -444,4 +444,44 @@ public class Arquivo extends Servico {
 		return response.buildResponse();
 	}
 	
+	@POST
+	@Path("pasta/compartilhar")
+	@Produces("application/json")
+	public Response compartilharPasta(@FormParam("idPasta") int idPasta) {
+		AppResponse response = new AppResponse();
+		try{
+			if (idPasta == 0){
+				throw new Exception("Id zerado");
+			}
+			PastaDAO pastaDAO = new PastaDAO();
+			pastaDAO.compartilhar(idPasta);
+			
+			String linkAcesso = Compartilhar.gerarLink(idPasta); 
+			
+			response.setSuccess(true);
+			response.setContent(linkAcesso);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	/*
+	@GET
+	@Path("pasta/gerarLinkCompartilhamento")
+	@Produces("application/json")
+	public Response gerarLinkCompartilhamento(@FormParam("idPasta") int idPasta) {
+		AppResponse response = new AppResponse();
+		try{
+			String linkAcesso = Compartilhar.gerarLink(idPasta); 
+			
+			response.setSuccess(true);
+			response.setContent(linkAcesso);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}*/
 }

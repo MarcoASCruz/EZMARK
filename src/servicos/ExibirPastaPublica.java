@@ -1,6 +1,7 @@
 package servicos;
 
 
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ExibirPastaPublica extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idPasta = Integer.parseInt(request.getParameter("id"));
 		try {
-			if(!pastaPublica(idPasta)){
+			if(pastaPublica(idPasta)){
 				request.setAttribute("pasta", buscarPastaRaiz(idPasta));
 				request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
 			}
