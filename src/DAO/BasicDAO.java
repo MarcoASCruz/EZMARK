@@ -36,7 +36,7 @@ public class BasicDAO {
 		if (c == null){
 			openConection();
 		}
-		ps = (PreparedStatement) c.prepareStatement(query);	
+		setQuery(query);	
 	}
 	protected void setQuery(String query) throws SQLException{
 		ps = (PreparedStatement) c.prepareStatement(query);	

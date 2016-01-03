@@ -314,7 +314,8 @@ public class PastaDAO extends BasicDAO {
 	}
 	
 	private void compartilharPasta(int idPasta) throws Exception {
-		criarQuery("UPDATE pasta SET `publica` = ? WHERE id = ?");
+		openConection();
+		setQuery("UPDATE pasta SET `publica` = ? WHERE id = ?");
 		ps.setBoolean(1, true);
 		ps.setInt(2, idPasta);
 		ps.executeUpdate();
