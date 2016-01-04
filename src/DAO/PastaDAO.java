@@ -321,4 +321,17 @@ public class PastaDAO extends BasicDAO {
 		ps.executeUpdate();
 		close();
 	}
+	
+	public boolean isPublica(int idPasta) throws Exception {
+		boolean result = false;
+		openConection();
+		setQuery("SELECT publica FROM pasta WHERE id = ?");
+		ps.setInt(1, idPasta);
+		ResultSet res =  (ResultSet) ps.executeQuery();
+		if (res.next()){
+			result = res.getBoolean("publica");
+		}
+		close();
+		return result;
+	}
 }

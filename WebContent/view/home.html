@@ -458,12 +458,57 @@ $(document).ready(function(){
 	            editar: function (pasta) {
 	                criarFormAlteracaoPasta(pasta)
 	            }
+	            ,
+	            compartilhar: function(pasta){
+            		compartilharPasta(pasta.id);
+	            }
 	        }
 	        var length = pastas.length;
 	        for (var i = 0; i < length; i++) {
 	            var bloco = Element.Pasta(pastas[i], acoes);
 	            container.append(bloco.getElement());
 	        }
+	    }
+	    
+	    var compartilharPasta = function(idPasta){
+	    	var confirmModal = new Element.Modal();
+	    	var btnConfirm = $('<a href="#" class="waves-effect waves-green btn">OK</a>')
+	    	var conteudo = $('<div>');
+	    	
+	    	
+	    	var criarConteudo = function(urlCompartilhada){
+	    		var container = $('<div>');
+	    		var containerMsg = $('<div>');
+	    		var urlPasta = $('<a target="_blank">');
+	    		var mensagem = "Use o link abaixo para acessar a pasta compartilhada!";
+	    		
+	    		var addUrl = function(){
+	    			urlPasta.attr('href', urlCompartilhada);
+	    			urlPasta.append(urlCompartilhada);
+	    		}
+	    		
+	    		containerMsg.append(mensagem);
+	    		addUrl();
+	    		container.append(containerMsg);
+	    		container.append(urlPasta);
+	    		
+	    		return container;
+	    	}
+	    	
+	    	btnConfirm.on('click', function(){
+	    		confirmModal.close();
+	    	})
+	    	confirmModal.addFooter(btnConfirm);
+	    	
+	    	servicos.compartilhar(
+    			idPasta
+    			,
+    			function(dados){
+	    			var url = dados.content;
+	    			confirmModal.addConteudo(criarConteudo(url));
+	    			confirmModal.show();
+	    		}
+   			);
 	    }
 	
 	    var inserirFavoritos = function (favoritos, container) {

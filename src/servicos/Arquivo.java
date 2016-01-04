@@ -454,7 +454,10 @@ public class Arquivo extends Servico {
 				throw new Exception("Id zerado");
 			}
 			PastaDAO pastaDAO = new PastaDAO();
-			pastaDAO.compartilhar(idPasta);
+			
+			if (!pastaDAO.isPublica(idPasta)){
+				pastaDAO.compartilhar(idPasta);
+			}
 			
 			String linkAcesso = Compartilhar.gerarLink(idPasta); 
 			
@@ -466,22 +469,4 @@ public class Arquivo extends Servico {
 		}
 		return response.buildResponse();
 	}
-	
-	/*
-	@GET
-	@Path("pasta/gerarLinkCompartilhamento")
-	@Produces("application/json")
-	public Response gerarLinkCompartilhamento(@FormParam("idPasta") int idPasta) {
-		AppResponse response = new AppResponse();
-		try{
-			String linkAcesso = Compartilhar.gerarLink(idPasta); 
-			
-			response.setSuccess(true);
-			response.setContent(linkAcesso);
-		}
-		catch(Exception e){
-			response.addException(e);
-		}
-		return response.buildResponse();
-	}*/
 }

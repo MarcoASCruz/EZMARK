@@ -555,6 +555,12 @@ var Element = function () {
 	        		 ,
 	        		 executar: acoes.editar
 	             }
+	             ,
+	             {
+	            	 titulo: 'Compartilhar'
+	        		 ,
+	        		 executar: acoes.compartilhar
+	             }
 	     	])
 	    }
 	    

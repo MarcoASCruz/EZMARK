@@ -424,6 +424,23 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		compartilhar: function(idPasta, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/pasta/compartilhar"
+				,
+				method: "POST"
+				,
+				success: onSuccess
+				,
+				data:{
+					idPasta: idPasta
+				}
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){
