@@ -4,6 +4,7 @@ public class Hierarquia {
 	private String id;
 	private String parent;
 	private String text;
+	private boolean publica;
 	
 	public String getId() {
 		return id;
@@ -29,6 +30,12 @@ public class Hierarquia {
 	}
 	public void setText(String text) {
 		this.text = text;
+	}
+	public boolean isPublica() {
+		return publica;
+	}
+	public void setPublica(boolean publica) {
+		this.publica = publica;
 	}
 	
 }

@@ -91,14 +91,14 @@ var Element = function () {
 	        
 	        return bloco;
         }
-        var criarIcon = function(iconeUrl){
+        var criarIcon = function(imgUrl){
 			var icon = $('<img class="responsive-img" style="width: 77px;height: 77px;">');
 			var adicionarImagemDefault = function(){
 				icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
 			}
 			
-			if(iconeUrl){
-				icon.attr('src', iconeUrl);
+			if(imgUrl){
+				icon.attr('src', imgUrl);
 			}
 			else{
 				adicionarImagemDefault();
@@ -201,7 +201,7 @@ var Element = function () {
         return drop;
     }
 
-    //{iconeUrl:"", ... }
+    //{imgUrl:"", ... }
 	this.Bloco = function (dados) {
 	    var bloco = new ObjectHtml();
 	    var blocoContainer;
@@ -218,7 +218,7 @@ var Element = function () {
 		        var dadosContainer = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
 		        
 		        var adicionarIcone = function () {
-		            iconeContainer.append(criarIcone(dados.iconeUrl));
+		            iconeContainer.append(criarIcone(dados.imgUrl));
 		        }
 		        var adicionarHeader = function () {
 		            dadosContainer.append(criarHeader());
@@ -250,11 +250,11 @@ var Element = function () {
 		    
 		    return blocoContainer;
 	    }
-	    var criarIcone = function (iconeUrl) {
+	    var criarIcone = function (imgUrl) {
 	        var container = $('<div class="valign-wrapper">');
 	        var icon = $('<img style="height:85px" class="circle responsive-img valign">');
-	        if (iconeUrl) {
-	            icon.attr('src', iconeUrl);
+	        if (imgUrl) {
+	            icon.attr('src', imgUrl);
 	            icon.error(function(){
 	            	icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
 	            })
@@ -487,7 +487,7 @@ var Element = function () {
 	        quantEstrelas: favorito.numEstrela,
 	        descricao: favorito.descricao,
 	        tags: favorito.tags,
-	        iconeUrl: favorito.imagem,
+	        imgUrl: favorito.imagem,
 	        url: favorito.url,
 	        onClick: acoes.onClick
 	    });
@@ -532,12 +532,19 @@ var Element = function () {
 	        quantEstrelas: pasta.numEstrela,
 	        descricao: pasta.descricao,
 	        tags: pasta.tags,
-	        iconeUrl: pasta.imagem,
+	        imgUrl: pasta.imagem,
 	        onClick: acoes.onClick
 	    });
 	    bloco.criarTitulo = function (nomePasta) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
-	        var icone = $('<i class="mdi-file-folder yellow-text text-darken-3">');
+	        var icone = $('<i class="yellow-text text-darken-3">');
+	        if (pasta.publica){
+	        	icone.addClass("mdi-file-folder-shared");
+	        }
+	        else{
+	        	icone.addClass("mdi-file-folder");
+	        }
+	        
 	        titulo.append(icone);
 	        titulo.append(nomePasta);
 	        return titulo;
@@ -587,7 +594,13 @@ var Element = function () {
 			var result = new Array();
 			var quantDados = dados.length;
 			for(var i = 0; i < quantDados; i++){
-				dados[i].icon = "mdi-file-folder yellow-text text-darken-3";
+				if (dados[i].publica == true){
+					dados[i].icon = "mdi-file-folder-shared yellow-text text-darken-3";
+				}
+				else{
+					dados[i].icon = "mdi-file-folder yellow-text text-darken-3";
+				}
+				
 				if(dados[i].parent == '#'){
 					dados[i].state = {
 						opened: true
@@ -629,6 +642,20 @@ var Element = function () {
 		arvore.renomearItem = function(id, titulo){
 			var tree = arvore.getElement().jstree(true);
 			tree.rename_node(id, titulo);
+		}
+		arvore.mudarIconeAPartirDoPai = function(id){
+			var tree = arvore.getElement().jstree(true);
+			var pai = tree.get_node(id);
+			var filhos = pai.children_d;
+			arvore.setIcone(pai.id, "mdi-file-folder-shared yellow-text text-darken-3");
+			var quantFilhos = filhos.length;
+			for (var i = 0; i < quantFilhos; i++){
+				arvore.setIcone(filhos[i], "mdi-file-folder-shared yellow-text text-darken-3");
+			}
+		}
+		arvore.setIcone = function(id, icon){
+			var tree = arvore.getElement().jstree(true);
+			tree.set_icon(id, icon)
 		}
 		return arvore;
 		
@@ -795,7 +822,7 @@ var Element = function () {
         }
         form.preencherCampos = function(pasta){
         	var preencherImagem = function () {
-        		img.add(pasta.iconeUrl);
+        		img.add(pasta.imgUrl);
         	}
         	var preencherTitulo = function () {
                 var titulo = $('#nomePasta', form.getElement());
@@ -893,7 +920,7 @@ var Element = function () {
         }
         form.preencherCampos = function(favorito){
         	var preencherImagem = function () {
-        		img.add(favorito.iconeUrl);
+        		img.add(favorito.imgUrl);
         	}
             var preencherTitulo = function () {
                 var titulo = $('#nomeFav', form.getElement()); //redundante

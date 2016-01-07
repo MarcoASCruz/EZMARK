@@ -64,7 +64,7 @@ public class PastaDAO extends BasicDAO {
 	
 	
 	public List<Hierarquia> buscarHierarquia(int idUsuario) throws Exception{
-		criarQuery("SELECT id, id_pasta_pai, nome FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE up.user_id = ?");
+		criarQuery("SELECT id, id_pasta_pai, nome, publica FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE up.user_id = ?");
 		ps.setInt(1, idUsuario);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		List<Hierarquia> hierarquia = new ArrayList<Hierarquia>();
@@ -73,6 +73,7 @@ public class PastaDAO extends BasicDAO {
 			h.setId(res.getString("id"));
 			h.setParent(res.getString("id_pasta_pai"));
 			h.setText(res.getString("nome"));
+			h.setPublica(res.getBoolean("publica"));
 			hierarquia.add(h);
 		}
 		return hierarquia;
