@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <% 
 	JSONObject pasta = (JSONObject) request.getAttribute("pasta");
+	JSONObject erro = (JSONObject) request.getAttribute("erro");
 %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -265,7 +266,6 @@
 	        </div>
 	    </main>
 	</body>
-	
 </body>
 
     <script type="text/javascript" src="view/lib/jquery-1.11.2/jquery.min.js"></script>
@@ -278,125 +278,135 @@
     <script src="view/js/elements.js"></script>
 
 <script>
-		var pastaHome = (<%=pasta%>).pasta[0];
-		console.log(pastaHome)
-		
-		var arvore = undefined;
-	    var contexto = {
-	    	home: undefined
-	    	,
-			pastaAtual: undefined
-	    }
-	    
-	    var init = function(){
-	    	var buscarHome = function(){
-	    		var idHome = pastaHome.id;
-	        	contexto.home = idHome;
-	        	atualizarPasta(idHome);
-	    	}
-	    	var buscarHierarquiaDePastas = function(){
-	    		var criarHierarquia = function(){
-	    			var hierarquia = new Array();
-		    		
-	    			var adicionarSubpastas = function(subpastas){
-		    			$.each(subpastas, function(index, pasta){
-		    				if(pasta.pastas.length > 0){
-		    					adicionarSubpastas(pasta.pastas);
-		    				}
-		    				hierarquia.push({
-				    			id: pasta.id,
-				    			parent: pasta.pai,
-				    			text: pasta.nome
+		var limparContainer = function (container) {
+		    container.empty();
+		}
+		var erroMsg = (<%=erro%>);
+		if (erroMsg){
+			console.log("erro: ", erroMsg);
+			var containerBlocos = $('#conteudoBlocos');
+		    limparContainer(containerBlocos); 
+		    var blocoMensagem = Element.BlocoMensagem(erroMsg.titulo, erroMsg.erro);
+		    containerBlocos.append(blocoMensagem.getElement());
+		}else{
+			var pastaHome = (<%=pasta%>).pasta[0];
+			console.log(pastaHome)
+			
+			var arvore = undefined;
+		    var contexto = {
+		    	home: undefined
+		    	,
+				pastaAtual: undefined
+		    }
+		    
+		    var init = function(){
+		    	var buscarHome = function(){
+		    		var idHome = pastaHome.id;
+		        	contexto.home = idHome;
+		        	atualizarPasta(idHome);
+		    	}
+		    	var buscarHierarquiaDePastas = function(){
+		    		var criarHierarquia = function(){
+		    			var hierarquia = new Array();
+			    		
+		    			var adicionarSubpastas = function(subpastas){
+			    			$.each(subpastas, function(index, pasta){
+			    				if(pasta.pastas.length > 0){
+			    					adicionarSubpastas(pasta.pastas);
+			    				}
+			    				hierarquia.push({
+					    			id: pasta.id,
+					    			parent: pasta.pai,
+					    			text: pasta.nome
+				    			})
 			    			})
+			    		}
+		    			
+		    			hierarquia.push({
+			    			id: pastaHome.id,
+			    			parent: "#",
+			    			text: pastaHome.nome
+		    			})
+		    			
+			    		adicionarSubpastas(pastaHome.pastas)
+		    			return hierarquia;
+		    		}
+		   			arvore = Element.Arvore(criarHierarquia(), atualizarPasta);
+		   			$('#treeView').append(arvore.getElement());
+		   		}
+			    buscarHome();
+			    buscarHierarquiaDePastas();
+		    }
+		    
+			var atualizarPasta = function(idPasta){
+				var buscarArquivos = function(onSucess){
+					idPasta = idPasta ? idPasta : contexto.pastaAtual;
+							
+					var procurarPasta = function(pastas){
+						$.each(pastas, function(index, pasta){
+		    				if(pasta.id == idPasta){
+		    					onSucess(pasta);
+		    				}
+		    				procurarPasta(pasta.pastas);
 		    			})
 		    		}
-	    			
-	    			hierarquia.push({
-		    			id: pastaHome.id,
-		    			parent: "#",
-		    			text: pastaHome.nome
-	    			})
-	    			
-		    		adicionarSubpastas(pastaHome.pastas)
-	    			return hierarquia;
-	    		}
-	   			arvore = Element.Arvore(criarHierarquia(), atualizarPasta);
-	   			$('#treeView').append(arvore.getElement());
-	   		}
-		    buscarHome();
-		    buscarHierarquiaDePastas();
-	    }
-	    
-		var atualizarPasta = function(idPasta){
-			var buscarArquivos = function(onSucess){
-				idPasta = idPasta ? idPasta : contexto.pastaAtual;
-						
-				var procurarPasta = function(pastas){
-					$.each(pastas, function(index, pasta){
-	    				if(pasta.id == idPasta){
-	    					onSucess(pasta);
-	    				}
-	    				procurarPasta(pasta.pastas);
-	    			})
-	    		}
-				
-				if (idPasta == pastaHome.id){
-					onSucess(pastaHome);
-				}
-				else{
-					return 	procurarPasta(pastaHome.pastas);
-				}
-			}
-			buscarArquivos(
-				function(data){
-					var pastas = data.pastas;
-				    var favoritos = data.favoritos;
 					
-				    var containerBlocos = $('#conteudoBlocos');
-				    limparContainer(containerBlocos);
-					inserirPastas(pastas, containerBlocos);
-					inserirFavoritos(favoritos, containerBlocos);
-					
-					if (idPasta){
-						contexto.pastaAtual = Number(idPasta);
+					if (idPasta == pastaHome.id){
+						onSucess(pastaHome);
+					}
+					else{
+						return 	procurarPasta(pastaHome.pastas);
 					}
 				}
-			);
+				buscarArquivos(
+					function(data){
+						var pastas = data.pastas;
+					    var favoritos = data.favoritos;
+						
+					    var containerBlocos = $('#conteudoBlocos');
+					    limparContainer(containerBlocos);
+						inserirPastas(pastas, containerBlocos);
+						inserirFavoritos(favoritos, containerBlocos);
+						
+						if (idPasta){
+							contexto.pastaAtual = Number(idPasta);
+						}
+					}
+				);
+			}
+			
+			
+			var inserirPastas = function (pastas, container) {
+		        var acoes = {
+		            onClick: function (pasta) {
+		                arvore.selecionarItem(pasta.id);
+		            } 
+		        }
+		        var length = pastas.length;
+		        for (var i = 0; i < length; i++) {
+		            var bloco = Element.Pasta(pastas[i], acoes, false);
+		            container.append(bloco.getElement());
+		        }
+		    }
+			var inserirFavoritos = function (favoritos, container) {
+		        var acoes = {
+		            onClick: function (favorito) {
+		            	abrirLinkFav(favorito.url, favorito.id);
+		            }
+		        }
+		        var length = favoritos.length;
+		        for (var i = 0; i < length; i++) {
+		            var bloco = Element.Favorito(favoritos[i], acoes, false);
+		            container.append(bloco.getElement());
+		        }
+		    }
+			
+			var abrirLinkFav = function (url, idFav) {
+	            window.open('http://' + url);
+	        }
+		
+    		init();
 		}
-		var limparContainer = function (container) {
-	        container.empty();
-	    }
-		
-		var inserirPastas = function (pastas, container) {
-	        var acoes = {
-	            onClick: function (pasta) {
-	                arvore.selecionarItem(pasta.id);
-	            } 
-	        }
-	        var length = pastas.length;
-	        for (var i = 0; i < length; i++) {
-	            var bloco = Element.Pasta(pastas[i], acoes, false);
-	            container.append(bloco.getElement());
-	        }
-	    }
-		var inserirFavoritos = function (favoritos, container) {
-	        var acoes = {
-	            onClick: function (favorito) {
-	            	abrirLinkFav(favorito.url, favorito.id);
-	            }
-	        }
-	        var length = favoritos.length;
-	        for (var i = 0; i < length; i++) {
-	            var bloco = Element.Favorito(favoritos[i], acoes, false);
-	            container.append(bloco.getElement());
-	        }
-	    }
-		
-		var abrirLinkFav = function (url, idFav) {
-            window.open('http://' + url);
-        }
-
-    	init();
 	</script>
 
 </html>

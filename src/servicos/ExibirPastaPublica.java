@@ -41,14 +41,18 @@ public class ExibirPastaPublica extends HttpServlet {
 		try {
 			if(pastaPublica(idPasta)){
 				request.setAttribute("pasta", buscarPastaRaiz(idPasta));
-				request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
 			}
 			else{
-				throw new Exception("pasta é privada!");
+				request.setAttribute("erro", erroPasta(1));
+//				throw new Exception("pasta é privada!");
 			}
+			request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			request.setAttribute("erro", erroPasta(2));
+			request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
 		}
+
 	}
 	
 	private boolean pastaPublica (int idPasta) throws SQLException{
@@ -61,6 +65,26 @@ public class ExibirPastaPublica extends HttpServlet {
 		l.add(new DAO.PastaDAO().buscarPastaCompleta(idPasta));
 		pasta.put("pasta", l);
 		return pasta;
+	}
+	
+	private JSONObject erroPasta (int numeroErro){
+		JSONObject erro = new JSONObject();
+		String titulo="Erro!";
+		String mensagem="Erro desconhecido!";
+		
+		if (numeroErro == 1)
+		{
+			titulo = "Erro!";
+			mensagem = "Pasta Privada!";
+		}
+		
+		if (numeroErro == 2){
+			titulo = "Erro!";
+			mensagem = "Pasta não encontrada.";
+		}
+		erro.put("titulo", titulo);
+		erro.put("erro", mensagem);
+		return erro;
 	}
 
 	/**

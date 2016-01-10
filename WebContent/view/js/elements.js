@@ -14,6 +14,29 @@ var ObjectHtml = function(){
 var Element = function () {
 	var self = this;
 		
+	this.BlocoMensagem = function (titulo, mensagem){
+		var blocoMensagem =  new ObjectHtml();
+		var containerRow = $('<div class="row">');
+		var containerCol = $('<div class="col s12 m6">');
+		var containerCard = $('<div class="card red darken-1">');
+		var containerCardContent = $('<div class="card-content white-text">');
+		var tituloBloco  = $('<span class="card-title">');
+		var mensagemBloco  = $('<p>');
+		
+		blocoMensagem.createElement = function(){
+			tituloBloco.append(titulo);
+			mensagemBloco.append(mensagem);
+			containerCardContent.append(tituloBloco);
+			containerCardContent.append(mensagemBloco);
+			containerCard.append(containerCardContent);
+			containerCol.append(containerCard);
+			containerRow.append(containerCol);
+			return containerRow;
+		}
+		
+		return blocoMensagem;
+	}
+	
 	this.Toast = function(mensagem, tempo){
 		 var dialog = undefined;
 		 if(tempo){
