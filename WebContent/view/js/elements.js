@@ -1035,5 +1035,12 @@ var Element = function () {
 		return formImg;
 	}
 	
+	this.MenuContexto = function(options){ //id,container, itens, acao
+		$.contextMenu({
+	        selector: options.container, 
+	        callback: options.acao,
+	        items: options.itens
+	    });
+	}
 };
 var Element = new Element();

@@ -8,6 +8,7 @@
         <!--Let browser know website is optimized for mobile--> 
         <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
         <link rel="stylesheet" type="text/css" href="lib/raty-2.7.0/jquery.raty.css" />
+        <link rel="stylesheet" type="text/css" href="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.min.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style> 
@@ -182,6 +183,8 @@
         <!--Inicializa o Menu lateral quando em modo Mobile-->
         <script src="lib/jstree/dist/jstree.min.js"></script>
         <script src="lib/raty-2.7.0/jquery.raty.js"></script>
+        <script src="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.min.js"></script>
+        
         <script src="js/elements.js"></script>
 		<script src="js/mapper.js"></script>
 		<script src="js/servicos.js"></script>
@@ -193,6 +196,29 @@
 		</script>
 <script>
 $(document).ready(function(){
+	
+	var obterOptionsMenuContextoPasta = function(id, container){
+		var options = new Object();
+		options.container = container; 
+		options.acao = function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m); 
+        };
+        options.itens = {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+           copy: {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function(){
+                return 'context-menu-icon context-menu-icon-quit';
+            }}
+        }
+        return options;
+	}
+	new Element.MenuContexto(obterOptionsMenuContextoPasta(1, "#conteudoBlocos"));
+	
      $( "#pastaAberta" ).hide();
      $( "#orderFav" ).hide();
        $("#fav1").click(function(){
