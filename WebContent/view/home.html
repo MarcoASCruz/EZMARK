@@ -195,31 +195,9 @@
                 });      
 		</script>
 <script>
+
 $(document).ready(function(){
-	
-	var obterOptionsMenuContextoPasta = function(id, container){
-		var options = new Object();
-		options.container = container; 
-		options.acao = function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m); 
-        };
-        options.itens = {
-            "edit": {name: "Edit", icon: "edit"},
-            "cut": {name: "Cut", icon: "cut"},
-           copy: {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
-        return options;
-	}
-	new Element.MenuContexto(obterOptionsMenuContextoPasta(1, "#conteudoBlocos"));
-	
-     $( "#pastaAberta" ).hide();
+	 $( "#pastaAberta" ).hide();
      $( "#orderFav" ).hide();
        $("#fav1").click(function(){
            $( "#fav2" ).hide("slow");
@@ -395,7 +373,7 @@ $(document).ready(function(){
 	            </div>
 	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
 	           
-	            <div id="conteudoBlocos" class="row">
+	            <div id="conteudoBlocos" class="row context-menu">
 	            </div>
 	        </div>
 	    </main>
@@ -406,8 +384,14 @@ $(document).ready(function(){
 	    	home: undefined
 	    	,
 			pastaAtual: undefined
+			,
+			pastaRightClick: {
+				dados: undefined
+				,
+				bloco: undefined
+			}
 	    }
-	    
+	     
 	    var init = function(){
 	    	servicos.buscarHome(function(data){
 	    		var idHome = data.content[0].id;
@@ -420,8 +404,39 @@ $(document).ready(function(){
 		   			$('#treeView').append(arvore.getElement());
 		   		}
 		    )
+		    criarMenusDeContexto();
 		    atualizarAcessoRapido();
 		    configurarDragAndDropAcessoRapido();
+	    }
+	    
+	    var criarMenusDeContexto = function(){
+	    	var criarMenuContextoPasta = function(container){
+				var options = new Object();
+				options.container = ".context-menu-pasta"; 
+				options.acao = function(key, options) {
+					var pastaRightClick = contexto.pastaRightClick;
+					switch (key) {
+						case "Editar":
+			                criarFormAlteracaoPasta(pastaRightClick.dados);
+				            break;
+						case "Compartilhar":
+		            		compartilharPasta(pastaRightClick.dados.id);
+							break;
+						case "Excluir":
+		            		removerPasta(pastaRightClick.dados, pastaRightClick.bloco);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Excluir": {name: "Excluir"},
+			        "Editar": {name: "Editar"},
+			        "Compartilhar": {name: "Compartilhar"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	criarMenuContextoPasta();
 	    }
 	    
 	    var atualizarAcessoRapido = function(){
@@ -472,13 +487,14 @@ $(document).ready(function(){
 	            onClick: function (pasta) {
 	                arvore.selecionarItem(pasta.id);
 	            }
+	        	,
+	        	onRightClick: function(pasta, bloco){
+	        		contexto.pastaRightClick.dados = pasta;
+	        		contexto.pastaRightClick.bloco = bloco;
+	        	}
 	            ,
 	            remover: function (pasta, bloco) {
-	                servicos.removerPasta(pasta.id, function () {
-	                    bloco.remove();
-	                    arvore.removerItem(pasta.id);
-	                    Element.Toast("Pasta removida com sucesso!", 2000)
-	                })
+	            	removerPasta(pasta, bloco);
 	            }
 	            ,
 	            editar: function (pasta) {
@@ -494,6 +510,14 @@ $(document).ready(function(){
 	            var bloco = Element.Pasta(pastas[i], acoes);
 	            container.append(bloco.getElement());
 	        }
+	    }
+	    
+	    var removerPasta = function(pasta, bloco){
+	    	servicos.removerPasta(pasta.id, function () {
+                bloco.remove();
+                arvore.removerItem(pasta.id);
+                Element.Toast("Pasta removida com sucesso!", 2000)
+            })
 	    }
 	    
 	    var compartilharPasta = function(idPasta){

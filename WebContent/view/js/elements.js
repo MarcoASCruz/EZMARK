@@ -232,7 +232,8 @@ var Element = function () {
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
-		    var adicionarConteudo = function(){
+		    adicionarMenuContexto(card);
+	        var adicionarConteudo = function(){
 		        card.append(criarConteudo());
 		    }
 		    var criarConteudo = function () {
@@ -272,6 +273,9 @@ var Element = function () {
 		    blocoContainer.append(card);
 		    
 		    return blocoContainer;
+	    }
+	    var adicionarMenuContexto = function(card){
+	    	card.addClass(dados.menuContexto);
 	    }
 	    var criarIcone = function (imgUrl) {
 	        var container = $('<div class="valign-wrapper">');
@@ -444,6 +448,11 @@ var Element = function () {
 	    	element.click(function(){
 	    		dados.onClick(dados)
     		});
+	    	element.on('mousedown',function(e){
+	    		if(e.which == 3){
+	    			dados.onRightClick(dados, bloco);	
+	    		}
+    		})
 	    }
 	    bloco.getTags = function (tags) {
 	        var container = $('<div class="col s12 truncate">');
@@ -556,7 +565,9 @@ var Element = function () {
 	        descricao: pasta.descricao,
 	        tags: pasta.tags,
 	        imgUrl: pasta.imagem,
-	        onClick: acoes.onClick
+	        onClick: acoes.onClick,
+	        onRightClick: acoes.onRightClick,
+	        menuContexto: "context-menu-pasta"
 	    });
 	    bloco.criarTitulo = function (nomePasta) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
@@ -1035,11 +1046,13 @@ var Element = function () {
 		return formImg;
 	}
 	
-	this.MenuContexto = function(options){ //id,container, itens, acao
-		$.contextMenu({
-	        selector: options.container, 
-	        callback: options.acao,
-	        items: options.itens
+	this.MenuContexto = function(options){ //container, itens, acao
+	    $.contextMenu({
+	        selector: options.container
+        	,
+	        callback: options.acao
+            ,
+            items: options.itens
 	    });
 	}
 };
