@@ -608,7 +608,7 @@ var Element = function () {
 	    return bloco;
     }
 
-	this.Arvore = function (dados, onClick){
+	this.Arvore = function (dados, onClick, servicosRightClick){
 		var arvore = new ObjectHtml();
 		var container = $('<div>');
 		arvore.createElement = function(){
@@ -618,7 +618,29 @@ var Element = function () {
 						'data' : obterModelo()
 						,
 						check_callback: true 
-					}
+					},
+					"plugins": ["contextmenu"],//["themes", "html_data", "ui", "crrm", "contextmenu"],
+					"contextmenu": {
+						"select_node": false,
+						"items": function ($node) {
+				            return {
+				                "Create": {
+				                    "label": "Criar Pasta",
+				                    "action": function (obj) {
+				                    	var idPai = parseInt($node.id);
+				                    	servicosRightClick.criarPastaFilha(idPai);
+				                    }
+				                },
+				                "Delete": {
+				                    "label": "Excluir",
+				                    "action": function (obj) {
+				                    	var idPasta = parseInt($node.id);
+				                    	servicosRightClick.removerPasta(idPasta);
+				                    }
+				                }
+				            };
+				        }
+				    }
 				}
 			)
 			criarEventos();
@@ -652,6 +674,9 @@ var Element = function () {
 				var id = data.selected[data.selected.length - 1];
 				onClick(id);
 				arvore.openItem(id);
+				if(e.which == 3){
+	    			alert()	
+	    		}
 		  	})
 		}
 		arvore.criarPasta = function(id, idPai, nome){

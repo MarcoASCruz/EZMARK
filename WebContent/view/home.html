@@ -12,6 +12,10 @@
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
         <style> 
+        	.jstree-contextmenu{
+        		z-index: 10000;
+        	}
+        
         	.arrastar-favorito-msg{
 	        	font-size: 30px;
 			    font-weight: bold;
@@ -190,6 +194,27 @@
 		<script src="js/servicos.js"></script>
         
         <script>
+	        document.onclick = function(e){
+        		var menuTree = $('.jstree-contextmenu');
+       			var menuPadrao = $('.context-menu-root');
+        		
+       			console.log(menuTree);
+       			var menuAtivo = function(menu){
+       				var result = false;
+        			if (menu.css("display") != "none"){
+        				result = true;
+        			}
+        			return result;
+        		}
+       			var esconderMenu = function(menu){
+       				menu.css("display", "none");
+       			}
+       			
+       			if(menuAtivo(menuPadrao) || menuAtivo(menuTree)){
+       				esconderMenu(menuPadrao);
+       				esconderMenu(menuTree);
+       			}
+        	}
                 $( document ).ready(function(){
                 	$(".button-collapse").sideNav();
                 });      
@@ -400,7 +425,17 @@ $(document).ready(function(){
 	    	})
 	    	servicos.buscarHierarquiaDePastas(
 		   		function(data){
-		   			arvore = Element.Arvore(data.content, atualizarPasta);
+		   			arvore = Element.Arvore(
+	   					data.content
+	   					,
+	   					atualizarPasta
+	   					,
+	   					{
+	   						criarPastaFilha: criarFormInclusaoPasta
+	   						,
+	   						removerPasta: removerPasta
+	   					}
+   					);
 		   			$('#treeView').append(arvore.getElement());
 		   		}
 		    )
@@ -423,7 +458,7 @@ $(document).ready(function(){
 		            		compartilharPasta(pastaRightClick.dados.id);
 							break;
 						case "Excluir":
-		            		removerPasta(pastaRightClick.dados, pastaRightClick.bloco);
+		            		removerPasta(pastaRightClick.dados.id);
 							break;
 						default:
 							break;
@@ -493,8 +528,8 @@ $(document).ready(function(){
 	        		contexto.pastaRightClick.bloco = bloco;
 	        	}
 	            ,
-	            remover: function (pasta, bloco) {
-	            	removerPasta(pasta, bloco);
+	            remover: function (pasta) {
+	            	removerPasta(pasta.id);
 	            }
 	            ,
 	            editar: function (pasta) {
@@ -512,10 +547,10 @@ $(document).ready(function(){
 	        }
 	    }
 	    
-	    var removerPasta = function(pasta, bloco){
-	    	servicos.removerPasta(pasta.id, function () {
-                bloco.remove();
-                arvore.removerItem(pasta.id);
+	    var removerPasta = function(idPasta){
+	    	servicos.removerPasta(idPasta, function () {
+                atualizarPasta();
+                arvore.removerItem(idPasta);
                 Element.Toast("Pasta removida com sucesso!", 2000)
             })
 	    }
@@ -696,7 +731,7 @@ $(document).ready(function(){
 	
 		
 		
-		function criarFormInclusaoPasta(){
+		function criarFormInclusaoPasta(idPastaPai){
 			var form = new Element.FormPasta("Adicionar Pasta");
 			var formModal = new FormModal(form);
 			formModal.onSend = function(pastaAlterada, onSuccess){
@@ -726,7 +761,7 @@ $(document).ready(function(){
 				)
 			}
 			formModal.obterDadosBloco = function(form){
-				return obterDadosFormPasta(form, modelo.pasta());
+				return obterDadosFormPasta(form, modelo.pasta(), idPastaPai);
 			}
 			formModal.show();
 		}
@@ -764,8 +799,9 @@ $(document).ready(function(){
 			}
 			formModal.show();
 		}
-	    var obterDadosFormPasta = function(form, pasta){
-	    	pasta.pai = contexto.pastaAtual;
+	    var obterDadosFormPasta = function(form, pasta, idPastaPai){
+	    	console.log(idPastaPai, contexto.pastaAtual)
+	    	pasta.pai = idPastaPai ? idPastaPai : contexto.pastaAtual;
 			pasta.nome = form.getNome();
 			pasta.descricao = form.getDescricao();
 			pasta.numEstrela = form.getQuantEstrelas();
