@@ -416,7 +416,8 @@ $(document).ready(function(){
 				bloco: undefined
 			}
 	    }
-	     
+	    
+	    
 	    var init = function(){
 	    	servicos.buscarHome(function(data){
 	    		var idHome = data.content[0].id;
@@ -472,6 +473,32 @@ $(document).ready(function(){
 			    new Element.MenuContexto(options);
 			}
 	    	criarMenuContextoPasta();
+	    	
+	    	
+	    	
+	    	var criarMenuContextoConteudoBlocos = function(container){
+				var options = new Object();
+				options.container = ".context-menu"; 
+				options.acao = function(key, options) {
+					switch (key) {
+						case "Adicionar Favorito":
+							criarFormInclusaoFavorito();
+				            break;
+						case "Adicionar Pasta":
+							criarFormInclusaoPasta();
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Adicionar Favorito": {name: "Adicionar Favorito"},
+			        "Adicionar Pasta": {name: "Adicionar Pasta"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	criarMenuContextoConteudoBlocos();
+	    	
 	    }
 	    
 	    var atualizarAcessoRapido = function(){
@@ -526,6 +553,9 @@ $(document).ready(function(){
 	        	onRightClick: function(pasta, bloco){
 	        		contexto.pastaRightClick.dados = pasta;
 	        		contexto.pastaRightClick.bloco = bloco;
+	        		console.log("Pasta: ", pasta);
+	        		console.log("Bloco: ", bloco);
+	  
 	        	}
 	            ,
 	            remover: function (pasta) {
