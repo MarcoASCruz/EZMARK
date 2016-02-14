@@ -11,7 +11,14 @@
         <link rel="stylesheet" type="text/css" href="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.min.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
-        <style> 
+        <style>
+         	html,
+         	body{
+         		height: 100%;
+         	}
+         	main {
+         		height: calc(100% - 64px);
+         	}
         	#conteudoBlocos{
         		margin-bottom: 0px;
         	}
@@ -343,7 +350,7 @@ $(document).ready(function(){
 	    </div>
 	    <!--Fim da Barra de Navegação-->   
 	    <!--Corpo do conteúdo da página-->  
-	    <main class="main">
+	    <main class="main context-menu">
 			<!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
 	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
 	                <a class="btn-floating btn-large red gira tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar" id="botao-fixo">
