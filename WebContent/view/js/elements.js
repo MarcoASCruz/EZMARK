@@ -637,7 +637,8 @@ var Element = function () {
 				                    "label": "Excluir",
 				                    "action": function (obj) {
 				                    	var idPasta = parseInt($node.id);
-				                    	servicosRightClick.removerPasta(idPasta);
+				                    	var idPai = $node.parent;
+				                    	servicosRightClick.removerPasta(idPasta, idPai);
 				                    }
 				                }
 							}

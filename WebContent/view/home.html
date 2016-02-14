@@ -196,32 +196,6 @@
 		<script src="js/mapper.js"></script>
 		<script src="js/servicos.js"></script>
         
-        <script>
-	        document.onclick = function(e){
-        		var menuTree = $('.jstree-contextmenu');
-       			var menuPadrao = $('.context-menu-root');
-        		
-       			console.log(menuTree);
-       			var menuAtivo = function(menu){
-       				var result = false;
-        			if (menu.css("display") != "none"){
-        				result = true;
-        			}
-        			return result;
-        		}
-       			var esconderMenu = function(menu){
-       				menu.css("display", "none");
-       			}
-       			
-       			if(menuAtivo(menuPadrao) || menuAtivo(menuTree)){
-       				esconderMenu(menuPadrao);
-       				esconderMenu(menuTree);
-       			}
-        	}
-                $( document ).ready(function(){
-                	$(".button-collapse").sideNav();
-                });      
-		</script>
 <script>
 
 $(document).ready(function(){
@@ -437,7 +411,16 @@ $(document).ready(function(){
 	   					{
 	   						criarPastaFilha: criarFormInclusaoPasta
 	   						,
-	   						removerPasta: removerPasta
+	   						removerPasta: function(idPasta, idPai){
+	   							var pastaEstaSendoExibida = function(){
+	   								return (idPasta == contexto.pastaAtual) ? true : false;
+	   							}
+	   							if(pastaEstaSendoExibida){
+	   								contexto.pastaAtual = idPai;
+	   								arvore.selecionarItem(idPai)
+	   							}
+	   							removerPasta(idPasta);
+	   						}
 	   					}
    					);
 		   			$('#treeView').append(arvore.getElement());
