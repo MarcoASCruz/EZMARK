@@ -521,7 +521,9 @@ var Element = function () {
 	        tags: favorito.tags,
 	        imgUrl: favorito.imagem,
 	        url: favorito.url,
-	        onClick: acoes.onClick
+	        onClick: acoes.onClick,
+	        onRightClick: acoes.onRightClick,
+	        menuContexto: "context-menu-favorito"
 	    });
 	    bloco.criarTitulo = function (favTitulo) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
