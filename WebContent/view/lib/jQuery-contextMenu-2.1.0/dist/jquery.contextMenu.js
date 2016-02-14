@@ -257,7 +257,7 @@
             // contextmenu show dispatcher
             contextmenu: function (e) {
                 var $this = $(this);
-
+                
                 // disable actual context-menu if we are using the right mouse button as the trigger
                 if (e.data.trigger === 'right') {
                     e.preventDefault();
@@ -350,7 +350,7 @@
             mousedown: function (e) {
                 // register mouse down
                 var $this = $(this);
-
+                
                 // hide any previous menus
                 if ($currentTrigger && $currentTrigger.length && !$currentTrigger.is($this)) {
                     $currentTrigger.data('contextMenu').$menu.trigger('contextmenu:hide');
@@ -427,6 +427,7 @@
             },
             // click on layer to hide contextMenu
             layerClick: function (e) {
+            	console.log("clique fora")
                 var $this = $(this),
                     root = $this.data('contextMenuRoot'),
                     button = e.button,
@@ -434,6 +435,8 @@
                     y = e.pageY,
                     target,
                     offset;
+
+                root.$menu.trigger('contextmenu:hide');
 
                 e.preventDefault();
                 e.stopImmediatePropagation();
