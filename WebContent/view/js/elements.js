@@ -623,28 +623,38 @@ var Element = function () {
 					"contextmenu": {
 						"select_node": false,
 						"items": function ($node) {
-				            return {
-				                "Create": {
-				                    "label": "Criar Pasta",
-				                    "action": function (obj) {
-				                    	var idPai = parseInt($node.id);
-				                    	servicosRightClick.criarPastaFilha(idPai);
-				                    }
-				                },
-				                "Delete": {
+							var menu = new Object();
+							menu.Create = {
+			                    "label": "Criar Pasta",
+			                    "action": function (obj) {
+			                    	console.log(obj, $node)
+			                    	var idPai = parseInt($node.id);
+			                    	servicosRightClick.criarPastaFilha(idPai);
+			                    }
+			                }
+							if (pastaTemPai($node)){
+								menu.Delete = {
 				                    "label": "Excluir",
 				                    "action": function (obj) {
 				                    	var idPasta = parseInt($node.id);
 				                    	servicosRightClick.removerPasta(idPasta);
 				                    }
 				                }
-				            };
+							}
+				            return menu;
 				        }
 				    }
 				}
 			)
 			criarEventos();
 			return container;
+		}
+		var pastaTemPai = function(pasta){
+			var result = true;
+			if(pasta.parent == "#"){
+				result = false;
+			}
+			return result;
 		}
 		var obterModelo = function(){
 			var result = new Array();
