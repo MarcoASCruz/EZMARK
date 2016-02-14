@@ -11,7 +11,7 @@
         <link rel="stylesheet" type="text/css" href="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.min.css" />
         <link rel="stylesheet" type="text/css" href="css/elements.css" />
         
-        <style>
+        <style> 
         	#conteudoBlocos{
         		margin-bottom: 0px;
         	}
@@ -391,12 +391,7 @@ $(document).ready(function(){
 				dados: undefined
 				,
 				bloco: undefined
-			},
-			favoritoRightClick: {
-				dados: undefined
-				,
-				bloco: undefined
-				}
+			}
 	    }
 	    
 	    
@@ -465,29 +460,7 @@ $(document).ready(function(){
 			}
 	    	criarMenuContextoPasta();
 	    	
-	    	var criarMenuContextoFavorito = function(container){
-				var options = new Object();
-				options.container = ".context-menu-favorito"; 
-				options.acao = function(key, options) {
-					var favoritoRightClick = contexto.favoritoRightClick;
-					switch (key) {
-						case "Editar":
-			                criarFormAlteracaoFavorito(favoritoRightClick.dados);
-				            break;
-						case "Excluir":
-		            		removerFavorito(favoritoRightClick.dados.id);
-							break;
-						default:
-							break;
-					}
-			    };
-			    options.itens = {
-			        "Excluir": {name: "Excluir"},
-			        "Editar": {name: "Editar"}
-			    }
-			    new Element.MenuContexto(options);
-			}
-	    	criarMenuContextoFavorito();
+	    	
 	    	
 	    	var criarMenuContextoConteudoBlocos = function(container){
 				var options = new Object();
@@ -565,7 +538,10 @@ $(document).ready(function(){
 	        	,
 	        	onRightClick: function(pasta, bloco){
 	        		contexto.pastaRightClick.dados = pasta;
-	        		contexto.pastaRightClick.bloco = bloco;	  
+	        		contexto.pastaRightClick.bloco = bloco;
+	        		console.log("Pasta: ", pasta);
+	        		console.log("Bloco: ", bloco);
+	  
 	        	}
 	            ,
 	            remover: function (pasta) {
@@ -643,14 +619,12 @@ $(document).ready(function(){
 	            onClick: function (favorito) {
 	            	abrirLinkFav(favorito.url, favorito.id);
 	            }
-	        	,
-	        	onRightClick: function(favorito, bloco){
-	        		contexto.favoritoRightClick.dados = favorito;
-	        		contexto.favoritoRightClick.bloco = bloco;	  
-	        	}
 	            ,
-	            remover: function (favorito) {
-	            	removerFavorito(favorito.id);
+	            remover: function (favorito, bloco) {
+	                servicos.removerFavorito(favorito.id, function () {
+	                    bloco.remove();
+	                    Element.Toast("Favorito removido com sucesso!", 2000)
+	                })
 	            }
 	            ,
 	            editar: function (favorito) {
@@ -664,13 +638,6 @@ $(document).ready(function(){
 	        }
 	    }
 	
-	    var removerFavorito = function (idFavorito){
-	    	servicos.removerFavorito(idFavorito, function () {
-	    		atualizarPasta();
-                Element.Toast("Favorito removido com sucesso!", 2000)
-            })
-	    }
-	    
 		var atualizarPasta = function(idPasta){
 			servicos.buscarArquivos(
 				idPasta ? idPasta : contexto.pastaAtual
