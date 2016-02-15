@@ -444,6 +444,19 @@ $(document).ready(function(){
 	    }
 	    
 	    var criarMenusDeContexto = function(){
+	    	var esconderMenusAoClicarFora = function(){
+	    		$('html').click(function() {
+	    			if($('.context-menu-active')){
+	    				esconderMenus();
+	    			}
+    			});
+	    	}
+	    	var esconderMenus = function(){
+				var menuAtivo = $('#context-menu-layer');
+			    root = menuAtivo.data('contextMenuRoot');
+				root.$menu.trigger('contextmenu:hide');	
+			}
+	    	
 	    	var criarMenuContextoPasta = function(container){
 				var options = new Object();
 				options.container = ".context-menu-pasta"; 
@@ -470,7 +483,7 @@ $(document).ready(function(){
 			    }
 			    new Element.MenuContexto(options);
 			}
-	    	criarMenuContextoPasta();
+	    	
 	    	
 	    	var criarMenuContextoFavorito = function(container){
 				var options = new Object();
@@ -494,7 +507,7 @@ $(document).ready(function(){
 			    }
 			    new Element.MenuContexto(options);
 			}
-	    	criarMenuContextoFavorito();
+	    	
 	    	
 	    	var criarMenuContextoConteudoBlocos = function(container){
 				var options = new Object();
@@ -517,6 +530,11 @@ $(document).ready(function(){
 			    }
 			    new Element.MenuContexto(options);
 			}
+	    	
+	    	esconderMenusAoClicarFora();
+	    	criarMenuContextoPasta();
+	    	criarMenuContextoPasta();
+	    	criarMenuContextoFavorito();
 	    	criarMenuContextoConteudoBlocos();
 	    	
 	    }

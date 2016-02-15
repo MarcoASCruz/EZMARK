@@ -427,7 +427,6 @@
             },
             // click on layer to hide contextMenu
             layerClick: function (e) {
-            	console.log("clique fora")
                 var $this = $(this),
                     root = $this.data('contextMenuRoot'),
                     button = e.button,
@@ -435,7 +434,7 @@
                     y = e.pageY,
                     target,
                     offset;
-
+                
                 root.$menu.trigger('contextmenu:hide');
 
                 e.preventDefault();
