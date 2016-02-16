@@ -88,11 +88,11 @@ var Element = function () {
 		return modal;
 	}
 
-	this.FavAcessoRapido = function(favorito, onClick, onDelete){
+	this.FavAcessoRapido = function(favorito, onClick, onRightClick, onDelete){
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
-	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
+	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag context-menu-acessoRapido" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
 	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
 	        
 	        var icon = criarIcon(favorito.imagem);
@@ -111,6 +111,12 @@ var Element = function () {
 	        bloco.on('click', function(){
 	        	onClick(favorito);
 	        })
+	        
+	        bloco.on('mousedown',function(e){
+	    		if(e.which == 3){
+	    			onRightClick(favorito);	
+	    		}
+    		})
 	        
 	        return bloco;
         }

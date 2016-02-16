@@ -403,7 +403,10 @@ $(document).ready(function(){
 				dados: undefined
 				,
 				bloco: undefined
-				}
+			},
+			acessoRapidoRightClick: {
+				dados: undefined
+			}
 	    }
 	    
 	    
@@ -508,6 +511,24 @@ $(document).ready(function(){
 			    new Element.MenuContexto(options);
 			}
 	    	
+	    	var criarMenuContextoAcessoRapido = function(container){
+				var options = new Object();
+				options.container = ".context-menu-acessoRapido"; 
+				options.acao = function(key, options) {
+					var acessoRapidoRightClick = contexto.acessoRapidoRightClick;
+					switch (key) {
+						case "Excluir":
+		            		removerAcessoRapido(acessoRapidoRightClick.dados.id);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Excluir": {name: "Excluir"},
+			    }
+			    new Element.MenuContexto(options);
+			}
 	    	
 	    	var criarMenuContextoConteudoBlocos = function(container){
 				var options = new Object();
@@ -536,7 +557,7 @@ $(document).ready(function(){
 	    	criarMenuContextoPasta();
 	    	criarMenuContextoFavorito();
 	    	criarMenuContextoConteudoBlocos();
-	    	
+	    	criarMenuContextoAcessoRapido();
 	    }
 	    
 	    var atualizarAcessoRapido = function(){
@@ -756,14 +777,22 @@ $(document).ready(function(){
 	            		abrirLinkFav(favorito.url, favorito.id);
             		}
 					,
+					function (favorito) {
+						contexto.acessoRapidoRightClick.dados = favorito;
+            		}
+					,
 					function(id){
-						servicos.removerAcessoRapido(id, function(){
-							atualizarAcessoRapido();
-						})
+						removerAcessoRapido(id);
 					}
 				);
 				divDestino.append(icon.getElement());
 			}
+		}
+		
+		var removerAcessoRapido = function(id){
+			servicos.removerAcessoRapido(id, function(){
+				atualizarAcessoRapido();
+			})
 		}
 		
 		var abrirLinkFav = function (url, idFav) {
