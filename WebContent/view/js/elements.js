@@ -1099,5 +1099,74 @@ var Element = function () {
             items: options.itens
 	    });
 	}
+	
+	this.ListaDeFavoritosRapida = function(hierarquiaPasta, buscarArquivosDePasta){
+		var lista = new ObjectHtml();
+		var arquivosContainer = $('<div>');
+		
+		lista.createElement = function(){
+			var container = $('<div>');
+			var arvoreContainer = $('<div>');
+			
+			arvoreContainer.append(criarArvore());
+			
+			container.append(arvoreContainer);
+			container.append(arquivosContainer);
+			
+			return container;
+		}
+		var criarArvore = function(){
+			var arvore = Element.Arvore(
+					hierarquiaPasta
+					,
+					atualizarArquivosDePasta
+				);
+   			return arvore.getElement();
+		}
+		var atualizarArquivosDePasta = function(idPasta){
+			buscarArquivosDePasta(
+					idPasta
+					,
+					function(data){
+					    var favoritos = data.content[0].favoritos;
+						
+					    arquivosContainer.html(criarItens(favoritos));
+					    //limparContainer(containerBlocos);
+						//inserirFavoritos(favoritos, containerBlocos);
+						//Pesquisa.remover();
+						
+						//if (idPasta){
+						//	contexto.pastaAtual = Number(idPasta);
+						//}
+					}
+				);
+			}
+		var criarItens = function(favoritos){
+			var container = $('<ul class="collection">');
+			var preencherFavoritos = function(){
+				var quantFavoritos = favoritos.length;
+				for (var i = 0; i < quantFavoritos; i++) {
+					adicionarFavorito(favoritos[i]);
+				}
+			}
+			var adicionarFavorito = function(favorito){
+				container.append(criarFavorito(favorito))
+			}
+			var criarFavorito = function(favorito){
+				 var container = $('<li class="collection-item avatar">');
+			     var img = $('<img alt="" class="circle">').attr("src", favorito.imagem);
+			     var titulo = $('<span class="title">').append(favorito.titulo);
+			     var descricao = $('<p>').append(favorito.descricao);
+			     container.append(img);
+			     container.append(titulo);
+			     container.append(descricao);
+			     return container;
+			}
+			preencherFavoritos();
+			return container;
+		}
+		return lista;
+	}
+	
 };
 var Element = new Element();

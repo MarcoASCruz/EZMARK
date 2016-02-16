@@ -1,219 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>INDEX</title>
-	<!--Import materialize.css-->
-	<link type="text/css" rel="stylesheet" href="view/lib/materialize/css/materialize.min.css"  media="screen,projection"/>
-	<!--Let browser know website is optimized for mobile-->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-</head>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>INDEX</title>
+		<!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	</head>
 
-<body>
-	Teste.html
-	<form id="uploadimage" action="" method="post" enctype="multipart/form-data">
-		<input type="file" accept="image/*" name="img" id="img" required />
-		<input type="hidden" name="id" id="id" value="6" />
-		<input type="submit" value="Upload" class="submit" />
-	</div>
-	</form>
-	<img src="/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/6">
-	<div id="imgs"></div>
-</body>
+	<body>
+		Teste.html
+	</body>
 
-<script src="view/lib/jquery-1.11.2/jquery.min.js"></script>
-<script src="view/js/elements.js"></script>
-<script src="view/js/mapper.js"></script>
-<script src="view/js/servicos.js"></script>
-<script type="text/javascript" src="view/lib/materialize/js/materialize.min.js"></script>
-<script type="text/javascript">
-
-//
-//var bloco = Element.Bloco("", "teste", "testesteste", "3", "pasta", "2", "3")
-//console.log()
-//$('body').append(bloco.getElement());
-
-
-
-
-var modelo = {
-	pasta: function(){
-		var pasta = new Object();
-		pasta.id=0;
-		pasta.pai=0;
-		pasta.nome = '';
-		pasta.dataCriacao= null;
-		pasta.numEstrela = 0;
-		pasta.publica = false;
-		pasta.imagem = null;
-		pasta.favoritos = null;
-		pasta.pastas = null;
-		favotitos = null;
-		return pasta;
-	}
-	,
-	favorito: function(){
-		var favorito = new Object();
-		favorito.id=0;
-		favorito.url=null;
-		favorito.titulo = null;
-		favorito.descricao= null;
-		favorito.dataCriacao = null;
-		favorito.pai = 0;
-		favorito.numEstrela = 0;
-		favorito.imagem = null;
-		favorito.acessoRapido = false;
-		return favorito;
-	}
-}
-
-var getFavorito = function(){
-	var favorito = modelo.favorito();
-	favorito.id = 11;
-	favorito.url = "www.teste.com";
-	favorito.titulo = 'testeAlteracao';
-	favorito.pai = 5;
-	favorito.numEstrela = 1;
-	return favorito;
-}
-
-var getPasta = function(){
-	var pasta = modelo.pasta();
-	pasta.pai = 5;
-	pasta.nome = 'testeFront';
-	pasta.numEstrela = 3;
-	pasta.publica = false;
-	return pasta;
-}
-
-/*servicos.buscarArquivos(
-	5
-	,
-	function(data){
-		$.each(data.content[0].favoritos, function(index, favorito){
-			var img = $('<img>');
-			img.attr('src', favorito.imagem)
-			$("#imgs").append(img);
-			console.log(favorito);
-		})
-	}
-);*/
-
-/*servicos.buscarFavorito(
-2
-,
-function(data){
-	console.log(data);
-}
-);*/
-
-servicos.adicionarPasta(
-	getPasta()
-	,
-	function(data){
-		console.log(data);
-	}
-)
-
-/*
-servicos.alterarPasta(
-	getPasta()
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-/*
-servicos.removerPasta(
-	9
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-/*
-servicos.adicionarFavorito(
-	getFavorito()
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-/*
-servicos.alterarFavorito(
-	getFavorito()
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-/*
-servicos.removerFavorito(
-	10
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-/*
-servicos.atualizarAcesso(
-	11
-	,
-	function(data){
-		console.log(data);
-	}
-)
-*/
-/*
-servicos.recemAcessados(
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-/*
-servicos.maisAcessados(
-	function(data){
-		console.log(data);
-	}
-)
-*/
-/*
-servicos.recemAdicionados(
-	function(data){
-		console.log(data);
-	}
-)
-*/
-/*
-servicos.buscarHierarquiaDePastas(
-	function(data){
-		console.log(data);
-	}
-)
-*/
-
-
-/*$("#uploadimage").on('submit',(function(e) {
-	e.preventDefault();
-	servicos.uploadImagemPasta(
-		new FormData(this)
-		,
-		function(data){
-			console.log(data);
-		}
-	)
-}));*/
-
-</script>
+	<script src="lib/jquery-1.11.2/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/materialize/v0.97.0/js/materialize.min.js"></script>
+	<script src="lib/jstree/dist/jstree.min.js"></script>
+	
+	<script src="js/elements.js"></script>
+	<script src="js/mapper.js"></script>
+	<script src="js/servicos.js"></script>
+	
+	
+	<script type="text/javascript">
+		servicos.buscarHierarquiaDePastas(
+	   		function(data){
+	   			console.log(data.content)
+	   			var listaRapida = Element.ListaDeFavoritosRapida(
+					data.content
+					,
+					servicos.buscarArquivos
+				);
+	   			console.log(listaRapida.getElement())
+	   			console.log($('body'))
+	   			$('body').append(listaRapida.getElement());		
+	   		}
+	    )
+	</script>
 </html>
