@@ -6,12 +6,13 @@
 		<!--Import materialize.css-->
 		<link type="text/css" rel="stylesheet" href="lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
 		<link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/elements.css" />
 		<!--Let browser know website is optimized for mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	</head>
 
 	<body>
-		Teste.html
+		<div id="view" style="height: 500px;"></div>
 	</body>
 
 	<script src="lib/jquery-1.11.2/jquery.min.js"></script>
@@ -31,10 +32,12 @@
 					data.content
 					,
 					servicos.buscarArquivos
+					,
+					function(favorito){
+						alert('inserir no acesso rápido o favorito ' + favorito.titulo)
+					}
 				);
-	   			console.log(listaRapida.getElement())
-	   			console.log($('body'))
-	   			$('body').append(listaRapida.getElement());		
+	   			$('#view').append(listaRapida.getElement());		
 	   		}
 	    )
 	</script>

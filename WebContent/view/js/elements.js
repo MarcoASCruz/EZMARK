@@ -1100,13 +1100,13 @@ var Element = function () {
 	    });
 	}
 	
-	this.ListaDeFavoritosRapida = function(hierarquiaPasta, buscarArquivosDePasta){
+	this.ListaDeFavoritosRapida = function(hierarquiaPasta, buscarArquivosDePasta, selecionarFavorito){
 		var lista = new ObjectHtml();
 		var arquivosContainer = $('<div>');
 		
 		lista.createElement = function(){
-			var container = $('<div>');
-			var arvoreContainer = $('<div>');
+			var container = $('<div class="lista-favoritos-rapida">');
+			var arvoreContainer = $('<div class="arvore-pastas">');
 			
 			arvoreContainer.append(criarArvore());
 			
@@ -1153,14 +1153,22 @@ var Element = function () {
 				container.append(criarFavorito(favorito))
 			}
 			var criarFavorito = function(favorito){
-				 var container = $('<li class="collection-item avatar">');
+				 var container = $('<a class="collection-item avatar">');
 			     var img = $('<img alt="" class="circle">').attr("src", favorito.imagem);
 			     var titulo = $('<span class="title">').append(favorito.titulo);
 			     var descricao = $('<p>').append(favorito.descricao);
 			     container.append(img);
 			     container.append(titulo);
 			     container.append(descricao);
+			     container.on('click', function(){
+			    	 desativarItensSelecionados();
+			    	 container.addClass('active');
+			    	 selecionarFavorito(favorito);
+			     })
 			     return container;
+			}
+			var desativarItensSelecionados = function(){
+				$('a', container).removeClass('active');
 			}
 			preencherFavoritos();
 			return container;
