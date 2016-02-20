@@ -375,7 +375,7 @@ $(document).ready(function(){
 	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
 	                    </ul>
 	                </div>
-	                <div id="acessoRapido" class="col s12">loading...</div>    
+	                <div id="acessoRapido" class="col s12 context-menu-acessoRapido">loading...</div>    
 	                <div id="maisAcessados" class="col s12">loading...</div>
 	                <div id="recemAcessados" class="col s12">loading...</div>
 	                <div id="recemAdicionados" class="col s12">loading...</div>
@@ -511,7 +511,26 @@ $(document).ready(function(){
 			    new Element.MenuContexto(options);
 			}
 	    	
-	    	var criarMenuContextoAcessoRapido = function(container){
+	    	var criarMenuContextoItensAcessoRapido = function(container){
+				var options = new Object();
+				options.container = ".context-menu-item-acessoRapido"; 
+				options.acao = function(key, options) {
+					var acessoRapidoRightClick = contexto.acessoRapidoRightClick;
+					switch (key) {
+						case "Excluir":
+		            		removerAcessoRapido(acessoRapidoRightClick.dados.id);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Excluir": {name: "Excluir"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	var criarMenuContextoAcessoRapido = function(){
 				var options = new Object();
 				options.container = ".context-menu-acessoRapido"; 
 				options.acao = function(key, options) {
@@ -557,7 +576,25 @@ $(document).ready(function(){
 	    	criarMenuContextoPasta();
 	    	criarMenuContextoFavorito();
 	    	criarMenuContextoConteudoBlocos();
+	    	criarMenuContextoItensAcessoRapido();
 	    	criarMenuContextoAcessoRapido();
+	    }
+	    
+	    var criarViewListaDeFavoritos = function(){
+	    	servicos.buscarHierarquiaDePastas(
+    	   		function(data){
+    	   			var listaRapida = Element.ListaDeFavoritosRapida(
+    					data.content
+    					,
+    					servicos.buscarArquivos
+    					,
+    					function(favorito){
+    						alert('inserir no acesso rápido o favorito ' + favorito.titulo)
+    					}
+    				);
+    	   			$('#view').append(listaRapida.getElement());		
+    	   		}
+    	    )
 	    }
 	    
 	    var atualizarAcessoRapido = function(){
