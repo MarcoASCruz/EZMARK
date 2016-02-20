@@ -1121,6 +1121,8 @@ var Element = function () {
 					,
 					atualizarArquivosDePasta
 				);
+			var idHome = hierarquiaPasta[0].id;
+			atualizarArquivosDePasta(idHome);
    			return arvore.getElement();
 		}
 		var atualizarArquivosDePasta = function(idPasta){
