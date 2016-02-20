@@ -25,9 +25,9 @@
 	
 	
 	<script type="text/javascript">
+		var btnModal = undefined;
 		servicos.buscarHierarquiaDePastas(
 	   		function(data){
-	   			console.log(data.content)
 	   			var listaRapida = Element.ListaDeFavoritosRapida(
 					data.content
 					,
@@ -35,9 +35,23 @@
 					,
 					function(favorito){
 						alert('inserir no acesso rápido o favorito ' + favorito.titulo)
+						btnModal.removeClass('disabled');
 					}
 				);
-	   			$('#view').append(listaRapida.getElement());		
+	   			
+	   			var modal = Element.ModalConfirm(
+   					"Selecionar favorito"
+   					, 
+   					function(){
+   						modal.close();
+   						alert("adicionar na lista");
+   					}
+   				);
+	   				
+   				modal.addConteudo(listaRapida.getElement());
+   				modal.show();	
+   				btnModal = $('.btn-confirmar', modal.getElement());
+   				btnModal.addClass('disabled');
 	   		}
 	    )
 	</script>

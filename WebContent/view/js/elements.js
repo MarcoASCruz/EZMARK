@@ -87,12 +87,29 @@ var Element = function () {
 		}
 		return modal;
 	}
-
+	
+	this.ModalConfirm = function(mensagemConfirmar, onClick){
+		var self = this;
+		var modal = new self.Modal();
+		
+		var create = function(){
+			modal.addFooter(criarBotaoConfirmar());	
+		}
+		var criarBotaoConfirmar = function(){
+			var button = $('<a href="#" class="waves-effect waves-green btn btn-confirmar">').append(mensagemConfirmar);
+			button.on('click', onClick);
+			return button;
+		}
+		
+		create();
+		return modal;
+	}
+	
 	this.FavAcessoRapido = function(favorito, onClick, onRightClick, onDelete){
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
-	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag context-menu-acessoRapido" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
+	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag context-menu-item-acessoRapido" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
 	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
 	        
 	        var icon = criarIcon(favorito.imagem);
