@@ -25,6 +25,52 @@
 	
 	
 	<script type="text/javascript">
+	 var contexto = {
+		    	home: undefined
+		    	,
+				pastaAtual: undefined
+				,
+				pastaRightClick: {
+					dados: undefined
+					,
+					bloco: undefined
+				},
+				favoritoRightClick: {
+					dados: undefined
+					,
+					bloco: undefined
+				},
+				acessoRapidoRightClick: {
+					dados: undefined
+				},
+				favAcessoRapidoSelecionado: {
+					dados: undefined	
+				}
+		    }
+	
+	 
+	 var atualizarAcessoRapido = function(){
+	    	var criarMensagemDeAjuda = function(){
+	    		var container = $('<div align="center" class="arrastar-favorito-msg">');
+	    		container.append("Arraste um favorito aqui adicioná-lo em seu acesso rápido")
+	    		return container;
+	    	}
+	    	servicos.buscarAcessoRapido(
+				function(data){
+					var container = $('#acessoRapido');
+					container.empty();
+					if (data.content.length == 0){
+						container.append(criarMensagemDeAjuda());
+						container.addClass("border-dashed");
+					}
+					else{
+						container.removeClass("border-dashed");
+						insereIcons(data.content, container);
+					}
+				}
+			)
+	    }
+	 
 		var btnModal = undefined;
 		servicos.buscarHierarquiaDePastas(
 	   		function(data){
@@ -34,15 +80,24 @@
 					servicos.buscarArquivos
 					,
 					function(favorito){
-						alert('inserir no acesso rápido o favorito ' + favorito.titulo)
+						alert('inserir no acesso rápido o favorito ' + favorito.titulo);
+						contexto.favAcessoRapidoSelecionado.dados = favorito;
 						btnModal.removeClass('disabled');
 					}
 				);
+
 	   			
 	   			var modal = Element.ModalConfirm(
    					"Selecionar favorito"
    					, 
    					function(){
+   						servicos.adicionarAcessoRapido(
+   								contexto.favAcessoRapidoSelecionado.id
+   								,
+   								function(){
+   									atualizarAcessoRapido();
+   								}
+   							)
    						modal.close();
    						alert("adicionar na lista");
    					}

@@ -187,7 +187,7 @@
 <body>
 	<body style="background-color: #fcfcfc">
 	    <!--Menu Lateral Fixo-->
-	    <ul id="slide-out" class="side-nav fixed"> 
+	    <ul id="slide-out" class="side-nav fixed" style="padding: 15px;"> 
 	        <div id="treeView" class=""></div>
 	    </ul>
 	    <!--Fim do Menu Lateral Fixo-->

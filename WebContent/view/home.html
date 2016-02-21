@@ -406,6 +406,9 @@ $(document).ready(function(){
 			},
 			acessoRapidoRightClick: {
 				dados: undefined
+			},
+			favAcessoRapidoSelecionado: {
+				dados: undefined	
 			}
 	    }
 	    
@@ -494,6 +497,9 @@ $(document).ready(function(){
 				options.acao = function(key, options) {
 					var favoritoRightClick = contexto.favoritoRightClick;
 					switch (key) {
+						case "Adicionar ao Acesso Rápido":
+	   						adicionarAcessoRapido(favoritoRightClick.dados.id);
+							break;
 						case "Editar":
 			                criarFormAlteracaoFavorito(favoritoRightClick.dados);
 				            break;
@@ -505,6 +511,7 @@ $(document).ready(function(){
 					}
 			    };
 			    options.itens = {
+			    	"Adicionar ao Acesso Rápido": {name: "Adicionar ao Acesso Rápido"},
 			        "Excluir": {name: "Excluir"},
 			        "Editar": {name: "Editar"}
 			    }
@@ -534,17 +541,16 @@ $(document).ready(function(){
 				var options = new Object();
 				options.container = ".context-menu-acessoRapido"; 
 				options.acao = function(key, options) {
-					var acessoRapidoRightClick = contexto.acessoRapidoRightClick;
 					switch (key) {
-						case "Excluir":
-		            		removerAcessoRapido(acessoRapidoRightClick.dados.id);
+						case "Adicionar Favorito":
+							criarViewListaDeFavoritos();
 							break;
 						default:
 							break;
 					}
 			    };
 			    options.itens = {
-			        "Excluir": {name: "Excluir"},
+			        "Adicionar Favorito": {name: "Adicionar Favorito"},
 			    }
 			    new Element.MenuContexto(options);
 			}
@@ -583,17 +589,32 @@ $(document).ready(function(){
 	    var criarViewListaDeFavoritos = function(){
 	    	servicos.buscarHierarquiaDePastas(
     	   		function(data){
-    	   			var listaRapida = Element.ListaDeFavoritosRapida(
-    					data.content
-    					,
-    					servicos.buscarArquivos
-    					,
-    					function(favorito){
-    						alert('inserir no acesso rápido o favorito ' + favorito.titulo)
-    					}
-    				);
-    	   			$('#view').append(listaRapida.getElement());		
-    	   		}
+    	   					var listaRapida = Element.ListaDeFavoritosRapida(
+    						data.content
+    						,
+    						servicos.buscarArquivos
+    						,
+    						function(favorito){
+    							contexto.favAcessoRapidoSelecionado.dados = favorito;
+    							btnModal.removeClass('disabled');
+    						}
+    					);
+
+    		   			
+    		   			var modal = Element.ModalConfirm(
+    	   					"Selecionar favorito"
+    	   					, 
+    	   					function(){
+    	   						adicionarAcessoRapido(contexto.favAcessoRapidoSelecionado.dados.id);
+    	   						modal.close();
+    	   					}
+    	   				);
+    		   				
+    	   				modal.addConteudo(listaRapida.getElement());
+    	   				modal.show();	
+    	   				btnModal = $('.btn-confirmar', modal.getElement());
+    	   				btnModal.addClass('disabled');
+    		   		}
     	    )
 	    }
 	    
@@ -626,13 +647,7 @@ $(document).ready(function(){
 	    	acessoRapido.addEventListener('drop', function(e){
 				e.preventDefault();
 				var idFavorito = e.dataTransfer.getData("idFavorito");
-				servicos.adicionarAcessoRapido(
-					idFavorito
-					,
-					function(){
-						atualizarAcessoRapido();
-					}
-				)
+				adicionarAcessoRapido(idFavorito);
 	    	});
 	    }
 	    
@@ -828,6 +843,13 @@ $(document).ready(function(){
 		
 		var removerAcessoRapido = function(id){
 			servicos.removerAcessoRapido(id, function(){
+				atualizarAcessoRapido();
+			})
+            Element.Toast("Favorito removido do acesso rápido com sucesso!", 2000)
+		}
+		
+		var adicionarAcessoRapido = function (id){
+			servicos.adicionarAcessoRapido(id, function(){
 				atualizarAcessoRapido();
 			})
 		}

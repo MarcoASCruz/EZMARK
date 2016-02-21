@@ -547,7 +547,7 @@ var Element = function () {
 	        onClick: acoes.onClick,
 	        onRightClick: acoes.onRightClick,
 	        menuContexto: "context-menu-favorito"
-	    });
+	        });
 	    bloco.criarTitulo = function (favTitulo) {
 	        var titulo = $('<div class="col s10 truncate pdzero">');
 	        var icone = $('<i class="mdi-action-stars yellow-text text-accent-2">');
@@ -577,7 +577,8 @@ var Element = function () {
 		    });
 	    }
      	adicionarDragAndDrop();
-        
+     	console.log("favorito::::::");
+		console.log(favorito);
 	    return bloco;
     }
 	
@@ -1164,16 +1165,38 @@ var Element = function () {
 			var container = $('<ul class="collection">');
 			var preencherFavoritos = function(){
 				var quantFavoritos = favoritos.length;
-				for (var i = 0; i < quantFavoritos; i++) {
-					adicionarFavorito(favoritos[i]);
+				if (quantFavoritos > 0){
+					for (var i = 0; i < quantFavoritos; i++) {
+						adicionarFavorito(favoritos[i]);
+					}
+				}else{
+					container.append("Pasta Vazia!");
 				}
 			}
 			var adicionarFavorito = function(favorito){
 				container.append(criarFavorito(favorito))
 			}
+			 var criarIcon = function(imgUrl){
+					var icon = $('<img alt="" class="circle">');
+					var adicionarImagemDefault = function(){
+						icon.attr('src', '/GerenciadorDeFavoritos/view/img/semImagem.png');
+					}
+					
+					if(imgUrl){
+						icon.attr('src', imgUrl);
+					}
+					else{
+						adicionarImagemDefault();
+					}
+					
+			        icon.error(function(){
+			        	adicionarImagemDefault();
+			        })
+			        return icon;
+				}
 			var criarFavorito = function(favorito){
 				 var container = $('<a class="collection-item avatar">');
-			     var img = $('<img alt="" class="circle">').attr("src", favorito.imagem);
+			     var img = criarIcon(favorito.imagem);
 			     var titulo = $('<span class="title">').append(favorito.titulo);
 			     var descricao = $('<p>').append(favorito.descricao);
 			     container.append(img);
