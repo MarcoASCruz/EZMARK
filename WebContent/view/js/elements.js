@@ -48,6 +48,9 @@ var Element = function () {
 		 return dialog;
 	}
 	
+	this.ToastError = function(mensagem){
+		 return self.Toast(mensagem, 3000);
+	}
 	
 	this.Modal = function(){
 		var modal = new ObjectHtml();

@@ -31,7 +31,11 @@ public class AcessoRapidoDAO extends BasicDAO{
 		close();
 		return favoritos;
 	}
+	
 	public Favorito adicionar(Favorito f, int idUser) throws Exception{
+		if(favoritoEstaNoAcessoRapido(f)){
+			throw new Exception("Favorito já existe está no Acesso Rápido");
+		}
 		criarQuery("UPDATE favorito JOIN pasta ON (favorito.id_pasta = pasta.id) JOIN user_has_pasta AS up ON (up.pasta_id = pasta.id) SET acesso_rapido = TRUE WHERE favorito.id = ? AND up.user_id = ?");
 		ps.setInt(1, f.getId());
 		ps.setInt(2, idUser);
@@ -39,6 +43,17 @@ public class AcessoRapidoDAO extends BasicDAO{
 		f.setAcessoRapido(true);
 		close();
 		return f;
+	}
+	public boolean favoritoEstaNoAcessoRapido(Favorito favorito) throws Exception{
+		criarQuery("SELECT id, acesso_rapido FROM favorito WHERE id = ?");
+		ps.setInt(1, favorito.getId());
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		res =  (ResultSet) ps.executeQuery();
+		if (res.next()){
+			favorito.setAcessoRapido(res.getBoolean("acesso_rapido"));
+		}
+		close();
+		return favorito.isAcessoRapido();
 	}
 	
 	public void remover(int idFavorito, int idUser) throws Exception{

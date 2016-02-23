@@ -5,11 +5,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -19,11 +15,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -33,11 +25,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -47,11 +35,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -61,11 +45,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -77,11 +57,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -93,11 +69,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -107,11 +79,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -121,11 +89,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -135,11 +99,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -151,11 +111,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -167,11 +123,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -181,11 +133,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -193,11 +141,7 @@ var servicos = {
 		mapper.services.buscarAcessoRapido(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -207,11 +151,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -221,11 +161,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -233,11 +169,7 @@ var servicos = {
 		mapper.services.recemAcessados(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -245,11 +177,7 @@ var servicos = {
 		mapper.services.maisAcessados(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -257,11 +185,7 @@ var servicos = {
 		mapper.services.recemAdicionados(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -269,11 +193,7 @@ var servicos = {
 		mapper.services.buscarHierarquia(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -284,11 +204,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -299,11 +215,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -313,11 +225,7 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -325,11 +233,7 @@ var servicos = {
 		mapper.services.logOut(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -337,11 +241,7 @@ var servicos = {
 		mapper.services.obterUsuario(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -359,11 +259,7 @@ var servicos = {
 		mapper.services.buscarHome(
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
 	,
@@ -373,11 +269,12 @@ var servicos = {
 			,
 			onSuccess
 			,
-			function(data){
-				console.log(data.responseJSON);
-				var modal = Element.ConfirmModal("erro", data.responseText, function(){});
-				modal.show();
-			}
+			serviceShowError
 		)
 	}
+}
+function serviceShowError(data) {
+	var error = data.responseJSON;
+	Element.ToastError(error.content)
+	console.log(error);
 }
