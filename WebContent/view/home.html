@@ -458,9 +458,11 @@ $(document).ready(function(){
     			});
 	    	}
 	    	var esconderMenus = function(){
-				var menuAtivo = $('#context-menu-layer');
-			    root = menuAtivo.data('contextMenuRoot');
-				root.$menu.trigger('contextmenu:hide');	
+	    		var menuAtivo = $('#context-menu-layer');
+	    		var root = menuAtivo.data('contextMenuRoot');
+	    		if (root){
+					root.$menu.trigger('contextmenu:hide');	
+	    		}	
 			}
 	    	
 	    	var criarMenuContextoPasta = function(container){
