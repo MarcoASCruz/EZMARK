@@ -20,6 +20,13 @@
 }
 
 
-.lista-favoritos-rapida .arvore-pastas{
-	float: left;
+.lista-favoritos-rapida{
+	height: 100%;
 }
+	.lista-favoritos-rapida .arvore-pastas{
+		float: left;
+	}
+	.lista-favoritos-rapida .self-scroll{
+	    height: 100%;
+    	overflow-y: auto;
+	}

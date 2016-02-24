@@ -1123,11 +1123,11 @@ var Element = function () {
 	
 	this.ListaDeFavoritosRapida = function(hierarquiaPasta, buscarArquivosDePasta, selecionarFavorito){
 		var lista = new ObjectHtml();
-		var arquivosContainer = $('<div>');
+		var arquivosContainer = $('<div class="self-scroll">');
 		
 		lista.createElement = function(){
 			var container = $('<div class="lista-favoritos-rapida">');
-			var arvoreContainer = $('<div class="arvore-pastas">');
+			var arvoreContainer = $('<div class="arvore-pastas self-scroll">');
 			
 			arvoreContainer.append(criarArvore());
 			
