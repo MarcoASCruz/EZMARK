@@ -636,7 +636,7 @@ $(document).ready(function(){
 					}
 					else{
 						container.removeClass("border-dashed");
-						insereIcons(data.content, container);
+						insereIcons(data.content, container, true);
 					}
 				}
 			)
@@ -817,7 +817,7 @@ $(document).ready(function(){
 			)
 		})
 		
-		var insereIcons = function(favoritos, divDestino){
+		var insereIcons = function(favoritos, divDestino, menu){
 			var limparDestino = function(){
 				divDestino.empty();
 			}
@@ -827,16 +827,20 @@ $(document).ready(function(){
 				var icon = Element.FavAcessoRapido(
 					favoritos[i]
 					,
-					function (favorito) {
-	            		abrirLinkFav(favorito.url, favorito.id);
-            		}
+					menu
 					,
-					function (favorito) {
-						contexto.acessoRapidoRightClick.dados = favorito;
-            		}
-					,
-					function(id){
-						removerAcessoRapido(id);
+					{
+						onClick: function (favorito) {
+		            		abrirLinkFav(favorito.url, favorito.id);
+	            		}
+						,
+						onRightClick: function (favorito) {
+							contexto.acessoRapidoRightClick.dados = favorito;
+	            		}
+						,
+						onDelete: function(id){
+							removerAcessoRapido(id);
+						}
 					}
 				);
 				divDestino.append(icon.getElement());

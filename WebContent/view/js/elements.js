@@ -108,11 +108,11 @@ var Element = function () {
 		return modal;
 	}
 	
-	this.FavAcessoRapido = function(favorito, onClick, onRightClick, onDelete){
+	this.FavAcessoRapido = function(favorito, menu, acoes){ //onDelete
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
-	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag context-menu-item-acessoRapido" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
+	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
 	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
 	        
 	        var icon = criarIcon(favorito.imagem);
@@ -126,15 +126,18 @@ var Element = function () {
 	        div_detalhes.append (detalhes_favorito);
 	        detalhes_favorito.append (titulo_favorito);
 	        titulo_favorito.append (favorito.titulo);
-	        detalhes_favorito.append (criarMenu());
+	        if(menu){
+	        	bloco.addClass('context-menu-item-acessoRapido');
+	        	detalhes_favorito.append (criarMenu());
+	        }
 	        
 	        bloco.on('click', function(){
-	        	onClick(favorito);
+	        	acoes.onClick(favorito);
 	        })
 	        
 	        bloco.on('mousedown',function(e){
 	    		if(e.which == 3){
-	    			onRightClick(favorito);	
+	    			acoes.onRightClick(favorito);	
 	    		}
     		})
 	        
@@ -166,7 +169,7 @@ var Element = function () {
                  	 titulo: 'Remover'
              		 ,
              		 executar: function(id){
-             			onDelete(id);
+             			acoes.onDelete(id);
              		 }
                   }
           	])
@@ -1197,11 +1200,77 @@ var Element = function () {
 			        })
 			        return icon;
 				}
+			 var criarEstrelas = function (favorito) {
+			        var container = $('<div>');
+			        var options = {
+		      		  readOnly: true,
+		      		  score: favorito.numEstrela,
+		      		  starType : 'i'  
+		      		}
+			        var estrelas = new Element.Star(options);
+			        container.append(estrelas.getElement());
+			        return container;
+			    }
+			 var criarTags = function (tags) {
+				    var container = $('<div>');
+				    var icone = $('<i class="mdi-maps-local-offer">');
+
+				    var adicionarTag = function (tag) {
+				        container.append(criarTag(tag));
+				    }
+				    var criarTag = function (titulo) {
+				        var tag = $('<a class="amber-text text-darken-2" href="#">');
+				        tag.append(titulo);
+				        return tag;
+				    }
+
+				    var adicionarVirgula = function () {
+				        container.append(criarVirgula());
+				    }
+				    var criarVirgula = function () {
+				        return $('<span class="amber-text text-darken-2">').append(', ')
+				    }
+
+				    var preencherContainer = function (tags) {
+				        var quantTags = tags.length;
+				        var proximaTagExistir = function (indiceAtual) {
+				            var existe = false;
+				            if ((indiceAtual + 1) == quantTags) {
+				                existe = false;
+				            }
+				            else {
+				                existe = true;
+				            }
+				            return existe;
+				        }
+				        for (var i = 0; i < quantTags; i++) {
+				            adicionarTag(tags[i]);
+				            if (proximaTagExistir(i)) {
+				                adicionarVirgula();
+				            }
+				        }
+				    }
+				    
+				    icone.appendTo(container);
+				    if (tags) {
+				        preencherContainer(tags);
+				    }
+				    return container;
+				}
 			var criarFavorito = function(favorito){
+				console.log("Favorito: ", favorito);
 				 var container = $('<a class="collection-item avatar">');
 			     var img = criarIcon(favorito.imagem);
 			     var titulo = $('<span class="title">').append(favorito.titulo);
-			     var descricao = $('<p>').append(favorito.descricao);
+			     var descricao = $('<p>');
+			     descricao.append(criarEstrelas(favorito));
+			     if(favorito.descricao){
+			    	 descricao.append(favorito.descricao);
+			     }else{
+			    	 descricao.append('(Sem Descrição)');
+			     }
+			     descricao.append(criarTags(favorito.tags));
+			     
 			     container.append(img);
 			     container.append(titulo);
 			     container.append(descricao);
