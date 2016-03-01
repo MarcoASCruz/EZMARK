@@ -22,6 +22,7 @@ public class BasicDAO {
 	public void close()  throws Exception{
 		c.close();
 		ps.close();
+		c = null;
 	}
 	
 	protected void beginTransaction() throws SQLException{
