@@ -261,7 +261,20 @@ var Element = function () {
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
+	        var overlayContainer = $('<div class="overlayContainer">');
+	        var overlayConteudo = $('<div class="overlayConteudo">');
+	        var overlayCheckBox = $('<input type="checkbox" class="filled-in" checked="checked" />')
+	        overlayCheckBox.attr('id', 'overlayCheckbox' + idBloco);
+	        var overlayLabel = $('<label>Selecionar</label>');
+	        overlayLabel.attr('for', 'overlayCheckbox' + idBloco);
+	        var overlayConteudoFormatado = $('<div style="padding: 5px;">')
+	        overlayConteudoFormatado.append(overlayCheckBox);
+	        overlayConteudoFormatado.append(overlayLabel);
+	        overlayConteudo.append(overlayConteudoFormatado);
+	        overlayContainer.append(overlayConteudo);
+	        blocoContainer.append(overlayContainer);
 		    adicionarMenuContexto(card);
+		    
 	        var adicionarConteudo = function(){
 		        card.append(criarConteudo());
 		    }
@@ -269,7 +282,7 @@ var Element = function () {
 		        var conteudo = $('<div class="card-content white-text">');
 		        var iconeContainer = $('<div class=" col s4 pdzero">');
 		        var dadosContainer = $('<div class="col s8 cyan-text text-lighten-5 pdzero">');
-		        
+		        		        
 		        var adicionarIcone = function () {
 		            iconeContainer.append(criarIcone(dados.imgUrl));
 		        }
