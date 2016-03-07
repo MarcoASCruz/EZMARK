@@ -298,25 +298,32 @@ var Element = function () {
 
 		        return conteudo;
 		    }
-		    var criarOverLay = function(){
-		    	var overlayContainer = $('<div class="overlayContainer">');
-		        var overlayConteudo = $('<div class="overlayConteudo">');
-		        var overlayCheckBox = $('<input type="checkbox" class="filled-in" checked="checked" />')
-		        overlayCheckBox.attr('id', 'overlayCheckbox' + idBloco);
-		        var overlayLabel = $('<label>Selecionar</label>');
-		        overlayLabel.attr('for', 'overlayCheckbox' + idBloco);
-		        var overlayConteudoFormatado = $('<div style="padding: 5px;">')
-		        overlayConteudoFormatado.append(overlayCheckBox);
-		        overlayConteudoFormatado.append(overlayLabel);
-		        overlayConteudo.append(overlayConteudoFormatado);
-		        overlayContainer.append(overlayConteudo);
-		        return overlayContainer;
+		   
+		    var criarCheckSelecionar = function(){
+		    	var container = $('<div class="check-bloco">');
+		    	
+	    		var createCheckBox = function(){
+		    		var container = $('<span class="checkbox">');
+		    		var checkBox = $('<input type="checkbox" class="filled-in"/>');
+		    		var label = $('<label class="tooltipped" data-tooltip="I am tooltip">');
+		    		
+		    		var idCheck = 'check-bloco-' + idBloco;
+		    		checkBox.attr('id', idCheck);
+		    		label.attr('for', idCheck);
+		    		container.append(checkBox);
+		    		container.append(label);
+		    		
+		    		return container;
+	    		}
+		        
+	    		container.append(createCheckBox());
+		        return container;
 		    }
 
 		    adicionarMenuContexto(card);
 		    adicionarConteudo();
 		    blocoContainer.append(card);
-		    blocoContainer.prepend(criarOverLay());
+		    blocoContainer.prepend(criarCheckSelecionar());
 		    
 		    return blocoContainer;
 	    }
