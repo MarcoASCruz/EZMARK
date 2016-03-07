@@ -30,3 +30,23 @@
 	    height: 100%;
     	overflow-y: auto;
 	}
+	
+
+.overlayContainer{
+	position: relative; 
+	width:100%;
+	display: none;
+}
+.bloco:hover .overlayContainer{
+	display: block;
+}		
+.overlayConteudo{
+	z-index: 2; 
+	position:absolute; 
+	width: 100%;
+	height:40px;
+	top:8px; 
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.25));
+}
+
+		

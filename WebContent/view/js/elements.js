@@ -261,20 +261,7 @@ var Element = function () {
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
-	        var overlayContainer = $('<div class="overlayContainer">');
-	        var overlayConteudo = $('<div class="overlayConteudo">');
-	        var overlayCheckBox = $('<input type="checkbox" class="filled-in" checked="checked" />')
-	        overlayCheckBox.attr('id', 'overlayCheckbox' + idBloco);
-	        var overlayLabel = $('<label>Selecionar</label>');
-	        overlayLabel.attr('for', 'overlayCheckbox' + idBloco);
-	        var overlayConteudoFormatado = $('<div style="padding: 5px;">')
-	        overlayConteudoFormatado.append(overlayCheckBox);
-	        overlayConteudoFormatado.append(overlayLabel);
-	        overlayConteudo.append(overlayConteudoFormatado);
-	        overlayContainer.append(overlayConteudo);
-	        blocoContainer.append(overlayContainer);
-		    adicionarMenuContexto(card);
-		    
+	        
 	        var adicionarConteudo = function(){
 		        card.append(criarConteudo());
 		    }
@@ -311,8 +298,25 @@ var Element = function () {
 
 		        return conteudo;
 		    }
+		    var criarOverLay = function(){
+		    	var overlayContainer = $('<div class="overlayContainer">');
+		        var overlayConteudo = $('<div class="overlayConteudo">');
+		        var overlayCheckBox = $('<input type="checkbox" class="filled-in" checked="checked" />')
+		        overlayCheckBox.attr('id', 'overlayCheckbox' + idBloco);
+		        var overlayLabel = $('<label>Selecionar</label>');
+		        overlayLabel.attr('for', 'overlayCheckbox' + idBloco);
+		        var overlayConteudoFormatado = $('<div style="padding: 5px;">')
+		        overlayConteudoFormatado.append(overlayCheckBox);
+		        overlayConteudoFormatado.append(overlayLabel);
+		        overlayConteudo.append(overlayConteudoFormatado);
+		        overlayContainer.append(overlayConteudo);
+		        return overlayContainer;
+		    }
+
+		    adicionarMenuContexto(card);
 		    adicionarConteudo();
 		    blocoContainer.append(card);
+		    blocoContainer.prepend(criarOverLay());
 		    
 		    return blocoContainer;
 	    }
@@ -596,8 +600,6 @@ var Element = function () {
 		    });
 	    }
      	adicionarDragAndDrop();
-     	console.log("favorito::::::");
-		console.log(favorito);
 	    return bloco;
     }
 	
@@ -672,7 +674,6 @@ var Element = function () {
 							menu.Create = {
 			                    "label": "Criar Pasta",
 			                    "action": function (obj) {
-			                    	console.log(obj, $node)
 			                    	var idPai = parseInt($node.id);
 			                    	servicosRightClick.criarPastaFilha(idPai);
 			                    }
@@ -1105,7 +1106,6 @@ var Element = function () {
 		var createInputImg = function(){
 			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/view/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload" accept="image/*"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
 			$("#imgUpload", imgAndInputUpload).change(function(){
-				console.log(this);
 				imgPreview(this);
 		    });
 			return imgAndInputUpload;
@@ -1271,7 +1271,6 @@ var Element = function () {
 				    return container;
 				}
 			var criarFavorito = function(favorito){
-				console.log("Favorito: ", favorito);
 				 var container = $('<a class="collection-item avatar">');
 			     var img = criarIcon(favorito.imagem);
 			     var titulo = $('<span class="title">').append(favorito.titulo);
