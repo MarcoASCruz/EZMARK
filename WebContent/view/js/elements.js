@@ -305,7 +305,8 @@ var Element = function () {
 	    		var createCheckBox = function(){
 		    		var container = $('<span class="checkbox">');
 		    		var checkBox = $('<input type="checkbox" class="filled-in"/>');
-		    		var label = $('<label class="tooltipped" data-tooltip="I am tooltip">');
+		    		var label = $('<label class="tooltipped" data-tooltip="Selecionar">');
+		    		label.tooltip();
 		    		
 		    		var idCheck = 'check-bloco-' + idBloco;
 		    		checkBox.attr('id', idCheck);
