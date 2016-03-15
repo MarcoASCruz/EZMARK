@@ -411,10 +411,13 @@ $(document).ready(function(){
 			favAcessoRapidoSelecionado: {
 				dados: undefined	
 			}
+			,
+			gerenciadorDeBlocos: undefined
 	    }
 	    
 	    
 	    var init = function(){
+	    	contexto.gerenciadorDeBlocos = criarGerenciadorDeBlocos();
 	    	servicos.buscarHome(function(data){
 	    		var idHome = data.content[0].id;
 	        	contexto.home = idHome;
@@ -448,6 +451,10 @@ $(document).ready(function(){
 		    criarMenusDeContexto();
 		    atualizarAcessoRapido();
 		    configurarDragAndDropAcessoRapido();
+	    }
+	    
+	    var criarGerenciadorDeBlocos = function(){
+	    	return Element.GerenciadorDeBlocos();
 	    }
 	    
 	    var criarMenusDeContexto = function(){
@@ -680,6 +687,14 @@ $(document).ready(function(){
 	            compartilhar: function(pasta){
             		compartilharPasta(pasta.id);
 	            }
+	            ,
+	            onSelect: function(pasta){
+	            	contexto.gerenciadorDeBlocos.adicionarBloco(pasta);
+	            }
+	            ,
+	            onDeselect:  function(pasta){
+	            	contexto.gerenciadorDeBlocos.removerBloco(pasta);
+	            }
 	        }
 	        var length = pastas.length;
 	        for (var i = 0; i < length; i++) {
@@ -756,6 +771,14 @@ $(document).ready(function(){
 	            ,
 	            editar: function (favorito) {
 	            	criarFormAlteracaoFavorito(favorito);
+	            }
+	            ,
+	            onSelect: function(fav){
+	            	contexto.gerenciadorDeBlocos.adicionarBloco(fav);
+	            }
+	            ,
+	            onDeselect:  function(fav){
+	            	contexto.gerenciadorDeBlocos.removerBloco(fav);
 	            }
 	        }
 	        var length = favoritos.length;

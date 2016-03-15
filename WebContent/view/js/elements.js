@@ -311,6 +311,8 @@ var Element = function () {
 		    			label.tooltip('remove');
 		    		})
 		    		
+		    		associarEventoDeSelecao(checkBox);
+		    		
 		    		var idCheck = 'check-bloco-' + idBloco;
 		    		checkBox.attr('id', idCheck);
 		    		label.attr('for', idCheck);
@@ -318,6 +320,22 @@ var Element = function () {
 		    		container.append(label);
 		    		
 		    		return container;
+	    		}
+	    		var associarEventoDeSelecao = function(checkBox){
+	    			checkBox.on('change', function(){
+	    				if($(this).is(':checked')){
+	    					dados.onSelect(obterModeloSelecao());
+	    				}
+	    				else{
+	    					dados.onDeselect(obterModeloSelecao());
+	    				}
+	    			})
+	    		}
+	    		var obterModeloSelecao = function(){
+	    			return {
+						tipo: dados.tipo,
+						id: dados.id
+					}
 	    		}
 		        
 	    		container.append(createCheckBox());
@@ -580,6 +598,8 @@ var Element = function () {
 	        url: favorito.url,
 	        onClick: acoes.onClick,
 	        onRightClick: acoes.onRightClick,
+	        onSelect: acoes.onSelect,
+	        onDeselect: acoes.onDeselect,
 	        menuContexto: "context-menu-favorito"
 	        });
 	    bloco.criarTitulo = function (favTitulo) {
@@ -625,6 +645,8 @@ var Element = function () {
 	        imgUrl: pasta.imagem,
 	        onClick: acoes.onClick,
 	        onRightClick: acoes.onRightClick,
+	        onSelect: acoes.onSelect,
+	        onDeselect: acoes.onDeselect,
 	        menuContexto: "context-menu-pasta"
 	    });
 	    bloco.criarTitulo = function (nomePasta) {
@@ -1312,6 +1334,48 @@ var Element = function () {
 		}
 		return lista;
 	}
-	
+	this.GerenciadorDeBlocos = function(){
+		var gerenciador = new ObjectHtml();
+		var blocos = new Array();
+		var contador = $('<div>');
+		
+		gerenciador.createElement = function(){
+			var container =  $('<div class="gerenciador-bloco">');
+			container.append(contador);
+			$('body').append(container);
+			return container;
+		}		
+		
+		gerenciador.adicionarBloco = function(bloco){
+			blocos.push(bloco);
+			atualizarContador();
+		}
+		gerenciador.removerBloco = function(bloco){
+			blocos = $.grep(blocos, function(blocoArmazenado, index){
+				return !((blocoArmazenado.tipo == bloco.tipo) && (blocoArmazenado.id == bloco.id));
+			});
+			atualizarContador();
+		}
+		var atualizarContador = function(){
+			var quantBlocos = blocos.length;
+			if (quantBlocos > 0){
+				contador.html(quantBlocos);
+				show();
+			}
+			else{
+				hide();
+			}
+		}
+		var show = function(){
+			gerenciador.getElement().show();
+		}
+		var hide = function(){
+			gerenciador.getElement().hide();
+		}
+		gerenciador.destroy = function(){
+			gerenciador.getElement().remove();
+		}
+		return gerenciador;
+	}
 };
 var Element = new Element();
