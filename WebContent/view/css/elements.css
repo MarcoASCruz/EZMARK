@@ -48,4 +48,16 @@
     z-index: 2;
 }
 
+.gerenciador-bloco {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 64px;
+    background-color: blue;
+    z-index: 999;
+}
+	.gerenciador-bloco .barra-acao{
+		float: right;
+	}
+
 		

@@ -1342,9 +1342,22 @@ var Element = function () {
 		gerenciador.createElement = function(){
 			var container =  $('<div class="gerenciador-bloco">');
 			container.append(contador);
+			container.append(criarActions())
 			$('body').append(container);
 			return container;
-		}		
+		}	
+		var criarActions = function(){
+			var container = $('<div class="barra-acao">');
+			container.append(criarAcaoRemover());
+			return container;
+		}
+		var criarAcaoRemover = function(){
+			var container = $('<a class="btn btn-floating"><i class="mdi-action-delete"></i></a>');
+			container.on('click', function(){ 
+				alert('chamar remover')
+			});
+			return container;
+		}
 		
 		gerenciador.adicionarBloco = function(bloco){
 			blocos.push(bloco);
@@ -1359,7 +1372,7 @@ var Element = function () {
 		var atualizarContador = function(){
 			var quantBlocos = blocos.length;
 			if (quantBlocos > 0){
-				contador.html(quantBlocos);
+				contador.html($('<div>Selecionado(s): </div>').append(quantBlocos));
 				show();
 			}
 			else{
