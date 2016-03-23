@@ -132,6 +132,23 @@ var Mapper = function(){
 			executarRequisicao(requisicaoParametros);
 		}
 		,
+		removerArquivos: function(arquivos, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo"
+				,
+				method: "DELETE"
+				,
+				data:{
+					arquivos: JSON.stringify(arquivos)
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
+		,
 		atualizarAcesso: function(id, onSuccess, onError){
 			requisicaoParametros = {
 				url: "/GerenciadorDeFavoritos/servicos/arquivo/favorito/atualizarAcesso"

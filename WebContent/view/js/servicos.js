@@ -103,6 +103,16 @@ var servicos = {
 		)
 	}
 	,
+	removerArquivos: function(arquivos, onSuccess) {
+		mapper.services.removerArquivos(
+			arquivos
+			,
+			onSuccess
+			,
+			serviceShowError
+		)
+	}
+	,
 	adicionarTagFavorito: function(idFavorito, tagNome, onSuccess) {
 		mapper.services.adicionarTagFavorito(
 			idFavorito

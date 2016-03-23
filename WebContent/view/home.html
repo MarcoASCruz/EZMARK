@@ -454,7 +454,17 @@ $(document).ready(function(){
 	    }
 	    
 	    var criarGerenciadorDeBlocos = function(){
-	    	return Element.GerenciadorDeBlocos();
+	    	return Element.GerenciadorDeBlocos(
+    			function(blocosSelecionados){
+    				servicos.removerArquivos(
+   						blocosSelecionados
+   	        			,
+   	        			function(e){
+   		            		atualizarPasta();
+   		            	}
+   	      			);	
+    			}
+   			);
 	    }
 	    
 	    var criarMenusDeContexto = function(){

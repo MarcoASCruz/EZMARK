@@ -1334,7 +1334,7 @@ var Element = function () {
 		}
 		return lista;
 	}
-	this.GerenciadorDeBlocos = function(){
+	this.GerenciadorDeBlocos = function(onRemove){
 		var gerenciador = new ObjectHtml();
 		var blocos = new Array();
 		var contador = $('<div>');
@@ -1354,7 +1354,7 @@ var Element = function () {
 		var criarAcaoRemover = function(){
 			var container = $('<a class="btn btn-floating"><i class="mdi-action-delete"></i></a>');
 			container.on('click', function(){ 
-				alert('chamar remover')
+				onRemove(obterBlocosSelecionados());
 			});
 			return container;
 		}
@@ -1387,6 +1387,9 @@ var Element = function () {
 		}
 		gerenciador.destroy = function(){
 			gerenciador.getElement().remove();
+		}
+		var obterBlocosSelecionados = function(){
+			return blocos.slice();
 		}
 		return gerenciador;
 	}

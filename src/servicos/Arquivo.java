@@ -32,12 +32,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 //import servicos.CacheAnnotations.NoCache;
 
+
 import com.sun.jersey.multipart.FormDataParam;
 
 import DAO.FavoritoDAO;
 import DAO.PastaDAO;
 import DAO.TagDAO;
 import DAO.UsuarioDAO;
+import modelos.DTOArquivo;
 import modelos.DTOPesquisa;
 import modelos.Favorito;
 import modelos.Hierarquia;
@@ -198,6 +200,31 @@ public class Arquivo extends Servico {
 		try{
 			DAO.FavoritoDAO favoritoDAO = new DAO.FavoritoDAO();
 			favoritoDAO.remover(id);
+			response.setSuccess(true);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@DELETE
+	@Produces("application/json")
+	public Response removerFavoritos(@FormParam("arquivos") String arquivosJson) {
+		List<DTOArquivo> arquivos = new JSONDeserializer<List<DTOArquivo>>().use( "values", DTOArquivo.class ).deserialize(arquivosJson);
+		AppResponse response = new AppResponse();
+		try{
+			DAO.FavoritoDAO favoritoDAO = new DAO.FavoritoDAO();
+			DAO.PastaDAO pastaDAO = new DAO.PastaDAO();
+			for (DTOArquivo arquivo : arquivos) {
+				if (arquivo.tipo.equalsIgnoreCase("pasta")){
+					pastaDAO.remover(arquivo.id, obterUsuarioLogado().getId());
+				}
+				else{
+					favoritoDAO.remover(arquivo.id);
+				}
+			}
+			response.setContent("Arquivos removidos com sucesso!");
 			response.setSuccess(true);
 		}
 		catch(Exception e){
