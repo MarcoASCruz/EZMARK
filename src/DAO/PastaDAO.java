@@ -17,6 +17,7 @@ import java.util.List;
 
 
 
+
 import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
@@ -205,6 +206,8 @@ public class PastaDAO extends BasicDAO {
 		ps.setInt(2, idUsuario);
 		ps.executeUpdate();
 		
+		removerFavoritosDePasta(idPasta);
+		
 		setQuery("DELETE pasta, up FROM pasta JOIN user_has_pasta AS up ON (pasta.id = up.pasta_id) WHERE id=? and up.user_id =?");
 		ps.setInt(1, idPasta);
 		ps.setInt(2, idUsuario);
@@ -212,6 +215,17 @@ public class PastaDAO extends BasicDAO {
 		
 		commitTransaction();
 		close();
+	}
+	
+	private void removerFavoritosDePasta(int idPasta) throws SQLException, Exception{
+		setQuery("SELECT id FROM Favorito WHERE id_pasta = ?");
+		ps.setInt(1, idPasta);
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		FavoritoDAO favoritoDAO = new FavoritoDAO();
+		while (res.next()){
+			favoritoDAO.remover(res.getInt("id"));
+		}
+		res.close();
 	}
 	
 	public void atualizarImagem(byte[] img, int id) throws Exception{
