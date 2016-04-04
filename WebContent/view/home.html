@@ -818,6 +818,7 @@ $(document).ready(function(){
 					inserirPastas(pastas, containerBlocos);
 					inserirFavoritos(favoritos, containerBlocos);
 					Pesquisa.remover();
+					contexto.gerenciadorDeBlocos.reset();
 					
 					if (idPasta){
 						contexto.pastaAtual = Number(idPasta);

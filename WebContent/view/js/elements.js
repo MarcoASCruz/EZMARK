@@ -1339,6 +1339,16 @@ var Element = function () {
 		var blocos = new Array();
 		var contador = $('<div>');
 		
+		
+		gerenciador.reset = function(){
+			if (gerenciador.element != undefined){
+				gerenciador.element.remove();
+				gerenciador.element = undefined;
+				contador.remove();
+				contador = $('<div>');
+				blocos = new Array();
+			}
+		}
 		gerenciador.createElement = function(){
 			var container =  $('<div class="gerenciador-bloco">');
 			container.append(contador);
