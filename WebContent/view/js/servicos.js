@@ -282,6 +282,18 @@ var servicos = {
 			serviceShowError
 		)
 	}
+	,
+	moverArquivos: function(idPastaDestino, arquivos, onSuccess) {
+		mapper.services.moverArquivos(
+			idPastaDestino
+			,
+			arquivos
+			,
+			onSuccess
+			,
+			serviceShowError
+		)
+	}
 }
 function serviceShowError(data) {
 	var error = data.responseJSON;

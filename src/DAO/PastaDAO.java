@@ -18,6 +18,7 @@ import java.util.List;
 
 
 
+
 import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
@@ -348,5 +349,14 @@ public class PastaDAO extends BasicDAO {
 		}
 		close();
 		return result;
+	}
+	public void mover(int idPastaDestino, int idPasta, int idUsuario) throws Exception {
+		openConection();
+		setQuery("UPDATE pasta join user_has_pasta as up on (pasta.Id = up.pasta_id) join user on (user.Id = up.user_id) SET id_pasta_pai = ? WHERE pasta.id = ? and user.id = ?");
+		ps.setInt(1, idPastaDestino);
+		ps.setInt(2, idPasta);
+		ps.setInt(3, idUsuario);
+		ps.executeUpdate();
+		close();
 	}
 }

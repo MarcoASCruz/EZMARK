@@ -12,47 +12,7 @@
 	</head>
 
 	<body>
-		<div id="view" style="height: 500px;"></div>
-		<div class="bloco col s12 m3 pasta-fechada drag">
-		   <div class="overlayContainer">
-		      <div class="overlayConteudo">
-		         <div style="padding: 5px;">
-		            <input type="checkbox" class="filled-in" checked="checked" id="overlayCheckboxpasta-6">
-		            <label for="overlayCheckboxpasta-6">Selecionar</label>
-		         </div>
-		      </div>
-		   </div>
-		   <div class="card-panel card-complement cyan darken-2 context-menu-pasta">
-		      <div class="card-content white-text">
-		         <div class=" col s4 pdzero">
-		            <div class="valign-wrapper">
-		               <img style="height:85px" class="circle responsive-img valign" src="/GerenciadorDeFavoritos/servicos/arquivo/pasta/img/6">
-		            </div>
-		         </div>
-		         <div class="col s8 cyan-text text-lighten-5 pdzero">
-		            <div class="col s12 titulo-favorito">
-		               <div class="col s10 truncate pdzero">
-		                  <i class="yellow-text text-darken-3 mdi-file-folder-shared"></i>
-		                  filhoDoInicio
-		               </div>
-		               <div class="col s2">
-		                  <a class="dropdown-button cyan-text text-lighten-5" data-activates="dropdown-acoes-pasta-6"><i class="mdi-navigation-more-vert"></i></a>
-		                  <ul class="dropdown-content" id="dropdown-acoes-pasta-6">
-		                     <li><a href="#">Excluir</a></li>
-		                     <li><a href="#">Editar</a></li>
-		                     <li><a href="#">Compartilhar</a></li>
-		                  </ul>
-		               </div>
-		            </div>
-		            <div class="col s12">
-		               <div title="gorgeous"><i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="score" type="hidden" value="5" readonly=""></div>
-		            </div>
-		            <div class="col s12 truncate">testes</div>
-		            <div class="col s12 truncate"><i class="mdi-maps-local-offer"></i></div>
-		         </div>
-		      </div>
-		   </div>
-		</div>
+		
 	</body>
 
 	<script src="lib/jquery-1.11.2/jquery.min.js"></script>
@@ -64,7 +24,19 @@
 	<script src="js/servicos.js"></script>
 	
 	
-	<script type="text/javascript">
 	
+	<script type="text/javascript">
+		servicos.moverArquivos(
+			77
+			,
+			[
+				{id: 34, tipo: "favorito"},
+				{id: 85, tipo: "pasta"}
+			]
+			,
+			function(response){
+				console.log(response);
+			}
+		)
 	</script>
 </html>

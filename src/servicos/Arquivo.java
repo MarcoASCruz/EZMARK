@@ -210,7 +210,7 @@ public class Arquivo extends Servico {
 	
 	@DELETE
 	@Produces("application/json")
-	public Response removerFavoritos(@FormParam("arquivos") String arquivosJson) {
+	public Response removerArquivos(@FormParam("arquivos") String arquivosJson) {
 		List<DTOArquivo> arquivos = new JSONDeserializer<List<DTOArquivo>>().use( "values", DTOArquivo.class ).deserialize(arquivosJson);
 		AppResponse response = new AppResponse();
 		try{
@@ -490,6 +490,39 @@ public class Arquivo extends Servico {
 			
 			response.setSuccess(true);
 			response.setContent(linkAcesso);
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@POST
+	@Path("/mover")
+	@Produces("application/json")
+	public Response moverArquivos(@FormParam("idPastaDestino") int idPastaDestino, @FormParam("arquivos") String arquivosJson) {
+		AppResponse response = new AppResponse();
+		try{
+			if (idPastaDestino == 0){
+				throw new Exception("Pasta destino não pode ter Id zerado");
+			}
+			
+			List<DTOArquivo> arquivos = new JSONDeserializer<List<DTOArquivo>>().use( "values", DTOArquivo.class ).deserialize(arquivosJson);
+			
+			PastaDAO pastaDAO = new PastaDAO();
+			FavoritoDAO favoritoDAO = new FavoritoDAO();
+			
+			for (DTOArquivo arquivo : arquivos) {
+				if (arquivo.tipo.equalsIgnoreCase("pasta")){
+					pastaDAO.mover(idPastaDestino, arquivo.id, obterUsuarioLogado().getId());
+				}
+				else{
+					favoritoDAO.mover(idPastaDestino, arquivo.id);
+				}
+			}
+			
+			response.setSuccess(true);
+			response.setContent(arquivos);
 		}
 		catch(Exception e){
 			response.addException(e);

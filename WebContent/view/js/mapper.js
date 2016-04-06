@@ -458,6 +458,25 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		moverArquivos: function(idPastaDestino, arquivos, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/mover"
+				,
+				method: "POST"
+				,
+				success: onSuccess
+				,
+				data:{
+					idPastaDestino: idPastaDestino
+					,
+					arquivos: JSON.stringify(arquivos)
+				}
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){

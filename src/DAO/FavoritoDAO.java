@@ -1,5 +1,6 @@
 package DAO;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -280,6 +281,15 @@ public class FavoritoDAO extends BasicDAO {
 		commitTransaction();
 		close();
 		return favoritos;
+	}
+
+	public void mover(int idPastaDestino, int idFavorito) throws Exception {
+		openConection();
+		setQuery("UPDATE favorito SET id_pasta = ? WHERE id = ?");
+		ps.setInt(1, idPastaDestino);
+		ps.setInt(2, idFavorito);
+		ps.executeUpdate();
+		close();
 	}
 	
 }
