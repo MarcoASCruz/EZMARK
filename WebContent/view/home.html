@@ -413,6 +413,8 @@ $(document).ready(function(){
 			}
 			,
 			gerenciadorDeBlocos: undefined
+			,
+			moverPastaDestino: undefined
 	    }
 	    
 	    
@@ -463,6 +465,44 @@ $(document).ready(function(){
    		            		atualizarPasta();
    		            	}
    	      			);	
+    			}
+    			,
+    			function(blocosSelecionados){
+    				servicos.buscarHierarquiaDePastas(
+   		    	   		function(data){
+   		    	   					var listaRapida = Element.Arvore(
+   		    						data.content
+   		    						,
+   		    						function(pasta){
+   		    							contexto.moverPastaDestino = pasta;
+   		    							btnModal.removeClass('disabled');
+   		    						}
+   		    					);
+
+   		    		   			var modal = Element.ModalConfirm(
+   		    	   					"Selecionar Pasta Destino"
+   		    	   					, 
+   		    	   					function(){
+   		    	   						console.log(blocosSelecionados);
+   		    	   						servicos.moverArquivos(
+   		    	   							contexto.moverPastaDestino
+   		    	    						,
+   		    	    						blocosSelecionados
+   		    	    						,
+   		    	    						function(response){
+   		    	   								atualizarPasta();
+   		    	   								modal.close();
+   		    	    						}
+   		    	    					)
+   		    	   					}
+   		    	   				);
+   		    		   				
+   		    	   				modal.addConteudo(listaRapida.getElement());
+   		    	   				modal.show();	
+   		    	   				btnModal = $('.btn-confirmar', modal.getElement());
+   		    	   				btnModal.addClass('disabled');
+   		    		   		}
+   		    	    )
     			}
    			);
 	    }

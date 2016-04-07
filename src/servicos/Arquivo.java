@@ -522,7 +522,7 @@ public class Arquivo extends Servico {
 			}
 			
 			response.setSuccess(true);
-			response.setContent(arquivos);
+			response.setContent("OK");
 		}
 		catch(Exception e){
 			response.addException(e);
