@@ -146,7 +146,7 @@ var Element = function () {
         var criarIcon = function(imgUrl){
 			var icon = $('<img class="responsive-img" style="width: 77px;height: 77px;">');
 			var adicionarImagemDefault = function(){
-				icon.attr('src', '/GerenciadorDeFavoritos/img/semImagem.png');
+				icon.attr('src', '/GerenciadorDeFavoritos/assets/img/semImagem.png');
 			}
 			
 			if(imgUrl){
@@ -358,11 +358,11 @@ var Element = function () {
 	        if (imgUrl) {
 	            icon.attr('src', imgUrl);
 	            icon.error(function(){
-	            	icon.attr('src', '/GerenciadorDeFavoritos/img/semImagem.png');
+	            	icon.attr('src', '/GerenciadorDeFavoritos/assets/img/semImagem.png');
 	            })
 	        }
 	        else {
-	            icon.attr('src', '/GerenciadorDeFavoritos/img/semImagem.png');
+	            icon.attr('src', '/GerenciadorDeFavoritos/assets/img/semImagem.png');
 	        }
 	        container.append(icon);
 	        return container;
@@ -1140,7 +1140,7 @@ var Element = function () {
 		
 		
 		var createInputImg = function(){
-			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload" accept="image/*"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
+			var imgAndInputUpload = $('<div class="s12 center"><img style="height:85px; width: 85px;" class="circle responsive-img valign" id="imgPreview" src="/GerenciadorDeFavoritos/assets/img/semImagem.png"></div><div class="file-field input-field"><div class="btn"><span>File</span><input type="file" single id="imgUpload" accept="image/*"></div><div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="Upload one or more files"></div></div>');
 			$("#imgUpload", imgAndInputUpload).change(function(){
 				imgPreview(this);
 		    });
@@ -1234,7 +1234,7 @@ var Element = function () {
 			 var criarIcon = function(imgUrl){
 					var icon = $('<img alt="" class="circle">');
 					var adicionarImagemDefault = function(){
-						icon.attr('src', '/GerenciadorDeFavoritos/img/semImagem.png');
+						icon.attr('src', '/GerenciadorDeFavoritos/assets/img/semImagem.png');
 					}
 					
 					if(imgUrl){
