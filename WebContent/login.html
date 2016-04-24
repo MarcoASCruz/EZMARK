@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <link rel="stylesheet" type="text/css" href="lib/tagsInput/jquery.tagsinput.css" />
+        <link type="text/css" rel="stylesheet" href="lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
+        <!--Let browser know website is optimized for mobile--> 
+        <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/elements.css" />
+        <!--Animate CSS--> 
+        <link type="text/css" rel="stylesheet" href="lib/animate/animate.css" />
+        
+        <style>        
+            /*           Login          */
+            .loginConteudo {
+                background: linear-gradient(to bottom,#0097a7 0%,#00acc1 100%);
+                width: 100%;
+                height: 100%;
+                text-align: center;
+            }
+            .loginConteudo h1 {
+                color: #fff;
+                text-align: center;
+                margin-top: 5%;
+                font-size: 3.5rem;
+            }
+            .loginConteudo .col {
+                display: inline-block;
+                float: none;
+            }
+            .loginFormulario {
+                background-color: #fafafa;
+                margin: 0 auto 3rem;
+                border-radius: 5px;
+                padding: 1.5rem 2rem 0.5rem;
+            }
+            .loginFormulario #btnLogin {
+                background-color: #00838f;
+            }
+            .loginConteudo p {
+                color: #fff;
+                text-align: center;
+                margin-top: 0;
+            }
+            
+            @media (max-width: 992px){
+            .main{
+            		padding-left: 20px; 
+            	}
+                                   
+        </style>
+      
+        
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="lib/jquery-1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+		
+        <script type="text/javascript" src="lib/materialize/v0.97.0/js/materialize.min.js"></script>
+
+<script src="js/elements.js"></script>
+<script src="js/mapper.js"></script>
+<script src="js/servicos.js"></script>
+  
+    </head>
+    <body class="loginConteudo" id="login">
+	    <div class="row">
+	        <!-- Logo EZMARK -->
+	        <div class="row">
+	            <div class="col l6">
+	                <a href="#">
+	                    <h1>EZMARK</h1>
+	                </a>
+	            </div>
+	        </div>
+	        <!--Fim de Logo EZMARK -->
+	        <div class="col center">
+	            <!-- Formulário Login -->
+	            <div class="loginFormulario z-depth-3">
+	                <form action="../j_spring_security_check" autocomplete="off" method="POST"><!-- Colocar ação do formulário!!! -->
+	                    <div class="input-field">
+	                        <i class="mdi-action-account-circle prefix"></i>
+	                        <input type="email" id="email" name="j_username" maxlength="30" required="">
+	                        <label for="email">e-mail</label>
+	                    </div>
+	                    <div class="input-field">
+	                        <i class="mdi-communication-vpn-key prefix"></i>
+	                        <input type="password" id="senha" name="j_password" maxlength="30" required="">
+	                        <label for="senha">senha</label>
+	                    </div>
+	                    <div class="center-btn">
+	                        <a class="waves-effect waves-light btn" id="registro" href="cadastro.html"><i class="mdi-social-person-add left"></i>Registre-se</a><!-- Criar pagina de registro e atulizar com a URL!!! -->
+	                        <button type="submit" class="waves-effect waves-light btn" id="btnLogin"><i class="mdi-hardware-keyboard-arrow-right right"></i>Login</button>
+	                    </div>
+	                </form>
+	            </div>
+	            <!-- Fim de Formulário Login -->
+	        </div>
+	        <!-- Motivos para Registro -->
+	        <div class="row">
+	            <div class="col l5 m8 s12">
+	                <p class="flow-text"><b>Ainda não possui conta?</b> Se cadastre no <b>EZMARK</b> e comece a organizar seus favoritos de forma mais <b>INTELIGENTE</b> e tenha acesso a eles de <b>QUALQUER PLATAFORMA! </b></p>
+	            </div>
+	        </div>
+	        <!--Fim de Motivos para Registro -->
+	    </div>
+    </body>
+</html>
+    

@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <link rel="stylesheet" type="text/css" href="lib/tagsInput/jquery.tagsinput.css" />
+        <link type="text/css" rel="stylesheet" href="lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
+        <!--Let browser know website is optimized for mobile--> 
+        <link type="text/css" rel="stylesheet" href="lib/jstree/dist/themes/default/style.min.css" />
+        <link rel="stylesheet" type="text/css" href="lib/raty-2.7.0/jquery.raty.css" />
+        <link rel="stylesheet" type="text/css" href="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/elements.css" />
+        
+        <style>
+         	html,
+         	body{
+         		height: 100%;
+         	}
+         	main {
+         		height: calc(100% - 64px);
+         	}
+        	#conteudoBlocos{
+        		margin-bottom: 0px;
+        	}
+        	.jstree-contextmenu{
+        		z-index: 10000;
+        	}
+        
+        	.arrastar-favorito-msg{
+	        	font-size: 30px;
+			    font-weight: bold;
+			    color: #C7C7C7;
+			    margin-top: 35px;
+        	}
+        	.border-dashed{
+        	border-style: dashed;
+        	border-color: #C7C7C7;
+        	}
+        	/*Ajustes no bug da modal que decrementa z-index*/
+        	.lean-overlay{
+        		z-index: 999 !important;
+        	}
+        	.modal{
+        	    z-index: 1003 !important;
+        	}
+        
+        	.container-favorito-icon .indicator{
+        		height: 4px;
+        	}
+        	.favorito-icon{
+        		cursor: pointer;
+        	}
+        	#acessoRapido,
+        	#maisAcessados,
+        	#recemAcessados,
+        	#recemAdicionados{
+        		min-height: 125px;
+        	}
+        	
+	        form .cancel-on-png,
+			form .cancel-off-png,
+			form .star-on-png,
+			form .star-off-png,
+			form .star-half-png{
+				font-size: 2em;
+			}      	
+        	div.tagsinput{
+        		float: right;
+        	}
+        	div.tagsinput input{
+        		min-width: 130px;
+        	}
+        	
+        	
+        	.side-nav .jstree  li {
+        		padding: 0px;
+        	}
+        	
+        	.side-nav .jstree li:hover, .side-nav li.active {
+			    background-color: transparent; 
+			}
+        	
+        	.side-nav.fixed .jstree a{
+			    display: inline-block;
+			    padding: 0 4px 0 1px;
+			    margin: 0;
+			}
+			
+			.side-nav.fixed a.jstree-clicked {
+				color: white;
+				background: #0097a7;
+			}
+			
+			.side-nav .jstree i{
+				font-size: 20px;
+			}
+        	
+            .gira {
+	             -webkit-transition: all 0.5s ease 0s;
+	             -moz-transition: all 0.5s ease 0s;
+	             -o-transition: all 0.5s ease 0s;
+	             -ms-transition: all 0.5s ease 0s;
+	             transition: all 0.5s ease 0s;
+	             cursor:pointer;
+             }
+             .gira:hover {
+	             -webkit-transform: rotate(45deg);
+	             -moz-transform: rotate(45deg);
+	             -ms-transform: rotate(45deg);
+	             -o-transform: rotate(45deg);
+	             transform: rotate(45deg);
+             }
+            .conteudo{
+	            padding: 0 0.5rem;
+	            margin: 0 auto;
+	            max-width: 1366px;
+	            width: 100%;
+            }
+            .titulo-favorito{
+	            color: #fff;
+	            font-size: 20px;
+	            font-weight: 300;
+            }
+            .titulo-favorito-destaque {
+	            color: #fff;
+	            font-size: 18px;
+	            font-weight: 300;
+	            line-height: 1.25;
+            }
+            .main{
+	            padding-left: 240px; 
+	            padding-top: 20px;
+            }
+            .pdzero{
+            	padding: 0!important;
+            }
+            .marginzero{
+            	margin: 0!important;
+            }
+            .item-acesso-rapido{
+            	min-width: 110px;
+            }
+            .overflow-y-auto{
+            	overflow-y: auto;
+            }
+            .marRL5{
+	            margin-right: 5px;
+	            margin-left: 5px;
+            }
+            .marRL15{
+	            margin-right: 15px;
+	            margin-left: 15px;
+            }
+            .marT15{
+            	margin-top: 15px;
+            }
+            .usuario-logado-bar{
+	            max-width: 300px; 
+	            height: 100%;
+	            padding-right: 5px;
+	            padding-left: 5px;
+            }
+            .pasta-fechada{
+	            min-width: 300px;
+	            min-height: 135px;
+            }
+            .favorito{
+	            min-width: 102px;
+	            max-height: 160px;
+            }
+            [type="checkbox"]:checked+label:before{
+	            border-right-color: #00565F !important;
+	            border-bottom-color: #00565F !important;
+            }
+            .card-complement{
+	            overflow: hidden;
+	            padding: 10px;
+            }
+			
+            @media (max-width: 992px){
+            	.main{
+            		padding-left: 20px; 
+            	}
+                    
+                
+        </style>
+    
+        
+        
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="lib/jquery-1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src="lib/tagsInput/jquery.tagsinput.js"></script>
+		
+        <script type="text/javascript" src="lib/materialize/v0.97.0/js/materialize.min.js"></script>
+        <!--Inicializa o Menu lateral quando em modo Mobile-->
+        <script src="lib/jstree/dist/jstree.min.js"></script>
+        <script src="lib/raty-2.7.0/jquery.raty.js"></script>
+        <script src="lib/jQuery-contextMenu-2.1.0/dist/jquery.contextMenu.js"></script>
+        
+        <script src="js/elements.js"></script>
+		<script src="js/mapper.js"></script>
+		<script src="js/servicos.js"></script>
+        
+<script>
+
+$(document).ready(function(){
+	 $( "#pastaAberta" ).hide();
+     $( "#orderFav" ).hide();
+       $("#fav1").click(function(){
+           $( "#fav2" ).hide("slow");
+           $( "#fav3" ).hide("slow");
+           $( "#fav4" ).hide("slow");
+           $( "#order" ).hide("slow");
+           $( "#imgFav" ).removeClass( 's4' );
+            $( "#imgFav" ).addClass( 's1' );
+            $( "#detFav" ).removeClass('s8' );
+              $( "#detFav" ).addClass( 's11' );
+           
+             
+        $(this).animate({width: '100%'}, 1000);
+        $("#fav1-content").animate({height: '600px'}, 1000);
+            $( "#pastaAberta" ).delay(600).show('slow');
+           $( "#orderFav" ).delay(600).show('slow');
+    });
+    var dropHelp = true;
+    var nomeFav = $('#nomeFav').val();
+});
+
+</script>
+</head>
+    <body style="background-color: #fcfcfc">
+	    <!--Menu Lateral Fixo-->
+	    <ul id="slide-out" class="side-nav fixed">
+	        <!--Usuário Logado Menu Lateral--> 
+	        <div class="row">
+	            <div class="col s3">
+	                <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	            </div>
+	            <div class="col s9 marT15 truncate">
+	                <spam id="usuarioLogin"class="titulo-favorito marRL5 grey-text text-darken-4"></spam>
+	            </div>
+	            <!-- <div class="col s12 pdzero">
+	                <a class="btn-flat waves-effect pdzero" href='#'>
+	                <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+	                </a>
+	            </div> -->
+	            <div class="col s12 pdzero">
+	                <a id="logOut" class="btn-flat waves-effect pdzero" href='#'>
+	                <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+	                </a>
+	            </div>
+	            <li class="divider"></li>
+	        </div>
+	        <!--Fim do Usuário Logado Menu Lateral--> 
+	        <div id="treeView" class=""></div>
+	    </ul>
+	    <!--Fim do Menu Lateral Fixo-->
+	    <!--Barra de Navegação/Superior-->
+	    <div class="navbar-fixed">
+	        <nav>
+	            <div class="nav-wrapper cyan darken-2">
+	                <a href="#!" class="brand-logo" style="padding-left: 270px; color: #e0f7fa; font-weight: bold;">EZMARK</a>
+	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+	                <ul class="right hide-on-med-and-down cyan darken-1">
+	                    <!--Formulário para barra de Pesquisa --> 
+	                    <li>
+	                        <div class="input-field cyan darken-1">                                   
+	                            <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
+	                            <label for="search"><i class="mdi-action-search"></i></label>
+	                            <i id="limparPesquisa" class="mdi-navigation-close"></i>
+	                        </div>
+	                    </li>
+	                    <!--Fim do Formulário para barra de Pesquisa -->
+	                    <!--Usuário Logado na Barra de Navegação --> 
+	                    <!--                        <li>
+	                        <div class="usuario-logado-bar" >
+	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	                            <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
+	                                <div class="right">
+	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+	                                        <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
+	                                    </a>
+	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
+	                                        <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
+	                                    </a>
+	                                </div>
+	                        </div>        
+	                        </li>-->
+	                    <!--Fim do Usuário Logado na Barra de Navegação --> 
+	                </ul>
+	                <!--Fim da Barra de Navegação Superior -->  
+	                <!--Menu Lateral quando acionado o modo Mobile-->  
+	                <ul class="side-nav" id="mobile-demo">
+	                    <!--Usuário Logado Menu Lateral Mobile--> 
+	                    <div class="row">
+	                        <div class="col s3">
+	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	                        </div>
+	                        <div class="col s9 truncate">
+	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+	                        </div>
+	                        <div class="col s12 pdzero">
+	                            <a class="btn-flat waves-effect pdzero" href='#'>
+	                            <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+	                            </a>
+	                        </div>
+	                        <div class="col s12 pdzero">
+	                            <a class="btn-flat waves-effect pdzero" href='#'>
+	                            <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
+	                            </a>
+	                        </div>
+	                        <li class="divider"></li>
+	                    </div>
+	                    <!--Fim do Usuário Logado Menu Lateral Mobile--> 
+	                    <!--Formulário de Pesquisa Menu Lateral Mobile--> 
+	                    <form>
+	                        <div class="row">
+	                            <div class="col s12 pdzero">
+	                                <a class="btn-flat waves-effect pdzero" href='#'>
+	                                <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
+	                                </a>
+	                            </div>
+	                            <div class="col s2">
+	                                <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
+	                            </div>
+	                            <div class="col s10">
+	                                <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsmm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
+	                            </div>
+	                            <div class="col s10">
+	                                <input type="checkbox" id="check-tagsmmm" />
+	                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
+	                            </div>
+	                        </div>
+	                    </form>
+	                    <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
+	                </ul>
+	                <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
+	            </div>
+	        </nav>
+	    </div>
+	    <!--Fim da Barra de Navegação-->   
+	    <!--Corpo do conteúdo da página-->  
+	    <main class="main context-menu">
+			<!--Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->           
+	            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+	                <a class="btn-floating btn-large red gira tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar" id="botao-fixo">
+	                <i class="large mdi-content-add"></i>
+	                </a>
+	                <!--Botões que saltam do botão fixo-->      
+	                <ul id="atalho-fixo">
+	                     <li><a class="btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" onclick="criarFormInclusaoFavorito()" href="#"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+	                    <li><a class="btn-floating cyan darken-3 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" onclick="criarFormInclusaoPasta()"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+	                </ul>
+	                <!--Fim dos Botões que saltam do botão fixo--> 
+	            </div>
+	            <!--Fim do Botão fixo no canto inferior esquerdo para adicionar pastas e favoritos-->   
+	        <div id="conteudo" class="conteudo">
+	            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+	            <div class="container-favorito-icon row z-depth-1" style="background-color: white;">
+	                <div class="col s12 pdzero" >
+	                    <ul class="tabs cyan darken-2" >
+	                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#acessoRapido">Acesso Rápido</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAcessados" href="#recemAcessados">Recém Acessados</a></li>
+	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnRecemAdicionados" href="#recemAdicionados">Recém Adicionados</a></li>
+	                    </ul>
+	                </div>
+	                <div id="acessoRapido" class="col s12 context-menu-acessoRapido">loading...</div>    
+	                <div id="maisAcessados" class="col s12">loading...</div>
+	                <div id="recemAcessados" class="col s12">loading...</div>
+	                <div id="recemAdicionados" class="col s12">loading...</div>
+	            </div>
+	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
+	           
+	            <div id="conteudoBlocos" class="row context-menu">
+	            </div>
+	        </div>
+	    </main>
+	    
+	</body>
+	<script>
+		var arvore = undefined;
+	    var contexto = {
+	    	home: undefined
+	    	,
+			pastaAtual: undefined
+			,
+			pastaRightClick: {
+				dados: undefined
+				,
+				bloco: undefined
+			},
+			favoritoRightClick: {
+				dados: undefined
+				,
+				bloco: undefined
+			},
+			acessoRapidoRightClick: {
+				dados: undefined
+			},
+			favAcessoRapidoSelecionado: {
+				dados: undefined	
+			}
+			,
+			gerenciadorDeBlocos: undefined
+			,
+			moverPastaDestino: undefined
+	    }
+	    
+	    
+	    var init = function(){
+	    	contexto.gerenciadorDeBlocos = criarGerenciadorDeBlocos();
+	    	servicos.buscarHome(function(data){
+	    		var idHome = data.content[0].id;
+	        	contexto.home = idHome;
+	        	atualizarPasta(idHome);
+	    	})
+	    	servicos.buscarHierarquiaDePastas(
+		   		function(data){
+		   			arvore = Element.Arvore(
+	   					data.content
+	   					,
+	   					atualizarPasta
+	   					,
+	   					{
+	   						criarPastaFilha: criarFormInclusaoPasta
+	   						,
+	   						removerPasta: function(idPasta, idPai){
+	   							var pastaEstaSendoExibida = function(){
+	   								return (idPasta == contexto.pastaAtual) ? true : false;
+	   							}
+	   							if(pastaEstaSendoExibida){
+	   								contexto.pastaAtual = idPai;
+	   								arvore.selecionarItem(idPai)
+	   							}
+	   							removerPasta(idPasta);
+	   						}
+	   					}
+   					);
+		   			$('#treeView').append(arvore.getElement());
+		   		}
+		    )
+		    criarMenusDeContexto();
+		    atualizarAcessoRapido();
+		    configurarDragAndDropAcessoRapido();
+	    }
+	    
+	    var criarGerenciadorDeBlocos = function(){
+	    	return Element.GerenciadorDeBlocos(
+    			function(blocosSelecionados){
+    				servicos.removerArquivos(
+   						blocosSelecionados
+   	        			,
+   	        			function(e){
+   		            		atualizarPasta();
+   		            	}
+   	      			);	
+    			}
+    			,
+    			function(blocosSelecionados){
+    				servicos.buscarHierarquiaDePastas(
+   		    	   		function(data){
+   		    	   					var listaRapida = Element.Arvore(
+   		    						data.content
+   		    						,
+   		    						function(pasta){
+   		    							contexto.moverPastaDestino = pasta;
+   		    							btnModal.removeClass('disabled');
+   		    						}
+   		    					);
+
+   		    		   			var modal = Element.ModalConfirm(
+   		    	   					"Selecionar Pasta Destino"
+   		    	   					, 
+   		    	   					function(){
+   		    	   						console.log(blocosSelecionados);
+   		    	   						servicos.moverArquivos(
+   		    	   							contexto.moverPastaDestino
+   		    	    						,
+   		    	    						blocosSelecionados
+   		    	    						,
+   		    	    						function(response){
+   		    	   								atualizarPasta();
+   		    	   								modal.close();
+   		    	    						}
+   		    	    					)
+   		    	   					}
+   		    	   				);
+   		    		   				
+   		    	   				modal.addConteudo(listaRapida.getElement());
+   		    	   				modal.show();	
+   		    	   				btnModal = $('.btn-confirmar', modal.getElement());
+   		    	   				btnModal.addClass('disabled');
+   		    		   		}
+   		    	    )
+    			}
+   			);
+	    }
+	    
+	    var criarMenusDeContexto = function(){
+	    	var esconderMenusAoClicarFora = function(){
+	    		$('html').click(function() {
+	    			if($('.context-menu-active')){
+	    				esconderMenus();
+	    			}
+    			});
+	    	}
+	    	var esconderMenus = function(){
+	    		var menuAtivo = $('#context-menu-layer');
+	    		var root = menuAtivo.data('contextMenuRoot');
+	    		if (root){
+					root.$menu.trigger('contextmenu:hide');	
+	    		}	
+			}
+	    	
+	    	var criarMenuContextoPasta = function(container){
+				var options = new Object();
+				options.container = ".context-menu-pasta"; 
+				options.acao = function(key, options) {
+					var pastaRightClick = contexto.pastaRightClick;
+					switch (key) {
+						case "Editar":
+			                criarFormAlteracaoPasta(pastaRightClick.dados);
+				            break;
+						case "Compartilhar":
+		            		compartilharPasta(pastaRightClick.dados.id);
+							break;
+						case "Excluir":
+		            		removerPasta(pastaRightClick.dados.id);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Excluir": {name: "Excluir"},
+			        "Editar": {name: "Editar"},
+			        "Compartilhar": {name: "Compartilhar"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	
+	    	var criarMenuContextoFavorito = function(container){
+				var options = new Object();
+				options.container = ".context-menu-favorito"; 
+				options.acao = function(key, options) {
+					var favoritoRightClick = contexto.favoritoRightClick;
+					switch (key) {
+						case "Adicionar ao Acesso Rápido":
+	   						adicionarAcessoRapido(favoritoRightClick.dados.id);
+							break;
+						case "Editar":
+			                criarFormAlteracaoFavorito(favoritoRightClick.dados);
+				            break;
+						case "Excluir":
+		            		removerFavorito(favoritoRightClick.dados.id);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			    	"Adicionar ao Acesso Rápido": {name: "Adicionar ao Acesso Rápido"},
+			        "Excluir": {name: "Excluir"},
+			        "Editar": {name: "Editar"}
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	var criarMenuContextoItensAcessoRapido = function(container){
+				var options = new Object();
+				options.container = ".context-menu-item-acessoRapido"; 
+				options.acao = function(key, options) {
+					var acessoRapidoRightClick = contexto.acessoRapidoRightClick;
+					switch (key) {
+						case "Excluir":
+		            		removerAcessoRapido(acessoRapidoRightClick.dados.id);
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Excluir": {name: "Excluir"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	var criarMenuContextoAcessoRapido = function(){
+				var options = new Object();
+				options.container = ".context-menu-acessoRapido"; 
+				options.acao = function(key, options) {
+					switch (key) {
+						case "Adicionar Favorito":
+							criarViewListaDeFavoritos();
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Adicionar Favorito": {name: "Adicionar Favorito"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	var criarMenuContextoConteudoBlocos = function(container){
+				var options = new Object();
+				options.container = ".context-menu"; 
+				options.acao = function(key, options) {
+					switch (key) {
+						case "Adicionar Favorito":
+							criarFormInclusaoFavorito();
+				            break;
+						case "Adicionar Pasta":
+							criarFormInclusaoPasta();
+							break;
+						default:
+							break;
+					}
+			    };
+			    options.itens = {
+			        "Adicionar Favorito": {name: "Adicionar Favorito"},
+			        "Adicionar Pasta": {name: "Adicionar Pasta"},
+			    }
+			    new Element.MenuContexto(options);
+			}
+	    	
+	    	esconderMenusAoClicarFora();
+	    	criarMenuContextoPasta();
+	    	criarMenuContextoPasta();
+	    	criarMenuContextoFavorito();
+	    	criarMenuContextoConteudoBlocos();
+	    	criarMenuContextoItensAcessoRapido();
+	    	criarMenuContextoAcessoRapido();
+	    }
+	    
+	    var criarViewListaDeFavoritos = function(){
+	    	servicos.buscarHierarquiaDePastas(
+    	   		function(data){
+    	   					var listaRapida = Element.ListaDeFavoritosRapida(
+    						data.content
+    						,
+    						servicos.buscarArquivos
+    						,
+    						function(favorito){
+    							contexto.favAcessoRapidoSelecionado.dados = favorito;
+    							btnModal.removeClass('disabled');
+    						}
+    					);
+
+    		   			
+    		   			var modal = Element.ModalConfirm(
+    	   					"Selecionar favorito"
+    	   					, 
+    	   					function(){
+    	   						adicionarAcessoRapido(contexto.favAcessoRapidoSelecionado.dados.id);
+    	   						modal.close();
+    	   					}
+    	   				);
+    		   				
+    	   				modal.addConteudo(listaRapida.getElement());
+    	   				modal.show();	
+    	   				btnModal = $('.btn-confirmar', modal.getElement());
+    	   				btnModal.addClass('disabled');
+    		   		}
+    	    )
+	    }
+	    
+	    var atualizarAcessoRapido = function(){
+	    	var criarMensagemDeAjuda = function(){
+	    		var container = $('<div align="center" class="arrastar-favorito-msg">');
+	    		container.append("Arraste um favorito aqui adicioná-lo em seu acesso rápido")
+	    		return container;
+	    	}
+	    	servicos.buscarAcessoRapido(
+				function(data){
+					var container = $('#acessoRapido');
+					container.empty();
+					if (data.content.length == 0){
+						container.append(criarMensagemDeAjuda());
+						container.addClass("border-dashed");
+					}
+					else{
+						container.removeClass("border-dashed");
+						insereIcons(data.content, container, true);
+					}
+				}
+			)
+	    }
+	    var configurarDragAndDropAcessoRapido = function(){
+	    	var acessoRapido = $('#acessoRapido').get(0);
+	    	acessoRapido.addEventListener('dragover', function(e){
+				e.preventDefault();
+	    	});
+	    	acessoRapido.addEventListener('drop', function(e){
+				e.preventDefault();
+				var idFavorito = e.dataTransfer.getData("idFavorito");
+				adicionarAcessoRapido(idFavorito);
+	    	});
+	    }
+	    
+	    var limparContainer = function (container) {
+	        container.empty();
+	    }
+	
+	    var inserirPastas = function (pastas, container) {
+	        var acoes = {
+	            onClick: function (pasta) {
+	                arvore.selecionarItem(pasta.id);
+	            }
+	        	,
+	        	onRightClick: function(pasta, bloco){
+	        		contexto.pastaRightClick.dados = pasta;
+	        		contexto.pastaRightClick.bloco = bloco;	  
+	        	}
+	            ,
+	            remover: function (pasta) {
+	            	removerPasta(pasta.id);
+	            }
+	            ,
+	            editar: function (pasta) {
+	                criarFormAlteracaoPasta(pasta)
+	            }
+	            ,
+	            compartilhar: function(pasta){
+            		compartilharPasta(pasta.id);
+	            }
+	            ,
+	            onSelect: function(pasta){
+	            	contexto.gerenciadorDeBlocos.adicionarBloco(pasta);
+	            }
+	            ,
+	            onDeselect:  function(pasta){
+	            	contexto.gerenciadorDeBlocos.removerBloco(pasta);
+	            }
+	        }
+	        var length = pastas.length;
+	        for (var i = 0; i < length; i++) {
+	            var bloco = Element.Pasta(pastas[i], acoes);
+	            container.append(bloco.getElement());
+	        }
+	    }
+	    
+	    var removerPasta = function(idPasta){
+	    	servicos.removerPasta(idPasta, function () {
+                atualizarPasta();
+                arvore.removerItem(idPasta);
+                Element.Toast("Pasta removida com sucesso!", 2000)
+            })
+	    }
+	    
+	    var compartilharPasta = function(idPasta){
+	    	var confirmModal = new Element.Modal();
+	    	var btnConfirm = $('<a href="#" class="waves-effect waves-green btn">OK</a>')
+	    	var conteudo = $('<div>');
+	    	
+	    	
+	    	var criarConteudo = function(urlCompartilhada){
+	    		var container = $('<div>');
+	    		var containerMsg = $('<div>');
+	    		var urlPasta = $('<a target="_blank">');
+	    		var mensagem = "Use o link abaixo para acessar a pasta compartilhada!";
+	    		
+	    		var addUrl = function(){
+	    			urlPasta.attr('href', urlCompartilhada);
+	    			urlPasta.append(urlCompartilhada);
+	    		}
+	    		
+	    		containerMsg.append(mensagem);
+	    		addUrl();
+	    		container.append(containerMsg);
+	    		container.append(urlPasta);
+	    		
+	    		return container;
+	    	}
+	    	
+	    	btnConfirm.on('click', function(){
+	    		confirmModal.close();
+	    	})
+	    	confirmModal.addFooter(btnConfirm);
+	    	
+	    	servicos.compartilhar(
+    			idPasta
+    			,
+    			function(dados){
+	    			var url = dados.content;
+	    			confirmModal.addConteudo(criarConteudo(url));
+	    			arvore.mudarIconeAPartirDoPai(idPasta);
+		    		atualizarPasta();
+	    			confirmModal.show();
+	    		}
+   			);
+	    }
+	
+	    var inserirFavoritos = function (favoritos, container) {
+	        var acoes = {
+	            onClick: function (favorito) {
+	            	abrirLinkFav(favorito.url, favorito.id);
+	            }
+	        	,
+	        	onRightClick: function(favorito, bloco){
+	        		contexto.favoritoRightClick.dados = favorito;
+	        		contexto.favoritoRightClick.bloco = bloco;	  
+	        	}
+	            ,
+	            remover: function (favorito) {
+	            	removerFavorito(favorito.id);
+	            }
+	            ,
+	            editar: function (favorito) {
+	            	criarFormAlteracaoFavorito(favorito);
+	            }
+	            ,
+	            onSelect: function(fav){
+	            	contexto.gerenciadorDeBlocos.adicionarBloco(fav);
+	            }
+	            ,
+	            onDeselect:  function(fav){
+	            	contexto.gerenciadorDeBlocos.removerBloco(fav);
+	            }
+	        }
+	        var length = favoritos.length;
+	        for (var i = 0; i < length; i++) {
+	            var bloco = Element.Favorito(favoritos[i], acoes);
+	            container.append(bloco.getElement());
+	        }
+	    }
+	
+	    var removerFavorito = function (idFavorito){
+	    	servicos.removerFavorito(idFavorito, function () {
+	    		atualizarPasta();
+                Element.Toast("Favorito removido com sucesso!", 2000)
+            })
+	    }
+	    
+		var atualizarPasta = function(idPasta){
+			servicos.buscarArquivos(
+				idPasta ? idPasta : contexto.pastaAtual
+				,
+				function(data){
+				    var pastas = data.content[0].pastas;
+				    var favoritos = data.content[0].favoritos;
+					
+				    var containerBlocos = $('#conteudoBlocos');
+				    limparContainer(containerBlocos);
+					inserirPastas(pastas, containerBlocos);
+					inserirFavoritos(favoritos, containerBlocos);
+					Pesquisa.remover();
+					contexto.gerenciadorDeBlocos.reset();
+					
+					if (idPasta){
+						contexto.pastaAtual = Number(idPasta);
+					}
+				}
+			);
+		}
+		
+		
+		$('#btnMaisAcessados').on('click', function(){
+			servicos.maisAcessados(
+				function(data){
+					insereIcons(data.content, $('#maisAcessados'))
+				}
+			)
+		})
+		
+		$('#btnRecemAcessados').on('click', function(){
+			servicos.recemAcessados(
+				function(data){
+					insereIcons(data.content, $('#recemAcessados'))
+				}
+			)
+		})
+		
+		$('#btnRecemAdicionados').on('click', function(){
+			servicos.recemAdicionados(
+				function(data){
+					insereIcons(data.content, $('#recemAdicionados'))
+				}
+			)
+		})
+		
+		var insereIcons = function(favoritos, divDestino, menu){
+			var limparDestino = function(){
+				divDestino.empty();
+			}
+			var length = favoritos.length;
+			limparDestino();
+			for(var i = 0; i < length; i++){
+				var icon = Element.FavAcessoRapido(
+					favoritos[i]
+					,
+					menu
+					,
+					{
+						onClick: function (favorito) {
+		            		abrirLinkFav(favorito.url, favorito.id);
+	            		}
+						,
+						onRightClick: function (favorito) {
+							contexto.acessoRapidoRightClick.dados = favorito;
+	            		}
+						,
+						onDelete: function(id){
+							removerAcessoRapido(id);
+						}
+					}
+				);
+				divDestino.append(icon.getElement());
+			}
+		}
+		
+		var removerAcessoRapido = function(id){
+			servicos.removerAcessoRapido(id, function(){
+				atualizarAcessoRapido();
+			})
+            Element.Toast("Favorito removido do acesso rápido com sucesso!", 2000)
+		}
+		
+		var adicionarAcessoRapido = function (id){
+			servicos.adicionarAcessoRapido(id, function(){
+				atualizarAcessoRapido();
+			})
+		}
+		
+		var abrirLinkFav = function (url, idFav) {
+			servicos.atualizarAcesso(idFav, function(){});
+            window.open('http://' + url);
+        }
+		
+		var modelo = {
+			pasta: function(){
+				var pasta = new Object();
+				pasta.id=0;
+				pasta.pai=0;
+				pasta.nome = '';
+				pasta.dataCriacao= null;
+				pasta.numEstrela = 0;
+				pasta.publica = false;
+				pasta.imagem = null;
+				pasta.favoritos = null;
+				pasta.pastas = null;
+				pasta.tags = null;
+				return pasta;
+			}
+			,
+			favorito: function(){
+				var favorito = new Object();
+				favorito.id=0;
+				favorito.url=null;
+				favorito.titulo = null;
+				favorito.descricao= null;
+				favorito.dataCriacao = null;
+				favorito.pai = 0;
+				favorito.numEstrela = 0;
+				favorito.imagem = null;
+				favorito.acessoRapido = false;
+				favorito.tags = null;
+				return favorito;
+			}
+		}
+	
+		
+		
+		function criarFormInclusaoPasta(idPastaPai){
+			var form = new Element.FormPasta("Adicionar Pasta");
+			var formModal = new FormModal(form);
+			formModal.onSend = function(pastaAlterada, onSuccess){
+                servicos.adicionarPasta(
+					pastaAlterada
+					,
+					function(data){
+						var pasta = data.content[0];
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemPasta(
+								criarImgForm(pasta.id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();
+						}
+						arvore.criarPasta(pasta.id, pasta.pai, pasta.nome)
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormPasta(form, modelo.pasta(), idPastaPai);
+			}
+			formModal.show();
+		}
+		function criarFormAlteracaoPasta(pasta){
+			var form = new Element.FormPasta("Alterar Pasta");
+			var formModal = new FormModal(form, pasta);
+			formModal.onSend = function(pastaAlterada, onSuccess){
+				servicos.alterarPasta(
+                    pastaAlterada
+                    ,
+                    function (data) {
+                    	var pasta = data.content[0];
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemPasta(
+								criarImgForm(pasta.id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();
+						}
+						arvore.renomearItem(pastaAlterada.id, pastaAlterada.nome);
+                    }
+                )
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormPasta(form, pasta);
+			}
+			formModal.show();
+		}
+	    var obterDadosFormPasta = function(form, pasta, idPastaPai){
+	    	console.log(idPastaPai, contexto.pastaAtual)
+	    	pasta.pai = idPastaPai ? idPastaPai : contexto.pastaAtual;
+			pasta.nome = form.getNome();
+			pasta.descricao = form.getDescricao();
+			pasta.numEstrela = form.getQuantEstrelas();
+			pasta.tags = form.getTags();
+			return pasta;
+		}
+		
+		
+		
+		
+		
+		function criarFormInclusaoFavorito(){
+			var form = new Element.FormFavorito("Adicionar Favorito");
+			var formModal = new FormModal(form);
+			formModal.onSend = function(favoritoAlterado, onSuccess){	
+				servicos.adicionarFavorito(
+					favoritoAlterado
+					,
+					function(data){
+						var aposCadastrar = function(data){
+							onSuccess();
+							atualizarPasta();
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemFavorito(
+								criarImgForm(data.content[0].id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();
+						}
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormFavorito(form, modelo.favorito());
+			} 
+			formModal.show();
+		}
+		
+		function criarFormAlteracaoFavorito(favorito){
+			var form = new Element.FormFavorito("Alterar Favorito");
+			var formModal = new FormModal(form, favorito);
+			formModal.onSend = function(favoritoAlterado, onSuccess){	
+				servicos.alterarFavorito(
+					favoritoAlterado
+					,
+					function(data){
+						var aposCadastrar = function(){
+							onSuccess();
+							atualizarPasta();
+							console.log("Cadastrado");
+						}
+						if(imagemFoiAlterada(form)){
+							servicos.uploadImagemFavorito(
+								criarImgForm(data.content[0].id, form)
+								, 
+								function(data){
+									aposCadastrar();
+								}
+							)
+						}
+						else{
+							aposCadastrar();	
+						}
+					}
+				)
+			}
+			formModal.obterDadosBloco = function(form){
+				return obterDadosFormFavorito(form, favorito);
+			}
+			formModal.show();
+		}
+		var imagemFoiAlterada = function(form){
+			console.log($('.file-path', form.getElement()).val() !== "");
+			return $('.file-path', form.getElement()).val() !== "";
+		}
+		var criarImgForm = function(idItem, form){
+			var formData = new FormData();
+			var imgData = form.getImgData();
+			formData.append("img", imgData);
+			formData.append("id", idItem);
+			return formData;
+		}
+		var obterDadosFormFavorito = function(form, favorito){
+			favorito.pai = contexto.pastaAtual;
+			favorito.url = form.getUrl();
+			favorito.titulo = form.getNome();
+			favorito.descricao = form.getDescricao();
+			favorito.numEstrela = form.getQuantEstrelas();
+			favorito.tags = form.getTags();
+			return favorito;
+		}
+		
+		function FormModal(form, dadosBloco){
+			var self = this;
+			var modal = new Element.Modal();
+			
+			this.show = function(){
+				create();
+				modal.show();
+			}
+			
+			var create = function(){
+				if(dadosBloco){
+					form.preencherCampos(dadosBloco);
+				}
+				modal.addConteudo(form.getElement());
+				modal.addFooter(criarBotaoConfirmar());	
+			}
+			
+			var criarBotaoConfirmar = function(){
+				var button = $('<a href="#" class="waves-effect waves-green btn">Confirmar</a>')
+				button.on('click', function(){
+					self.onSend(
+						self.obterDadosBloco(form)
+						,
+						function(){
+							modal.close();
+		                    $(this).off();
+						}
+					);
+				})
+				return button;
+			}
+			
+			this.onSend = function(form){
+				throw "FormModal.obterSend is not implemented";
+			}
+			this.obterDadosBloco = function(form){
+				throw "FormModal.obterDadosBloco is not implemented";
+			}
+		}
+	
+		var Pesquisa = new function(){
+			var self = this;
+			$('#limparPesquisa').on('click', function(){
+				self.remover();
+				habilitaBotaoFixo();
+			})
+			this.executar = function(value) {
+				if (value.length !== 0) {
+					pesquisar(value);
+					desabilitaBotaoFixo();
+				}
+				else {
+					this.remover();
+					habilitaBotaoFixo();
+				}
+			}
+			var pesquisar = function(value){ 
+				servicos.pesquisa(
+					value
+					,
+					function(data){
+					    var pastas = data.content[0].pastas;
+					    var favoritos = data.content[0].favoritos;
+					    
+					    exibirHTML(criarHTML(pastas, favoritos));
+					}
+				)
+			}
+			this.remover = function(){
+				if ($(".conteudoBusca")){
+					destroirPesquisaDoHTML();
+					limparInput();
+					$("#conteudo").show();
+				}
+			}
+			var destroirPesquisaDoHTML = function(){
+				$(".conteudoBusca").remove();
+			}
+			var limparInput = function(){
+				$('#search').val("");
+			}
+			var exibirHTML = function(html){
+		    	destroirPesquisaDoHTML();
+			   	$("#conteudo").hide();
+			    $(".main").append(html);
+		    }
+			var desabilitaBotaoFixo = function(){
+			   	$(".tooltipped").tooltip("remove");
+			   	$("#botao-fixo").removeClass("red gira");
+			   	$("#botao-fixo").addClass("disabled");	
+			   	$("#atalho-fixo").hide();
+			}
+			var habilitaBotaoFixo = function(){
+				$('.tooltipped').tooltip({delay: 50});
+				$("#botao-fixo").addClass("red gira");
+			   	$("#botao-fixo").removeClass("disabled");
+			   	$("#atalho-fixo").show();
+			}
+			var criarHTML = function(pastas, favoritos){
+		    	var container = $("<div class='conteudoBusca conteudo row'>");
+		    	inserirPastas(pastas, container);
+			   	inserirFavoritos(favoritos, container);
+			   	return container;
+		    }
+		}
+		$("#search").keyup(function(e) {
+		   	Pesquisa.executar($.trim($(this).val()))
+		});
+		
+		$('#logOut').on('click', function(){
+			servicos.logOut(function(){
+				location.reload();
+			});
+		})
+	    
+		servicos.obterUsuario(function(usuario) {
+			$('#usuarioLogin').html(usuario.content[0].nome);
+		})
+		
+    	init();
+	</script>
+</html>
