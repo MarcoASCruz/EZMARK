@@ -4,11 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/*" access="ROLE_USER" />
 		<intercept-url pattern="/servicos/*" access="ROLE_USER" />
 		<intercept-url pattern="/home.html" access="ROLE_USER" />
 		<form-login login-page="/login.html"
-			authentication-failure-url="/view/login.html?erro=true"  default-target-url="/view/home.html" />
+			authentication-failure-url="/login.html?erro=true"  default-target-url="/home.html" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>

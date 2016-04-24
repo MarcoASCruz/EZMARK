@@ -177,11 +177,11 @@
     
     
 	
-	<link rel="stylesheet" type="text/css" href="view/lib/tagsInput/jquery.tagsinput.css" />
-    <link type="text/css" rel="stylesheet" href="view/lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="view/lib/jstree/dist/themes/default/style.min.css" />
-    <link rel="stylesheet" type="text/css" href="view/lib/raty-2.7.0/jquery.raty.css" />
-    <link rel="stylesheet" type="text/css" href="view/css/elements.css" />
+	<link rel="stylesheet" type="text/css" href="/assets/lib/tagsInput/jquery.tagsinput.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/lib/materialize/v0.97.0/assets/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/assets/lib/jstree/dist/themes/default/style.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/lib/raty-2.7.0/jquery.raty.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/elements.css" />
     
 </head>
 <body>
@@ -268,14 +268,14 @@
 	</body>
 </body>
 
-    <script type="text/javascript" src="view/lib/jquery-1.11.2/jquery.min.js"></script>
-    <script src="view/lib/tagsInput/jquery.tagsinput.js"></script>
+    <script type="text/javascript" src="/assets/lib/jquery-1.11.2/jquery.min.js"></script>
+    <script src="/assets/lib/tagsInput/jquery.tagsinput.js"></script>
 
-    <script type="text/javascript" src="view/lib/materialize/v0.97.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/assets/lib/materialize/v0.97.0/assets/js/materialize.min.js"></script>
     <!--Inicializa o Menu lateral quando em modo Mobile-->
-    <script src="view/lib/jstree/dist/jstree.min.js"></script>
-    <script src="view/lib/raty-2.7.0/jquery.raty.js"></script>
-    <script src="view/js/elements.js"></script>
+    <script src="/assets/lib/jstree/dist/jstree.min.js"></script>
+    <script src="/assets/lib/raty-2.7.0/jquery.raty.js"></script>
+    <script src="/assets/js/elements.js"></script>
 
 <script>
 		var limparContainer = function (container) {

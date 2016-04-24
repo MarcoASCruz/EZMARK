@@ -46,11 +46,11 @@ public class ExibirPastaPublica extends HttpServlet {
 				request.setAttribute("erro", erroPasta(1));
 //				throw new Exception("pasta é privada!");
 			}
-			request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
+			request.getRequestDispatcher("/PastaPublica.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("erro", erroPasta(2));
-			request.getRequestDispatcher("view/PastaPublica.jsp").forward(request, response);
+			request.getRequestDispatcher("/PastaPublica.jsp").forward(request, response);
 		}
 
 	}
