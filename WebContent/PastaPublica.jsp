@@ -204,7 +204,7 @@
 	                    <!--Usuário Logado Menu Lateral Mobile--> 
 	                    <div class="row">
 	                        <div class="col s3">
-	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="http://www.fashatude.com/static/fashatude/img/user_icon.png">
+	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="assets/img/userIcon.png">
 	                        </div>
 	                        <div class="col s9 truncate">
 	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
