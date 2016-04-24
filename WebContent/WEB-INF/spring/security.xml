@@ -6,8 +6,8 @@
 	<http auto-config="true">
 		<intercept-url pattern="/*" access="ROLE_USER" />
 		<intercept-url pattern="/servicos/*" access="ROLE_USER" />
-		<intercept-url pattern="/view/home.html" access="ROLE_USER" />
-		<form-login login-page="/view/login.html"
+		<intercept-url pattern="/home.html" access="ROLE_USER" />
+		<form-login login-page="/login.html"
 			authentication-failure-url="/view/login.html?erro=true"  default-target-url="/view/home.html" />
 	</http>
 	<authentication-manager>
