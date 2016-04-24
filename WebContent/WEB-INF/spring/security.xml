@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<http auto-config="true">
+		<intercept-url pattern="/*" access="ROLE_USER" />
 		<intercept-url pattern="/servicos/*" access="ROLE_USER" />
 		<intercept-url pattern="/view/home.html" access="ROLE_USER" />
 		<form-login login-page="/view/login.html"
-			authentication-failure-url="/view/login.html?erro=true" />
+			authentication-failure-url="/view/login.html?erro=true"  default-target-url="/view/home.html" />
 	</http>
 	<authentication-manager>
 		<authentication-provider>
@@ -21,6 +22,6 @@
 		<bean:property name="url" value="jdbc:mysql://127.0.0.1:3306/gerenciador_de_favoritos" />
 		<bean:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<bean:property name="username" value="root" />
-		<bean:property name="password" value="vertrigo" />
+		<bean:property name="password" value="" />
 	</bean:bean>
 </bean:beans>

@@ -806,6 +806,9 @@ var Element = function () {
 			var tree = arvore.getElement().jstree(true);
 			tree.set_icon(id, icon)
 		}
+		arvore.reconstruir = function(dados){
+			
+		}
 		return arvore;
 		
 	}
