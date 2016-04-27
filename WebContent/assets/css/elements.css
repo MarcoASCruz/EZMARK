@@ -53,11 +53,26 @@
     top: 0;
     width: 100%;
     height: 64px;
-    background-color: blue;
-    z-index: 999;
+    background-color: #ee6e73;
+	z-index: 998;
+	line-height: 64px;
 }
-	.gerenciador-bloco .barra-acao{
-		float: right;
-	}
 
-		
+.gerenciador-bloco .barra-acao{
+	float: right;
+	margin-right: 5px;
+}
+
+.gerenciador-bloco .barra-info{
+	padding-left: 270px;
+	color: #e0f7fa;
+   	font-weight: bold;
+}
+
+.gerenciador-bloco .barra-contador{	
+	position: absolute;
+    display: inline-block;
+    font-size: 1.4rem;
+    padding: 0;
+    white-space: nowrap;
+}

@@ -1340,7 +1340,7 @@ var Element = function () {
 	this.GerenciadorDeBlocos = function(onRemove, onMove){
 		var gerenciador = new ObjectHtml();
 		var blocos = new Array();
-		var contador = $('<div>');
+		var contador = $('<div class="barra-info">');
 		
 		
 		gerenciador.reset = function(){
@@ -1353,7 +1353,7 @@ var Element = function () {
 			}
 		}
 		gerenciador.createElement = function(){
-			var container =  $('<div class="gerenciador-bloco">');
+			var container =  $('<div class="gerenciador-bloco teal darken-4">');
 			container.append(contador);
 			container.append(criarActions())
 			$('body').append(container);
@@ -1378,7 +1378,7 @@ var Element = function () {
 			return botao;
 		}
 		var criarBotao = function(glyphicon, onClick){
-			var container = $('<a class="btn btn-floating"><i class="' + glyphicon + '"></i></a>');
+			var container = $('<a class="btn btn-floating red accent-2" style="margin-right: 5px;"><i class="' + glyphicon + '"></i></a>');
 			container.on('click', function(){ 
 				onClick(obterBlocosSelecionados());
 			});
@@ -1398,7 +1398,7 @@ var Element = function () {
 		var atualizarContador = function(){
 			var quantBlocos = blocos.length;
 			if (quantBlocos > 0){
-				contador.html($('<div>Selecionado(s): </div>').append(quantBlocos));
+				contador.html($('<div class="barra-contador">Selecionado(s): </div>').append(quantBlocos));
 				show();
 			}
 			else{
