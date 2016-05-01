@@ -304,7 +304,7 @@ var Element = function () {
 		    	
 	    		var createCheckBox = function(){
 		    		var container = $('<span class="checkbox">');
-		    		var checkBox = $('<input type="checkbox" class="filled-in"/>');
+		    		var checkBox = $('<input type="checkbox" class="check-card"/>');
 		    		var label = $('<label class="tooltipped" data-tooltip="Selecionar">');
 		    		label.tooltip();
 		    		label.on('remove', function(){
@@ -323,10 +323,17 @@ var Element = function () {
 	    		}
 	    		var associarEventoDeSelecao = function(checkBox){
 	    			checkBox.on('change', function(){
+    					var checkboxSelecionadoContainer = checkBox.parent().parent();
+    					var cardSelecionado = checkBox.parent().parent().parent().children('.card-panel');
 	    				if($(this).is(':checked')){
+	    					console.log("checkbox selecionado: ", checkBox.parent().parent());
+	    					checkboxSelecionadoContainer.addClass('check-bloco-ativo');
+	    					cardSelecionado.addClass('card-selecionado');
 	    					dados.onSelect(obterModeloSelecao());
 	    				}
 	    				else{
+	    					checkboxSelecionadoContainer.removeClass('check-bloco-ativo');
+	    					cardSelecionado.removeClass('card-selecionado');
 	    					dados.onDeselect(obterModeloSelecao());
 	    				}
 	    			})
