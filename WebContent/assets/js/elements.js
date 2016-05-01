@@ -1372,7 +1372,7 @@ var Element = function () {
 			return botao;
 		}
 		var criarAcaoMover = function(){
-			var botao = criarBotao('mdi-action-move', function(){ 
+			var botao = criarBotao('mdi-av-queue', function(){ 
 				onMove(obterBlocosSelecionados());
 			});
 			return botao;
