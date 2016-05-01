@@ -13,8 +13,8 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Pasta Compartilhada</title>
-	
+	<title>EZMARK - Pasta Compartilhada</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon.png">
 	<style> 
         	.arrastar-favorito-msg{
 	        	font-size: 30px;
