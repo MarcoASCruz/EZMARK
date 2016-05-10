@@ -305,11 +305,8 @@ var Element = function () {
 	    		var createCheckBox = function(){
 		    		var container = $('<span class="checkbox">');
 		    		var checkBox = $('<input type="checkbox" class="check-card"/>');
-		    		var label = $('<label class="tooltipped" data-tooltip="Selecionar">');
-		    		label.tooltip();
-		    		label.on('remove', function(){
-		    			label.tooltip('remove');
-		    		})
+		    		var label = $('<label>');
+		    		addTooltip(label, "Selecionar");
 		    		
 		    		associarEventoDeSelecao(checkBox);
 		    		
@@ -326,7 +323,6 @@ var Element = function () {
     					var checkboxSelecionadoContainer = checkBox.parent().parent();
     					var cardSelecionado = checkBox.parent().parent().parent().children('.card-panel');
 	    				if($(this).is(':checked')){
-	    					console.log("checkbox selecionado: ", checkBox.parent().parent());
 	    					checkboxSelecionadoContainer.addClass('check-bloco-ativo');
 	    					cardSelecionado.addClass('card-selecionado');
 	    					dados.onSelect(obterModeloSelecao());
@@ -477,7 +473,7 @@ var Element = function () {
 	    }
 	    var criarDescricao = function () {
 	        var container = $('<div class="col s12 truncate">');
-	        container.append(dados.descricao ? dados.descricao : "(Sem descrição)");
+	        container.append(dados.descricao ? dados.descricao : "(Sem descriÃ§Ã£o)");
 	        return container;
 	    }
 	    var criarTags = function (tags) {
@@ -815,8 +811,7 @@ var Element = function () {
 		}
 		arvore.mover = function(idPastas, idPai){
 			var tree = arvore.getElement().jstree(true);
-			var val = tree.move_node(idPastas, idPai, "first", function(a,b,c){console.log(a,b,c)});
-			console.log(val);
+			tree.move_node(idPastas, idPai, "first");
 		}
 		return arvore;
 		
@@ -943,7 +938,7 @@ var Element = function () {
 				return $('<input id="nomePasta" type="text" class="validate"><label for="nomePasta">Nome</label>');
 			}
 			var criarDescricao = function(){
-				return $('<textarea id="textareaPasta" class="materialize-textarea"></textarea><label for="textareaPasta">Descrição</label>');
+				return $('<textarea id="textareaPasta" class="materialize-textarea"></textarea><label for="textareaPasta">DescriÃ§Ã£o</label>');
 			}
 			var criarEstrelas = function(){
 				var options = {
@@ -1038,7 +1033,7 @@ var Element = function () {
 				return $('<input id="url-fav" type="text" class="validate"><label for="url-fav">URL</label>');
 			}
 			var criarDescricao = function(){
-				return $('<textarea id="textareaFav" class="materialize-textarea"></textarea><label for="textareaFav">Descrição</label>');
+				return $('<textarea id="textareaFav" class="materialize-textarea"></textarea><label for="textareaFav">DescriÃ§Ã£o</label>');
 			}
 			var criarEstrelas = function(){
 				var options = {
@@ -1135,12 +1130,12 @@ var Element = function () {
 					//@TODO 
 					//VALIDAR TAMANHO DA IMAGEM
 					//REMOVER PATH DE ARQUIVOS DIFERENTES IMAGEM DO CAMPO DE INPUT 
-					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃO DAR REFRESH.
+					//USABILIDADE SE O ARQUIVO ANTERIOR FOR UMA IMAGEM NÃƒO DAR REFRESH.
 					if (input.files[0].type.indexOf("image") > -1){
 						$('#imgPreview').attr('src', e.target.result);
 					}else{
 						refresh();
-						Element.Toast("O arquivo selecionado não é uma imagem.",3000);
+						Element.Toast("O arquivo selecionado nÃ£o Ã© uma imagem.",3000);
 					}
 				} 
 				reader.readAsDataURL(input.files[0]);
@@ -1324,7 +1319,7 @@ var Element = function () {
 			     if(favorito.descricao){
 			    	 descricao.append(favorito.descricao);
 			     }else{
-			    	 descricao.append('(Sem Descrição)');
+			    	 descricao.append('(Sem DescriÃ§Ã£o)');
 			     }
 			     descricao.append(criarTags(favorito.tags));
 			     
@@ -1375,19 +1370,32 @@ var Element = function () {
 			return container;
 		}
 		var criarAcaoRemover = function(){
-			var botao = criarBotao('mdi-action-delete', function(){ 
-				onRemove(obterBlocosSelecionados());
-			});
+			var botao = criarBotao(
+				'mdi-action-delete'
+				,
+				function(){ 
+					onRemove(obterBlocosSelecionados());
+				}
+				,
+				'Excluir Arquivos'
+			);
 			return botao;
 		}
 		var criarAcaoMover = function(){
-			var botao = criarBotao('mdi-av-queue', function(){ 
-				onMove(obterBlocosSelecionados());
-			});
+			var botao = criarBotao(
+				'mdi-av-queue'
+				,
+				function(){ 
+					onMove(obterBlocosSelecionados());
+				}
+				,
+				'Mover Arquivos'
+			);
 			return botao;
 		}
-		var criarBotao = function(glyphicon, onClick){
+		var criarBotao = function(glyphicon, onClick, mensagemTooltip){
 			var container = $('<a class="btn btn-floating red accent-2" style="margin-right: 5px;"><i class="' + glyphicon + '"></i></a>');
+			addTooltip(container, mensagemTooltip);
 			container.on('click', function(){ 
 				onClick(obterBlocosSelecionados());
 			});
@@ -1427,6 +1435,16 @@ var Element = function () {
 			return blocos.slice();
 		}
 		return gerenciador;
+	}
+	var addTooltip = function(element, message){
+		if(message){
+			element.attr('data-tooltip',message);
+			element.addClass("tooltipped");
+			element.tooltip();
+			element.on('remove', function(){
+				element.tooltip('remove');
+			})	
+		}
 	}
 };
 var Element = new Element();
