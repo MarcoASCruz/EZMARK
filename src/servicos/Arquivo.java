@@ -509,6 +509,15 @@ public class Arquivo extends Servico {
 			
 			List<DTOArquivo> arquivos = new JSONDeserializer<List<DTOArquivo>>().use( "values", DTOArquivo.class ).deserialize(arquivosJson);
 			
+			//verifica se esta adicionando uma pasta dentro de si mesma
+			for (DTOArquivo dtoArquivo : arquivos) {
+				if(dtoArquivo.tipo.equals("pasta") && (dtoArquivo.id == idPastaDestino)){
+					throw new Exception("Não é possível adicionar uma pasta dentro de si mesma!");
+				}
+			}
+			
+			
+			
 			PastaDAO pastaDAO = new PastaDAO();
 			FavoritoDAO favoritoDAO = new FavoritoDAO();
 			
