@@ -427,9 +427,17 @@ $(document).ready(function(){
 	        	contexto.home = idHome;
 	        	atualizarPasta(idHome);
 	    	})
+	    	
+	    	criarArvore();
+		    criarMenusDeContexto();
+		    atualizarAcessoRapido();
+		    configurarDragAndDropAcessoRapido();
+	    }
+	    
+	    var criarArvore = function(){
 	    	servicos.buscarHierarquiaDePastas(
 		   		function(data){
-		   			arvore = Element.Arvore(
+		   			arvore = new Element.Arvore(
 	   					data.content
 	   					,
 	   					atualizarPasta
@@ -449,12 +457,9 @@ $(document).ready(function(){
 	   						}
 	   					}
    					);
-		   			$('#treeView').append(arvore.getElement());
+		   			$('#treeView').html(arvore.getElement());
 		   		}
 		    )
-		    criarMenusDeContexto();
-		    atualizarAcessoRapido();
-		    configurarDragAndDropAcessoRapido();
 	    }
 	    
 	    var criarGerenciadorDeBlocos = function(){
@@ -472,7 +477,7 @@ $(document).ready(function(){
     			function(blocosSelecionados){
     				servicos.buscarHierarquiaDePastas(
    		    	   		function(data){
-   		    	   					var listaRapida = Element.Arvore(
+   		    	   					var listaRapida = new Element.Arvore(
    		    						data.content
    		    						,
    		    						function(pasta){
@@ -485,19 +490,40 @@ $(document).ready(function(){
    		    	   					"Selecionar Pasta Destino"
    		    	   					, 
    		    	   					function(){
-   		    	   						console.log(blocosSelecionados);
+   		    	   						var pastaDestino = contexto.moverPastaDestino; 
    		    	   						servicos.moverArquivos(
-   		    	   							contexto.moverPastaDestino
+   		    	   							pastaDestino
    		    	    						,
    		    	    						blocosSelecionados
    		    	    						,
    		    	    						function(response){
+   		    	   								var idPastas = obterPastaSelecionadas(blocosSelecionados);
+   		    	   							 
+   		    	   								if (idPastas.length > 0){
+   		    	   									arvore.mover(
+   		    	   										idPastas
+   		    	   										,
+   		    	   									pastaDestino
+   	   		    	   								)
+   		    	   								}
+   		    	   								
    		    	   								atualizarPasta();
    		    	   								modal.close();
    		    	    						}
    		    	    					)
    		    	   					}
    		    	   				);
+   		    		   			
+   		    		   			function obterPastaSelecionadas(blocosSelecionados){
+   		    		   				var quantBlocos = blocosSelecionados.length;
+   		    		   				var pastasSelecionadas = [];
+   		    		   				for(var i = 0; i < quantBlocos; i++){
+   		    		   					if (blocosSelecionados[i].tipo == "pasta"){
+   		    		   						pastasSelecionadas.push(blocosSelecionados[i].id);
+   		    		   					}
+   		    		   				}
+   		    		   				return pastasSelecionadas;
+   		    		   			}
    		    		   				
    		    	   				modal.addConteudo(listaRapida.getElement());
    		    	   				modal.show();	
@@ -507,6 +533,19 @@ $(document).ready(function(){
    		    	    )
     			}
    			);
+	    }
+	    
+	    var moverArquivos = function(blocosSelecionados){
+	    	servicos.moverArquivos(
+				contexto.moverPastaDestino
+				,
+				blocosSelecionados
+				,
+				function(response){
+						atualizarPasta();
+						modal.close();
+				}
+			)
 	    }
 	    
 	    var criarMenusDeContexto = function(){

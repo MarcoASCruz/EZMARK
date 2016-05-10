@@ -813,8 +813,10 @@ var Element = function () {
 			var tree = arvore.getElement().jstree(true);
 			tree.set_icon(id, icon)
 		}
-		arvore.reconstruir = function(dados){
-			
+		arvore.mover = function(idPastas, idPai){
+			var tree = arvore.getElement().jstree(true);
+			var val = tree.move_node(idPastas, idPai, "first", function(a,b,c){console.log(a,b,c)});
+			console.log(val);
 		}
 		return arvore;
 		
