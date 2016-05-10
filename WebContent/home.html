@@ -21,6 +21,13 @@
          	main {
          		height: calc(100% - 64px);
          	}
+         	
+         	.pesquisarContainer,
+         	.pesquisarContainer > li,
+         	.pesquisarContainer > li > div{
+         		height: 100%;
+         	}
+         	
         	#conteudoBlocos{
         		margin-bottom: 0px;
         	}
@@ -265,7 +272,7 @@ $(document).ready(function(){
 	            <div class="nav-wrapper cyan darken-2">
 	                <a href="#!" class="brand-logo" style="padding-left: 270px; color: #e0f7fa; font-weight: bold;">EZMARK</a>
 	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-	                <ul class="right hide-on-med-and-down cyan darken-1">
+	                <ul class="pesquisarContainer right hide-on-med-and-down cyan darken-1">
 	                    <!--Formulário para barra de Pesquisa --> 
 	                    <li>
 	                        <div class="input-field cyan darken-1">                                   
