@@ -1352,7 +1352,7 @@ var Element = function () {
 				gerenciador.element.remove();
 				gerenciador.element = undefined;
 				contador.remove();
-				contador = $('<div>');
+				contador = $('<div class="barra-info">');
 				blocos = new Array();
 			}
 		}
