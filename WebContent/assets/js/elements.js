@@ -305,11 +305,8 @@ var Element = function () {
 	    		var createCheckBox = function(){
 		    		var container = $('<span class="checkbox">');
 		    		var checkBox = $('<input type="checkbox" class="check-card"/>');
-		    		var label = $('<label class="tooltipped" data-tooltip="Selecionar">');
-		    		label.tooltip();
-		    		label.on('remove', function(){
-		    			label.tooltip('remove');
-		    		})
+		    		var label = $('<label>');
+		    		addTooltip(label, "Selecionar");
 		    		
 		    		associarEventoDeSelecao(checkBox);
 		    		
@@ -326,7 +323,6 @@ var Element = function () {
     					var checkboxSelecionadoContainer = checkBox.parent().parent();
     					var cardSelecionado = checkBox.parent().parent().parent().children('.card-panel');
 	    				if($(this).is(':checked')){
-	    					console.log("checkbox selecionado: ", checkBox.parent().parent());
 	    					checkboxSelecionadoContainer.addClass('check-bloco-ativo');
 	    					cardSelecionado.addClass('card-selecionado');
 	    					dados.onSelect(obterModeloSelecao());
@@ -815,8 +811,7 @@ var Element = function () {
 		}
 		arvore.mover = function(idPastas, idPai){
 			var tree = arvore.getElement().jstree(true);
-			var val = tree.move_node(idPastas, idPai, "first", function(a,b,c){console.log(a,b,c)});
-			console.log(val);
+			tree.move_node(idPastas, idPai, "first");
 		}
 		return arvore;
 		
@@ -1375,19 +1370,32 @@ var Element = function () {
 			return container;
 		}
 		var criarAcaoRemover = function(){
-			var botao = criarBotao('mdi-action-delete', function(){ 
-				onRemove(obterBlocosSelecionados());
-			});
+			var botao = criarBotao(
+				'mdi-action-delete'
+				,
+				function(){ 
+					onRemove(obterBlocosSelecionados());
+				}
+				,
+				'Excluir Arquivos'
+			);
 			return botao;
 		}
 		var criarAcaoMover = function(){
-			var botao = criarBotao('mdi-av-queue', function(){ 
-				onMove(obterBlocosSelecionados());
-			});
+			var botao = criarBotao(
+				'mdi-av-queue'
+				,
+				function(){ 
+					onMove(obterBlocosSelecionados());
+				}
+				,
+				'Mover Arquivos'
+			);
 			return botao;
 		}
-		var criarBotao = function(glyphicon, onClick){
+		var criarBotao = function(glyphicon, onClick, mensagemTooltip){
 			var container = $('<a class="btn btn-floating red accent-2" style="margin-right: 5px;"><i class="' + glyphicon + '"></i></a>');
+			addTooltip(container, mensagemTooltip);
 			container.on('click', function(){ 
 				onClick(obterBlocosSelecionados());
 			});
@@ -1427,6 +1435,16 @@ var Element = function () {
 			return blocos.slice();
 		}
 		return gerenciador;
+	}
+	var addTooltip = function(element, message){
+		if(message){
+			element.attr('data-tooltip',message);
+			element.addClass("tooltipped");
+			element.tooltip();
+			element.on('remove', function(){
+				element.tooltip('remove');
+			})	
+		}
 	}
 };
 var Element = new Element();
