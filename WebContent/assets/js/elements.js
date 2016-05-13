@@ -301,14 +301,22 @@ var Element = function () {
 		   
 		    var criarCheckSelecionar = function(){
 		    	var container = $('<div class="check-bloco">');
+		    	var checkBox = undefined;
 		    	
 	    		var createCheckBox = function(){
 		    		var container = $('<span class="checkbox">');
-		    		var checkBox = $('<input type="checkbox" class="check-card"/>');
+		    		checkBox = $('<input type="checkbox" class="check-card"/>');
 		    		var label = $('<label>');
 		    		addTooltip(label, "Selecionar");
 		    		
-		    		associarEventoDeSelecao(checkBox);
+		    		checkBox.on('change', function(){
+	    				if($(this).is(':checked')){
+	    					addSelecao();
+	    				}
+	    				else{
+	    					removerSelecao();
+	    				}
+	    			})
 		    		
 		    		var idCheck = 'check-bloco-' + idBloco;
 		    		checkBox.attr('id', idCheck);
@@ -318,26 +326,29 @@ var Element = function () {
 		    		
 		    		return container;
 	    		}
-	    		var associarEventoDeSelecao = function(checkBox){
-	    			checkBox.on('change', function(){
-    					var checkboxSelecionadoContainer = checkBox.parent().parent();
-    					var cardSelecionado = checkBox.parent().parent().parent().children('.card-panel');
-	    				if($(this).is(':checked')){
-	    					checkboxSelecionadoContainer.addClass('check-bloco-ativo');
-	    					cardSelecionado.addClass('card-selecionado');
-	    					dados.onSelect(obterModeloSelecao());
-	    				}
-	    				else{
-	    					checkboxSelecionadoContainer.removeClass('check-bloco-ativo');
-	    					cardSelecionado.removeClass('card-selecionado');
-	    					dados.onDeselect(obterModeloSelecao());
-	    				}
-	    			})
+	    		var addSelecao = function(){
+	    			obterCheckboxSelecionadoContainer().addClass('check-bloco-ativo');
+					obterCardSelecionado().addClass('card-selecionado');
+					dados.onSelect(obterModeloSelecao());
 	    		}
+	    		var removerSelecao = function(){ 
+					obterCheckboxSelecionadoContainer().removeClass('check-bloco-ativo');
+					obterCardSelecionado().removeClass('card-selecionado');
+					dados.onDeselect(obterModeloSelecao());
+					checkBox.attr('checked', false);
+	    		}
+	    		var obterCheckboxSelecionadoContainer = function(){
+	    			return checkBox.parent().parent();
+	    		}
+	    		var obterCardSelecionado = function(){
+	    			return checkBox.parent().parent().parent().children('.card-panel');
+	    		}
+	    		
 	    		var obterModeloSelecao = function(){
 	    			return {
 						tipo: dados.tipo,
-						id: dados.id
+						id: dados.id,
+						removerSelecao: removerSelecao
 					}
 	    		}
 		        
@@ -1210,13 +1221,6 @@ var Element = function () {
 					    var favoritos = data.content[0].favoritos;
 						
 					    arquivosContainer.html(criarItens(favoritos));
-					    //limparContainer(containerBlocos);
-						//inserirFavoritos(favoritos, containerBlocos);
-						//Pesquisa.remover();
-						
-						//if (idPasta){
-						//	contexto.pastaAtual = Number(idPasta);
-						//}
 					}
 				);
 			}
@@ -1346,7 +1350,6 @@ var Element = function () {
 		var blocos = new Array();
 		var contador = $('<div class="barra-info">');
 		
-		
 		gerenciador.reset = function(){
 			if (gerenciador.element != undefined){
 				gerenciador.element.remove();
@@ -1367,6 +1370,7 @@ var Element = function () {
 			var container = $('<div class="barra-acao">');
 			container.append(criarAcaoRemover());
 			container.append(criarAcaoMover());
+			container.append(criarAcaoRemoverSelecao());
 			return container;
 		}
 		var criarAcaoRemover = function(){
@@ -1392,6 +1396,21 @@ var Element = function () {
 				'Mover Arquivos'
 			);
 			return botao;
+		}
+		var criarAcaoRemoverSelecao = function(){
+			var botao = criarBotao(
+				'mdi-queue'
+				,
+				function(){ 
+					blocos.forEach(function(bloco){
+						bloco.removerSelecao();
+					})
+					gerenciador.reset();
+				}
+				,
+				'Remover Seleção'
+			);
+			return botao;	
 		}
 		var criarBotao = function(glyphicon, onClick, mensagemTooltip){
 			var container = $('<a class="btn btn-floating red accent-2" style="margin-right: 5px;"><i class="' + glyphicon + '"></i></a>');
