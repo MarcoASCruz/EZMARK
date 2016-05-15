@@ -1370,7 +1370,6 @@ var Element = function () {
 			var container = $('<div class="barra-acao">');
 			container.append(criarAcaoRemover());
 			container.append(criarAcaoMover());
-			container.append(criarAcaoRemoverSelecao());
 			return container;
 		}
 		var criarAcaoRemover = function(){
@@ -1399,7 +1398,7 @@ var Element = function () {
 		}
 		var criarAcaoRemoverSelecao = function(){
 			var botao = criarBotao(
-				'mdi-queue'
+				'mdi-hardware-keyboard-backspace'
 				,
 				function(){ 
 					blocos.forEach(function(bloco){
@@ -1434,7 +1433,10 @@ var Element = function () {
 		var atualizarContador = function(){
 			var quantBlocos = blocos.length;
 			if (quantBlocos > 0){
-				contador.html($('<div class="barra-contador">Selecionado(s): </div>').append(quantBlocos));
+				contador.html($('<div class="barra-contador">')
+						.append(criarAcaoRemoverSelecao())
+						.append("Selecionado(s): ")
+						.append(quantBlocos));
 				show();
 			}
 			else{
