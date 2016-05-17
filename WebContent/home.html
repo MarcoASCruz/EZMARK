@@ -404,6 +404,11 @@ $(document).ready(function(){
 	    	,
 			pastaAtual: undefined
 			,
+			arquivosPastaAtual: {
+				pastas: undefined,
+				favoritos: undefined
+			}
+			,
 			pastaRightClick: {
 				dados: undefined
 				,
@@ -539,7 +544,15 @@ $(document).ready(function(){
    		    		   		}
    		    	    )
     			}
+    			,
+    			obterArquivosPastaAtual
    			);
+	    }
+	    var obterArquivosPastaAtual = function(){
+	    	return {
+				pastas: contexto.arquivosPastaAtual.pastas,
+				favoritos: contexto.arquivosPastaAtual.favoritos
+			}
 	    }
 	    
 	    var moverArquivos = function(blocosSelecionados){
@@ -797,6 +810,7 @@ $(document).ready(function(){
 	        var length = pastas.length;
 	        for (var i = 0; i < length; i++) {
 	            var bloco = Element.Pasta(pastas[i], acoes);
+	            contexto.arquivosPastaAtual.pastas.push(bloco);
 	            container.append(bloco.getElement());
 	        }
 	    }
@@ -882,6 +896,7 @@ $(document).ready(function(){
 	        var length = favoritos.length;
 	        for (var i = 0; i < length; i++) {
 	            var bloco = Element.Favorito(favoritos[i], acoes);
+			    contexto.arquivosPastaAtual.favoritos.push(bloco);
 	            container.append(bloco.getElement());
 	        }
 	    }
@@ -901,6 +916,9 @@ $(document).ready(function(){
 				    var pastas = data.content[0].pastas;
 				    var favoritos = data.content[0].favoritos;
 					
+				    contexto.arquivosPastaAtual.pastas = [];
+				    contexto.arquivosPastaAtual.favoritos = [];
+				    
 				    var containerBlocos = $('#conteudoBlocos');
 				    limparContainer(containerBlocos);
 					inserirPastas(pastas, containerBlocos);

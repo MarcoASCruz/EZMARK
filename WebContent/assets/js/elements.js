@@ -255,9 +255,14 @@ var Element = function () {
 
     //{imgUrl:"", ... }
 	this.Bloco = function (dados) {
-	    var bloco = new ObjectHtml();
+		var bloco = new ObjectHtml();
+		bloco.id = dados.id;
+	    bloco.tipo = dados.tipo;
+	    var checkBox = undefined;
 	    var blocoContainer;
 	    var idBloco = dados.tipo + "-" + dados.id;
+	    
+	    
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
 	        var card = $('<div class="card-panel card-complement cyan darken-2">');
@@ -298,63 +303,6 @@ var Element = function () {
 
 		        return conteudo;
 		    }
-		   
-		    var criarCheckSelecionar = function(){
-		    	var container = $('<div class="check-bloco">');
-		    	var checkBox = undefined;
-		    	
-	    		var createCheckBox = function(){
-		    		var container = $('<span class="checkbox">');
-		    		checkBox = $('<input type="checkbox" class="check-card"/>');
-		    		var label = $('<label>');
-		    		addTooltip(label, "Selecionar");
-		    		
-		    		checkBox.on('change', function(){
-	    				if($(this).is(':checked')){
-	    					addSelecao();
-	    				}
-	    				else{
-	    					removerSelecao();
-	    				}
-	    			})
-		    		
-		    		var idCheck = 'check-bloco-' + idBloco;
-		    		checkBox.attr('id', idCheck);
-		    		label.attr('for', idCheck);
-		    		container.append(checkBox);
-		    		container.append(label);
-		    		
-		    		return container;
-	    		}
-	    		var addSelecao = function(){
-	    			obterCheckboxSelecionadoContainer().addClass('check-bloco-ativo');
-					obterCardSelecionado().addClass('card-selecionado');
-					dados.onSelect(obterModeloSelecao());
-	    		}
-	    		var removerSelecao = function(){ 
-					obterCheckboxSelecionadoContainer().removeClass('check-bloco-ativo');
-					obterCardSelecionado().removeClass('card-selecionado');
-					dados.onDeselect(obterModeloSelecao());
-					checkBox.attr('checked', false);
-	    		}
-	    		var obterCheckboxSelecionadoContainer = function(){
-	    			return checkBox.parent().parent();
-	    		}
-	    		var obterCardSelecionado = function(){
-	    			return checkBox.parent().parent().parent().children('.card-panel');
-	    		}
-	    		
-	    		var obterModeloSelecao = function(){
-	    			return {
-						tipo: dados.tipo,
-						id: dados.id,
-						removerSelecao: removerSelecao
-					}
-	    		}
-		        
-	    		container.append(createCheckBox());
-		        return container;
-		    }
 
 		    adicionarMenuContexto(card);
 		    adicionarConteudo();
@@ -363,6 +311,56 @@ var Element = function () {
 		    
 		    return blocoContainer;
 	    }
+	    
+	    var criarCheckSelecionar = function(){
+	    	var container = $('<div class="check-bloco">');
+	    	
+    		var createCheckBox = function(){
+	    		var container = $('<span class="checkbox">');
+	    		checkBox = $('<input type="checkbox" class="check-card"/>');
+	    		var label = $('<label>');
+	    		addTooltip(label, "Selecionar");
+	    		
+	    		checkBox.on('change', function(){
+    				if($(this).is(':checked')){
+    					bloco.selecionar();
+    				}
+    				else{
+    					bloco.removerSelecao();
+    				}
+    			})
+	    		
+	    		var idCheck = 'check-bloco-' + idBloco;
+	    		checkBox.attr('id', idCheck);
+	    		label.attr('for', idCheck);
+	    		container.append(checkBox);
+	    		container.append(label);
+	    		
+	    		return container;
+    		}
+    		
+    		container.append(createCheckBox());
+	        return container;
+	    }
+	    bloco.selecionar = function(){
+			obterCheckboxSelecionadoContainer().addClass('check-bloco-ativo');
+			obterCardSelecionado().addClass('card-selecionado');
+			checkBox[0].checked = true;
+			dados.onSelect(bloco);
+		} 
+	    bloco.removerSelecao = function(){ 
+			obterCheckboxSelecionadoContainer().removeClass('check-bloco-ativo');
+			obterCardSelecionado().removeClass('card-selecionado');
+			checkBox.attr('checked', false);
+			dados.onDeselect(bloco);
+		}
+	    var obterCheckboxSelecionadoContainer = function(){
+			return checkBox.parent().parent();
+		}
+		var obterCardSelecionado = function(){
+			return checkBox.parent().parent().parent().children('.card-panel');
+		}
+	    
 	    var adicionarMenuContexto = function(card){
 	    	card.addClass(dados.menuContexto);
 	    }
@@ -1345,7 +1343,7 @@ var Element = function () {
 		}
 		return lista;
 	}
-	this.GerenciadorDeBlocos = function(onRemove, onMove){
+	this.GerenciadorDeBlocos = function(onRemove, onMove, obterArquivos){
 		var gerenciador = new ObjectHtml();
 		var blocos = new Array();
 		var contador = $('<div class="barra-info">');
@@ -1370,6 +1368,7 @@ var Element = function () {
 			var container = $('<div class="barra-acao">');
 			container.append(criarAcaoRemover());
 			container.append(criarAcaoMover());
+			container.append(criarAcaoSelecionarTodos());
 			return container;
 		}
 		var criarAcaoRemover = function(){
@@ -1411,6 +1410,24 @@ var Element = function () {
 			);
 			return botao;	
 		}
+		var criarAcaoSelecionarTodos = function(){
+			var botao = criarBotao(
+				'mdi-content-select-all'
+				,
+				function(){ 
+					var arquivosSeparados = obterArquivos();
+					var arquivosConcatenados = arquivosSeparados.pastas.concat(arquivosSeparados.favoritos);
+					arquivosConcatenados.forEach(function(bloco){
+						gerenciador.adicionarBloco(bloco);
+						bloco.selecionar();
+					})
+				}
+				,
+				'Selecionar Todos'
+			);
+			return botao;	
+		}
+		
 		var criarBotao = function(glyphicon, onClick, mensagemTooltip){
 			var container = $('<a class="btn btn-floating red accent-2" style="margin-right: 5px;"><i class="' + glyphicon + '"></i></a>');
 			addTooltip(container, mensagemTooltip);
@@ -1421,8 +1438,20 @@ var Element = function () {
 		}
 		
 		gerenciador.adicionarBloco = function(bloco){
-			blocos.push(bloco);
-			atualizarContador();
+			if(!blocoEstaAdiconado(bloco)){
+				blocos.push(bloco);
+				atualizarContador();
+			}
+		}
+		var blocoEstaAdiconado = function(bloco){
+			var resultado = false;
+			var quantBlocos = blocos.length;
+			for (var i = 0; i < quantBlocos; i++) {
+				if(blocos[i].id == bloco.id && blocos[i].tipo == bloco.tipo){
+					resultado = true;
+				}
+			}
+			return resultado;
 		}
 		gerenciador.removerBloco = function(bloco){
 			blocos = $.grep(blocos, function(blocoArmazenado, index){
