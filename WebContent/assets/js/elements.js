@@ -330,7 +330,7 @@ var Element = function () {
     				}
     			})
 	    		
-	    		var idCheck = 'check-bloco-' + idBloco;
+	    		var idCheck = 'check-bloco-' + idBloco + obterHora();
 	    		checkBox.attr('id', idCheck);
 	    		label.attr('for', idCheck);
 	    		container.append(checkBox);
@@ -341,6 +341,11 @@ var Element = function () {
     		
     		container.append(createCheckBox());
 	        return container;
+	    }
+	    var obterHora = function(){
+	    	var data = new Date();
+	    	var id = data.getHours() + "-" + data.getMinutes() + "-" + data.getSeconds() + "+" + data.getMilliseconds();
+	    	return id;
 	    }
 	    bloco.selecionar = function(){
 			obterCheckboxSelecionadoContainer().addClass('check-bloco-ativo');

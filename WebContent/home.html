@@ -916,8 +916,7 @@ $(document).ready(function(){
 				    var pastas = data.content[0].pastas;
 				    var favoritos = data.content[0].favoritos;
 					
-				    contexto.arquivosPastaAtual.pastas = [];
-				    contexto.arquivosPastaAtual.favoritos = [];
+				    limparContextoPastaAtual();
 				    
 				    var containerBlocos = $('#conteudoBlocos');
 				    limparContainer(containerBlocos);
@@ -931,6 +930,11 @@ $(document).ready(function(){
 					}
 				}
 			);
+		}
+		
+		var limparContextoPastaAtual = function(){
+			contexto.arquivosPastaAtual.pastas = [];
+		    contexto.arquivosPastaAtual.favoritos = [];
 		}
 		
 		
@@ -1251,18 +1255,20 @@ $(document).ready(function(){
 	
 		var Pesquisa = new function(){
 			var self = this;
+			var _arquivosPastaAtual = undefined;
+			
 			$('#limparPesquisa').on('click', function(){
 				self.remover();
 				habilitaBotaoFixo();
 			})
 			this.executar = function(value) {
+				_arquivosPastaAtual = obterArquivosPastaAtual();
 				if (value.length !== 0) {
 					pesquisar(value);
 					desabilitaBotaoFixo();
 				}
 				else {
 					this.remover();
-					habilitaBotaoFixo();
 				}
 			}
 			var pesquisar = function(value){ 
@@ -1273,6 +1279,8 @@ $(document).ready(function(){
 					    var pastas = data.content[0].pastas;
 					    var favoritos = data.content[0].favoritos;
 					    
+					    limparContextoPastaAtual()
+					    
 					    exibirHTML(criarHTML(pastas, favoritos));
 					}
 				)
@@ -1282,6 +1290,14 @@ $(document).ready(function(){
 					destroirPesquisaDoHTML();
 					limparInput();
 					$("#conteudo").show();
+					voltarContexto();
+					habilitaBotaoFixo();
+				}
+			}
+			var voltarContexto = function(){
+				if(_arquivosPastaAtual){
+					contexto.arquivosPastaAtual.pastas = _arquivosPastaAtual.pastas;
+					contexto.arquivosPastaAtual.favoritos = _arquivosPastaAtual.favoritos;
 				}
 			}
 			var destroirPesquisaDoHTML = function(){
