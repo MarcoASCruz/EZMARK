@@ -190,7 +190,13 @@
             	.main{
             		padding-left: 20px; 
             	}
-                    
+            
+            @media only screen and (max-width: 992px){
+            	nav .brand-logo{
+            		left:50% !important;
+            	}
+           	}
+             
             .pesquisa-mobile label{
         		top: 55px;
             }
@@ -284,7 +290,7 @@ $(document).ready(function(){
 	    <div class="navbar-fixed">
 	        <nav>
 	            <div class="nav-wrapper cyan darken-2">
-	                <a href="#!" class="brand-logo" style="color: #e0f7fa; font-weight: bold;">EZMARK</a>
+	                <a href="#!" id="brand-logo" class="brand-logo" style="left: 270px;color: #e0f7fa;font-weight: bold;">EZMARK</a>
 	                
 	                <ul class="pesquisarContainer right hide-on-med-and-down cyan darken-1">
 	                    <!--Formulário para barra de Pesquisa --> 
