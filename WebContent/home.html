@@ -191,7 +191,12 @@
             		padding-left: 20px; 
             	}
                     
-                
+            .pesquisa-mobile label{
+        		top: 55px;
+            }
+            .pesquisa-mobile i{
+        		font-size: 25px;
+            }
         </style>
     
         
@@ -235,6 +240,8 @@ $(document).ready(function(){
     });
     var dropHelp = true;
     var nomeFav = $('#nomeFav').val();
+    
+    $('.button-collapse').sideNav();
 });
 
 </script>
@@ -250,110 +257,49 @@ $(document).ready(function(){
 	            <div class="col s9 marT15 truncate">
 	                <spam id="usuarioLogin"class="titulo-favorito marRL5 grey-text text-darken-4"></spam>
 	            </div>
-	            <!-- <div class="col s12 pdzero">
-	                <a class="btn-flat waves-effect pdzero" href='#'>
-	                <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
-	                </a>
-	            </div> -->
 	            <div class="col s12 pdzero">
-	                <a id="logOut" class="btn-flat waves-effect pdzero" href='#'>
+	                <a class="logOut btn-flat waves-effect pdzero" href='#'>
 	                <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
 	                </a>
 	            </div>
 	            <li class="divider"></li>
+	            <div class="hide-on-large-only show-on-medium-and-down">
+	          		<ul class="pesquisarContainer pesquisa-mobile">
+	                    <!--Formulário para barra de Pesquisa --> 
+	                    <li>
+	                        <div class="input-field">                                   
+	                            <input id="search-mobile" class="search marginzero" type="search" placeholder="Pesquisar" required>
+	                            <label for="search-mobile"><i class="mdi-action-search"></i></label>
+	                            <i class="limparPesquisa mdi-navigation-close"></i>
+	                        </div>
+	                    </li> 
+	                </ul>
+	          	</div>
 	        </div>
 	        <!--Fim do Usuário Logado Menu Lateral--> 
-	        <div id="treeView" class=""></div>
+	        <div id="treeView"></div>
 	    </ul>
 	    <!--Fim do Menu Lateral Fixo-->
 	    <!--Barra de Navegação/Superior-->
 	    <div class="navbar-fixed">
 	        <nav>
 	            <div class="nav-wrapper cyan darken-2">
-	                <a href="#!" class="brand-logo" style="padding-left: 270px; color: #e0f7fa; font-weight: bold;">EZMARK</a>
-	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+	                <a href="#!" class="brand-logo" style="color: #e0f7fa; font-weight: bold;">EZMARK</a>
+	                
 	                <ul class="pesquisarContainer right hide-on-med-and-down cyan darken-1">
 	                    <!--Formulário para barra de Pesquisa --> 
 	                    <li>
 	                        <div class="input-field cyan darken-1">                                   
-	                            <input id="search" class="marginzero" type="search" placeholder="Pesquisar" required>
+	                            <input id="search" class="search marginzero" type="search" placeholder="Pesquisar" required>
 	                            <label for="search"><i class="mdi-action-search"></i></label>
-	                            <i id="limparPesquisa" class="mdi-navigation-close"></i>
+	                            <i class="limparPesquisa mdi-navigation-close"></i>
 	                        </div>
-	                    </li>
-	                    <!--Fim do Formulário para barra de Pesquisa -->
-	                    <!--Usuário Logado na Barra de Navegação --> 
-	                    <!--                        <li>
-	                        <div class="usuario-logado-bar" >
-	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="assets/img/userIcon.png">
-	                            <spam class="titulo-favorito marRL5 truncate" style="max-width: 150px;">Usuário</spam>
-	                                <div class="right">
-	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
-	                                        <i class="mdi-action-settings" style="line-height: 41px; font-size: 1.5rem;"></i>
-	                                    </a>
-	                                    <a class="btn-floating waves-effect waves-light marRL5" href='#'>
-	                                        <i class="mdi-action-exit-to-app" style="line-height: 41px; font-size: 1.5rem;"></i>
-	                                    </a>
-	                                </div>
-	                        </div>        
-	                        </li>-->
-	                    <!--Fim do Usuário Logado na Barra de Navegação --> 
+	                    </li> 
 	                </ul>
 	                <!--Fim da Barra de Navegação Superior -->  
 	                <!--Menu Lateral quando acionado o modo Mobile-->  
-	                <ul class="side-nav" id="mobile-demo">
-	                    <!--Usuário Logado Menu Lateral Mobile--> 
-	                    <div class="row">
-	                        <div class="col s3">
-	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="assets/img/userIcon.png">
-	                        </div>
-	                        <div class="col s9 truncate">
-	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
-	                        </div>
-	                        <div class="col s12 pdzero">
-	                            <a class="btn-flat waves-effect pdzero" href='#'>
-	                            <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
-	                            </a>
-	                        </div>
-	                        <div class="col s12 pdzero">
-	                            <a class="btn-flat waves-effect pdzero" href='#'>
-	                            <span class="mdi-action-exit-to-app marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Logout
-	                            </a>
-	                        </div>
-	                        <li class="divider"></li>
-	                    </div>
-	                    <!--Fim do Usuário Logado Menu Lateral Mobile--> 
-	                    <!--Formulário de Pesquisa Menu Lateral Mobile--> 
-	                    <form>
-	                        <div class="row">
-	                            <div class="col s12 pdzero">
-	                                <a class="btn-flat waves-effect pdzero" href='#'>
-	                                <span class="mdi-editor-format-list-bulleted marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Ordenar
-	                                </a>
-	                            </div>
-	                            <div class="col s2">
-	                                <span class="mdi-action-search marRL5 grey-text text-darken-4" style="line-height: 41px; font-size: 1.5rem;"></span>
-	                            </div>
-	                            <div class="col s10">
-	                                <input class="grey-text text-darken-4" type="text" placeholder="Pesquisar">
-	                            </div>
-	                            <div class="col s10">
-	                                <input type="checkbox" id="check-tagsm" />
-	                                <label class="grey-text text-darken-4" for="check-tagsm">Favoritos</label>
-	                            </div>
-	                            <div class="col s10">
-	                                <input type="checkbox" id="check-tagsmm" />
-	                                <label class="grey-text text-darken-4" for="check-tagsmm">Pastas</label>
-	                            </div>
-	                            <div class="col s10">
-	                                <input type="checkbox" id="check-tagsmmm" />
-	                                <label class="grey-text text-darken-4" for="check-tagsmmm">Tags</label>
-	                            </div>
-	                        </div>
-	                    </form>
-	                    <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
-	                </ul>
-	                <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
+	                <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+	                   
 	            </div>
 	        </nav>
 	    </div>
@@ -1257,7 +1203,7 @@ $(document).ready(function(){
 			var self = this;
 			var _arquivosPastaAtual = undefined;
 			
-			$('#limparPesquisa').on('click', function(){
+			$('.limparPesquisa').on('click', function(){
 				self.remover();
 				habilitaBotaoFixo();
 			})
@@ -1304,7 +1250,7 @@ $(document).ready(function(){
 				$(".conteudoBusca").remove();
 			}
 			var limparInput = function(){
-				$('#search').val("");
+				$('.search').val("");
 			}
 			var exibirHTML = function(html){
 		    	destroirPesquisaDoHTML();
@@ -1330,11 +1276,11 @@ $(document).ready(function(){
 			   	return container;
 		    }
 		}
-		$("#search").keyup(function(e) {
+		$(".search").keyup(function(e) {
 		   	Pesquisa.executar($.trim($(this).val()))
 		});
 		
-		$('#logOut').on('click', function(){
+		$('.logOut').on('click', function(){
 			servicos.logOut(function(){
 				location.reload();
 			});
