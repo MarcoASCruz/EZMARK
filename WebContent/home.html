@@ -186,6 +186,20 @@
 	            padding: 10px;
             }
 			
+			.pesquisa-mobile label{
+        		top: 55px;
+            }
+            .pesquisa-mobile i{
+        		font-size: 25px;
+            }
+            
+            .tabs-acesso-rapido{
+                overflow-x: auto; 
+            }
+	            .tabs-acesso-rapido .tabs{
+	                min-width: 650px;
+	            }
+			
             @media (max-width: 992px){
             	.main{
             		padding-left: 20px; 
@@ -196,13 +210,6 @@
             		left:50% !important;
             	}
            	}
-             
-            .pesquisa-mobile label{
-        		top: 55px;
-            }
-            .pesquisa-mobile i{
-        		font-size: 25px;
-            }
         </style>
     
         
@@ -328,7 +335,7 @@ $(document).ready(function(){
 	        <div id="conteudo" class="conteudo">
 	            <!--Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
 	            <div class="container-favorito-icon row z-depth-1" style="background-color: white;">
-	                <div class="col s12 pdzero" >
+	                <div class="tabs-acesso-rapido col s12 pdzero" >
 	                    <ul class="tabs cyan darken-2" >
 	                        <li class="tab col s3"><a class="active cyan-text text-lighten-5" href="#acessoRapido">Acesso Rápido</a></li>
 	                        <li class="tab col s3"><a class="cyan-text text-lighten-5" id="btnMaisAcessados" href="#maisAcessados">Mais Acessados</a></li>
