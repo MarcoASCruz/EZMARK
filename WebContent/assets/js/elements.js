@@ -1402,7 +1402,7 @@ var Element = function () {
 		}
 		var criarAcaoRemoverSelecao = function(){
 			var botao = criarBotao(
-				'mdi-hardware-keyboard-backspace'
+				'mdi-navigation-close'
 				,
 				function(){ 
 					blocos.forEach(function(bloco){
