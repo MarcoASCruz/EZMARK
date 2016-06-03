@@ -219,7 +219,7 @@ public class PastaDAO extends BasicDAO {
 	}
 	
 	private void removerFavoritosDePasta(int idPasta) throws SQLException, Exception{
-		setQuery("SELECT id FROM Favorito WHERE id_pasta = ?");
+		setQuery("SELECT id FROM favorito WHERE id_pasta = ?");
 		ps.setInt(1, idPasta);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		FavoritoDAO favoritoDAO = new FavoritoDAO();
