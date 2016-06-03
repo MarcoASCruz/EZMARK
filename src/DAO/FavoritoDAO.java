@@ -142,7 +142,7 @@ public class FavoritoDAO extends BasicDAO {
 	}
 	
 	public byte[] getIMG() throws Exception{
-		criarQuery("SELECT imagem FROM gerenciador_de_favoritos.favorito WHERE id = 1");
+		criarQuery("SELECT imagem FROM favorito WHERE id = 1");
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();
 		res.next();
