@@ -23,18 +23,76 @@ import modelos.Hierarquia;
 import modelos.Pasta;
 import modelos.Tag;
 
-public class PastaDAO extends BasicDAO {
-	public Pasta buscar (int idPasta) throws SQLException{
-		criarQuery("SELECT id, publica FROM pasta WHERE pasta.id = ?");
+public class TaxonomiaDAO extends BasicDAO {
+	public Pasta buscar (int idPasta) throws Exception{
+		openConection();
+		setQuery("SELECT id, nome, num_estrela, descricao FROM taxonomia WHERE id = ?");
+		ps.setInt(1, idPasta);
+		ResultSet res =  (ResultSet) ps.executeQuery();
+		res.next();
+		Pasta pasta = new Pasta();
+		pasta.setId(res.getInt("id"));
+		pasta.setNome(res.getString("nome"));
+		pasta.setNumEstrela(res.getInt("num_estrela"));
+		//pasta.setImagem(res.getInt("id"));
+		pasta.setDescricao(res.getString("descricao"));
+		pasta.setTags(buscarTags(pasta.getId()));
+		close();
+		return pasta;
+	}
+	public List<Pasta> buscarTodas () throws Exception{
+		int idHome = buscarHome().getId(); 
+		openConection();
+		setQuery("SELECT id, id_pasta_pai, nome, num_estrela, descricao FROM taxonomia WHERE id_pasta_pai = ?");
+		ps.setInt(1, idHome);
+		ResultSet res =  (ResultSet) ps.executeQuery();	
+		List<Pasta> pastas = new ArrayList<Pasta>();
+		while (res.next()){
+			Pasta p = new Pasta();
+			p.setId(res.getInt("id"));
+			p.setNome(res.getString("nome"));
+			p.setNumEstrela(res.getInt("num_estrela"));
+			//p.setImagem(res.getInt("id"));
+			p.setDescricao(res.getString("descricao"));
+			p.setPai(res.getInt("id_pasta_pai"));
+			p.setTags(buscarTags(p.getId()));
+			pastas.add(p);
+		}
+		close();
+		return pastas;
+	}
+	public Pasta buscarHome() throws Exception{
+		openConection();
+		setQuery("SELECT id FROM taxonomia WHERE taxonomia.id_pasta_pai = taxonomia.id;");
+		ResultSet res =  (ResultSet) ps.executeQuery();
+		Pasta pasta = new Pasta();
+		if (res.next()){
+			pasta.setId(res.getInt("id"));
+		}
+		close();
+		return pasta;
+	}
+	public List<String> buscarTags(int idPasta) throws Exception{
+		setQuery("SELECT tag.nome AS `nome` FROM taxonomia LEFT JOIN taxonomia_tag ON (taxonomia.id = taxonomia_tag.id_taxonomia) 	LEFT JOIN tag ON (tag.nome = taxonomia_tag.tag_nome) WHERE taxonomia.id = ?");
 		ps.setInt(1, idPasta);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();
+		List<String> tags = new ArrayList<String>();
 		res.next();
-		Pasta pasta = new Pasta();
-		pasta.setPublica(res.getBoolean("publica"));
-		return pasta;
+		if(res.getString("nome") != null){
+			do {
+				tags.add(res.getString("nome"));
+			} while (res.next());
+		}
+		else {
+			tags = null;
+		}
+		return tags;
 	}
-	public Pasta buscarPastaCompleta (int idPasta) throws Exception{
+	
+	
+	
+	/*public Pasta buscarPastaCompleta (int idPasta) throws Exception{
 		openConection();
 		setQuery("SELECT id, nome, num_estrela, descricao FROM pasta WHERE id = ?");
 		ps.setInt(1, idPasta);
@@ -104,25 +162,6 @@ public class PastaDAO extends BasicDAO {
 		close();
 		return pastas;
 	}
-	
-	public List<String> buscarTags(int idPasta) throws Exception{
-		setQuery("SELECT tag.nome AS `nome` FROM pasta LEFT JOIN pasta_tag ON (pasta.id = pasta_tag.id_pasta) 	LEFT JOIN tag ON (tag.nome = pasta_tag.tag_nome) WHERE pasta.id = ?");
-		ps.setInt(1, idPasta);
-		ResultSet res =  (ResultSet) ps.executeQuery();	
-		res =  (ResultSet) ps.executeQuery();
-		List<String> tags = new ArrayList<String>();
-		res.next();
-		if(res.getString("nome") != null){
-			do {
-				tags.add(res.getString("nome"));
-			} while (res.next());
-		}
-		else {
-			tags = null;
-		}
-		return tags;
-	}
-	
 
 	public Pasta adicionar(Pasta pasta, int idUsuario)throws Exception{
 		openConection();
@@ -140,10 +179,8 @@ public class PastaDAO extends BasicDAO {
 		res =  (ResultSet) ps.executeQuery();	
 		if (res.next()){
 			pasta.setId(res.getInt("id"));
-			if (pasta.getTags() != null){
-				for (String tag : pasta.getTags()) {
-					adicionarTag(tag, pasta.getId());
-				}	
+			for (String tag : pasta.getTags()) {
+				adicionarTag(tag, pasta.getId());
 			}
 		}
 		vincularUsuario(idUsuario, pasta.getId());
@@ -305,19 +342,6 @@ public class PastaDAO extends BasicDAO {
 		}
 	}
 	
-	public Pasta buscarHome(int idUsuario) throws Exception{
-		openConection();
-		setQuery("SELECT id FROM pasta join user_has_pasta AS up ON (up.pasta_id = pasta.id) WHERE up.user_id = ? AND pasta.id_pasta_pai = pasta.id;");
-		ps.setInt(1, idUsuario);
-		ResultSet res =  (ResultSet) ps.executeQuery();
-		Pasta pasta = new Pasta();
-		if (res.next()){
-			pasta.setId(res.getInt("id"));
-		}
-		close();
-		return pasta;
-	}
-	
 	public void compartilhar(int idPasta) throws Exception {
 		compartilharPasta(idPasta);
 		compartilharFilhos(idPasta);
@@ -360,5 +384,5 @@ public class PastaDAO extends BasicDAO {
 		ps.setInt(3, idUsuario);
 		ps.executeUpdate();
 		close();
-	}
+	}*/
 }

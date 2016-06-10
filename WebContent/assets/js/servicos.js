@@ -294,6 +294,16 @@ var servicos = {
 			serviceShowError
 		)
 	}
+	,
+	autoOrganizar: function(idPasta, onSuccess) {
+		mapper.services.autoOrganizar(
+			idPasta
+			,
+			onSuccess
+			,
+			serviceShowError
+		)
+	}
 }
 function serviceShowError(data) {
 	var error = data.responseJSON;

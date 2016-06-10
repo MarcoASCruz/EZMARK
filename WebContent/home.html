@@ -350,6 +350,17 @@ $(document).ready(function(){
 	            </div>
 	            <!--Fim das Guias de Recém Acessados, Recém Adicionados e Mais Acessados--> 
 	           
+	            <nav class="barraConteudo">
+				    <div class="nav-wrapper">
+				      <ul class="right hide-on-med-and-down">
+				        <li>
+				        	<a href="#">
+				        		Auto-organizar
+				        	</a>
+			        	</li>
+				      </ul>
+				    </div>
+			  	</nav>
 	            <div id="conteudoBlocos" class="row context-menu">
 	            </div>
 	        </div>
@@ -1302,6 +1313,16 @@ $(document).ready(function(){
 		servicos.obterUsuario(function(usuario) {
 			$('#usuarioLogin').html(usuario.content[0].nome);
 		})
+		
+		$('.barraConteudo a').on('click', function(){
+			servicos.autoOrganizar(
+				contexto.pastaAtual
+				,
+				function(usuario) {
+					atualizarPasta();
+				}
+			)	
+		});
 		
     	init();
 	</script>

@@ -477,6 +477,23 @@ var Mapper = function(){
 			}
 			executarRequisicao(requisicaoParametros);
 		}
+		,
+		autoOrganizar: function(idPasta, onSuccess, onError){
+			requisicaoParametros = {
+				url: "/GerenciadorDeFavoritos/servicos/arquivo/autoorganizar/"
+				,
+				method: "POST"
+				,
+				data:{
+					idPasta: idPasta
+				}
+				,
+				success: onSuccess
+				,
+				error: onError
+			}
+			executarRequisicao(requisicaoParametros);
+		}
 	}
 	
 	var executarRequisicao = function(options){

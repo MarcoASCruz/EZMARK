@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import DAO.FavoritoDAO;
 import DAO.PastaDAO;
+import DAO.TaxonomiaDAO;
 import modelos.Favorito;
 import modelos.Pasta;
 
@@ -29,7 +29,7 @@ public class OrganizadorDePasta {
 		this.idPasta = idPasta;
 	}
 	
-	public Object get() throws Exception{
+	public Object get(int idPastaPai, int idUsuario) throws Exception{
 		List<Pasta> taxonomia = obterTaxonomia();
 		List<Favorito> favoritos = obterFavoritos();
 		
@@ -45,11 +45,34 @@ public class OrganizadorDePasta {
 			associacoes.put(idPastaAssociada, favoritosAssociados);	
 		}
 		
+		//implementa associações
+		for (Integer idPasta : associacoes.keySet()) {
+			//criar pasta
+			TaxonomiaDAO taxonomiaDAO = new TaxonomiaDAO();
+			Pasta pasta = null;
+			if(idPasta == 0){
+				Pasta pastaOutros = new Pasta();
+				pastaOutros.setNome("Outros");
+				pasta = pastaOutros;
+			}
+			else{
+				pasta = taxonomiaDAO.buscar(idPasta);
+				pasta.setId(0);
+			}
+			pasta.setPai(idPastaPai);
+			pasta = new PastaDAO().adicionar(pasta, idUsuario);
+			
+			//associar favoritos
+			for (Favorito favorito : associacoes.get(idPasta)) {
+				new FavoritoDAO().mover(pasta.getId(), favorito.getId());
+			}
+		}
+		
 		return associacoes;
 	}	
 	
-	private List<Pasta> obterTaxonomia(){
-		List<Pasta> taxonomia = new ArrayList<Pasta>();
+	private List<Pasta> obterTaxonomia() throws Exception{
+		/*List<Pasta> taxonomia = new ArrayList<Pasta>();
 		
 		Pasta home = new Pasta();
 		home.setId(1);
@@ -71,7 +94,7 @@ public class OrganizadorDePasta {
 		List<String> tagsTec = new ArrayList<String>();
 		tagsTec.add("informatica");
 		tagsTec.add("programming");
-		tagsTec.add("programacao");
+		tagsTec.add("pr ogramacao");
 		tagsTec.add("digital");
 		tagsTec.add("ASP.Net");
 		tagsTec.add("java");
@@ -102,8 +125,9 @@ public class OrganizadorDePasta {
 		taxonomia.add(esportes);
 		taxonomia.add(tecnologia);
 		taxonomia.add(jogos);
-		taxonomia.add(noticia);
+		taxonomia.add(noticia);*/
 		
+		List<Pasta> taxonomia = new TaxonomiaDAO().buscarTodas();
 		return taxonomia;
 	}
 	private List<Favorito> obterFavoritos() throws Exception {
@@ -137,18 +161,12 @@ public class OrganizadorDePasta {
 		String keywords = procurarCategorias(favorito.getUrl(),"meta[name=description]");
 		return keywords;
 	}
-	private String procurarCorpoPagina(Favorito favorito) throws IOException {
-		String texto = procurarCategorias(favorito.getUrl(), "body");
-		return texto;
-	}
 	private String procurarCategorias(String url, String seletor ) throws IOException {
 		Document html = Jsoup.connect(url).get();
-		Elements elementos = html.select(seletor);
-		String categorias = "";
-		for (Element elemento : elementos) {
-			if (elemento != null){
-				categorias += elemento.attr("content");	
-			}
+		Element elemento = html.select(seletor).first();
+		String categorias = null;
+		if (elemento != null){
+			categorias = elemento.attr("content");
 		}
 		return categorias;
 	}
@@ -187,15 +205,19 @@ public class OrganizadorDePasta {
 		return idPastaComMaisAssociacoes;
 	}
 	private int favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, List<String> tagsTaxonomia){
-		String alvo = String.join(", ", tagsTaxonomia);
-		if(tagsFavorito == null || alvo == null){
+		if(tagsTaxonomia == null){
 			return 0;
 		}
-		return procurarPalavras(tagsFavorito, alvo);
+		return procurarPalavras(tagsFavorito, String.join(", ", tagsTaxonomia));
 	}
 	//case-insensitive
 	private int procurarPalavras(List<String> palavras, String alvo){
 		int resultado = 0;
+		
+		if(palavras == null || alvo == null){
+			return resultado;
+		}
+		
 		for (String palavra : palavras) {
 			resultado += procurarPalavra(palavra, alvo);
 		}
@@ -212,4 +234,5 @@ public class OrganizadorDePasta {
 		m.reset();
 		return count;
 	}
+
 }

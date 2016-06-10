@@ -50,20 +50,6 @@ import flexjson.JSONDeserializer;
 @Path("/arquivo")
 public class Arquivo extends Servico {
 	@GET
-	@Path("/autoorganizar/")
-	@Produces("application/json")
-	public Response autoorganizar(){
-		AppResponse response = new AppResponse();
-		try{
-			response.setContent(new OrganizadorDePasta().get());
-		}
-		catch(Exception e){
-			response.addException(e);
-		}
-		return response.buildResponse();
-	}
-	
-	@GET
 	@Path("/pasta/{id}")
 	@Produces("application/json")
 	public Response buscarArquivos(@PathParam("id") int idPastaPai) {
@@ -546,6 +532,20 @@ public class Arquivo extends Servico {
 			
 			response.setSuccess(true);
 			response.setContent("OK");
+		}
+		catch(Exception e){
+			response.addException(e);
+		}
+		return response.buildResponse();
+	}
+	
+	@POST
+	@Path("/autoorganizar/")
+	@Produces("application/json")
+	public Response autoorganizar(){
+		AppResponse response = new AppResponse();
+		try{
+			response.setContent(new OrganizadorDePasta().get(1, obterUsuarioLogado().getId()));
 		}
 		catch(Exception e){
 			response.addException(e);
