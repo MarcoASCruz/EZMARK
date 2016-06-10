@@ -35,7 +35,7 @@ public class FavoritoDAO extends BasicDAO {
 	}
 	
 	public List<Favorito> buscarFavoritosFilhos(int idPasta)throws Exception{
-		criarQuery("SELECT * FROM favorito WHERE id_pasta = ?");
+		criarQuery("SELECT id, titulo, url, descricao, numEstrela FROM favorito WHERE id_pasta = ?");
 		ps.setInt(1, idPasta);
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		List<Favorito> favoritos = new ArrayList<Favorito>();

@@ -297,6 +297,7 @@ var servicos = {
 }
 function serviceShowError(data) {
 	var error = data.responseJSON;
+	console.log(data);
 	Element.ToastError(error.content)
 	console.log(error);
 }
