@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +35,7 @@ public class OrganizadorDePasta {
 		HashMap<Integer, List<Favorito>> associacoes = new HashMap<Integer, List<Favorito>>();
 		
 		for (Favorito favorito : favoritos) {
-			int idPastaAssociada = obterPastaAssociada(taxonomia, extrairCategorias(favorito));
+			int idPastaAssociada = obterPastaAssociada(taxonomia, favorito, extrairCategorias(favorito));
 			List<Favorito> favoritosAssociados = new ArrayList<Favorito>();
 			if(associacoes.containsKey(idPastaAssociada)){
 				favoritosAssociados = associacoes.get(idPastaAssociada);
@@ -40,11 +43,6 @@ public class OrganizadorDePasta {
 			favoritosAssociados.add(favorito);
 			associacoes.put(idPastaAssociada, favoritosAssociados);	
 		}
-		/*HashMap<Integer, String[]> associacoes = new HashMap<Integer, String[]>();
-		for (Favorito favorito : favoritos) {
-			int idPastaAssociada = obterPastaAssociada(taxonomia, extrairCategorias(favorito));
-			associacoes.put(idPastaAssociada, extrairCategorias(favorito));	
-		}*/
 		
 		return associacoes;
 	}	
@@ -74,6 +72,8 @@ public class OrganizadorDePasta {
 		tagsTec.add("programming");
 		tagsTec.add("programacao");
 		tagsTec.add("digital");
+		tagsTec.add("ASP.Net");
+		tagsTec.add("java");
 		tecnologia.setTags(tagsTec);
 		tecnologia.setPai(1);
 		
@@ -87,60 +87,77 @@ public class OrganizadorDePasta {
 		return favoritoDAO.buscarFavoritosFilhos(idPasta);
 	}
 	
-	private String[] extrairCategorias(Favorito favorito) throws IOException{
-		String[] categoriasExtraidas = null;
-		String[] keywords = procurarKeywords(favorito);
+	private String extrairCategorias(Favorito favorito) throws IOException{
+		String categoriasExtraidas = null;
+		String keywords = procurarKeywords(favorito);
 		
 		if(keywords != null){
 			categoriasExtraidas = keywords;
 		}
 		else{
-			String[] descricao = procurarDescricao(favorito);
+			String descricao = procurarDescricao(favorito);
 			if(descricao != null){
 				categoriasExtraidas = descricao;
 			}
 			else{
-				categoriasExtraidas = new String[]{"Outros"};
+				categoriasExtraidas = "Outros";
 			}	
 		}
 		return categoriasExtraidas;
 	} 
-	private String[] procurarKeywords(Favorito favorito) throws IOException {
-		String[] keywords = procurarCategorias(favorito.getUrl(), "meta[name=keywords]", new char[]{','});
+	private String procurarKeywords(Favorito favorito) throws IOException {
+		String keywords = procurarCategorias(favorito.getUrl(), "meta[name=keywords]");
 		return keywords;
 	}
-	private String[] procurarDescricao(Favorito favorito) throws IOException {
-		String[] keywords = procurarCategorias(
-			favorito.getUrl(),
-			"meta[name=description]",
-			new char[]{',', '.', '!', ' '}
-		);
+	private String procurarDescricao(Favorito favorito) throws IOException {
+		String keywords = procurarCategorias(favorito.getUrl(),"meta[name=description]");
 		return keywords;
 	}
-	private String[] procurarCategorias(String url, String seletor, char[] caracteresInvalidos ) throws IOException {
+	private String procurarCategorias(String url, String seletor ) throws IOException {
 		Document html = Jsoup.connect(url).get();
 		Element elemento = html.select(seletor).first();
-		String[] categorias = null;
+		String categorias = null;
 		if (elemento != null){
-			String categoriasTexto = elemento.attr("content");
-			for (char caraterInvalido  : caracteresInvalidos) {
-				categoriasTexto = categoriasTexto.replace(caraterInvalido, '#');
-			}
-			categorias = categoriasTexto.split("#");
+			categorias = elemento.attr("content");
 		}
 		return categorias;
 	}
 	
-	private int obterPastaAssociada(List<Pasta> taxonomia, String[] keywords) {
+	private int obterPastaAssociada(List<Pasta> taxonomia, Favorito favorito, String keywords) {
 		int id = 0;
 		for (Pasta pasta : taxonomia) {
-			for (String keyword : keywords) {
-				List<String> tags = pasta.getTags();
-				if(pasta.getNome().equalsIgnoreCase(keyword) || tags.stream().filter(x -> x.equalsIgnoreCase(keyword)).count() > 0){
-					id = pasta.getId();
-				}
+			if(
+				procurarPalavra(pasta.getNome(), keywords) ||
+				favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta.getTags()) ||
+				procurarPalavras(pasta.getTags(), keywords)
+			)
+			{
+				id = pasta.getId();
 			}
 		}
 		return id;
+	}
+	private boolean favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, List<String> tagsTaxonomia){
+		String alvo = String.join(", ", tagsTaxonomia);
+		if(tagsFavorito == null || alvo == null){
+			return false;
+		}
+		return procurarPalavras(tagsFavorito, alvo);
+	}
+	//case-insensitive
+	private boolean procurarPalavras(List<String> palavras, String alvo){
+		boolean resultado = false;
+		for (String palavra : palavras) {
+			if(procurarPalavra(palavra, alvo)){
+				resultado = true;
+			}
+		}
+		return resultado;
+	}
+	//case-insensitive
+	private boolean procurarPalavra(String palavra, String alvo){
+		Pattern p = Pattern.compile("(?i)" + palavra);
+		Matcher m = p.matcher(alvo);
+		return m.find();
 	}
 }
