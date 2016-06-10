@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import DAO.FavoritoDAO;
 import DAO.PastaDAO;
@@ -77,9 +78,32 @@ public class OrganizadorDePasta {
 		tecnologia.setTags(tagsTec);
 		tecnologia.setPai(1);
 		
+		Pasta jogos = new Pasta();
+		jogos.setId(4);
+		jogos.setNome("jogos");
+		//List<String> tagsJogos = new ArrayList<String>();
+		//tagsJogos.add("games");
+		//jogos.setTags(tagsJogos);
+		jogos.setPai(1);
+		
+		Pasta noticia = new Pasta();
+		noticia.setId(5);
+		noticia.setNome("notícia");
+		noticia.setPai(1);
+		List<String> tagsN = new ArrayList<String>();
+		tagsN.add("informação");
+		tagsN.add("news");
+		tagsN.add("jornal");
+		tagsN.add("jornalismo");
+		tagsN.add("portal");
+		noticia.setTags(tagsN);
+		
 		taxonomia.add(home);
 		taxonomia.add(esportes);
 		taxonomia.add(tecnologia);
+		taxonomia.add(jogos);
+		taxonomia.add(noticia);
+		
 		return taxonomia;
 	}
 	private List<Favorito> obterFavoritos() throws Exception {
@@ -113,51 +137,79 @@ public class OrganizadorDePasta {
 		String keywords = procurarCategorias(favorito.getUrl(),"meta[name=description]");
 		return keywords;
 	}
+	private String procurarCorpoPagina(Favorito favorito) throws IOException {
+		String texto = procurarCategorias(favorito.getUrl(), "body");
+		return texto;
+	}
 	private String procurarCategorias(String url, String seletor ) throws IOException {
 		Document html = Jsoup.connect(url).get();
-		Element elemento = html.select(seletor).first();
-		String categorias = null;
-		if (elemento != null){
-			categorias = elemento.attr("content");
+		Elements elementos = html.select(seletor);
+		String categorias = "";
+		for (Element elemento : elementos) {
+			if (elemento != null){
+				categorias += elemento.attr("content");	
+			}
 		}
 		return categorias;
 	}
 	
+	
 	private int obterPastaAssociada(List<Pasta> taxonomia, Favorito favorito, String keywords) {
-		int id = 0;
+		int idPastaComMaisAssociacoes = 0;
+		int rankinkAssociacoes = 0;
+		System.out.println(favorito.getUrl());
 		for (Pasta pasta : taxonomia) {
-			if(
-				procurarPalavra(pasta.getNome(), keywords) ||
-				favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta.getTags()) ||
-				procurarPalavras(pasta.getTags(), keywords)
-			)
+			int quantChavesPorNome = procurarPalavra(pasta.getNome(), keywords); 
+			int quantTagsDeFavNaTaxonomia = favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta.getTags());
+			int quantChavesPorTagTaxonomia = procurarPalavras(pasta.getTags(), keywords);
+			int quantAssociacoes = quantChavesPorNome + quantTagsDeFavNaTaxonomia + quantChavesPorTagTaxonomia;
+			System.out.println(quantAssociacoes);
+			if(quantAssociacoes > 0)
 			{
-				id = pasta.getId();
+				if (rankinkAssociacoes == 0){
+					rankinkAssociacoes = quantAssociacoes;
+					idPastaComMaisAssociacoes = pasta.getId();
+					System.out.println(favorito.getUrl());
+					System.out.println(pasta.getId());
+					System.out.println(quantAssociacoes);
+				}
+				else{
+					if (quantAssociacoes > rankinkAssociacoes){
+						rankinkAssociacoes = quantAssociacoes;
+						idPastaComMaisAssociacoes = pasta.getId();
+						System.out.println(favorito.getUrl());
+						System.out.println(pasta.getId());
+						System.out.println(quantAssociacoes);
+					}
+				}
 			}
 		}
-		return id;
+		return idPastaComMaisAssociacoes;
 	}
-	private boolean favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, List<String> tagsTaxonomia){
+	private int favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, List<String> tagsTaxonomia){
 		String alvo = String.join(", ", tagsTaxonomia);
 		if(tagsFavorito == null || alvo == null){
-			return false;
+			return 0;
 		}
 		return procurarPalavras(tagsFavorito, alvo);
 	}
 	//case-insensitive
-	private boolean procurarPalavras(List<String> palavras, String alvo){
-		boolean resultado = false;
+	private int procurarPalavras(List<String> palavras, String alvo){
+		int resultado = 0;
 		for (String palavra : palavras) {
-			if(procurarPalavra(palavra, alvo)){
-				resultado = true;
-			}
+			resultado += procurarPalavra(palavra, alvo);
 		}
 		return resultado;
 	}
 	//case-insensitive
-	private boolean procurarPalavra(String palavra, String alvo){
+	private int procurarPalavra(String palavra, String alvo){
 		Pattern p = Pattern.compile("(?i)" + palavra);
 		Matcher m = p.matcher(alvo);
-		return m.find();
+		int count = 0;
+		while(m.find()) {
+			count++;
+		}
+		m.reset();
+		return count;
 	}
 }
