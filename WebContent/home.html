@@ -451,6 +451,12 @@ $(document).ready(function(){
    						blocosSelecionados
    	        			,
    	        			function(e){
+   							$.each(blocosSelecionados, function(index, bloco){
+   								if(bloco.tipo == 'pasta'){
+   									arvore.removerItem(bloco.id);
+   								}
+   							})
+   		                	Element.Toast("Itens removidos com sucesso!", 2000);
    		            		atualizarPasta();
    		            	}
    	      			);	
@@ -1321,7 +1327,8 @@ $(document).ready(function(){
 				contexto.pastaAtual
 				,
 				function(usuario) {
-					atualizarPasta();
+					criarArvore();
+			    	atualizarPasta();
 					loader.destroy();
 				}
 				,

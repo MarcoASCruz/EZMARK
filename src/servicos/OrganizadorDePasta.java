@@ -31,7 +31,8 @@ public class OrganizadorDePasta {
 	
 	public Object get(int idPastaPai, int idUsuario) throws Exception{
 		List<Pasta> taxonomia = obterTaxonomia();
-		List<Favorito> favoritos = obterFavoritos();
+		FavoritoDAO favoritoDAO = new FavoritoDAO();
+		List<Favorito> favoritos = favoritoDAO.buscarFavoritosFilhos(idPastaPai);
 		
 		HashMap<Integer, List<Favorito>> associacoes = new HashMap<Integer, List<Favorito>>();
 		
@@ -64,7 +65,7 @@ public class OrganizadorDePasta {
 			
 			//associar favoritos
 			for (Favorito favorito : associacoes.get(idPasta)) {
-				new FavoritoDAO().mover(pasta.getId(), favorito.getId());
+				favoritoDAO.mover(pasta.getId(), favorito.getId());
 			}
 		}
 		
@@ -129,10 +130,6 @@ public class OrganizadorDePasta {
 		
 		List<Pasta> taxonomia = new TaxonomiaDAO().buscarTodas();
 		return taxonomia;
-	}
-	private List<Favorito> obterFavoritos() throws Exception {
-		FavoritoDAO favoritoDAO = new FavoritoDAO();
-		return favoritoDAO.buscarFavoritosFilhos(idPasta);
 	}
 	
 	private String extrairCategorias(Favorito favorito) throws IOException{

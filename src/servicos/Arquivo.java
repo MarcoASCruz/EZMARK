@@ -542,10 +542,10 @@ public class Arquivo extends Servico {
 	@POST
 	@Path("/autoorganizar/")
 	@Produces("application/json")
-	public Response autoorganizar(){
+	public Response autoorganizar(@FormParam("idPasta") int idPasta){
 		AppResponse response = new AppResponse();
 		try{
-			response.setContent(new OrganizadorDePasta().get(1, obterUsuarioLogado().getId()));
+			response.setContent(new OrganizadorDePasta().get(idPasta, obterUsuarioLogado().getId()));
 			response.setSuccess(true);
 		}
 		catch(Exception e){
