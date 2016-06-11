@@ -1315,13 +1315,18 @@ $(document).ready(function(){
 		})
 		
 		$('.barraConteudo a').on('click', function(){
+			var loader = Element.Loader();
+			loader.show();
+			console.log("1")
 			servicos.autoOrganizar(
 				contexto.pastaAtual
 				,
 				function(usuario) {
+					console.log("2")
 					atualizarPasta();
+					loader.destroy();
 				}
-			)	
+			)
 		});
 		
     	init();

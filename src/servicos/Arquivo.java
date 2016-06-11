@@ -546,6 +546,7 @@ public class Arquivo extends Servico {
 		AppResponse response = new AppResponse();
 		try{
 			response.setContent(new OrganizadorDePasta().get(1, obterUsuarioLogado().getId()));
+			response.setSuccess(true);
 		}
 		catch(Exception e){
 			response.addException(e);

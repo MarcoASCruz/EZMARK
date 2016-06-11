@@ -92,7 +92,6 @@ var Element = function () {
 	}
 	
 	this.ModalConfirm = function(mensagemConfirmar, onClick){
-		var self = this;
 		var modal = new self.Modal();
 		
 		var create = function(){
@@ -832,8 +831,24 @@ var Element = function () {
 	}
 
 	this.Loader = function(){
-		var container = $('<div class="loader"> <div class="preloader-wrapper big active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> </div> <div id="lean-overlay" class="" style="display: block; opacity: 0.5;"></div> </div>')	
-		return container;
+		var loader = new ObjectHtml();
+		var container = undefined;
+		loader.createElement = function(){
+			container = $('<div>');
+			var overlay = $('<div class="lean-overlay" style="z-index: 1002; display: block; opacity: 0.5;"></div>');
+			var loading = $('<div class="loader"> <div class="preloader-wrapper big active"> <div class="spinner-layer spinner-blue-only" style="    border-color: #00acc1;"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> </div> <div id="lean-overlay" class="" style="display: block; opacity: 0.5;"></div> </div>');
+			container.append(overlay);
+			container.append(loading);
+			return container;
+		}
+		loader.show = function(){
+			var container = $('body');
+			container.append(loader.getElement());
+		}
+		loader.destroy = function(){
+			container.remove();
+		}
+		return loader;
 	}
 
 	this.Star = function(options){
