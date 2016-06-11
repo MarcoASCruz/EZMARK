@@ -46,7 +46,7 @@ public class OrganizadorDePasta {
 		}
 		
 		//implementa associações
-		/*for (Integer idPasta : associacoes.keySet()) {
+		for (Integer idPasta : associacoes.keySet()) {
 			//criar pasta
 			TaxonomiaDAO taxonomiaDAO = new TaxonomiaDAO();
 			Pasta pasta = null;
@@ -66,7 +66,7 @@ public class OrganizadorDePasta {
 			for (Favorito favorito : associacoes.get(idPasta)) {
 				new FavoritoDAO().mover(pasta.getId(), favorito.getId());
 			}
-		}*/
+		}
 		
 		return associacoes;
 	}	

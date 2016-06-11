@@ -295,13 +295,16 @@ var servicos = {
 		)
 	}
 	,
-	autoOrganizar: function(idPasta, onSuccess) {
+	autoOrganizar: function(idPasta, onSuccess, onError) {
 		mapper.services.autoOrganizar(
 			idPasta
 			,
 			onSuccess
 			,
-			serviceShowError
+			function(data){
+				onError();
+				serviceShowError(data);
+			}
 		)
 	}
 }
