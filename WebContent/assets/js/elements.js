@@ -1511,8 +1511,11 @@ var Element = function () {
 			element.attr('data-tooltip',message);
 			element.addClass("tooltipped");
 			element.tooltip();
+			var tooltip = $('#' + element.attr('data-tooltip-id'));
 			element.on('remove', function(){
+				tooltip.off();
 				element.tooltip('remove');
+				tooltip.remove();
 			})	
 		}
 	}

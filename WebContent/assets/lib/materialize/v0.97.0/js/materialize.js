@@ -1267,7 +1267,7 @@ $(document).ready(function(){
         var tooltipId = Materialize.guid();
         var origin = $(this);
         origin.attr('data-tooltip-id', tooltipId);
-
+        
         // Create Text span
         var tooltip_text = $('<span></span>').text(origin.attr('data-tooltip'));
 
@@ -1286,6 +1286,13 @@ $(document).ready(function(){
       origin.off('mouseenter.tooltip mouseleave.tooltip');
         // Mouse In
       origin.on({
+	    'remove': function(){
+	    	origin.each(function(){
+	            $('#' + origin.attr('data-tooltip-id')).remove();
+	          });
+        	newTooltip.remove();
+        }
+      	,
         'mouseenter.tooltip': function(e) {
           var tooltip_delay = origin.data("delay");
           tooltip_delay = (tooltip_delay === undefined || tooltip_delay === '') ? options.delay : tooltip_delay;
