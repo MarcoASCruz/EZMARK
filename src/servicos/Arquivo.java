@@ -545,7 +545,7 @@ public class Arquivo extends Servico {
 	public Response autoorganizar(@FormParam("idPasta") int idPasta){
 		AppResponse response = new AppResponse();
 		try{
-			response.setContent(new OrganizadorDePasta().get(idPasta, obterUsuarioLogado().getId()));
+			response.setContent(new OrganizadorDePasta().executar(idPasta, obterUsuarioLogado().getId()));
 			response.setSuccess(true);
 		}
 		catch(Exception e){

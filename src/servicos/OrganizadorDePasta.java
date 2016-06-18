@@ -29,7 +29,7 @@ public class OrganizadorDePasta {
 		this.idPasta = idPasta;
 	}
 	
-	public Object get(int idPastaPai, int idUsuario) throws Exception{
+	public Object executar(int idPastaPai, int idUsuario) throws Exception{
 		List<Pasta> taxonomia = obterTaxonomia();
 		FavoritoDAO favoritoDAO = new FavoritoDAO();
 		List<Favorito> favoritos = favoritoDAO.buscarFavoritosFilhos(idPastaPai);
@@ -73,74 +73,21 @@ public class OrganizadorDePasta {
 	}	
 	
 	private List<Pasta> obterTaxonomia() throws Exception{
-		/*List<Pasta> taxonomia = new ArrayList<Pasta>();
-		
-		Pasta home = new Pasta();
-		home.setId(1);
-		home.setNome("home");
-		
-		Pasta esportes = new Pasta();
-		esportes.setId(2);
-		esportes.setNome("esportes");
-		esportes.setPai(1);
-		List<String> tags = new ArrayList<String>();
-		tags.add("esporte");
-		tags.add("futebol");
-		tags.add("mma");
-		esportes.setTags(tags);
-		
-		Pasta tecnologia = new Pasta();
-		tecnologia.setId(3);
-		tecnologia.setNome("tecnologia");
-		List<String> tagsTec = new ArrayList<String>();
-		tagsTec.add("informatica");
-		tagsTec.add("programming");
-		tagsTec.add("pr ogramacao");
-		tagsTec.add("digital");
-		tagsTec.add("ASP.Net");
-		tagsTec.add("java");
-		tecnologia.setTags(tagsTec);
-		tecnologia.setPai(1);
-		
-		Pasta jogos = new Pasta();
-		jogos.setId(4);
-		jogos.setNome("jogos");
-		//List<String> tagsJogos = new ArrayList<String>();
-		//tagsJogos.add("games");
-		//jogos.setTags(tagsJogos);
-		jogos.setPai(1);
-		
-		Pasta noticia = new Pasta();
-		noticia.setId(5);
-		noticia.setNome("notícia");
-		noticia.setPai(1);
-		List<String> tagsN = new ArrayList<String>();
-		tagsN.add("informação");
-		tagsN.add("news");
-		tagsN.add("jornal");
-		tagsN.add("jornalismo");
-		tagsN.add("portal");
-		noticia.setTags(tagsN);
-		
-		taxonomia.add(home);
-		taxonomia.add(esportes);
-		taxonomia.add(tecnologia);
-		taxonomia.add(jogos);
-		taxonomia.add(noticia);*/
-		
 		List<Pasta> taxonomia = new TaxonomiaDAO().buscarTodas();
 		return taxonomia;
 	}
 	
 	private String extrairCategorias(Favorito favorito) throws IOException{
+		MineradorPagWeb minerador = new MineradorPagWeb(favorito.getUrl());
+		
 		String categoriasExtraidas = null;
-		String keywords = procurarKeywords(favorito);
+		String keywords = minerador.procurarKeywords();
 		
 		if(keywords != null){
 			categoriasExtraidas = keywords;
 		}
 		else{
-			String descricao = procurarDescricao(favorito);
+			String descricao = minerador.procurarDescricao();
 			if(descricao != null){
 				categoriasExtraidas = descricao;
 			}
@@ -149,63 +96,43 @@ public class OrganizadorDePasta {
 			}	
 		}
 		return categoriasExtraidas;
-	} 
-	private String procurarKeywords(Favorito favorito) throws IOException {
-		String keywords = procurarCategorias(favorito.getUrl(), "meta[name=keywords]");
-		return keywords;
-	}
-	private String procurarDescricao(Favorito favorito) throws IOException {
-		String keywords = procurarCategorias(favorito.getUrl(),"meta[name=description]");
-		return keywords;
-	}
-	private String procurarCategorias(String url, String seletor ) throws IOException {
-		Document html = Jsoup.connect(url).get();
-		Element elemento = html.select(seletor).first();
-		String categorias = null;
-		if (elemento != null){
-			categorias = elemento.attr("content");
-		}
-		return categorias;
 	}
 	
 	
 	private int obterPastaAssociada(List<Pasta> taxonomia, Favorito favorito, String keywords) {
 		int idPastaComMaisAssociacoes = 0;
-		int rankinkAssociacoes = 0;
+		float rankingAssociacoes = 0;
 		System.out.println(favorito.getUrl());
 		for (Pasta pasta : taxonomia) {
-			int quantChavesPorNome = procurarPalavra(pasta.getNome(), keywords); 
-			int quantTagsDeFavNaTaxonomia = favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta.getTags());
-			int quantChavesPorTagTaxonomia = procurarPalavras(pasta.getTags(), keywords);
-			int quantAssociacoes = quantChavesPorNome + quantTagsDeFavNaTaxonomia + quantChavesPorTagTaxonomia;
+			int quantAssociacoesPorNomePasta = procurarPalavra(pasta.getNome(), keywords); 
+			int quantAssociacoesTagsDeFavNaTaxonomia = favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta);
+			int quantAssociacoesPorTagTaxonomia = procurarPalavras(pasta.getTags(), keywords);
+			float quantAssociacoes = quantidadeAssociacoes(quantAssociacoesPorNomePasta, quantAssociacoesTagsDeFavNaTaxonomia, quantAssociacoesPorTagTaxonomia);
 			System.out.println(quantAssociacoes);
 			if(quantAssociacoes > 0)
 			{
-				if (rankinkAssociacoes == 0){
-					rankinkAssociacoes = quantAssociacoes;
+				if (rankingAssociacoes == 0){
+					rankingAssociacoes = quantAssociacoes;
 					idPastaComMaisAssociacoes = pasta.getId();
-					System.out.println(favorito.getUrl());
-					System.out.println(pasta.getId());
-					System.out.println(quantAssociacoes);
 				}
 				else{
-					if (quantAssociacoes > rankinkAssociacoes){
-						rankinkAssociacoes = quantAssociacoes;
+					if (quantAssociacoes > rankingAssociacoes){
+						rankingAssociacoes = quantAssociacoes;
 						idPastaComMaisAssociacoes = pasta.getId();
-						System.out.println(favorito.getUrl());
-						System.out.println(pasta.getId());
-						System.out.println(quantAssociacoes);
 					}
 				}
 			}
 		}
 		return idPastaComMaisAssociacoes;
 	}
-	private int favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, List<String> tagsTaxonomia){
-		if(tagsTaxonomia == null){
-			return 0;
+	private int favoritoPossuiTagsDaTaxonomia(List<String> tagsFavorito, Pasta pastaTaxonomia){
+		int quantAssociacoes = 0;
+		if(pastaTaxonomia.getTags() == null){
+			return quantAssociacoes;
 		}
-		return procurarPalavras(tagsFavorito, String.join(", ", tagsTaxonomia));
+		quantAssociacoes += procurarPalavras(tagsFavorito, String.join(", ", pastaTaxonomia.getTags())); 
+		quantAssociacoes += procurarPalavras(tagsFavorito, pastaTaxonomia.getNome());
+		return quantAssociacoes;
 	}
 	//case-insensitive
 	private int procurarPalavras(List<String> palavras, String alvo){
@@ -231,5 +158,12 @@ public class OrganizadorDePasta {
 		m.reset();
 		return count;
 	}
-
+	private float quantidadeAssociacoes(int quantAssociacoesPorNomePasta, int quantAssociacoesTagsDeFavNaTaxonomia, int quantAssociacoesPorTagTaxonomia){
+		int pesoAssociacaoPorNome = 5;
+		int pesoAssociacaoPorTagsDeFavNaTaxonomia = 3;
+		int pesoAssociacaoPorTagTaxonomia = 2;
+		float somatorioPesos = pesoAssociacaoPorNome + pesoAssociacaoPorTagsDeFavNaTaxonomia + pesoAssociacaoPorTagTaxonomia;
+		float quantAssociacoes = ((quantAssociacoesPorNomePasta * pesoAssociacaoPorNome) + (quantAssociacoesTagsDeFavNaTaxonomia * pesoAssociacaoPorTagsDeFavNaTaxonomia) + (quantAssociacoesPorTagTaxonomia * pesoAssociacaoPorTagTaxonomia))/somatorioPesos;
+		return quantAssociacoes;
+	}
 }
