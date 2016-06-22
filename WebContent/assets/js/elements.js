@@ -401,7 +401,7 @@ var Element = function () {
 	        return null;
 	    }
 	    bloco.Menu = new function() {
-	        var container = $('<div class="col s2">');
+	        var container = $('<div class="menu-bloco col s2">');
 	        var adicionarBotao = function () {
 	            container.append(criarBotao());
 	        }
@@ -627,18 +627,18 @@ var Element = function () {
 	    }
 	    if(temMenu != false){
 		    bloco.Menu.init([
-	             {
-	            	 titulo: 'Excluir'
-	        		 ,
-	        		 executar: acoes.remover
-	             }
-	             ,
-	             {
-	            	 titulo: 'Editar'
-	        		 ,
-	        		 executar: acoes.editar
-	             }
-	     	])
+				{
+					titulo: 'Editar'
+					,
+					executar: acoes.editar
+				}
+				,
+	            {
+	            	titulo: 'Excluir'
+	        		,
+	        		executar: acoes.remover
+	            }
+			])
 	    }
      	var adicionarDragAndDrop = function(){
 	    	bloco.getElement().attr("draggable", "true");
@@ -681,23 +681,23 @@ var Element = function () {
 	    }
 	    if(temMenu != false){
 	    	bloco.Menu.init([
-	             {
-	            	 titulo: 'Excluir'
-	        		 ,
-	        		 executar: acoes.remover
-	             }
-	             ,
-	             {
-	            	 titulo: 'Editar'
-	        		 ,
-	        		 executar: acoes.editar
-	             }
-	             ,
-	             {
-	            	 titulo: 'Compartilhar'
-	        		 ,
-	        		 executar: acoes.compartilhar
-	             }
+				 {
+					 titulo: 'Compartilhar'
+					 ,
+					 executar: acoes.compartilhar
+				 }
+				 ,
+				 {
+					 titulo: 'Editar'
+					 ,
+					 executar: acoes.editar
+				 }
+				 ,
+				 {
+					 titulo: 'Excluir'
+					 ,
+					 executar: acoes.remover
+				 }
 	     	])
 	    }
 	    
