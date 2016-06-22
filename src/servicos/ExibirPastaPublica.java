@@ -38,6 +38,8 @@ public class ExibirPastaPublica extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idPasta = Integer.parseInt(request.getParameter("id"));
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		try {
 			if(pastaPublica(idPasta)){
 				request.setAttribute("pasta", buscarPastaRaiz(idPasta));

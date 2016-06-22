@@ -3,12 +3,13 @@
 <%@page import="modelos.Pasta"%>
 <%@page import="java.util.List"%>
 <% 
+	request.setCharacterEncoding("UTF-8");
 	JSONObject pasta = (JSONObject) request.getAttribute("pasta");
 	JSONObject erro = (JSONObject) request.getAttribute("erro");
 %>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -177,11 +178,11 @@
     
     
 	
-	<link rel="stylesheet" type="text/css" href="/assets/lib/tagsInput/jquery.tagsinput.css" />
-    <link type="text/css" rel="stylesheet" href="/assets/lib/materialize/v0.97.0/assets/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/assets/lib/jstree/dist/themes/default/style.min.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/lib/raty-2.7.0/jquery.raty.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/elements.css" />
+	<link rel="stylesheet" type="text/css" href="assets/lib/tagsInput/jquery.tagsinput.css" />
+    <link type="text/css" rel="stylesheet" href="assets/lib/materialize/v0.97.0/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="assets/lib/jstree/dist/themes/default/style.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/lib/raty-2.7.0/jquery.raty.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/elements.css" />
     
 </head>
 <body>
@@ -191,27 +192,27 @@
 	        <div id="treeView" class=""></div>
 	    </ul>
 	    <!--Fim do Menu Lateral Fixo-->
-	    <!--Barra de Navegação/Superior-->
+	    <!--Barra de NavegaÃ§Ã£o/Superior-->
 	    <div class="navbar-fixed">
 	        <nav>
 	            <div class="nav-wrapper cyan darken-2">
 	                <a href="#!" class="brand-logo" style="padding-left: 270px; color: #e0f7fa; font-weight: bold;">EZMARK</a>
 	                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 	                
-	                <!--Fim da Barra de Navegação Superior -->  
+	                <!--Fim da Barra de NavegaÃ§Ã£o Superior -->  
 	                <!--Menu Lateral quando acionado o modo Mobile-->  
 	                <ul class="side-nav" id="mobile-demo">
-	                    <!--Usuário Logado Menu Lateral Mobile--> 
+	                    <!--UsuÃ¡rio Logado Menu Lateral Mobile--> 
 	                    <div class="row">
 	                        <div class="col s3">
 	                            <img class="responsive-img circle left marRL5 marT15" style="max-width: 30px;" src="assets/img/userIcon.png">
 	                        </div>
 	                        <div class="col s9 truncate">
-	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">Usuário</spam>
+	                            <spam class="titulo-favorito marRL5 grey-text text-darken-4">UsuÃ¡rio</spam>
 	                        </div>
 	                        <div class="col s12 pdzero">
 	                            <a class="btn-flat waves-effect pdzero" href='#'>
-	                            <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>Confiurações
+	                            <span class="mdi-action-settings marRL5" style="line-height: 41px; font-size: 1.5rem;"></span>ConfiuraÃ§Ãµes
 	                            </a>
 	                        </div>
 	                        <div class="col s12 pdzero">
@@ -221,8 +222,8 @@
 	                        </div>
 	                        <li class="divider"></li>
 	                    </div>
-	                    <!--Fim do Usuário Logado Menu Lateral Mobile--> 
-	                    <!--Formulário de Pesquisa Menu Lateral Mobile--> 
+	                    <!--Fim do UsuÃ¡rio Logado Menu Lateral Mobile--> 
+	                    <!--FormulÃ¡rio de Pesquisa Menu Lateral Mobile--> 
 	                    <form>
 	                        <div class="row">
 	                            <div class="col s12 pdzero">
@@ -250,14 +251,14 @@
 	                            </div>
 	                        </div>
 	                    </form>
-	                    <!--Fim do Formulário de Pesquisa Menu Lateral Mobile-->
+	                    <!--Fim do FormulÃ¡rio de Pesquisa Menu Lateral Mobile-->
 	                </ul>
 	                <!--Fim do Menu Lateral quando acionado o modo Mobile-->   
 	            </div>
 	        </nav>
 	    </div>
-	    <!--Fim da Barra de Navegação-->   
-	    <!--Corpo do conteúdo da página-->  
+	    <!--Fim da Barra de NavegaÃ§Ã£o-->   
+	    <!--Corpo do conteÃºdo da pÃ¡gina-->  
 	    <main class="main">   
 	        <div id="conteudo" class="conteudo"> 
 	           
@@ -268,14 +269,14 @@
 	</body>
 </body>
 
-    <script type="text/javascript" src="/assets/lib/jquery-1.11.2/jquery.min.js"></script>
-    <script src="/assets/lib/tagsInput/jquery.tagsinput.js"></script>
+    <script type="text/javascript" src="assets/lib/jquery-1.11.2/jquery.min.js"></script>
+    <script src="assets/lib/tagsInput/jquery.tagsinput.js"></script>
 
-    <script type="text/javascript" src="/assets/lib/materialize/v0.97.0/assets/js/materialize.min.js"></script>
+    <script type="text/javascript" src="assets/lib/materialize/v0.97.0/js/materialize.min.js"></script>
     <!--Inicializa o Menu lateral quando em modo Mobile-->
-    <script src="/assets/lib/jstree/dist/jstree.min.js"></script>
-    <script src="/assets/lib/raty-2.7.0/jquery.raty.js"></script>
-    <script src="/assets/js/elements.js"></script>
+    <script src="assets/lib/jstree/dist/jstree.min.js"></script>
+    <script src="assets/lib/raty-2.7.0/jquery.raty.js"></script>
+    <script src="assets/js/elements.js"></script>
 
 <script>
 		var limparContainer = function (container) {
@@ -402,7 +403,7 @@
 		    }
 			
 			var abrirLinkFav = function (url, idFav) {
-	            window.open('http://' + url);
+	            window.open(url);
 	        }
 		
     		init();
