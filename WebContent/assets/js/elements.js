@@ -486,7 +486,7 @@ var Element = function () {
 	    }
 	    var criarDescricao = function () {
 	        var container = $('<div class="col s12 truncate">');
-	        container.append(dados.descricao ? dados.descricao : "(Sem descriÃ§Ã£o)");
+	        container.append(dados.descricao ? dados.descricao : "(Sem descrição)");
 	        return container;
 	    }
 	    var criarTags = function (tags) {
@@ -918,6 +918,10 @@ var Element = function () {
 		form.createElement = function(callback){
 			container.append(conteudo);
 			adicionarTitulo(titulo);
+			adicionarSubmit();
+			container.submit = function(){
+				return false;
+			}
 			form.element = container;
 			if(callback){
 				callback();
@@ -931,6 +935,12 @@ var Element = function () {
 			var container = $('<h4>');
 			container.append(titulo);
 			return container;
+		}
+		var adicionarSubmit = function(){
+			conteudo.append(criarSubmit());
+		}
+		var criarSubmit = function(){
+			return $('<input type="submit" style="display: none">');
 		}
 		
 		form.adicionarItem = function(icone, item){
@@ -949,6 +959,10 @@ var Element = function () {
         form.preencherCampos = function(){
         	throw "Form.preencherCampos is not implemented";
         }
+        form.valido = function(){
+        	$(':submit', container).click();
+        	return container[0].checkValidity();
+        }
         return form;
 	}
 	
@@ -964,10 +978,10 @@ var Element = function () {
 				return img.getElement();
 			}
 			var criarNome = function(){
-				return $('<input id="nomePasta" type="text" class="validate"><label for="nomePasta">Nome</label>');
+				return $('<input id="nomePasta" type="text" class="validate" required><label for="nomePasta">Nome</label>');
 			}
 			var criarDescricao = function(){
-				return $('<textarea id="textareaPasta" class="materialize-textarea"></textarea><label for="textareaPasta">DescriÃ§Ã£o</label>');
+				return $('<textarea id="textareaPasta" class="materialize-textarea"></textarea><label for="textareaPasta">Descrição</label>');
 			}
 			var criarEstrelas = function(){
 				var options = {
@@ -1056,13 +1070,15 @@ var Element = function () {
 				return img.getElement();
 			}
 			var criarNome = function(){
-				return $('<input id="nomeFav" type="text" class="validate"><label for="nomeFav">Nome</label>');
+				return $('<input id="nomeFav" type="text" name="nome" class="validate" required><label for="nomeFav">Nome</label>');
 			}
 			var criarUrl = function(){
-				return $('<input id="url-fav" type="text" class="validate"><label for="url-fav">URL</label>');
+				var url = $('<input id="url-fav" type="url" class="validate" required><label for="url-fav">URL</label>');
+				addTooltip(url, "Preencha o link do site, inicie com http://... ou https://...");
+				return url;
 			}
 			var criarDescricao = function(){
-				return $('<textarea id="textareaFav" class="materialize-textarea"></textarea><label for="textareaFav">DescriÃ§Ã£o</label>');
+				return $('<textarea id="textareaFav" class="materialize-textarea"></textarea><label for="textareaFav">Descrição</label>');
 			}
 			var criarEstrelas = function(){
 				var options = {
@@ -1341,7 +1357,7 @@ var Element = function () {
 			     if(favorito.descricao){
 			    	 descricao.append(favorito.descricao);
 			     }else{
-			    	 descricao.append('(Sem DescriÃ§Ã£o)');
+			    	 descricao.append('(Sem Descrição)');
 			     }
 			     descricao.append(criarTags(favorito.tags));
 			     

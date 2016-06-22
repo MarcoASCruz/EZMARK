@@ -991,7 +991,7 @@ $(document).ready(function(){
 		
 		var abrirLinkFav = function (url, idFav) {
 			servicos.atualizarAcesso(idFav, function(){});
-            window.open('http://' + url);
+            window.open(url);
         }
 		
 		var modelo = {
@@ -1113,7 +1113,8 @@ $(document).ready(function(){
 		function criarFormInclusaoFavorito(){
 			var form = new Element.FormFavorito("Adicionar Favorito");
 			var formModal = new FormModal(form);
-			formModal.onSend = function(favoritoAlterado, onSuccess){	
+			
+			formModal.onSend = function(favoritoAlterado, onSuccess){
 				servicos.adicionarFavorito(
 					favoritoAlterado
 					,
@@ -1217,14 +1218,16 @@ $(document).ready(function(){
 			var criarBotaoConfirmar = function(){
 				var button = $('<a href="#" class="waves-effect waves-green btn">Confirmar</a>')
 				button.on('click', function(){
-					self.onSend(
-						self.obterDadosBloco(form)
-						,
-						function(){
-							modal.close();
-		                    $(this).off();
-						}
-					);
+					if(form.valido()){
+						self.onSend(
+							self.obterDadosBloco(form)
+							,
+							function(){
+								modal.close();
+			                    $(this).off();
+							}
+						);
+					}
 				})
 				return button;
 			}

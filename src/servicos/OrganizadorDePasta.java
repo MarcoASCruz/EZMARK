@@ -21,7 +21,6 @@ import modelos.Pasta;
 public class OrganizadorDePasta {
 	
 	private int idPasta = 1;
-	private Favorito favorito = null;
 
 	public OrganizadorDePasta() {
 	}
