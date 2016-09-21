@@ -960,7 +960,10 @@ var Element = function () {
         	throw "Form.preencherCampos is not implemented";
         }
         form.valido = function(){
-        	$(':submit', container).click();
+        	var isValid = container[0].checkValidity();
+        	if(!isValid){
+        		$(':submit', container).click();
+        	}
         	return container[0].checkValidity();
         }
         return form;
