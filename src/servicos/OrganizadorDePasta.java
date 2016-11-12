@@ -107,7 +107,7 @@ public class OrganizadorDePasta {
 			int quantAssociacoesTagsDeFavNaTaxonomia = favoritoPossuiTagsDaTaxonomia(favorito.getTags(), pasta);
 			int quantAssociacoesPorTagTaxonomia = procurarPalavras(pasta.getTags(), keywords);
 			float quantAssociacoes = quantidadeAssociacoes(quantAssociacoesPorNomePasta, quantAssociacoesTagsDeFavNaTaxonomia, quantAssociacoesPorTagTaxonomia);
-			System.out.println(quantAssociacoes);
+			System.out.println("indice total de associações (para pasta '" + pasta.getNome() + "'): " + quantAssociacoes);
 			if(quantAssociacoes > 0)
 			{
 				if (rankingAssociacoes == 0){
@@ -144,6 +144,7 @@ public class OrganizadorDePasta {
 		for (String palavra : palavras) {
 			resultado += procurarPalavra(palavra, alvo);
 		}
+		System.out.println("quant palavras encontradas: " + resultado);
 		return resultado;
 	}
 	//case-insensitive

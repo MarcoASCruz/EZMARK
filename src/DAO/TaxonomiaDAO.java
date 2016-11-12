@@ -78,15 +78,11 @@ public class TaxonomiaDAO extends BasicDAO {
 		ResultSet res =  (ResultSet) ps.executeQuery();	
 		res =  (ResultSet) ps.executeQuery();
 		List<String> tags = new ArrayList<String>();
-		res.next();
-		if(res.getString("nome") != null){
-			do {
+		while (res.next()){
+			if(res.getString("nome") != null){
 				tags.add(res.getString("nome"));
-			} while (res.next());
-		}
-		else {
-			tags = null;
-		}
+			}
+		};
 		return tags;
 	}
 	

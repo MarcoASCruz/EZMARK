@@ -381,37 +381,51 @@ $(document).ready(function(){
 	<script>
 		var servicos = GerenciadorServicos.obterInstancia();
 		var arvore = undefined;
-	    var contexto = {
-	    	home: undefined
-	    	,
-			pastaAtual: undefined
-			,
-			arquivosPastaAtual: {
-				pastas: undefined,
-				favoritos: undefined
-			}
-			,
-			pastaRightClick: {
-				dados: undefined
+	    var contexto = (function (){
+	    	var _pastaAtual = undefined
+	    	
+	    	return {
+	    		home: undefined
+		    	,
+		    	obterPastaAtual: function(){
+		    		return _pastaAtual;
+		    	}
+	    		,
+				atualizarPastaAtual: function(idPasta){
+					if (idPasta){
+						_pastaAtual = Number(idPasta);
+					}
+					AtualizarPasta.fire();
+		    	}
 				,
-				bloco: undefined
-			},
-			favoritoRightClick: {
-				dados: undefined
+				arquivosPastaAtual: {
+					pastas: undefined,
+					favoritos: undefined
+				}
 				,
-				bloco: undefined
-			},
-			acessoRapidoRightClick: {
-				dados: undefined
-			},
-			favAcessoRapidoSelecionado: {
-				dados: undefined	
-			}
-			,
-			gerenciadorDeBlocos: undefined
-			,
-			moverPastaDestino: undefined
-	    }
+				pastaRightClick: {
+					dados: undefined
+					,
+					bloco: undefined
+				},
+				favoritoRightClick: {
+					dados: undefined
+					,
+					bloco: undefined
+				},
+				acessoRapidoRightClick: {
+					dados: undefined
+				},
+				favAcessoRapidoSelecionado: {
+					dados: undefined	
+				}
+				,
+				gerenciadorDeBlocos: undefined
+				,
+				moverPastaDestino: undefined
+		    }
+	    })();
+	    	
 	    
 	    
 	    var init = function(){
@@ -419,7 +433,7 @@ $(document).ready(function(){
 	    	servicos.buscarHome(function(data){
 	    		var idHome = data.content[0].id;
 	        	contexto.home = idHome;
-	        	atualizarPasta(idHome);
+	        	contexto.atualizarPastaAtual(idHome);
 	    	})
 	    	
 	    	criarArvore();
@@ -434,17 +448,16 @@ $(document).ready(function(){
 		   			arvore = new Element.Arvore(
 	   					data.content
 	   					,
-	   					atualizarPasta
+	   					contexto.atualizarPastaAtual
 	   					,
 	   					{
 	   						criarPastaFilha: criarFormInclusaoPasta
 	   						,
 	   						removerPasta: function(idPasta, idPai){
 	   							var pastaEstaSendoExibida = function(){
-	   								return (idPasta == contexto.pastaAtual) ? true : false;
+	   								return (idPasta == contexto.obterPastaAtual()) ? true : false;
 	   							}
 	   							if(pastaEstaSendoExibida){
-	   								contexto.pastaAtual = idPai;
 	   								arvore.selecionarItem(idPai)
 	   							}
 	   							removerPasta(idPasta);
@@ -457,7 +470,7 @@ $(document).ready(function(){
 	    }
 	    
 	    var criarGerenciadorDeBlocos = function(){
-	    	return Element.GerenciadorDeBlocos(
+	    	var gerenciador = Element.GerenciadorDeBlocos(
     			function(blocosSelecionados){
     				servicos.removerArquivos(
    						blocosSelecionados
@@ -469,7 +482,7 @@ $(document).ready(function(){
    								}
    							})
    		                	Element.Toast("Itens removidos com sucesso!", 2000);
-   		            		atualizarPasta();
+   		            		contexto.atualizarPastaAtual();
    		            	}
    	      			);	
     			}
@@ -507,7 +520,7 @@ $(document).ready(function(){
    	   		    	   								)
    		    	   								}
    		    	   								
-   		    	   								atualizarPasta();
+   		    	   								contexto.atualizarPastaAtual();
    		    	   								modal.close();
    		    	    						}
    		    	    					)
@@ -535,6 +548,10 @@ $(document).ready(function(){
     			,
     			obterArquivosPastaAtual
    			);
+	    	//observer
+	    	AtualizarPasta.subscribe(gerenciador.reset)
+	    	
+	    	return gerenciador
 	    }
 	    var obterArquivosPastaAtual = function(){
 	    	return {
@@ -550,7 +567,7 @@ $(document).ready(function(){
 				blocosSelecionados
 				,
 				function(response){
-						atualizarPasta();
+						contexto.atualizarPastaAtual();
 						modal.close();
 				}
 			)
@@ -805,7 +822,7 @@ $(document).ready(function(){
 	    
 	    var removerPasta = function(idPasta){
 	    	servicos.removerPasta(idPasta, function () {
-                atualizarPasta();
+                contexto.atualizarPastaAtual();
                 arvore.removerItem(idPasta);
                 Element.Toast("Pasta removida com sucesso!", 2000)
             })
@@ -848,7 +865,7 @@ $(document).ready(function(){
 	    			var url = dados.content;
 	    			confirmModal.addConteudo(criarConteudo(url));
 	    			arvore.mudarIconeAPartirDoPai(idPasta);
-		    		atualizarPasta();
+		    		contexto.atualizarPastaAtual();
 	    			confirmModal.show();
 	    		}
    			);
@@ -891,14 +908,43 @@ $(document).ready(function(){
 	
 	    var removerFavorito = function (idFavorito){
 	    	servicos.removerFavorito(idFavorito, function () {
-	    		atualizarPasta();
+	    		contexto.atualizarPastaAtual();
                 Element.Toast("Favorito removido com sucesso!", 2000)
             })
 	    }
 	    
-		var atualizarPasta = function(idPasta){
-			servicos.buscarArquivos(
-				idPasta ? idPasta : contexto.pastaAtual
+	    //observer pattern
+	    var AtualizarPasta = new function AtualizarPasta() {
+	        var _handlers = [];  // observers
+	    	
+	        return {
+	        	subscribe: function(fn) {
+	        		_handlers.push(fn);
+		        },
+		     
+		        unsubscribe: function(fn) {
+		        	_handlers = _handlers.filter(
+		                function(item) {
+		                    if (item !== fn) {
+		                        return item;
+		                    }
+		                }
+		            );
+		        },
+		     
+		        fire: function(o, thisObj) {
+		            var scope = thisObj || window;
+		            _handlers.forEach(function(item) {
+		                item.call(scope, o);
+		            });
+		        }
+	        }
+	    }
+	    
+	    //preencher arquivos 
+	    AtualizarPasta.subscribe(function(){			
+	    	servicos.buscarArquivos(
+				contexto.obterPastaAtual()
 				,
 				function(data){
 				    var pastas = data.content[0].pastas;
@@ -910,15 +956,9 @@ $(document).ready(function(){
 				    limparContainer(containerBlocos);
 					inserirPastas(pastas, containerBlocos);
 					inserirFavoritos(favoritos, containerBlocos);
-					Pesquisa.remover();
-					contexto.gerenciadorDeBlocos.reset();
-					
-					if (idPasta){
-						contexto.pastaAtual = Number(idPasta);
-					}
 				}
 			);
-		}
+	    })
 		
 		var limparContextoPastaAtual = function(){
 			contexto.arquivosPastaAtual.pastas = [];
@@ -1043,7 +1083,7 @@ $(document).ready(function(){
 						var pasta = data.content[0];
 						var aposCadastrar = function(data){
 							onSuccess();
-							atualizarPasta();
+							contexto.atualizarPastaAtual();
 						}
 						if(imagemFoiAlterada(form)){
 							servicos.uploadImagemPasta(
@@ -1077,7 +1117,7 @@ $(document).ready(function(){
                     	var pasta = data.content[0];
 						var aposCadastrar = function(data){
 							onSuccess();
-							atualizarPasta();
+							contexto.atualizarPastaAtual();
 						}
 						if(imagemFoiAlterada(form)){
 							servicos.uploadImagemPasta(
@@ -1101,8 +1141,7 @@ $(document).ready(function(){
 			formModal.show();
 		}
 	    var obterDadosFormPasta = function(form, pasta, idPastaPai){
-	    	console.log(idPastaPai, contexto.pastaAtual)
-	    	pasta.pai = idPastaPai ? idPastaPai : contexto.pastaAtual;
+	    	pasta.pai = idPastaPai ? idPastaPai : contexto.obterPastaAtual();
 			pasta.nome = form.getNome();
 			pasta.descricao = form.getDescricao();
 			pasta.numEstrela = form.getQuantEstrelas();
@@ -1125,7 +1164,7 @@ $(document).ready(function(){
 					function(data){
 						var aposCadastrar = function(data){
 							onSuccess();
-							atualizarPasta();
+							contexto.atualizarPastaAtual();
 						}
 						if(imagemFoiAlterada(form)){
 							servicos.uploadImagemFavorito(
@@ -1158,7 +1197,7 @@ $(document).ready(function(){
 					function(data){
 						var aposCadastrar = function(){
 							onSuccess();
-							atualizarPasta();
+							contexto.atualizarPastaAtual();
 							console.log("Cadastrado");
 						}
 						if(imagemFoiAlterada(form)){
@@ -1193,7 +1232,7 @@ $(document).ready(function(){
 			return formData;
 		}
 		var obterDadosFormFavorito = function(form, favorito){
-			favorito.pai = contexto.pastaAtual;
+			favorito.pai = contexto.obterPastaAtual();
 			favorito.url = form.getUrl();
 			favorito.titulo = form.getNome();
 			favorito.descricao = form.getDescricao();
@@ -1320,6 +1359,9 @@ $(document).ready(function(){
 			   	inserirFavoritos(favoritos, container);
 			   	return container;
 		    }
+			
+			//observer
+			AtualizarPasta.subscribe(this.remover);
 		}
 		$(".search").keyup(function(e) {
 		   	Pesquisa.executar($.trim($(this).val()))
@@ -1339,11 +1381,11 @@ $(document).ready(function(){
 			var loader = Element.Loader();
 			loader.show();
 			servicos.autoOrganizar(
-				contexto.pastaAtual
+				contexto.obterPastaAtual()
 				,
 				function(usuario) {
 					criarArvore();
-			    	atualizarPasta();
+			    	contexto.atualizarPastaAtual();
 					loader.destroy();
 				}
 				,
