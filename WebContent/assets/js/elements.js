@@ -111,7 +111,7 @@ var Element = function () {
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
-	        var bloco = $('<div class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.3em; position: relative; left: 0px; top: 0px;">');
+	        var bloco = $('<div align="center" class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.75em 0px 0px; position: relative; left: 0px; top: 0px;">');
 	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
 	        
 	        var icon = criarIcon(favorito.imagem);
@@ -264,8 +264,16 @@ var Element = function () {
 	    
 	    bloco.createElement = function () {
 	    	blocoContainer = $('<div class="bloco col s12 m3 pasta-fechada drag">');
-	        var card = $('<div class="card-panel card-complement cyan darken-2">');
-	        
+	        var card = $('<div class="card-panel card-complement cyan">');
+	        if(bloco.tipo === "favorito"){
+	        	card.addClass("darken-2");
+	        }else{
+	        	if(bloco.tipo === "pasta"){
+	        		card.addClass("darken-35");
+	        	}else{
+	        		card.addClass("darken-4");
+	        	}
+	        }
 	        var adicionarConteudo = function(){
 		        card.append(criarConteudo());
 		    }
@@ -651,8 +659,16 @@ var Element = function () {
     }
 	
 	this.Pasta = function (pasta, acoes, temMenu) {
+		
+		var tipoPasta = "";
+		if (pasta.publica){
+			tipoPasta = "pasta-compartilhada"
+		}else{
+			tipoPasta = "pasta"
+		}
+		
 		var bloco = new self.Bloco({
-			tipo: "pasta",
+			tipo: tipoPasta,
 			titulo: pasta.nome,
 	        id: pasta.id,
 	        quantEstrelas: pasta.numEstrela,

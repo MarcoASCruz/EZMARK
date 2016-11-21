@@ -5,6 +5,25 @@
 	border: 3px solid #0097a7;
 }
 
+.darken-35{
+	background-color: #007479 !important;
+}
+
+.bloco .darken-2{
+	cursor: pointer;
+	border: 3px solid #0097a7;
+}
+
+.bloco .darken-35{
+	cursor: pointer;
+	border: 3px solid #007479;
+}
+
+.bloco .darken-4{
+	cursor: pointer;
+	border: 3px solid #006064;
+}
+
 .bloco .card-selecionado{
 	border-color: #004d40;
 }
