@@ -338,8 +338,8 @@ $(document).ready(function(){
 	                </a>
 	                <!--Botões que saltam do botão fixo-->      
 	                <ul id="atalho-fixo">
-	                     <li><a class="btn-floating cyan darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" onclick="criarFormInclusaoFavorito()" href="#"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
-	                    <li><a class="btn-floating cyan darken-3 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" onclick="criarFormInclusaoPasta()"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
+	                     <li><a class="btn-floating red darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Favorito" onclick="criarFormInclusaoFavorito()" href="#"><i class="mdi-action-stars yellow-text text-accent-2"></i></a></li>
+	                    <li><a class="btn-floating red darken-2 tooltipped" data-position="left" data-delay="50" data-tooltip="Adicionar Pasta" onclick="criarFormInclusaoPasta()"><i class="mdi-file-folder yellow-text text-darken-3"></i></a></li>
 	                </ul>
 	                <!--Fim dos Botões que saltam do botão fixo--> 
 	            </div>
@@ -520,7 +520,7 @@ $(document).ready(function(){
    		    	   									pastaDestino
    	   		    	   								)
    		    	   								}
-   		    	   								
+   		    	   								Element.Toast("Itens movidos com sucesso!", 2000);
    		    	   								contexto.atualizarPastaAtual();
    		    	   								modal.close();
    		    	    						}
@@ -1084,6 +1084,7 @@ $(document).ready(function(){
 						var pasta = data.content[0];
 						var aposCadastrar = function(data){
 							onSuccess();
+							Element.Toast("Pasta incluída com sucesso!", 2000);
 							contexto.atualizarPastaAtual();
 						}
 						if(imagemFoiAlterada(form)){
@@ -1165,6 +1166,7 @@ $(document).ready(function(){
 					function(data){
 						var aposCadastrar = function(data){
 							onSuccess();
+							Element.Toast("Favorito incluído com sucesso!", 2000);
 							contexto.atualizarPastaAtual();
 						}
 						if(imagemFoiAlterada(form)){
@@ -1178,6 +1180,7 @@ $(document).ready(function(){
 						}
 						else{
 							aposCadastrar();
+							
 						}
 					}
 				)

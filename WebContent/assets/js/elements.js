@@ -111,7 +111,7 @@ var Element = function () {
 		var favAR = new ObjectHtml();	
         
         favAR.createElement = function () {
-	        var bloco = $('<div align="center" class="favorito-icon favorito col s4 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.75em 0px 0px; position: relative; left: 0px; top: 0px;">');
+	        var bloco = $('<div align="center" class="favorito-icon favorito col s5 m1 cyan darken-2 z-depth-1 drag" style="margin: 5px 0.75em 0px 0px; position: relative; left: 0px; top: 0px;">');
 	        var div_icon= $('<div class="col s12 pdzero" style="margin-top: 10px;">');
 	        
 	        var icon = criarIcon(favorito.imagem);
